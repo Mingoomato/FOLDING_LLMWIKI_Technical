@@ -25,6 +25,7 @@
 \usepgfplotslibrary{groupplots,fillbetween}
 \usepackage{circuitikz}
 \usepackage{listings}
+\usepackage{fvextra}
 \usepackage{xcolor}
 \usepackage{mdframed}
 \usepackage{tcolorbox}
@@ -77,6 +78,9 @@
 \newcommand{\cmark}{\textcolor{LLMWikiSuccess}{\ding{51}}}
 \newcommand{\xmark}{\textcolor{LLMWikiError}{\ding{55}}}
 
+\fvset{breaklines=true, breakanywhere=true}
+\renewenvironment{verbatim}{\VerbatimEnvironment\begin{Verbatim}}{\end{Verbatim}}
+
 \geometry{
     paper=a4paper,
     inner=25mm,
@@ -121,7 +125,7 @@
     pdfpagemode=UseOutlines
 }
 
-\lstdefinestyle{LLMWikiCode}{
+\lstset{
     backgroundcolor=\color{LLMWikiLight},
     basicstyle=\ttfamily\small,
     keywordstyle=\color{LLMWikiBlue}\bfseries,

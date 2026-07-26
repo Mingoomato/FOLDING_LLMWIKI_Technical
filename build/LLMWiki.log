@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.24.0 (MiKTeX 25.12) (format=lualatex 2026.7.26)  26 JUL 2026 22:49
+This is LuaHBTeX, Version 1.24.0 (MiKTeX 25.12) (format=lualatex 2026.7.26)  27 JUL 2026 04:32
  restricted system commands enabled.
  file:line:error style messages enabled.
 **LLMWiki.tex
@@ -354,79 +354,135 @@ File: luatex.def 2025/09/29 v1.2f Graphics/color driver for luatex
 \Gin@req@height=\dimen168
 \Gin@req@width=\dimen169
 )
-(C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/booktabs/booktabs.sty
-Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
-\heavyrulewidth=\dimen170
-\lightrulewidth=\dimen171
-\cmidrulewidth=\dimen172
-\belowrulesep=\dimen173
-\belowbottomsep=\dimen174
-\aboverulesep=\dimen175
-\abovetopsep=\dimen176
-\cmidrulesep=\dimen177
-\cmidrulekern=\dimen178
-\defaultaddspace=\dimen179
-\@cmidla=\count299
-\@cmidlb=\count300
-\@aboverulesep=\dimen180
-\@belowrulesep=\dimen181
-\@thisruleclass=\count301
-\@lastruleclass=\count302
-\@thisrulewidth=\dimen182
+(C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/adjustbox/adjustbox.sty
+Package: adjustbox 2025/02/26 v1.3c Adjusting TeX boxes (trim, clip, ...)
+(C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/xkeyval/xkeyval.sty
+Package: xkeyval 2022/06/16 v2.9 package option processing (HA)
+
+(C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/xkeyval/xkeyval.tex
+(C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/xkeyval/xkvutils.tex
+\XKV@toks=\toks31
+\XKV@tempa@toks=\toks32
 )
-(C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/tools/longtable.sty
+\XKV@depth=\count299
+File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
+))
+(C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/adjustbox/adjcalc.sty
+Package: adjcalc 2012/05/16 v1.1 Provides advanced setlength with multiple back
+-ends (calc, etex, pgfmath)
+)
+(C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/adjustbox/trimclip.sty
+Package: trimclip 2025/02/21 v1.2a Trim and clip general TeX material
+
+(C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/collectbox/collectbox.s
+ty
+Package: collectbox 2022/10/17 v0.4c Collect macro arguments as boxes
+\collectedbox=\box56
+)
+\tc@llx=\dimen170
+\tc@lly=\dimen171
+\tc@urx=\dimen172
+\tc@ury=\dimen173
+Package trimclip Info: Using driver 'tc-luatex.def'.
+
+(C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/adjustbox/tc-luatex.def
+File: tc-luatex.def 2025/02/26 v1.1 Clipping driver for luatex
+
+(C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/adjustbox/tc-pdftex.def
+File: tc-pdftex.def 2025/02/26 v2.3 Clipping driver for pdftex
+)))
+\adjbox@Width=\dimen174
+\adjbox@Height=\dimen175
+\adjbox@Depth=\dimen176
+\adjbox@Totalheight=\dimen177
+\adjbox@pwidth=\dimen178
+\adjbox@pheight=\dimen179
+\adjbox@pdepth=\dimen180
+\adjbox@ptotalheight=\dimen181
+
+(C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/ifoddpage/ifoddpage.sty
+Package: ifoddpage 2022/10/18 v1.2 Conditionals for odd/even page detection
+\c@checkoddpage=\count300
+) (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/varwidth/varwidth.sty
+Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
+\@vwid@box=\box57
+\sift@deathcycles=\count301
+\@vwid@loff=\dimen182
+\@vwid@roff=\dimen183
+)
+==> First Aid for varwidth.sty applied!
+) (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/booktabs/booktabs.sty
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen184
+\lightrulewidth=\dimen185
+\cmidrulewidth=\dimen186
+\belowrulesep=\dimen187
+\belowbottomsep=\dimen188
+\aboverulesep=\dimen189
+\abovetopsep=\dimen190
+\cmidrulesep=\dimen191
+\cmidrulekern=\dimen192
+\defaultaddspace=\dimen193
+\@cmidla=\count302
+\@cmidlb=\count303
+\@aboverulesep=\dimen194
+\@belowrulesep=\dimen195
+\@thisruleclass=\count304
+\@lastruleclass=\count305
+\@thisrulewidth=\dimen196
+) (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/tools/longtable.sty
 Package: longtable 2025-10-13 v4.24 Multi-page Table package (DPC)
 \LTleft=\skip61
 \LTright=\skip62
 \LTpre=\skip63
 \LTpost=\skip64
-\LTchunksize=\count303
-\LTcapwidth=\dimen183
-\LT@head=\box56
-\LT@firsthead=\box57
-\LT@foot=\box58
-\LT@lastfoot=\box59
-\LT@gbox=\box60
-\LT@cols=\count304
-\LT@rows=\count305
-\c@LT@tables=\count306
-\c@LT@chunks=\count307
-\LT@p@ftn=\toks31
+\LTchunksize=\count306
+\LTcapwidth=\dimen197
+\LT@head=\box58
+\LT@firsthead=\box59
+\LT@foot=\box60
+\LT@lastfoot=\box61
+\LT@gbox=\box62
+\LT@cols=\count307
+\LT@rows=\count308
+\c@LT@tables=\count309
+\c@LT@chunks=\count310
+\LT@p@ftn=\toks33
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/tools/array.sty
 Package: array 2025/09/25 v2.6n Tabular extension package (FMi)
-\col@sep=\dimen184
-\ar@mcellbox=\box61
-\extrarowheight=\dimen185
-\NC@list=\toks32
+\col@sep=\dimen198
+\ar@mcellbox=\box63
+\extrarowheight=\dimen199
+\NC@list=\toks34
 \extratabsurround=\skip65
 \backup@length=\skip66
-\ar@cellbox=\box62
+\ar@cellbox=\box64
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/multirow/multirow.sty
 Package: multirow 2024/11/12 v2.9 Span multiple rows of a table
 \multirow@colwidth=\skip67
-\multirow@cntb=\count308
+\multirow@cntb=\count311
 \multirow@dima=\skip68
-\bigstrutjot=\dimen186
+\bigstrutjot=\dimen256
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/caption/caption.sty
 Package: caption 2023/08/05 v3.6o Customizing captions (AR)
 
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/caption/caption3.sty
 Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
-\caption@tempdima=\dimen187
-\captionmargin=\dimen188
-\caption@leftmargin=\dimen189
-\caption@rightmargin=\dimen190
-\caption@width=\dimen191
-\caption@indent=\dimen192
-\caption@parindent=\dimen193
-\caption@hangindent=\dimen194
+\caption@tempdima=\dimen257
+\captionmargin=\dimen258
+\caption@leftmargin=\dimen259
+\caption@rightmargin=\dimen260
+\caption@width=\dimen261
+\caption@indent=\dimen262
+\caption@parindent=\dimen263
+\caption@hangindent=\dimen264
 Package caption Info: Standard document class detected.
 )
-\c@caption@flags=\count309
-\c@continuedfloat=\count310
+\c@caption@flags=\count312
+\c@continuedfloat=\count313
 Package caption Info: longtable package is loaded.
 
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/caption/ltcaption.sty
@@ -435,16 +491,16 @@ Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
 ty
 Package: subcaption 2023/07/28 v1.6b Sub-captions (AR)
 Package caption Info: New subtype `subfigure' on input line 238.
-\c@subfigure=\count311
+\c@subfigure=\count314
 Package caption Info: New subtype `subtable' on input line 238.
-\c@subtable=\count312
+\c@subtable=\count315
 ) (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count313
-\float@exts=\toks33
-\float@box=\box63
-\@float@everytoks=\toks34
-\@floatcapt=\box64
+\c@float@type=\count316
+\float@exts=\toks35
+\float@box=\box65
+\@float@everytoks=\toks36
+\@floatcapt=\box66
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2025-07-12 v7.01o Hypertext links for LaTeX
@@ -478,7 +534,7 @@ Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
-\pdftexcmds@toks=\toks35
+\pdftexcmds@toks=\toks37
 ))
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/hycolor/hycolor.sty
 Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
@@ -496,26 +552,26 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/kvoptions/kvoptions.sty
 Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
 ))
-\c@section@level=\count314
+\c@section@level=\count317
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/etoolbox/etoolbox.sty
 Package: etoolbox 2025/10/02 v2.5m e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count315
+\etb@tempcnta=\count318
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/stringenc/stringenc.s
 ty
 Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
 )
 )
-\@linkdim=\dimen195
-\Hy@linkcounter=\count316
-\Hy@pagecounter=\count317
+\@linkdim=\dimen265
+\Hy@linkcounter=\count319
+\Hy@pagecounter=\count320
  (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2025-07-12 v7.01o Hyperref: PDFDocEncoding definition (HO)
 ) (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/intcalc/intcalc.sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 )
-\Hy@SavedSpaceFactor=\count318
+\Hy@SavedSpaceFactor=\count321
  (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/hyperref/puenc.def
 File: puenc.def 2025-07-12 v7.01o Hyperref: PDF Unicode definition (HO)
 )
@@ -526,14 +582,14 @@ Package hyperref Info: Plain pages OFF on input line 4210.
 Package hyperref Info: Backreferencing OFF on input line 4215.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4462.
-\c@Hy@tempcnt=\count319
+\c@Hy@tempcnt=\count322
 
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty
 \Urlmuskip=\muskip18
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 4801.
-\XeTeXLinkMargin=\dimen196
+\XeTeXLinkMargin=\dimen266
 
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
@@ -543,9 +599,9 @@ Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
 )
 ))
-\Fld@menulength=\count320
-\Field@Width=\dimen197
-\Fld@charsize=\dimen198
+\Fld@menulength=\count323
+\Field@Width=\dimen267
+\Fld@charsize=\dimen268
 Package hyperref Info: Hyper figures OFF on input line 6078.
 Package hyperref Info: Link nesting OFF on input line 6083.
 Package hyperref Info: Hyper index ON on input line 6086.
@@ -553,16 +609,16 @@ Package hyperref Info: backreferencing OFF on input line 6093.
 Package hyperref Info: Link coloring OFF on input line 6098.
 Package hyperref Info: Link coloring with OCG OFF on input line 6103.
 Package hyperref Info: PDF/A mode OFF on input line 6108.
-\Hy@abspage=\count321
-\c@Item=\count322
-\c@Hfootnote=\count323
+\Hy@abspage=\count324
+\c@Item=\count325
+\c@Hfootnote=\count326
 )
 Package hyperref Info: Driver (autodetected): hluatex.
 
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/hyperref/hluatex.def
 File: hluatex.def 2025-07-12 v7.01o Hyperref driver for luaTeX
-\Fld@listcount=\count324
-\c@bookmark@seq@number=\count325
+\Fld@listcount=\count327
+\c@bookmark@seq@number=\count328
 
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/rerunfilecheck/rerunfil
 echeck.sty
@@ -601,8 +657,8 @@ nment
  (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/base/ifthen.sty
 Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
 )
-\@float@every@algorithm=\toks36
-\c@algorithm=\count326
+\@float@every@algorithm=\toks38
+\c@algorithm=\count329
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/algorithmicx/algpseudoc
 ode.sty
@@ -613,15 +669,15 @@ cx.sty
 Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
 
 Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
-\c@ALG@line=\count327
-\c@ALG@rem=\count328
-\c@ALG@nested=\count329
+\c@ALG@line=\count330
+\c@ALG@rem=\count331
+\c@ALG@nested=\count332
 \ALG@tlm=\skip70
 \ALG@thistlm=\skip71
-\c@ALG@Lnr=\count330
-\c@ALG@blocknr=\count331
-\c@ALG@storecount=\count332
-\c@ALG@tmpcounter=\count333
+\c@ALG@Lnr=\count333
+\c@ALG@blocknr=\count334
+\c@ALG@storecount=\count335
+\c@ALG@tmpcounter=\count336
 \ALG@tmplength=\skip72
 )
 Document Style - pseudocode environments for use with the `algorithmicx' style
@@ -633,13 +689,13 @@ sty
 y
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/utilities/pgfutil
 -common.tex
-\pgfutil@everybye=\toks37
-\pgfutil@tempdima=\dimen199
-\pgfutil@tempdimb=\dimen256
+\pgfutil@everybye=\toks39
+\pgfutil@tempdima=\dimen269
+\pgfutil@tempdimb=\dimen270
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/utilities/pgfutil
 -latex.def
-\pgfutil@abb=\box65
+\pgfutil@abb=\box67
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/utilities/pgfrcs.
 code.tex
@@ -658,33 +714,33 @@ Package: pgfsys 2025-08-29 v3.1.11a (3.1.11a)
 
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/utilities/pgfkeys
 .code.tex
-\pgfkeys@pathtoks=\toks38
-\pgfkeys@temptoks=\toks39
+\pgfkeys@pathtoks=\toks40
+\pgfkeys@temptoks=\toks41
 
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/utilities/pgfkeys
 libraryfiltered.code.tex
-\pgfkeys@tmptoks=\toks40
+\pgfkeys@tmptoks=\toks42
 ))
-\pgf@x=\dimen257
-\pgf@y=\dimen258
-\pgf@xa=\dimen259
-\pgf@ya=\dimen260
-\pgf@xb=\dimen261
-\pgf@yb=\dimen262
-\pgf@xc=\dimen263
-\pgf@yc=\dimen264
-\pgf@xd=\dimen265
-\pgf@yd=\dimen266
+\pgf@x=\dimen271
+\pgf@y=\dimen272
+\pgf@xa=\dimen273
+\pgf@ya=\dimen274
+\pgf@xb=\dimen275
+\pgf@yb=\dimen276
+\pgf@xc=\dimen277
+\pgf@yc=\dimen278
+\pgf@xd=\dimen279
+\pgf@yd=\dimen280
 \w@pgf@writea=\write3
 \r@pgf@reada=\read3
-\c@pgf@counta=\count334
-\c@pgf@countb=\count335
-\c@pgf@countc=\count336
-\c@pgf@countd=\count337
-\t@pgf@toka=\toks41
-\t@pgf@tokb=\toks42
-\t@pgf@tokc=\toks43
-\pgf@sys@id@count=\count338
+\c@pgf@counta=\count337
+\c@pgf@countb=\count338
+\c@pgf@countc=\count339
+\c@pgf@countd=\count340
+\t@pgf@toka=\toks43
+\t@pgf@tokb=\toks44
+\t@pgf@tokc=\toks45
+\pgf@sys@id@count=\count341
 
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/systemlayer/pgf.c
 fg
@@ -703,8 +759,8 @@ File: pgfsys-common-pdf.def 2025-08-29 v3.1.11a (3.1.11a)
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/systemlayer/pgfsy
 ssoftpath.code.tex
 File: pgfsyssoftpath.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgfsyssoftpath@smallbuffer@items=\count339
-\pgfsyssoftpath@bigbuffer@items=\count340
+\pgfsyssoftpath@smallbuffer@items=\count342
+\pgfsyssoftpath@bigbuffer@items=\count343
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/systemlayer/pgfsy
 sprotocol.code.tex
@@ -738,12 +794,12 @@ Package: pgfcore 2025-08-29 v3.1.11a (3.1.11a)
 code.tex)
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/math/pgfmathparse
 r.code.tex
-\pgfmath@dimen=\dimen267
-\pgfmath@count=\count341
-\pgfmath@box=\box66
-\pgfmath@toks=\toks44
-\pgfmath@stack@operand=\toks45
-\pgfmath@stack@operation=\toks46
+\pgfmath@dimen=\dimen281
+\pgfmath@count=\count344
+\pgfmath@box=\box68
+\pgfmath@toks=\toks46
+\pgfmath@stack@operand=\toks47
+\pgfmath@stack@operation=\toks48
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/math/pgfmathfunct
 ions.code.tex)
@@ -767,59 +823,59 @@ ions.integerarithmetics.code.tex)
 code.tex)
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/math/pgfmathfloat
 .code.tex
-\c@pgfmathroundto@lastzeros=\count342
+\c@pgfmathroundto@lastzeros=\count345
 ))
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/math/pgfint.code.
 tex)
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/basiclayer/pgfcor
 epoints.code.tex
 File: pgfcorepoints.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgf@picminx=\dimen268
-\pgf@picmaxx=\dimen269
-\pgf@picminy=\dimen270
-\pgf@picmaxy=\dimen271
-\pgf@pathminx=\dimen272
-\pgf@pathmaxx=\dimen273
-\pgf@pathminy=\dimen274
-\pgf@pathmaxy=\dimen275
-\pgf@xx=\dimen276
-\pgf@xy=\dimen277
-\pgf@yx=\dimen278
-\pgf@yy=\dimen279
-\pgf@zx=\dimen280
-\pgf@zy=\dimen281
+\pgf@picminx=\dimen282
+\pgf@picmaxx=\dimen283
+\pgf@picminy=\dimen284
+\pgf@picmaxy=\dimen285
+\pgf@pathminx=\dimen286
+\pgf@pathmaxx=\dimen287
+\pgf@pathminy=\dimen288
+\pgf@pathmaxy=\dimen289
+\pgf@xx=\dimen290
+\pgf@xy=\dimen291
+\pgf@yx=\dimen292
+\pgf@yy=\dimen293
+\pgf@zx=\dimen294
+\pgf@zy=\dimen295
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/basiclayer/pgfcor
 epathconstruct.code.tex
 File: pgfcorepathconstruct.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgf@path@lastx=\dimen282
-\pgf@path@lasty=\dimen283
+\pgf@path@lastx=\dimen296
+\pgf@path@lasty=\dimen297
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/basiclayer/pgfcor
 epathusage.code.tex
 File: pgfcorepathusage.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgf@shorten@end@additional=\dimen284
-\pgf@shorten@start@additional=\dimen285
+\pgf@shorten@end@additional=\dimen298
+\pgf@shorten@start@additional=\dimen299
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/basiclayer/pgfcor
 escopes.code.tex
 File: pgfcorescopes.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgfpic=\box67
-\pgf@hbox=\box68
-\pgf@layerbox@main=\box69
-\pgf@picture@serial@count=\count343
+\pgfpic=\box69
+\pgf@hbox=\box70
+\pgf@layerbox@main=\box71
+\pgf@picture@serial@count=\count346
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/basiclayer/pgfcor
 egraphicstate.code.tex
 File: pgfcoregraphicstate.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgflinewidth=\dimen286
+\pgflinewidth=\dimen300
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/basiclayer/pgfcor
 etransformations.code.tex
 File: pgfcoretransformations.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgf@pt@x=\dimen287
-\pgf@pt@y=\dimen288
-\pgf@pt@temp=\dimen289
+\pgf@pt@x=\dimen301
+\pgf@pt@y=\dimen302
+\pgf@pt@temp=\dimen303
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/basiclayer/pgfcor
 equick.code.tex
@@ -836,14 +892,14 @@ File: pgfcorepathprocessing.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/basiclayer/pgfcor
 earrows.code.tex
 File: pgfcorearrows.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgfarrowsep=\dimen290
+\pgfarrowsep=\dimen304
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/basiclayer/pgfcor
 eshade.code.tex
 File: pgfcoreshade.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgf@max=\dimen291
-\pgf@sys@shading@range@num=\count344
-\pgf@shadingcount=\count345
+\pgf@max=\dimen305
+\pgf@sys@shading@range@num=\count347
+\pgf@shadingcount=\count348
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/basiclayer/pgfcor
 eimage.code.tex
@@ -852,7 +908,7 @@ File: pgfcoreimage.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/basiclayer/pgfcor
 eexternal.code.tex
 File: pgfcoreexternal.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgfexternal@startupbox=\box70
+\pgfexternal@startupbox=\box72
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/basiclayer/pgfcor
 elayers.code.tex
@@ -873,7 +929,7 @@ File: pgfcorerdf.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/modules/pgfmodule
 shapes.code.tex
 File: pgfmoduleshapes.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgfnodeparttextbox=\box71
+\pgfnodeparttextbox=\box73
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/modules/pgfmodule
 plot.code.tex
@@ -882,8 +938,8 @@ File: pgfmoduleplot.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/pgf/compatibility/pgfco
 mp-version-0-65.sty
 Package: pgfcomp-version-0-65 2025-08-29 v3.1.11a (3.1.11a)
-\pgf@nodesepstart=\dimen292
-\pgf@nodesepend=\dimen293
+\pgf@nodesepstart=\dimen306
+\pgf@nodesepend=\dimen307
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/pgf/compatibility/pgfco
 mp-version-1-18.sty
@@ -901,10 +957,10 @@ ty
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/utilities/pgffor.
 code.tex
 Package: pgffor 2025-08-29 v3.1.11a (3.1.11a)
-\pgffor@iter=\dimen294
-\pgffor@skip=\dimen295
-\pgffor@stack=\toks47
-\pgffor@toks=\toks48
+\pgffor@iter=\dimen308
+\pgffor@skip=\dimen309
+\pgffor@stack=\toks49
+\pgffor@toks=\toks50
 ))
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/frontendlayer/tik
 z/tikz.code.tex
@@ -913,34 +969,34 @@ Package: tikz 2025-08-29 v3.1.11a (3.1.11a)
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/libraries/pgflibr
 aryplothandlers.code.tex
 File: pgflibraryplothandlers.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgf@plot@mark@count=\count346
-\pgfplotmarksize=\dimen296
+\pgf@plot@mark@count=\count349
+\pgfplotmarksize=\dimen310
 )
-\tikz@lastx=\dimen297
-\tikz@lasty=\dimen298
-\tikz@lastxsaved=\dimen299
-\tikz@lastysaved=\dimen300
-\tikz@lastmovetox=\dimen301
-\tikz@lastmovetoy=\dimen302
-\tikzleveldistance=\dimen303
-\tikzsiblingdistance=\dimen304
-\tikz@figbox=\box72
-\tikz@figbox@bg=\box73
-\tikz@tempbox=\box74
-\tikz@tempbox@bg=\box75
-\tikztreelevel=\count347
-\tikznumberofchildren=\count348
-\tikznumberofcurrentchild=\count349
-\tikz@fig@count=\count350
+\tikz@lastx=\dimen311
+\tikz@lasty=\dimen312
+\tikz@lastxsaved=\dimen313
+\tikz@lastysaved=\dimen314
+\tikz@lastmovetox=\dimen315
+\tikz@lastmovetoy=\dimen316
+\tikzleveldistance=\dimen317
+\tikzsiblingdistance=\dimen318
+\tikz@figbox=\box74
+\tikz@figbox@bg=\box75
+\tikz@tempbox=\box76
+\tikz@tempbox@bg=\box77
+\tikztreelevel=\count350
+\tikznumberofchildren=\count351
+\tikznumberofcurrentchild=\count352
+\tikz@fig@count=\count353
 
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/modules/pgfmodule
 matrix.code.tex
 File: pgfmodulematrix.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgfmatrixcurrentrow=\count351
-\pgfmatrixcurrentcolumn=\count352
-\pgf@matrix@numberofcolumns=\count353
+\pgfmatrixcurrentrow=\count354
+\pgfmatrixcurrentcolumn=\count355
+\pgf@matrix@numberofcolumns=\count356
 )
-\tikz@expandcount=\count354
+\tikz@expandcount=\count357
 
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/frontendlayer/tik
 z/libraries/tikzlibrarytopaths.code.tex
@@ -953,8 +1009,8 @@ File: tikzlibraryfit.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/frontendlayer/tik
 z/libraries/tikzlibrarybackgrounds.code.tex
 File: tikzlibrarybackgrounds.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgf@layerbox@background=\box76
-\pgf@layerboxsaved@background=\box77
+\pgf@layerbox@background=\box78
+\pgf@layerboxsaved@background=\box79
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/frontendlayer/tik
 z/libraries/tikzlibrarypositioning.code.tex
@@ -963,10 +1019,10 @@ File: tikzlibrarypositioning.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/libraries/pgflibr
 aryarrows.meta.code.tex
 File: pgflibraryarrows.meta.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgfarrowinset=\dimen305
-\pgfarrowlength=\dimen306
-\pgfarrowwidth=\dimen307
-\pgfarrowlinewidth=\dimen308
+\pgfarrowinset=\dimen319
+\pgfarrowlength=\dimen320
+\pgfarrowwidth=\dimen321
+\pgfarrowlinewidth=\dimen322
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/frontendlayer/tik
 z/libraries/tikzlibrarycalc.code.tex
@@ -987,40 +1043,40 @@ ty
 y
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/tikz-qtree/pgfsubpic.
 tex
-\pgf@subpicminx=\dimen309
-\pgf@subpicminy=\dimen310
-\pgf@subpicmaxx=\dimen311
-\pgf@subpicmaxy=\dimen312
+\pgf@subpicminx=\dimen323
+\pgf@subpicminy=\dimen324
+\pgf@subpicmaxx=\dimen325
+\pgf@subpicmaxy=\dimen326
 ))
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/tikz-qtree/pgftree.te
 x
-\levelsep=\dimen313
-\subtreesep=\dimen314
-\smuggle@levelsep=\dimen315
-\smuggle@subtreesep=\dimen316
-\this@levelsep=\dimen317
-\this@subtreesep=\dimen318
-\pgftree@childx=\dimen319
-\pgftree@savechildx=\dimen320
-\pgftree@childy=\dimen321
-\pgftree@savechildy=\dimen322
-\pgftree@childi=\count355
-\pgftree@savechildi=\count356
-\pgftree@level=\count357
-\pgftree@depth=\dimen323
-\pgf@subpic@hbox@children=\box78
-\pgf@subpic@minx@children=\dimen324
-\pgf@subpic@miny@children=\dimen325
-\pgf@subpic@maxx@children=\dimen326
-\pgf@subpic@maxy@children=\dimen327
-\pgftree@lastchildx=\dimen328
-\pgftree@lastchildy=\dimen329
+\levelsep=\dimen327
+\subtreesep=\dimen328
+\smuggle@levelsep=\dimen329
+\smuggle@subtreesep=\dimen330
+\this@levelsep=\dimen331
+\this@subtreesep=\dimen332
+\pgftree@childx=\dimen333
+\pgftree@savechildx=\dimen334
+\pgftree@childy=\dimen335
+\pgftree@savechildy=\dimen336
+\pgftree@childi=\count358
+\pgftree@savechildi=\count359
+\pgftree@level=\count360
+\pgftree@depth=\dimen337
+\pgf@subpic@hbox@children=\box80
+\pgf@subpic@minx@children=\dimen338
+\pgf@subpic@miny@children=\dimen339
+\pgf@subpic@maxx@children=\dimen340
+\pgf@subpic@maxy@children=\dimen341
+\pgftree@lastchildx=\dimen342
+\pgftree@lastchildy=\dimen343
 ))
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/tikz-qtree/tikz-qtree
 .tex
-\@result=\toks49
-\child@list=\toks50
-\root@node=\toks51
+\@result=\toks51
+\child@list=\toks52
+\root@node=\toks53
 ))
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/forest/forest.sty
 Package: forest 2017/07/14 v2.1.5 Drawing (linguistic) trees
@@ -1064,37 +1120,37 @@ File: tikzlibraryshapes.multipart.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/libraries/shapes/
 pgflibraryshapes.multipart.code.tex
 File: pgflibraryshapes.multipart.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgfnodepartlowerbox=\box79
-\pgfnodeparttwobox=\box80
-\pgfnodepartthreebox=\box81
-\pgfnodepartfourbox=\box82
-\pgfnodeparttwentybox=\box83
-\pgfnodepartnineteenbox=\box84
-\pgfnodeparteighteenbox=\box85
-\pgfnodepartseventeenbox=\box86
-\pgfnodepartsixteenbox=\box87
-\pgfnodepartfifteenbox=\box88
-\pgfnodepartfourteenbox=\box89
-\pgfnodepartthirteenbox=\box90
-\pgfnodeparttwelvebox=\box91
-\pgfnodepartelevenbox=\box92
-\pgfnodeparttenbox=\box93
-\pgfnodepartninebox=\box94
-\pgfnodeparteightbox=\box95
-\pgfnodepartsevenbox=\box96
-\pgfnodepartsixbox=\box97
-\pgfnodepartfivebox=\box98
+\pgfnodepartlowerbox=\box81
+\pgfnodeparttwobox=\box82
+\pgfnodepartthreebox=\box83
+\pgfnodepartfourbox=\box84
+\pgfnodeparttwentybox=\box85
+\pgfnodepartnineteenbox=\box86
+\pgfnodeparteighteenbox=\box87
+\pgfnodepartseventeenbox=\box88
+\pgfnodepartsixteenbox=\box89
+\pgfnodepartfifteenbox=\box90
+\pgfnodepartfourteenbox=\box91
+\pgfnodepartthirteenbox=\box92
+\pgfnodeparttwelvebox=\box93
+\pgfnodepartelevenbox=\box94
+\pgfnodeparttenbox=\box95
+\pgfnodepartninebox=\box96
+\pgfnodeparteightbox=\box97
+\pgfnodepartsevenbox=\box98
+\pgfnodepartsixbox=\box99
+\pgfnodepartfivebox=\box100
 )))
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/libraries/pgflibr
 aryintersections.code.tex
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/libraries/pgflibr
 aryfpu.code.tex)
-\pgf@intersect@solutions=\count358
+\pgf@intersect@solutions=\count361
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/pgfopts/pgfopts.sty
 Package: pgfopts 2014/07/10 v2.1a LaTeX package options with pgfkeys
-\pgfopts@list@add@a@toks=\toks52
-\pgfopts@list@add@b@toks=\toks53
+\pgfopts@list@add@a@toks=\toks54
+\pgfopts@list@add@b@toks=\toks55
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/elocalloc/elocalloc.sty
 Package: elocalloc 2016/12/15 v0.03 local allocation for LaTeX 2015+ (DPC)
@@ -1113,61 +1169,61 @@ Package: expl3 2025-12-24 L3 programming layer (loader)
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/l3backend/l3backend-lua
 tex.def
 File: l3backend-luatex.def 2025-10-09 L3 backend support: PDF output (LuaTeX)
-\l__color_backend_stack_int=\count359
+\l__color_backend_stack_int=\count362
 Inserting `l3color' in `luaotfload.parse_color'.))
 Package: xparse 2025-10-09 L3 Experimental document command parser
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/inlinedef/inlinedef.sty
 Package: inlinedef 2008/07/10 v1.0 Inlined expansions within definitions
-\ID@toks=\toks54
-\ID@count=\count360
+\ID@toks=\toks56
+\ID@count=\count363
 )
-\ID@usercommands=\toks55
-\safeloop@depth=\count361
-\safeRKloop@depth=\count362
-\forest@temp@dimen=\dimen330
-\forest@temp@count=\count363
-\forest@n=\count364
-\forest@temp@global@count=\count365
-\forest@temp@toks=\toks56
-\forest@temparray@M=\count366
-\forest@temparray@N=\count367
-\forest@global@temparray@M=\count368
-\forest@global@temparray@N=\count369
-\forest@isnum@count=\count370
-\forest@isdim@nonintpart=\count371
-\forest@isdim@dimen=\dimen331
-\forest@sort@m=\count372
-\forest@sort@k=\count373
-\forest@sort@p=\count374
-\bracket@content=\toks57
-\bracket@afterthought=\toks58
-\forest@node@maxid=\count375
-\forest@process@left@M=\count376
-\forest@process@left@N=\count377
-\forest@process@right@M=\count378
-\forest@process@right@N=\count379
-\forest@process@saved@M=\count380
-\forest@process@saved@N=\count381
-\forest@process@result@M=\count382
-\forest@process@result@N=\count383
-\forest@process@n=\count384
-\forest@nodewalk@branch@toks=\toks59
-\forest@nodewalk@shortsteps@resolution=\toks60
-\forest@do@dynamics=\toks61
-\forest@box=\box99
-\forest@xg=\dimen332
-\forest@yg=\dimen333
-\forest@xs=\dimen334
-\forest@ys=\dimen335
-\forest@pi@toks=\toks62
-\forest@segment@toks=\toks63
-\forest@PIi@toks=\toks64
-\forest@PIii@toks=\toks65
+\ID@usercommands=\toks57
+\safeloop@depth=\count364
+\safeRKloop@depth=\count365
+\forest@temp@dimen=\dimen344
+\forest@temp@count=\count366
+\forest@n=\count367
+\forest@temp@global@count=\count368
+\forest@temp@toks=\toks58
+\forest@temparray@M=\count369
+\forest@temparray@N=\count370
+\forest@global@temparray@M=\count371
+\forest@global@temparray@N=\count372
+\forest@isnum@count=\count373
+\forest@isdim@nonintpart=\count374
+\forest@isdim@dimen=\dimen345
+\forest@sort@m=\count375
+\forest@sort@k=\count376
+\forest@sort@p=\count377
+\bracket@content=\toks59
+\bracket@afterthought=\toks60
+\forest@node@maxid=\count378
+\forest@process@left@M=\count379
+\forest@process@left@N=\count380
+\forest@process@right@M=\count381
+\forest@process@right@N=\count382
+\forest@process@saved@M=\count383
+\forest@process@saved@N=\count384
+\forest@process@result@M=\count385
+\forest@process@result@N=\count386
+\forest@process@n=\count387
+\forest@nodewalk@branch@toks=\toks61
+\forest@nodewalk@shortsteps@resolution=\toks62
+\forest@do@dynamics=\toks63
+\forest@box=\box101
+\forest@xg=\dimen346
+\forest@yg=\dimen347
+\forest@xs=\dimen348
+\forest@ys=\dimen349
+\forest@pi@toks=\toks64
+\forest@segment@toks=\toks65
+\forest@PIi@toks=\toks66
+\forest@PIii@toks=\toks67
 \forest@copy@in=\read4
 \forest@copy@out=\write4
-\forest@externalize@max@outer@n=\count385
-\forest@externalize@inner@n=\count386
+\forest@externalize@max@outer@n=\count388
+\forest@externalize@inner@n=\count389
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/pgfplots/pgfplots.sty
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgfplots/pgfplots.rev
@@ -1180,12 +1236,12 @@ e.tex
 .code.tex
 Package pgfplots info on input line 124: Initializing with LUA version Lua 5.3
 \pgfplots@luabackend@table=\catcodetable16
-\t@pgfplots@toka=\toks66
-\t@pgfplots@tokb=\toks67
-\t@pgfplots@tokc=\toks68
-\pgfplots@tmpa=\dimen336
-\c@pgfplots@coordindex=\count387
-\c@pgfplots@scanlineindex=\count388
+\t@pgfplots@toka=\toks68
+\t@pgfplots@tokb=\toks69
+\t@pgfplots@tokc=\toks70
+\pgfplots@tmpa=\dimen350
+\c@pgfplots@coordindex=\count390
+\c@pgfplots@scanlineindex=\count391
 
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgfplots/sys/pgfplots
 sysgeneric.code.tex))
@@ -1194,9 +1250,9 @@ slibrary.code.tex)
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgfplots/oldpgfcompat
 ib/pgfplotsoldpgfsupp_loader.code.tex
 Package pgfplots: loading complementary utilities for your pgf version...
-\t@pgf@toka=\toks69
-\t@pgf@tokb=\toks70
-\t@pgf@tokc=\toks71
+\t@pgf@toka=\toks71
+\t@pgf@tokb=\toks72
+\t@pgf@tokc=\toks73
 
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgfplots/oldpgfcompat
 ib/pgfplotsoldpgfsupp_pgfutil-common-lists.tex)
@@ -1216,14 +1272,14 @@ e/pgfplotsliststructure.code.tex)
 e/pgfplotsliststructureext.code.tex)
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgfplots/liststructur
 e/pgfplotsarray.code.tex
-\c@pgfplotsarray@tmp=\count389
+\c@pgfplotsarray@tmp=\count392
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgfplots/liststructur
 e/pgfplotsmatrix.code.tex)
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgfplots/numtable/pgf
 plotstableshared.code.tex
-\c@pgfplotstable@counta=\count390
-\t@pgfplotstable@a=\toks72
+\c@pgfplotstable@counta=\count393
+\t@pgfplotstable@a=\toks74
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgfplots/liststructur
 e/pgfplotsdeque.code.tex)
@@ -1235,7 +1291,7 @@ sbinary.data.code.tex))
 sutil.verb.code.tex)
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgfplots/libs/pgflibr
 arypgfplots.surfshading.code.tex
-\c@pgfplotslibrarysurf@no=\count391
+\c@pgfplotslibrarysurf@no=\count394
 
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgfplots/sys/pgflibra
 rypgfplots.surfshading.pgfsys-luatex.def)))
@@ -1267,16 +1323,16 @@ hs.code.tex)
 z/libraries/tikzlibrarydecorations.code.tex
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/modules/pgfmodule
 decorations.code.tex
-\pgfdecoratedcompleteddistance=\dimen337
-\pgfdecoratedremainingdistance=\dimen338
-\pgfdecoratedinputsegmentcompleteddistance=\dimen339
-\pgfdecoratedinputsegmentremainingdistance=\dimen340
-\pgf@decorate@distancetomove=\dimen341
-\pgf@decorate@repeatstate=\count392
-\pgfdecorationsegmentamplitude=\dimen342
-\pgfdecorationsegmentlength=\dimen343
+\pgfdecoratedcompleteddistance=\dimen351
+\pgfdecoratedremainingdistance=\dimen352
+\pgfdecoratedinputsegmentcompleteddistance=\dimen353
+\pgfdecoratedinputsegmentremainingdistance=\dimen354
+\pgf@decorate@distancetomove=\dimen355
+\pgf@decorate@repeatstate=\count395
+\pgfdecorationsegmentamplitude=\dimen356
+\pgfdecorationsegmentlength=\dimen357
 )
-\tikz@lib@dec@box=\box100
+\tikz@lib@dec@box=\box102
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/frontendlayer/tik
 z/libraries/tikzlibrarydecorations.pathmorphing.code.tex
@@ -1288,13 +1344,13 @@ z/libraries/tikzlibrarydecorations.pathreplacing.code.tex
 ions/pgflibrarydecorations.pathreplacing.code.tex))
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgfplots/libs/tikzlib
 rarypgfplots.contourlua.code.tex)
-\pgfplots@numplots=\count393
-\pgfplots@xmin@reg=\dimen344
-\pgfplots@xmax@reg=\dimen345
-\pgfplots@ymin@reg=\dimen346
-\pgfplots@ymax@reg=\dimen347
-\pgfplots@zmin@reg=\dimen348
-\pgfplots@zmax@reg=\dimen349
+\pgfplots@numplots=\count396
+\pgfplots@xmin@reg=\dimen358
+\pgfplots@xmax@reg=\dimen359
+\pgfplots@ymin@reg=\dimen360
+\pgfplots@ymax@reg=\dimen361
+\pgfplots@zmin@reg=\dimen362
+\pgfplots@zmax@reg=\dimen363
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/frontendlayer/tik
 z/libraries/tikzlibraryplotmarks.code.tex
@@ -1317,9 +1373,9 @@ plotstable.code.tex
 plotstable.coltype.code.tex)))
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgfplots/libs/tikzlib
 rarypgfplots.groupplots.code.tex
-\pgfplots@group@current@plot=\count394
-\pgfplots@group@current@row=\count395
-\pgfplots@group@current@column=\count396
+\pgfplots@group@current@plot=\count397
+\pgfplots@group@current@row=\count398
+\pgfplots@group@current@column=\count399
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgfplots/libs/tikzlib
 rarypgfplots.fillbetween.code.tex
@@ -1349,45 +1405,45 @@ File: pgfmodulebending.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/modules/pgfmodule
 nonlineartransformations.code.tex
 File: pgfmodulenonlineartransformations.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgftransformnonlinearflatness=\dimen350
+\pgftransformnonlinearflatness=\dimen364
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/libraries/pgflibr
 arycurvilinear.code.tex
 File: pgflibrarycurvilinear.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgf@curvilinear@time@a=\dimen351
-\pgf@curvilinear@length@a=\dimen352
-\pgf@curvilinear@length@b=\dimen353
-\pgf@curvilinear@length@c=\dimen354
-\pgf@curvilinear@length@d=\dimen355
+\pgf@curvilinear@time@a=\dimen365
+\pgf@curvilinear@length@a=\dimen366
+\pgf@curvilinear@length@b=\dimen367
+\pgf@curvilinear@length@c=\dimen368
+\pgf@curvilinear@length@d=\dimen369
 )
-\pgf@arrows@the@rigidity=\dimen356
+\pgf@arrows@the@rigidity=\dimen370
 ))
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/frontendlayer/tik
 z/libraries/tikzlibraryfpu.code.tex)
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/circuitikz/pgfcirc.de
 fines.tex
-\pgf@circ@count@a=\count397
-\pgf@circ@count@b=\count398
-\pgf@circ@count@c=\count399
-\pgf@circ@res@up=\dimen357
-\pgf@circ@res@down=\dimen358
-\pgf@circ@res@zero=\dimen359
-\pgf@circ@res@left=\dimen360
-\pgf@circ@res@right=\dimen361
-\pgf@circ@res@other=\dimen362
-\pgf@circ@res@step=\dimen363
-\pgf@circ@res@temp=\dimen364
-\pgf@circ@Rlen=\dimen365
-\pgf@circ@scaled@Rlen=\dimen366
-\pgfstartlinewidth=\dimen367
+\pgf@circ@count@a=\count400
+\pgf@circ@count@b=\count401
+\pgf@circ@count@c=\count402
+\pgf@circ@res@up=\dimen371
+\pgf@circ@res@down=\dimen372
+\pgf@circ@res@zero=\dimen373
+\pgf@circ@res@left=\dimen374
+\pgf@circ@res@right=\dimen375
+\pgf@circ@res@other=\dimen376
+\pgf@circ@res@step=\dimen377
+\pgf@circ@res@temp=\dimen378
+\pgf@circ@Rlen=\dimen379
+\pgf@circ@scaled@Rlen=\dimen380
+\pgfstartlinewidth=\dimen381
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/circuitikz/pgfcircuti
 ls.tex
-\ctikz@scratchbox=\box101
+\ctikz@scratchbox=\box103
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/circuitikz/pgfcircpat
 h.tex
-\ctikz@vif@count=\count400
+\ctikz@vif@count=\count403
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/circuitikz/pgfcircsha
 pes.tex)
@@ -1397,7 +1453,7 @@ opoles.tex)
 oles.tex)
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/circuitikz/pgfcirctri
 poles.tex
-\pgf@circ@res@count=\count401
+\pgf@circ@res@count=\count404
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/circuitikz/pgfcircqua
 dpoles.tex)
@@ -1407,34 +1463,34 @@ tipoles.tex)
 el.tex)
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/circuitikz/pgfcircvol
 tage.tex
-\pgfcirc@labelshift=\dimen368
+\pgfcirc@labelshift=\dimen382
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/circuitikz/pgfcirccur
 rent.tex)
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/circuitikz/pgfcircflo
 w.tex))
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/listings/listings.sty
-\lst@mode=\count402
-\lst@gtempboxa=\box102
-\lst@token=\toks73
-\lst@length=\count403
-\lst@currlwidth=\dimen369
-\lst@column=\count404
-\lst@pos=\count405
-\lst@lostspace=\dimen370
-\lst@width=\dimen371
-\lst@newlines=\count406
-\lst@lineno=\count407
-\lst@maxwidth=\dimen372
+\lst@mode=\count405
+\lst@gtempboxa=\box104
+\lst@token=\toks75
+\lst@length=\count406
+\lst@currlwidth=\dimen383
+\lst@column=\count407
+\lst@pos=\count408
+\lst@lostspace=\dimen384
+\lst@width=\dimen385
+\lst@newlines=\count409
+\lst@lineno=\count410
+\lst@maxwidth=\dimen386
 
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/listings/lstpatch.sty
 File: lstpatch.sty 2025/11/14 1.11b (Carsten Heinz)
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2025/11/14 1.11b (Carsten Heinz)
-\c@lstnumber=\count408
-\lst@skipnumbers=\count409
-\lst@framebox=\box103
+\c@lstnumber=\count411
+\lst@skipnumbers=\count412
+\lst@framebox=\box105
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/listings/listings.cfg
 File: listings.cfg 2025/11/14 1.11b listings configuration
@@ -1446,6 +1502,71 @@ Package: listings 2025/11/14 1.11b (Carsten Heinz)
     but found:
         2025/11/14 1.11b (Carsten Heinz)
     so I'm assuming it got fixed.
+(C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/fvextra/fvextra.sty
+Package: fvextra 2026/02/25 v1.14.0 fvextra - extensions and patches for fancyv
+rb
+
+(C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/fancyvrb/fancyvrb.sty
+Package: fancyvrb 2026/04/16 4.6a verbatim text (tvz,hv)
+\FV@CodeLineNo=\count413
+\FV@InFile=\read5
+\FV@TabBox=\box106
+\c@FancyVerbLine=\count414
+\FV@StepNumber=\count415
+\FV@OutFile=\write5
+)
+(C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/upquote/upquote.sty
+Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
+tim
+
+(C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/base/textcomp.sty
+Package: textcomp 2024/04/24 v2.1b Standard LaTeX package
+))
+(C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/lineno/lineno.sty
+Package: lineno 2026/03/08 line numbers on paragraphs v5.9
+\linenopenalty=\count416
+\output=\toks76
+\linenoprevgraf=\count417
+\linenumbersep=\dimen387
+\linenumberwidth=\dimen388
+\c@linenumber=\count418
+\c@pagewiselinenumber=\count419
+\c@LN@truepage=\count420
+\c@internallinenumber=\count421
+\c@internallinenumbers=\count422
+\quotelinenumbersep=\dimen389
+\bframerule=\dimen390
+\bframesep=\dimen391
+\bframebox=\box107
+\@LN@amsmath@ams@eqpen=\count423
+)
+\c@FancyVerbWriteLine=\count424
+\c@FancyVerbBufferLine=\count425
+\c@FV@TrueTabGroupLevel=\count426
+\c@FV@TrueTabCounter=\count427
+\FV@TabBox@Group=\box108
+\FV@bgcolorstructbox=\box109
+\FV@TmpLength=\skip73
+\c@FV@HighlightLinesStart=\count428
+\c@FV@HighlightLinesStop=\count429
+\FV@LoopCount=\count430
+\FV@NCharsBox=\box110
+\FV@BreakIndent=\dimen392
+\FV@BreakIndentNChars=\count431
+\FV@BreakSymbolSepLeft=\dimen393
+\FV@BreakSymbolSepLeftNChars=\count432
+\FV@BreakSymbolSepRight=\dimen394
+\FV@BreakSymbolSepRightNChars=\count433
+\FV@BreakSymbolIndentLeft=\dimen395
+\FV@BreakSymbolIndentLeftNChars=\count434
+\FV@BreakSymbolIndentRight=\dimen396
+\FV@BreakSymbolIndentRightNChars=\count435
+\c@FancyVerbLineBreakLast=\count436
+\FV@LineBox=\box111
+\FV@LineIndentBox=\box112
+\c@FV@BreakBufferDepth=\count437
+\FV@LineWidth=\dimen397
+)
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/mdframed/mdframed.sty
 Package: mdframed 2013/07/01 1.9b: mdframed
 
@@ -1464,141 +1585,141 @@ Package zref Info: New property list: main on input line 767.
 Package zref Info: New property: default on input line 768.
 Package zref Info: New property: page on input line 769.
 )
-\c@abspage=\count410
+\c@abspage=\count438
 Package zref Info: New property: abspage on input line 67.
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/needspace/needspace.sty
 Package: needspace 2025/03/13 v1.3e reserve vertical space
 )
-\mdf@templength=\skip73
-\c@mdf@globalstyle@cnt=\count411
-\mdf@skipabove@length=\skip74
-\mdf@skipbelow@length=\skip75
-\mdf@leftmargin@length=\skip76
-\mdf@rightmargin@length=\skip77
-\mdf@innerleftmargin@length=\skip78
-\mdf@innerrightmargin@length=\skip79
-\mdf@innertopmargin@length=\skip80
-\mdf@innerbottommargin@length=\skip81
-\mdf@splittopskip@length=\skip82
-\mdf@splitbottomskip@length=\skip83
-\mdf@outermargin@length=\skip84
-\mdf@innermargin@length=\skip85
-\mdf@linewidth@length=\skip86
-\mdf@innerlinewidth@length=\skip87
-\mdf@middlelinewidth@length=\skip88
-\mdf@outerlinewidth@length=\skip89
-\mdf@roundcorner@length=\skip90
-\mdf@footenotedistance@length=\skip91
-\mdf@userdefinedwidth@length=\skip92
-\mdf@needspace@length=\skip93
-\mdf@frametitleaboveskip@length=\skip94
-\mdf@frametitlebelowskip@length=\skip95
-\mdf@frametitlerulewidth@length=\skip96
-\mdf@frametitleleftmargin@length=\skip97
-\mdf@frametitlerightmargin@length=\skip98
-\mdf@shadowsize@length=\skip99
-\mdf@extratopheight@length=\skip100
-\mdf@subtitleabovelinewidth@length=\skip101
-\mdf@subtitlebelowlinewidth@length=\skip102
-\mdf@subtitleaboveskip@length=\skip103
-\mdf@subtitlebelowskip@length=\skip104
-\mdf@subtitleinneraboveskip@length=\skip105
-\mdf@subtitleinnerbelowskip@length=\skip106
-\mdf@subsubtitleabovelinewidth@length=\skip107
-\mdf@subsubtitlebelowlinewidth@length=\skip108
-\mdf@subsubtitleaboveskip@length=\skip109
-\mdf@subsubtitlebelowskip@length=\skip110
-\mdf@subsubtitleinneraboveskip@length=\skip111
-\mdf@subsubtitleinnerbelowskip@length=\skip112
+\mdf@templength=\skip74
+\c@mdf@globalstyle@cnt=\count439
+\mdf@skipabove@length=\skip75
+\mdf@skipbelow@length=\skip76
+\mdf@leftmargin@length=\skip77
+\mdf@rightmargin@length=\skip78
+\mdf@innerleftmargin@length=\skip79
+\mdf@innerrightmargin@length=\skip80
+\mdf@innertopmargin@length=\skip81
+\mdf@innerbottommargin@length=\skip82
+\mdf@splittopskip@length=\skip83
+\mdf@splitbottomskip@length=\skip84
+\mdf@outermargin@length=\skip85
+\mdf@innermargin@length=\skip86
+\mdf@linewidth@length=\skip87
+\mdf@innerlinewidth@length=\skip88
+\mdf@middlelinewidth@length=\skip89
+\mdf@outerlinewidth@length=\skip90
+\mdf@roundcorner@length=\skip91
+\mdf@footenotedistance@length=\skip92
+\mdf@userdefinedwidth@length=\skip93
+\mdf@needspace@length=\skip94
+\mdf@frametitleaboveskip@length=\skip95
+\mdf@frametitlebelowskip@length=\skip96
+\mdf@frametitlerulewidth@length=\skip97
+\mdf@frametitleleftmargin@length=\skip98
+\mdf@frametitlerightmargin@length=\skip99
+\mdf@shadowsize@length=\skip100
+\mdf@extratopheight@length=\skip101
+\mdf@subtitleabovelinewidth@length=\skip102
+\mdf@subtitlebelowlinewidth@length=\skip103
+\mdf@subtitleaboveskip@length=\skip104
+\mdf@subtitlebelowskip@length=\skip105
+\mdf@subtitleinneraboveskip@length=\skip106
+\mdf@subtitleinnerbelowskip@length=\skip107
+\mdf@subsubtitleabovelinewidth@length=\skip108
+\mdf@subsubtitlebelowlinewidth@length=\skip109
+\mdf@subsubtitleaboveskip@length=\skip110
+\mdf@subsubtitlebelowskip@length=\skip111
+\mdf@subsubtitleinneraboveskip@length=\skip112
+\mdf@subsubtitleinnerbelowskip@length=\skip113
 
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/mdframed/md-frame-0.mdf
 File: md-frame-0.mdf 2013/07/01\ 1.9b: md-frame-0
 )
-\mdf@frametitlebox=\box104
-\mdf@footnotebox=\box105
-\mdf@splitbox@one=\box106
-\mdf@splitbox@two=\box107
-\mdf@splitbox@save=\box108
-\mdfsplitboxwidth=\skip113
-\mdfsplitboxtotalwidth=\skip114
-\mdfsplitboxheight=\skip115
-\mdfsplitboxdepth=\skip116
-\mdfsplitboxtotalheight=\skip117
-\mdfframetitleboxwidth=\skip118
-\mdfframetitleboxtotalwidth=\skip119
-\mdfframetitleboxheight=\skip120
-\mdfframetitleboxdepth=\skip121
-\mdfframetitleboxtotalheight=\skip122
-\mdffootnoteboxwidth=\skip123
-\mdffootnoteboxtotalwidth=\skip124
-\mdffootnoteboxheight=\skip125
-\mdffootnoteboxdepth=\skip126
-\mdffootnoteboxtotalheight=\skip127
-\mdftotallinewidth=\skip128
-\mdfboundingboxwidth=\skip129
-\mdfboundingboxtotalwidth=\skip130
-\mdfboundingboxheight=\skip131
-\mdfboundingboxdepth=\skip132
-\mdfboundingboxtotalheight=\skip133
-\mdf@freevspace@length=\skip134
-\mdf@horizontalwidthofbox@length=\skip135
-\mdf@verticalmarginwhole@length=\skip136
-\mdf@horizontalspaceofbox=\skip137
-\mdfsubtitleheight=\skip138
-\mdfsubsubtitleheight=\skip139
-\c@mdfcountframes=\count412
+\mdf@frametitlebox=\box113
+\mdf@footnotebox=\box114
+\mdf@splitbox@one=\box115
+\mdf@splitbox@two=\box116
+\mdf@splitbox@save=\box117
+\mdfsplitboxwidth=\skip114
+\mdfsplitboxtotalwidth=\skip115
+\mdfsplitboxheight=\skip116
+\mdfsplitboxdepth=\skip117
+\mdfsplitboxtotalheight=\skip118
+\mdfframetitleboxwidth=\skip119
+\mdfframetitleboxtotalwidth=\skip120
+\mdfframetitleboxheight=\skip121
+\mdfframetitleboxdepth=\skip122
+\mdfframetitleboxtotalheight=\skip123
+\mdffootnoteboxwidth=\skip124
+\mdffootnoteboxtotalwidth=\skip125
+\mdffootnoteboxheight=\skip126
+\mdffootnoteboxdepth=\skip127
+\mdffootnoteboxtotalheight=\skip128
+\mdftotallinewidth=\skip129
+\mdfboundingboxwidth=\skip130
+\mdfboundingboxtotalwidth=\skip131
+\mdfboundingboxheight=\skip132
+\mdfboundingboxdepth=\skip133
+\mdfboundingboxtotalheight=\skip134
+\mdf@freevspace@length=\skip135
+\mdf@horizontalwidthofbox@length=\skip136
+\mdf@verticalmarginwhole@length=\skip137
+\mdf@horizontalspaceofbox=\skip138
+\mdfsubtitleheight=\skip139
+\mdfsubsubtitleheight=\skip140
+\c@mdfcountframes=\count440
 
 ****** mdframed patching \endmdf@trivlist
 
 ****** -- success******
 
-\mdf@envdepth=\count413
-\c@mdf@env@i=\count414
-\c@mdf@env@ii=\count415
-\c@mdf@zref@counter=\count416
+\mdf@envdepth=\count441
+\c@mdf@env@i=\count442
+\c@mdf@env@ii=\count443
+\c@mdf@zref@counter=\count444
 Package zref Info: New property: mdf@pagevalue on input line 895.
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/tcolorbox/tcolorbox.sty
 Package: tcolorbox 2025/11/28 version 6.9.0 text color boxes
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/tools/verbatim.sty
 Package: verbatim 2024-01-22 v1.5x LaTeX2e package for verbatim enhancements
-\every@verbatim=\toks74
-\verbatim@line=\toks75
-\verbatim@in@stream=\read5
+\every@verbatim=\toks77
+\verbatim@line=\toks78
+\verbatim@in@stream=\read6
 )
-\tcb@titlebox=\box109
-\tcb@upperbox=\box110
-\tcb@lowerbox=\box111
-\tcb@phantombox=\box112
-\c@tcbbreakpart=\count417
-\c@tcblayer=\count418
-\c@tcolorbox@number=\count419
-\l__tcobox_tmpa_box=\box113
-\l__tcobox_tmpa_dim=\dimen373
-\tcb@temp=\box114
-\tcb@temp=\box115
-\tcb@temp=\box116
-\tcb@temp=\box117
+\tcb@titlebox=\box118
+\tcb@upperbox=\box119
+\tcb@lowerbox=\box120
+\tcb@phantombox=\box121
+\c@tcbbreakpart=\count445
+\c@tcblayer=\count446
+\c@tcolorbox@number=\count447
+\l__tcobox_tmpa_box=\box122
+\l__tcobox_tmpa_dim=\dimen398
+\tcb@temp=\box123
+\tcb@temp=\box124
+\tcb@temp=\box125
+\tcb@temp=\box126
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/enumitem/enumitem.sty
 Package: enumitem 2025/02/06 v3.11 Customized lists
-\labelindent=\skip140
-\enit@outerparindent=\dimen374
-\enit@toks=\toks76
-\enit@inbox=\box118
-\enit@count@id=\count420
-\enitdp@description=\count421
+\labelindent=\skip141
+\enit@outerparindent=\dimen399
+\enit@toks=\toks79
+\enit@inbox=\box127
+\enit@count@id=\count448
+\enitdp@description=\count449
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/csquotes/csquotes.sty
 Package: csquotes 2026-05-19 v5.2p context-sensitive quotations (JAW)
-\csq@reset=\count422
-\csq@gtype=\count423
-\csq@glevel=\count424
-\csq@qlevel=\count425
-\csq@maxlvl=\count426
-\csq@tshold=\count427
-\csq@ltx@everypar=\toks77
+\csq@reset=\count450
+\csq@gtype=\count451
+\csq@glevel=\count452
+\csq@qlevel=\count453
+\csq@maxlvl=\count454
+\csq@tshold=\count455
+\csq@ltx@everypar=\toks80
 
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/csquotes/csquotes.def
 File: csquotes.def 2026-05-19 v5.2p csquotes generic definitions (JAW)
@@ -1614,10 +1735,10 @@ eys2e.sty
 Package: l3keys2e 2025-10-09 LaTeX2e option processing using LaTeX3 keys
 )
 Package: acro 2022/04/01 v3.8 typeset acronyms and other abbreviations (CN)
-\l__acro_tmpa_int=\count428
-\l__acro_tmpb_int=\count429
-\l__acro_tmpc_int=\count430
-\l__acro_tmpd_int=\count431
+\l__acro_tmpa_int=\count456
+\l__acro_tmpb_int=\count457
+\l__acro_tmpc_int=\count458
+\l__acro_tmpd_int=\count459
 Loading module `base' ...
 Loading module `interface' ...
 Loading module `aux' ...
@@ -1626,16 +1747,16 @@ Loading module `acronyms' ...
 Loading module `formatting' ...
 Loading module `ppfixes' ...
 Loading module `tools' ...
-\l__acro_minimal_usage_int=\count432
-\l__acro_nest_int=\count433
-\g_acro_barrier_int=\count434
-\g_acro_barrier_total_int=\count435
+\l__acro_minimal_usage_int=\count460
+\l__acro_nest_int=\count461
+\g_acro_barrier_int=\count462
+\g_acro_barrier_total_int=\count463
 Loading module `commands' ...
-\l_acro_nest_level_int=\count436
+\l_acro_nest_level_int=\count464
 Loading module `templates' ...
 Loading module `list' ...
 Loading module `pages' ...
-\l__acro_pages_seq_threshold_int=\count437
+\l__acro_pages_seq_threshold_int=\count465
 Loading module `locale' ...
 
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/translations/translatio
@@ -1654,21 +1775,10 @@ Loading module `upgrade' ...
 ies.sty
 Package: glossaries 2026/04/21 v5.1 (NLCT)
 
-(C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/xkeyval/xkeyval.sty
-Package: xkeyval 2022/06/16 v2.9 package option processing (HA)
-
-(C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/xkeyval/xkeyval.tex
-(C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/xkeyval/xkvutils.tex
-\XKV@toks=\toks78
-\XKV@tempa@toks=\toks79
-)
-\XKV@depth=\count438
-File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
-))
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/mfirstuc/mfirstuc.sty
 Package: mfirstuc 2025/04/03 v2.09 (NLCT)
-\@glsmfirst=\toks80
-\@glsmrest=\toks81
+\@glsmfirst=\toks81
+\@glsmrest=\toks82
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/xfor/xfor.sty
 Package: xfor 2009/02/05 v1.05 (NLCT)
@@ -1694,61 +1804,61 @@ File: glossaries-english.ldf 2014/11/23 v1.0
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/datatool/datatool-base.
 sty
 Package: datatool-base 2025/12/04 v3.4.3 (NLCT)
-\l__datatool_tmpa_int=\count439
-\l__datatool_tmpb_int=\count440
-\l__datatool_tmpc_int=\count441
-\l__datatool_tmpd_int=\count442
-\l__datatool_count_int=\count443
-\l__datatool_tmp_datatype_int=\count444
-\l__datatool_tmpa_dim=\dimen375
-\l__datatool_tmpb_dim=\dimen376
+\l__datatool_tmpa_int=\count466
+\l__datatool_tmpb_int=\count467
+\l__datatool_tmpc_int=\count468
+\l__datatool_tmpd_int=\count469
+\l__datatool_count_int=\count470
+\l__datatool_tmp_datatype_int=\count471
+\l__datatool_tmpa_dim=\dimen400
+\l__datatool_tmpb_dim=\dimen401
 
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/datatool/datatool-lua.d
 ef
 File: datatool-lua.def 2025/12/04 v3.4.3 (NLCT)
 )
-\@dtl@toks=\toks82
-\@dtl@tmpcount=\count445
-\dtl@tmplength=\skip141
-\l__datatool_measure_box=\box119
-\dtl@sortresult=\count446
+\@dtl@toks=\toks83
+\@dtl@tmpcount=\count472
+\dtl@tmplength=\skip142
+\l__datatool_measure_box=\box128
+\dtl@sortresult=\count473
 
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/datatool/datatool-utf8.
 ldf
 File: datatool-utf8.ldf 2025/12/04 v3.4.3 (NLCT)
 )
-\@dtl@datatype=\count447
-\c_datatool_unknown_int=\count448
-\l__datatool_year_int=\count449
-\l__datatool_month_int=\count450
-\l__datatool_day_int=\count451
-\l__datatool_hour_int=\count452
-\l__datatool_minute_int=\count453
-\l__datatool_second_int=\count454
-\l__datatool_tzhour_int=\count455
-\l__datatool_tzminute_int=\count456
-\l__datatool_julian_int=\count457
-\l__datatool_local_julian_int=\count458
-\l__datatool_prefix_int=\count459
-\l__datatool_suffix_int=\count460
-\@dtl@foreach@level=\count461
+\@dtl@datatype=\count474
+\c_datatool_unknown_int=\count475
+\l__datatool_year_int=\count476
+\l__datatool_month_int=\count477
+\l__datatool_day_int=\count478
+\l__datatool_hour_int=\count479
+\l__datatool_minute_int=\count480
+\l__datatool_second_int=\count481
+\l__datatool_tzhour_int=\count482
+\l__datatool_tzminute_int=\count483
+\l__datatool_julian_int=\count484
+\l__datatool_local_julian_int=\count485
+\l__datatool_prefix_int=\count486
+\l__datatool_suffix_int=\count487
+\@dtl@foreach@level=\count488
 
 
 Package tracklang Warning: No `datatool' support for dialect `english'  on inpu
 t line 9924.
 
-\dtl@codeA=\count462
-\dtl@codeB=\count463
+\dtl@codeA=\count489
+\dtl@codeB=\count490
 )
-\gls@level=\count464
-\@gls@tmpb=\toks83
-\gls@tmplen=\skip142
-\l__glossaries_tmpa_dim=\dimen377
-\l__glossaries_tmpb_dim=\dimen378
-\glskeylisttok=\toks84
-\glslabeltok=\toks85
-\glsshorttok=\toks86
-\glslongtok=\toks87
+\gls@level=\count491
+\@gls@tmpb=\toks84
+\gls@tmplen=\skip143
+\l__glossaries_tmpa_dim=\dimen402
+\l__glossaries_tmpb_dim=\dimen403
+\glskeylisttok=\toks85
+\glslabeltok=\toks86
+\glsshorttok=\toks87
+\glslongtok=\toks88
 
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/glossaries/styles/gloss
 ary-hypernav.sty
@@ -1757,13 +1867,13 @@ Package: glossary-hypernav 2026/04/21 v5.1 (NLCT)
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/glossaries/styles/gloss
 ary-list.sty
 Package: glossary-list 2026/04/21 v5.1 (NLCT)
-\glslistdottedwidth=\skip143
+\glslistdottedwidth=\skip144
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/glossaries/styles/gloss
 ary-long.sty
 Package: glossary-long 2026/04/21 v5.1 (NLCT)
-\glsdescwidth=\skip144
-\glspagelistwidth=\skip145
+\glsdescwidth=\skip145
+\glspagelistwidth=\skip146
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/glossaries/styles/gloss
 ary-super.sty
@@ -1772,69 +1882,69 @@ Package: glossary-super 2026/04/21 v5.1 (NLCT)
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/supertabular/supertabul
 ar.sty
 Package: supertabular 2025/06/26 v4.2d the supertabular environment
-\c@tracingst=\count465
-\ST@wd=\dimen379
-\ST@rightskip=\skip146
-\ST@leftskip=\skip147
-\ST@parfillskip=\skip148
-\ST@pageleft=\dimen380
-\ST@headht=\dimen381
-\ST@tailht=\dimen382
-\ST@pagesofar=\dimen383
-\ST@pboxht=\dimen384
-\ST@rowht=\dimen385
-\ST@prevht=\dimen386
-\ST@toadd=\dimen387
-\ST@dimen=\dimen388
-\ST@pbox=\box120
+\c@tracingst=\count492
+\ST@wd=\dimen404
+\ST@rightskip=\skip147
+\ST@leftskip=\skip148
+\ST@parfillskip=\skip149
+\ST@pageleft=\dimen405
+\ST@headht=\dimen406
+\ST@tailht=\dimen407
+\ST@pagesofar=\dimen408
+\ST@pboxht=\dimen409
+\ST@rowht=\dimen410
+\ST@prevht=\dimen411
+\ST@toadd=\dimen412
+\ST@dimen=\dimen413
+\ST@pbox=\box129
 ))
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/glossaries/styles/gloss
 ary-tree.sty
 Package: glossary-tree 2026/04/21 v5.1 (NLCT)
-\l__glossaries_tree_max_known_level_int=\count466
-\l__glossaries_tree_offset_dim=\dimen389
-\l__glossaries_tree_namewidth_dim=\dimen390
-\l__glossaries_tree_symbolwidth_dim=\dimen391
-\l__glossaries_tree_prenamesym_width_dim=\dimen392
-\l__glossaries_tree_presubnamesym_width_dim=\dimen393
-\l__glossaries_tree_namewidth_padding_dim=\dimen394
-\l__glossaries_tree_symbolwidth_padding_dim=\dimen395
-\l__glossaries_tree_namesymbolwidth_dim=\dimen396
-\l__glossaries_tree_namesymbolwidth_padding_dim=\dimen397
-\l__glossaries_tree_level_int=\count467
-\glstreeindent=\skip149
+\l__glossaries_tree_max_known_level_int=\count493
+\l__glossaries_tree_offset_dim=\dimen414
+\l__glossaries_tree_namewidth_dim=\dimen415
+\l__glossaries_tree_symbolwidth_dim=\dimen416
+\l__glossaries_tree_prenamesym_width_dim=\dimen417
+\l__glossaries_tree_presubnamesym_width_dim=\dimen418
+\l__glossaries_tree_namewidth_padding_dim=\dimen419
+\l__glossaries_tree_symbolwidth_padding_dim=\dimen420
+\l__glossaries_tree_namesymbolwidth_dim=\dimen421
+\l__glossaries_tree_namesymbolwidth_padding_dim=\dimen422
+\l__glossaries_tree_level_int=\count494
+\glstreeindent=\skip150
 ))
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/base/makeidx.sty
 Package: makeidx 2021/10/04 v1.0m Standard LaTeX package
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/appendix/appendix.sty
 Package: appendix 2020/02/08 v1.2c extra appendix facilities
-\c@@pps=\count468
-\c@@ppsavesec=\count469
-\c@@ppsaveapp=\count470
+\c@@pps=\count495
+\c@@ppsavesec=\count496
+\c@@ppsaveapp=\count497
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/tools/afterpage.sty
 Package: afterpage 2023/07/04 v1.08 After-Page Package (DPC)
-\AP@output=\toks88
-\AP@partial=\box121
-\AP@footins=\box122
+\AP@output=\toks89
+\AP@partial=\box130
+\AP@footins=\box131
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/graphics/rotating.sty
 Package: rotating 2025/01/14 v2.16e rotated objects in LaTeX
-\c@r@tfl@t=\count471
-\rotFPtop=\skip150
-\rotFPbot=\skip151
-\rot@float@box=\box123
-\rot@mess@toks=\toks89
+\c@r@tfl@t=\count498
+\rotFPtop=\skip151
+\rotFPbot=\skip152
+\rot@float@box=\box132
+\rot@mess@toks=\toks90
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/graphics/lscape.sty
 Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/colortbl/colortbl.sty
 Package: colortbl 2026/05/01 v1.0l Color table columns (DPC)
-\everycr=\toks90
-\minrowclearance=\skip152
-\rownum=\count472
+\everycr=\toks91
+\minrowclearance=\skip153
+\rownum=\count499
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/tools/hhline.sty
 Package: hhline 2020/01/04 v2.04 Table rule package (DPC)
@@ -1842,38 +1952,38 @@ Package: hhline 2020/01/04 v2.04 Table rule package (DPC)
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/threeparttable/threepar
 ttable.sty
 Package: threeparttable 2003/06/13  v 3.0
-\@tempboxb=\box124
+\@tempboxb=\box133
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/siunitx/siunitx.sty
 Package: siunitx 2026-05-15 v3.5.5 A comprehensive (SI) units package
-\l__siunitx_number_uncert_offset_int=\count473
-\l__siunitx_number_exponent_fixed_int=\count474
-\l__siunitx_number_min_decimal_int=\count475
-\l__siunitx_number_min_integer_int=\count476
-\l__siunitx_number_round_precision_int=\count477
-\l__siunitx_number_lower_threshold_int=\count478
-\l__siunitx_number_upper_threshold_int=\count479
-\l__siunitx_number_group_first_int=\count480
-\l__siunitx_number_group_size_int=\count481
-\l__siunitx_number_group_min_int=\count482
-\l__siunitx_number_group_minimum_int=\count483
-\l__siunitx_compound_count_int=\count484
-\l__siunitx_table_tmp_box=\box125
-\l__siunitx_table_tmp_dim=\dimen398
-\l__siunitx_table_column_width_dim=\dimen399
-\l__siunitx_table_integer_box=\box126
-\l__siunitx_table_decimal_box=\box127
-\l__siunitx_table_uncert_box=\box128
-\l__siunitx_table_before_box=\box129
-\l__siunitx_table_after_box=\box130
-\l__siunitx_table_before_dim=\dimen400
-\l__siunitx_table_carry_dim=\dimen401
-\l__siunitx_unit_tmp_int=\count485
-\l__siunitx_unit_position_int=\count486
-\l__siunitx_unit_total_int=\count487
-\l__siunitx_sexagesimal_tmp_dim=\dimen402
-\l__siunitx_sexagesimal_marker_box=\box131
-\l__siunitx_sexagesimal_unit_box=\box132
+\l__siunitx_number_uncert_offset_int=\count500
+\l__siunitx_number_exponent_fixed_int=\count501
+\l__siunitx_number_min_decimal_int=\count502
+\l__siunitx_number_min_integer_int=\count503
+\l__siunitx_number_round_precision_int=\count504
+\l__siunitx_number_lower_threshold_int=\count505
+\l__siunitx_number_upper_threshold_int=\count506
+\l__siunitx_number_group_first_int=\count507
+\l__siunitx_number_group_size_int=\count508
+\l__siunitx_number_group_min_int=\count509
+\l__siunitx_number_group_minimum_int=\count510
+\l__siunitx_compound_count_int=\count511
+\l__siunitx_table_tmp_box=\box134
+\l__siunitx_table_tmp_dim=\dimen423
+\l__siunitx_table_column_width_dim=\dimen424
+\l__siunitx_table_integer_box=\box135
+\l__siunitx_table_decimal_box=\box136
+\l__siunitx_table_uncert_box=\box137
+\l__siunitx_table_before_box=\box138
+\l__siunitx_table_after_box=\box139
+\l__siunitx_table_before_dim=\dimen425
+\l__siunitx_table_carry_dim=\dimen426
+\l__siunitx_unit_tmp_int=\count512
+\l__siunitx_unit_position_int=\count513
+\l__siunitx_unit_total_int=\count514
+\l__siunitx_sexagesimal_tmp_dim=\dimen427
+\l__siunitx_sexagesimal_marker_box=\box140
+\l__siunitx_sexagesimal_unit_box=\box141
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/physics/physics.sty
 Package: physics 
@@ -1903,104 +2013,104 @@ LaTeX Font Info:    Overwriting symbol font `stmry' in version `bold'
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/turnstile/turnstile.sty
 Package: turnstile 2007/06/23 v1.0 turnstile file
-\firstwidth=\skip153
-\secondwidth=\skip154
-\extrawidth=\skip155
-\leasturnstilewidth=\skip156
-\turnstilewidth=\skip157
-\turnstileheight=\skip158
-\dashthickness=\skip159
-\ddashthickness=\skip160
-\raiseup=\skip161
-\raisedown=\skip162
-\tinyverdistance=\skip163
-\verdistance=\skip164
-\lift=\skip165
-\lengthvar=\skip166
-\first=\box133
-\second=\box134
-\turnstilebox=\box135
+\firstwidth=\skip154
+\secondwidth=\skip155
+\extrawidth=\skip156
+\leasturnstilewidth=\skip157
+\turnstilewidth=\skip158
+\turnstileheight=\skip159
+\dashthickness=\skip160
+\ddashthickness=\skip161
+\raiseup=\skip162
+\raisedown=\skip163
+\tinyverdistance=\skip164
+\verdistance=\skip165
+\lift=\skip166
+\lengthvar=\skip167
+\first=\box142
+\second=\box143
+\turnstilebox=\box144
 ) (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/lkproof/proof.sty
-\inferLineSkip=\dimen403
-\inferLabelSkip=\dimen404
-\@LeftOffset=\dimen405
-\@RightOffset=\dimen406
-\@SavedLeftOffset=\dimen407
-\UpperWidth=\dimen408
-\LowerWidth=\dimen409
-\LowerHeight=\dimen410
-\UpperLeftOffset=\dimen411
-\UpperRightOffset=\dimen412
-\UpperCenter=\dimen413
-\LowerCenter=\dimen414
-\UpperAdjust=\dimen415
-\RuleAdjust=\dimen416
-\LowerAdjust=\dimen417
-\RuleWidth=\dimen418
-\HLabelAdjust=\dimen419
-\VLabelAdjust=\dimen420
-\WidthAdjust=\dimen421
-\@UpperPart=\box136
-\@LowerPart=\box137
-\@LabelPart=\box138
-\ResultBox=\box139
+\inferLineSkip=\dimen428
+\inferLabelSkip=\dimen429
+\@LeftOffset=\dimen430
+\@RightOffset=\dimen431
+\@SavedLeftOffset=\dimen432
+\UpperWidth=\dimen433
+\LowerWidth=\dimen434
+\LowerHeight=\dimen435
+\UpperLeftOffset=\dimen436
+\UpperRightOffset=\dimen437
+\UpperCenter=\dimen438
+\LowerCenter=\dimen439
+\UpperAdjust=\dimen440
+\RuleAdjust=\dimen441
+\LowerAdjust=\dimen442
+\RuleWidth=\dimen443
+\HLabelAdjust=\dimen444
+\VLabelAdjust=\dimen445
+\WidthAdjust=\dimen446
+\@UpperPart=\box145
+\@LowerPart=\box146
+\@LabelPart=\box147
+\ResultBox=\box148
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/bussproofs/bussproofs.s
 ty
 Proof Tree (bussproofs) style macros. Version 1.1.
-\theLevel=\count488
-\myMaxLevel=\count489
-\myBoxA=\box140
-\myBoxB=\box141
-\myBoxC=\box142
-\myBoxD=\box143
-\myBoxLL=\box144
-\myBoxRL=\box145
-\thisAboveSkip=\dimen422
-\thisBelowSkip=\dimen423
-\newScoreStart=\dimen424
-\newScoreEnd=\dimen425
-\newCenter=\dimen426
-\displace=\dimen427
-\leftLowerAmt=\dimen428
-\rightLowerAmt=\dimen429
-\scoreHeight=\dimen430
-\scoreDepth=\dimen431
-\htLbox=\dimen432
-\htRbox=\dimen433
-\htRRbox=\dimen434
-\htRRRbox=\dimen435
-\htAbox=\dimen436
-\htCbox=\dimen437
+\theLevel=\count515
+\myMaxLevel=\count516
+\myBoxA=\box149
+\myBoxB=\box150
+\myBoxC=\box151
+\myBoxD=\box152
+\myBoxLL=\box153
+\myBoxRL=\box154
+\thisAboveSkip=\dimen447
+\thisBelowSkip=\dimen448
+\newScoreStart=\dimen449
+\newScoreEnd=\dimen450
+\newCenter=\dimen451
+\displace=\dimen452
+\leftLowerAmt=\dimen453
+\rightLowerAmt=\dimen454
+\scoreHeight=\dimen455
+\scoreDepth=\dimen456
+\htLbox=\dimen457
+\htRbox=\dimen458
+\htRRbox=\dimen459
+\htRRRbox=\dimen460
+\htAbox=\dimen461
+\htCbox=\dimen462
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/mathpartir/mathpartir.s
 ty
 Package: mathpartir 2016/02/24 version 1.3.2 Math Paragraph for Typesetting Inf
 erence Rules
-\mpr@andskip=\skip167
-\mpr@lista=\toks91
-\mpr@listb=\toks92
-\mpr@hlist=\box146
-\mpr@vlist=\box147
-\mpr@right=\box148
+\mpr@andskip=\skip168
+\mpr@lista=\toks92
+\mpr@listb=\toks93
+\mpr@hlist=\box155
+\mpr@vlist=\box156
+\mpr@right=\box157
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/logicproof/logicproof.s
 ty
 Package: logicproof 2014/03/20 v1.0 Box proofs for propositional logic
-\subproofhorizspace=\skip168
-\intersubproofvertspace=\skip169
-\c@lp@line=\count490
-\c@lp@nested=\count491
-\c@lp@total@nests=\count492
-\c@lp@cline@1=\count493
-\c@lp@cline@2=\count494
-\c@lp@temp=\count495
+\subproofhorizspace=\skip169
+\intersubproofvertspace=\skip170
+\c@lp@line=\count517
+\c@lp@nested=\count518
+\c@lp@total@nests=\count519
+\c@lp@cline@1=\count520
+\c@lp@cline@2=\count521
+\c@lp@temp=\count522
 ) (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/natbib/natbib.sty
 Package: natbib 2010/09/13 8.31b (PWD, AO)
-\bibhang=\skip170
-\bibsep=\skip171
+\bibhang=\skip171
+\bibsep=\skip172
 LaTeX Info: Redefining \cite on input line 694.
-\c@NAT@ctr=\count496
+\c@NAT@ctr=\count523
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/natbib/bibentry.sty
 Package: bibentry 2007/10/30 1.5 (PWD)
@@ -2022,24 +2132,24 @@ File: pgflibrarysvg.path.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/pgf/modules/pgfmodule
 parser.code.tex
 File: pgfmoduleparser.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgfparserdef@arg@count=\count497
+\pgfparserdef@arg@count=\count524
 )
-\pgf@lib@svg@last@x=\dimen438
-\pgf@lib@svg@last@y=\dimen439
-\pgf@lib@svg@last@c@x=\dimen440
-\pgf@lib@svg@last@c@y=\dimen441
-\pgf@lib@svg@count=\count498
-\pgf@lib@svg@max@num=\count499
+\pgf@lib@svg@last@x=\dimen463
+\pgf@lib@svg@last@y=\dimen464
+\pgf@lib@svg@last@c@x=\dimen465
+\pgf@lib@svg@last@c@y=\dimen466
+\pgf@lib@svg@count=\count525
+\pgf@lib@svg@max@num=\count526
 ))
-\@curXheight=\skip172
+\@curXheight=\skip173
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/preprint/authblk.sty
 Package: authblk 2001/02/27 1.3 (PWD)
-\affilsep=\skip173
-\@affilsep=\skip174
-\c@Maxaffil=\count500
-\c@authors=\count501
-\c@affil=\count502
+\affilsep=\skip174
+\@affilsep=\skip175
+\c@Maxaffil=\count527
+\c@authors=\count528
+\c@affil=\count529
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/geometry/geometry.sty
 Package: geometry 2026/03/07 v6.0 Page Geometry
@@ -2047,51 +2157,51 @@ Package: geometry 2026/03/07 v6.0 Page Geometry
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/generic/iftex/ifvtex.sty
 Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 )
-\Gm@cnth=\count503
-\Gm@cntv=\count504
-\c@Gm@tempcnt=\count505
-\Gm@bindingoffset=\dimen442
-\Gm@wd@mp=\dimen443
-\Gm@odd@mp=\dimen444
-\Gm@even@mp=\dimen445
-\Gm@layoutwidth=\dimen446
-\Gm@layoutheight=\dimen447
-\Gm@layouthoffset=\dimen448
-\Gm@layoutvoffset=\dimen449
-\Gm@dimlist=\toks93
+\Gm@cnth=\count530
+\Gm@cntv=\count531
+\c@Gm@tempcnt=\count532
+\Gm@bindingoffset=\dimen467
+\Gm@wd@mp=\dimen468
+\Gm@odd@mp=\dimen469
+\Gm@even@mp=\dimen470
+\Gm@layoutwidth=\dimen471
+\Gm@layoutheight=\dimen472
+\Gm@layouthoffset=\dimen473
+\Gm@layoutvoffset=\dimen474
+\Gm@dimlist=\toks94
 
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/geometry/geometry.cfg)) (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/fancyhdr/fancyhdr.sty
 Package: fancyhdr 2025/02/07 v5.2 Extensive control of page headers and footers
 
-\f@nch@headwidth=\skip175
-\f@nch@offset@elh=\skip176
-\f@nch@offset@erh=\skip177
-\f@nch@offset@olh=\skip178
-\f@nch@offset@orh=\skip179
-\f@nch@offset@elf=\skip180
-\f@nch@offset@erf=\skip181
-\f@nch@offset@olf=\skip182
-\f@nch@offset@orf=\skip183
-\f@nch@height=\skip184
-\f@nch@footalignment=\skip185
-\f@nch@widthL=\skip186
-\f@nch@widthC=\skip187
-\f@nch@widthR=\skip188
-\@temptokenb=\toks94
+\f@nch@headwidth=\skip176
+\f@nch@offset@elh=\skip177
+\f@nch@offset@erh=\skip178
+\f@nch@offset@olh=\skip179
+\f@nch@offset@orh=\skip180
+\f@nch@offset@elf=\skip181
+\f@nch@offset@erf=\skip182
+\f@nch@offset@olf=\skip183
+\f@nch@offset@orf=\skip184
+\f@nch@height=\skip185
+\f@nch@footalignment=\skip186
+\f@nch@widthL=\skip187
+\f@nch@widthC=\skip188
+\f@nch@widthR=\skip189
+\@temptokenb=\toks95
 ) (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/titlesec/titlesec.sty
 Package: titlesec 2025/01/04 v2.17 Sectioning titles
-\ttl@box=\box149
-\beforetitleunit=\skip189
-\aftertitleunit=\skip190
-\ttl@plus=\dimen450
-\ttl@minus=\dimen451
-\ttl@toksa=\toks95
-\titlewidth=\dimen452
-\titlewidthlast=\dimen453
-\titlewidthfirst=\dimen454
+\ttl@box=\box158
+\beforetitleunit=\skip190
+\aftertitleunit=\skip191
+\ttl@plus=\dimen475
+\ttl@minus=\dimen476
+\ttl@toksa=\toks96
+\titlewidth=\dimen477
+\titlewidthlast=\dimen478
+\titlewidthfirst=\dimen479
 ) (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/titlesec/titletoc.sty
 Package: titletoc 2025/01/04 v2.17 TOC entries
-\ttl@leftsep=\dimen455
+\ttl@leftsep=\dimen480
 ) (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/minitoc/minitoc.sty
 Package: minitoc 2018/07/12 v62 Package minitoc
 
@@ -2100,24 +2210,24 @@ Package: mtcmess 2006/03/14
 )
 Package minitoc Info: I0001
 (minitoc)             *** minitoc package, version 62 ***.
-\tf@mtc=\write5
-\mtcindent=\skip191
-\mtcskipamount=\skip192
+\tf@mtc=\write6
+\mtcindent=\skip192
+\mtcskipamount=\skip193
 Package minitoc Info: I0005
 (minitoc)             compatible with hyperref.
 Package minitoc Info: I0023
 (minitoc)             part level macros available.
 Package minitoc Info: I0003
 (minitoc)             chapter level macros available.
-\mtc@toks=\toks96
-\mtc@strutbox=\box150
-\mtc@hstrutbox=\box151
+\mtc@toks=\toks97
+\mtc@strutbox=\box159
+\mtc@hstrutbox=\box160
 Package minitoc Info: I0002
 (minitoc)             Autoconfiguration of extensions.
 
-\openout5 = LLMWiki.mtc0
+\openout6 = LLMWiki.mtc0
 
-\openout5 = LLMWiki.mtc
+\openout6 = LLMWiki.mtc
 
 (C:/Users/jmkjm/Documents/2026년_정민규_활동자료/FOLDING_JIMIJIMI/LLMWi
 ki/build/LLMWiki.mtc0)
@@ -2127,14 +2237,14 @@ Package minitoc Info: I0031
 (minitoc)             ==> this version is configured for UNIX-like 
 (minitoc)                 (long extensions) file names.
 
-\openout5 = LLMWiki.mtc
+\openout6 = LLMWiki.mtc
 
-\openout5 = LLMWiki.mtc0
-\c@mtc=\count506
-\c@minitocdepth=\count507
-\c@ptc=\count508
-\c@parttocdepth=\count509
-\ptcindent=\skip193
+\openout6 = LLMWiki.mtc0
+\c@mtc=\count533
+\c@minitocdepth=\count534
+\c@ptc=\count535
+\c@parttocdepth=\count536
+\ptcindent=\skip194
 Package minitoc Info: I0010
 (minitoc)             The english language is selected.
 (minitoc)              on input line 4910.
@@ -2148,46 +2258,46 @@ File: english.mld 2006/01/13
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/tocloft/tocloft.sty
 Package: tocloft 2017/08/31 v2.3i parameterised ToC, etc., typesetting
 Package tocloft Info: The document has chapter divisions on input line 51.
-\cftparskip=\skip194
-\cftbeforetoctitleskip=\skip195
-\cftaftertoctitleskip=\skip196
-\cftbeforepartskip=\skip197
-\cftpartnumwidth=\skip198
-\cftpartindent=\skip199
-\cftbeforechapskip=\skip256
-\cftchapindent=\skip257
-\cftchapnumwidth=\skip258
-\cftbeforesecskip=\skip259
-\cftsecindent=\skip260
-\cftsecnumwidth=\skip261
-\cftbeforesubsecskip=\skip262
-\cftsubsecindent=\skip263
-\cftsubsecnumwidth=\skip264
-\cftbeforesubsubsecskip=\skip265
-\cftsubsubsecindent=\skip266
-\cftsubsubsecnumwidth=\skip267
-\cftbeforeparaskip=\skip268
-\cftparaindent=\skip269
-\cftparanumwidth=\skip270
-\cftbeforesubparaskip=\skip271
-\cftsubparaindent=\skip272
-\cftsubparanumwidth=\skip273
-\cftbeforeloftitleskip=\skip274
-\cftafterloftitleskip=\skip275
-\cftbeforefigskip=\skip276
-\cftfigindent=\skip277
-\cftfignumwidth=\skip278
-\c@lofdepth=\count510
-\c@lotdepth=\count511
-\cftbeforelottitleskip=\skip279
-\cftafterlottitleskip=\skip280
-\cftbeforetabskip=\skip281
-\cfttabindent=\skip282
-\cfttabnumwidth=\skip283
+\cftparskip=\skip195
+\cftbeforetoctitleskip=\skip196
+\cftaftertoctitleskip=\skip197
+\cftbeforepartskip=\skip198
+\cftpartnumwidth=\skip199
+\cftpartindent=\skip256
+\cftbeforechapskip=\skip257
+\cftchapindent=\skip258
+\cftchapnumwidth=\skip259
+\cftbeforesecskip=\skip260
+\cftsecindent=\skip261
+\cftsecnumwidth=\skip262
+\cftbeforesubsecskip=\skip263
+\cftsubsecindent=\skip264
+\cftsubsecnumwidth=\skip265
+\cftbeforesubsubsecskip=\skip266
+\cftsubsubsecindent=\skip267
+\cftsubsubsecnumwidth=\skip268
+\cftbeforeparaskip=\skip269
+\cftparaindent=\skip270
+\cftparanumwidth=\skip271
+\cftbeforesubparaskip=\skip272
+\cftsubparaindent=\skip273
+\cftsubparanumwidth=\skip274
+\cftbeforeloftitleskip=\skip275
+\cftafterloftitleskip=\skip276
+\cftbeforefigskip=\skip277
+\cftfigindent=\skip278
+\cftfignumwidth=\skip279
+\c@lofdepth=\count537
+\c@lotdepth=\count538
+\cftbeforelottitleskip=\skip280
+\cftafterlottitleskip=\skip281
+\cftbeforetabskip=\skip282
+\cfttabindent=\skip283
+\cfttabnumwidth=\skip284
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/quotchap/quotchap.sty
 Package: quotchap 2020/11/13 v1.3 Decorative Chapter Headings with Quotes
-\@quotebox=\box152
+\@quotebox=\box161
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/epigraph/epigraph.sty
 Package: epigraph 2020/01/02 v1.5e typesetting epigraphs
@@ -2195,10 +2305,10 @@ Package: epigraph 2020/01/02 v1.5e typesetting epigraphs
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/nextpage/nextpage.sty
 Package: nextpage 2009/09/03 v1.1a additional page commands
 )
-\beforeepigraphskip=\skip284
-\afterepigraphskip=\skip285
-\epigraphwidth=\skip286
-\epigraphrule=\skip287
+\beforeepigraphskip=\skip285
+\afterepigraphskip=\skip286
+\epigraphwidth=\skip287
+\epigraphrule=\skip288
 ) (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/ccicons/ccicons.sty
 Package: ccicons 2017/10/30 v1.6 LaTeX support for Creative Commons icons
 )
@@ -2218,7 +2328,7 @@ Package: luatexbase 2015/10/04 v1.3 luatexbase interface to LuaTeX
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/luatex/ctablestack/ctablestac
 k.sty
 Package: ctablestack 2015/10/01 v1.0 Catcode table stable support
-\@catcodetablestackcnt=\count512
+\@catcodetablestackcnt=\count539
 )
 \CatcodeTableOther=\catcodetable17
 \CatcodeTableExpl=\catcodetable18
@@ -2244,20 +2354,20 @@ Lua module: fontspec 2025/09/29 v2.9g Font selection for XeLaTeX and LuaLaTeX
 x.sty
 Package: fontspec-luatex 2025/09/29 v2.9g Font selection for XeLaTeX and LuaLaT
 eX
-\l__fontspec_script_int=\count513
-\l__fontspec_language_int=\count514
-\l__fontspec_strnum_int=\count515
-\l__fontspec_tmp_int=\count516
-\l__fontspec_tmpa_int=\count517
-\l__fontspec_tmpb_int=\count518
-\l__fontspec_tmpc_int=\count519
-\l__fontspec_em_int=\count520
-\l__fontspec_emdef_int=\count521
-\l__fontspec_strong_int=\count522
-\l__fontspec_strongdef_int=\count523
-\l__fontspec_tmpa_dim=\dimen456
-\l__fontspec_tmpb_dim=\dimen457
-\l__fontspec_tmpc_dim=\dimen458
+\l__fontspec_script_int=\count540
+\l__fontspec_language_int=\count541
+\l__fontspec_strnum_int=\count542
+\l__fontspec_tmp_int=\count543
+\l__fontspec_tmpa_int=\count544
+\l__fontspec_tmpb_int=\count545
+\l__fontspec_tmpc_int=\count546
+\l__fontspec_em_int=\count547
+\l__fontspec_emdef_int=\count548
+\l__fontspec_strong_int=\count549
+\l__fontspec_strongdef_int=\count550
+\l__fontspec_tmpa_dim=\dimen481
+\l__fontspec_tmpb_dim=\dimen482
+\l__fontspec_tmpc_dim=\dimen483
  (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/base/fontenc.sty
 Package: fontenc 2025/07/18 v2.1d Standard LaTeX package
 ) (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/fontspec/fontspec.cfg
@@ -2564,9 +2674,9 @@ Package: lualatex-math 2022/01/01 v1.12 Patches for mathematics typesetting wit
 h LuaLaTeX
 Lua module: lualatex-math 2013/08/03 v1.3 Patches for mathematics typesetting wi
 th LuaLaTeX)
-\g__um_fam_int=\count524
-\g__um_fonts_used_int=\count525
-\l__um_primecount_int=\count526
+\g__um_fam_int=\count551
+\g__um_fonts_used_int=\count552
+\l__um_primecount_int=\count553
 \g__um_primekern_muskip=\muskip19
 
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/unicode-math/unicode-ma
@@ -2585,17 +2695,17 @@ LaTeX Font Info:    Trying to load font information for U+psy on input line 64.
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/psnfss/upsy.fd
 File: upsy.fd 2001/06/04 font definitions for U/psy.
 ))
-Package hyperref Info: Option `colorlinks' set `true' on input line 121.
-Package hyperref Info: Option `bookmarksopen' set `true' on input line 121.
-\c@definition=\count527
-\glswrite=\write6
-\glo@main@file=\write7
+Package hyperref Info: Option `colorlinks' set `true' on input line 126.
+Package hyperref Info: Option `bookmarksopen' set `true' on input line 126.
+\c@definition=\count554
+\glswrite=\write7
+\glo@main@file=\write8
 
-\openout7 = LLMWiki.glo
-Package glossaries Info: Writing glossary file LLMWiki.glo on input line 387.
-\@indexfile=\write8
+\openout8 = LLMWiki.glo
+Package glossaries Info: Writing glossary file LLMWiki.glo on input line 392.
+\@indexfile=\write9
 
-\openout8 = LLMWiki.idx
+\openout9 = LLMWiki.idx
 
 Writing index file LLMWiki.idx
 (./acronyms.tex) (./glossary.tex)
@@ -2663,41 +2773,41 @@ ki/build/appendix/Appendix_E.aux)
 ki/build/appendix/Appendix_F.aux))
 \openout1 = LLMWiki.aux
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 393.
-LaTeX Font Info:    ... okay on input line 393.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 393.
-LaTeX Font Info:    ... okay on input line 393.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 393.
-LaTeX Font Info:    ... okay on input line 393.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 393.
-LaTeX Font Info:    ... okay on input line 393.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 393.
-LaTeX Font Info:    ... okay on input line 393.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 393.
-LaTeX Font Info:    ... okay on input line 393.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 393.
-LaTeX Font Info:    ... okay on input line 393.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 393.
-LaTeX Font Info:    ... okay on input line 393.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 393.
-LaTeX Font Info:    ... okay on input line 393.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 393.
-LaTeX Font Info:    ... okay on input line 393.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 398.
+LaTeX Font Info:    ... okay on input line 398.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 398.
+LaTeX Font Info:    ... okay on input line 398.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 398.
+LaTeX Font Info:    ... okay on input line 398.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 398.
+LaTeX Font Info:    ... okay on input line 398.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 398.
+LaTeX Font Info:    ... okay on input line 398.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 398.
+LaTeX Font Info:    ... okay on input line 398.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 398.
+LaTeX Font Info:    ... okay on input line 398.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 398.
+LaTeX Font Info:    ... okay on input line 398.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 398.
+LaTeX Font Info:    ... okay on input line 398.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 398.
+LaTeX Font Info:    ... okay on input line 398.
 
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/context/base/mkii/supp-pdf.mk
 ii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count528
-\scratchdimen=\dimen459
-\scratchbox=\box153
-\nofMPsegments=\count529
-\nofMParguments=\count530
-\everyMPshowfont=\toks97
-\MPscratchCnt=\count531
-\MPscratchDim=\dimen460
-\MPnumerator=\count532
-\makeMPintoPDFobject=\count533
-\everyMPtoPDFconversion=\toks98
+\scratchcounter=\count555
+\scratchdimen=\dimen484
+\scratchbox=\box162
+\nofMPsegments=\count556
+\nofMParguments=\count557
+\everyMPshowfont=\toks98
+\MPscratchCnt=\count558
+\MPscratchDim=\dimen485
+\MPnumerator=\count559
+\makeMPintoPDFobject=\count560
+\everyMPtoPDFconversion=\toks99
 )
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/epstopdf-pkg/epstopdf-b
 ase.sty
@@ -2717,23 +2827,23 @@ Package caption Info: rotating package is loaded.
 Package caption Info: supertabular package is loaded.
 Package caption Info: threeparttable package is loaded.
 Package caption Info: End \AtBeginDocument code.
-Package hyperref Info: Link coloring ON on input line 393.
+Package hyperref Info: Link coloring ON on input line 398.
 
 (C:/Users/jmkjm/Documents/2026년_정민규_활동자료/FOLDING_JIMIJIMI/LLMWi
 ki/build/LLMWiki.out)
 (C:/Users/jmkjm/Documents/2026년_정민규_활동자료/FOLDING_JIMIJIMI/LLMWi
 ki/build/LLMWiki.out)
-\@outlinefile=\write9
+\@outlinefile=\write10
 
-\openout9 = LLMWiki.out
+\openout10 = LLMWiki.out
 
 
 Package pgfplots Warning: running in backwards compatibility mode (unsuitable t
 ick labels; missing features). Consider writing \pgfplotsset{compat=1.18} into 
 your preamble.
- on input line 393.
+ on input line 398.
 
-\c@lstlisting=\count534
+\c@lstlisting=\count561
 
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/translations/dicts/tran
 slations-basic-dictionary-english.trsl
@@ -2741,7 +2851,7 @@ File: translations-basic-dictionary-english.trsl (english translation file `tra
 nslations-basic-dictionary')
 )
 Package translations Info: loading dictionary `translations-basic-dictionary' f
-or `english'. on input line 393.
+or `english'. on input line 398.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: luatex
@@ -2778,12 +2888,12 @@ or `english'. on input line 393.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-\c@minilofdepth=\count535
-\c@minilotdepth=\count536
-\c@partlofdepth=\count537
-\c@partlotdepth=\count538
-\c@sectlofdepth=\count539
-\c@sectlotdepth=\count540
+\c@minilofdepth=\count562
+\c@minilotdepth=\count563
+\c@partlofdepth=\count564
+\c@partlotdepth=\count565
+\c@sectlofdepth=\count566
+\c@sectlotdepth=\count567
 Package minitoc(hints) Info: I0049
 (minitoc(hints))             ==> You requested the hints option. 
 (minitoc(hints))             Some hints are eventually given below.
@@ -2818,19 +2928,19 @@ Package minitoc(hints) Warning: W0023
 (minitoc(hints))                of loading the ``hyperref'' package.
 
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
-(Font)                  OT1/cmr/m/n --> TU/lmr/m/n on input line 393.
+(Font)                  OT1/cmr/m/n --> TU/lmr/m/n on input line 398.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> TU/lmr/m/it on input line 393.
+(Font)                  OT1/cmr/m/it --> TU/lmr/m/it on input line 398.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> TU/lmr/bx/n on input line 393.
+(Font)                  OT1/cmr/bx/n --> TU/lmr/bx/n on input line 398.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> TU/lmss/m/n on input line 393.
+(Font)                  OT1/cmss/m/n --> TU/lmss/m/n on input line 398.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> TU/lmss/bx/n on input line 393.
+(Font)                  OT1/cmss/bx/n --> TU/lmss/bx/n on input line 398.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> TU/lmtt/m/n on input line 393.
+(Font)                  OT1/cmtt/m/n --> TU/lmtt/m/n on input line 398.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> TU/lmtt/bx/n on input line 393.
+(Font)                  OT1/cmtt/m/n --> TU/lmtt/bx/n on input line 398.
 
 Package fontspec Info: 
 (fontspec)             Font family 'latinmodern-math.otf(0)' created for font
@@ -2872,16 +2982,16 @@ ath.otf]:mode=base;script=math;language=dflt;mathfontdimen=xetex;+ssty=1;"
 e=dflt;mathfontdimen=xetex;"
 
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `normal' on input line 393.
+(Font)              `operators' in the math version `normal' on input line 398.
 
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  OT1/cmr/m/n --> TU/latinmodern-math.otf(1)/m/n on input
- line 393.
+ line 398.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `bold' on input line 393.
+(Font)              `operators' in the math version `bold' on input line 398.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
 (Font)                  OT1/cmr/bx/n --> TU/latinmodern-math.otf(1)/b/n on inpu
-t line 393.
+t line 398.
 
 Package fontspec Info: 
 (fontspec)             Font family 'latinmodern-math.otf(2)' created for font
@@ -2906,15 +3016,15 @@ flt;mathfontdimen=xetex;mathfontdimen=tex2;+ssty=1;"
 e=dflt;mathfontdimen=xetex;mathfontdimen=tex2;"
 
 LaTeX Font Info:    Encoding `OMS' has changed to `TU' for symbol font
-(Font)              `symbols' in the math version `normal' on input line 393.
+(Font)              `symbols' in the math version `normal' on input line 398.
 LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
 (Font)                  OMS/cmsy/m/n --> TU/latinmodern-math.otf(2)/m/n on inpu
-t line 393.
+t line 398.
 LaTeX Font Info:    Encoding `OMS' has changed to `TU' for symbol font
-(Font)              `symbols' in the math version `bold' on input line 393.
+(Font)              `symbols' in the math version `bold' on input line 398.
 LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
 (Font)                  OMS/cmsy/b/n --> TU/latinmodern-math.otf(2)/b/n on inpu
-t line 393.
+t line 398.
 
 Package fontspec Info: 
 (fontspec)             Font family 'latinmodern-math.otf(3)' created for font
@@ -2940,29 +3050,29 @@ e=dflt;mathfontdimen=xetex;mathfontdimen=tex3;"
 
 LaTeX Font Info:    Encoding `OMX' has changed to `TU' for symbol font
 (Font)              `largesymbols' in the math version `normal' on input line 3
-93.
+98.
 LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
 (Font)                  OMX/cmex/m/n --> TU/latinmodern-math.otf(3)/m/n on inpu
-t line 393.
+t line 398.
 LaTeX Font Info:    Encoding `OMX' has changed to `TU' for symbol font
-(Font)              `largesymbols' in the math version `bold' on input line 393
+(Font)              `largesymbols' in the math version `bold' on input line 398
 .
 LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
 (Font)                  OMX/cmex/m/n --> TU/latinmodern-math.otf(3)/b/n on inpu
-t line 393.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 393
+t line 398.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 398
 .
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 393
+LaTeX Font Info:    Trying to load font information for U+msb on input line 398
 .
 
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Trying to load font information for U+stmry on input line 3
-93.
+98.
 
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/stmaryrd/ustmry.fd)
 luaotfload | db : Reload initiated (formats: otf,ttf,ttc); reason: Font "stmary1
@@ -2974,7 +3084,7 @@ luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
 luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
 
 LaTeX Font Warning: Font shape `U/stmry/m/n' in size <5.475> not available
-(Font)              size <5> substituted on input line 393.
+(Font)              size <5> substituted on input line 398.
 
 luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
 luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
@@ -3009,11 +3119,11 @@ Package siunitx Warning: Detected the "physics" package:
 (siunitx)                to your preamble.
 
 LaTeX Font Info:    Font shape `U/ccicons/m/n' will be
-(Font)              scaled to size 10.0pt on input line 410.
+(Font)              scaled to size 10.0pt on input line 415.
 [1
 
 
-\openout6 = LLMWiki.ist
+\openout7 = LLMWiki.ist
 
 {C:/Users/jmkjm/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}] [2
 
@@ -3024,6 +3134,9 @@ luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
 luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
 luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
 luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [3
@@ -3037,6 +3150,9 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [4]
+Underfull \vbox (badness 4713) has occurred while \output is active []
+
+
 Underfull \vbox (badness 4713) has occurred while \output is active []
 
 
@@ -3059,6 +3175,9 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3076,6 +3195,9 @@ Overfull \hbox (3.24095pt too wide) in paragraph at lines 266--266
 Underfull \vbox (badness 1377) has occurred while \output is active []
 
 
+Underfull \vbox (badness 1377) has occurred while \output is active []
+
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3084,9 +3206,9 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [8])
-\tf@toc=\write10
+\tf@toc=\write11
 
-\openout10 = LLMWiki.toc
+\openout11 = LLMWiki.toc
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -3098,17 +3220,17 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 [9]
 (C:/Users/jmkjm/Documents/2026년_정민규_활동자료/FOLDING_JIMIJIMI/LLMWi
 ki/build/LLMWiki.lof)
-\tf@lof=\write11
+\tf@lof=\write12
 
-\openout11 = LLMWiki.lof
+\openout12 = LLMWiki.lof
  [10
 
 ]
 (C:/Users/jmkjm/Documents/2026년_정민규_활동자료/FOLDING_JIMIJIMI/LLMWi
 ki/build/LLMWiki.lot)
-\tf@lot=\write12
+\tf@lot=\write13
 
-\openout12 = LLMWiki.lot
+\openout13 = LLMWiki.lot
  [11
 
 ]
@@ -3125,13 +3247,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 ]
 (C:/Users/jmkjm/Documents/2026년_정민규_활동자료/FOLDING_JIMIJIMI/LLMWi
 ki/build/LLMWiki.loa)
-\tf@loa=\write13
+\tf@loa=\write14
 
-\openout13 = LLMWiki.loa
+\openout14 = LLMWiki.loa
  [13]
 
 Package glossaries Warning: \makenoidxglossaries is required to make \printnoid
-xglossary[type={main}] work on input line 454.
+xglossary[type={main}] work on input line 459.
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -3168,11 +3290,6 @@ Overfull \hbox (7.93674pt too wide) in paragraph at lines 37--38
 cal re-sults (mod-ulo non-deterministic
  []
 
-
-Overfull \hbox (20.26797pt too wide) in paragraph at lines 94--95
- [][] 
- []
-
 [3
 
 
@@ -3185,12 +3302,9 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [4]
-Overfull \hbox (512.54918pt too wide) in paragraph at lines 217--218
- [][] 
- []
-
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 226.
+put line 234.
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3199,6 +3313,12 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [5]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3223,64 +3343,8 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [8]
-Overfull \hbox (4.36479pt too wide) in paragraph at lines 378--378
-[]    \TU/lmtt/m/n/10.95 fn chunk(&self, unit: SemanticUnit, config: ChunkConfig
-) -> Vec<Chunk>;[] 
- []
-
-
-Overfull \hbox (67.60103pt too wide) in paragraph at lines 401--401
-[]    \TU/lmtt/m/n/10.95 fn traverse(&self, start: NodeId, pattern: TraversalPat
-tern) -> Result<Vec<Path>>;[] 
- []
-
-
-Overfull \hbox (4.36479pt too wide) in paragraph at lines 402--402
-[]    \TU/lmtt/m/n/10.95 fn neighborhoods(&self, ids: &[NodeId], hops: u32) -> 
-Result<Subgraph>;[] 
- []
-
-
-Overfull \hbox (44.60603pt too wide) in paragraph at lines 412--412
-[]    \TU/lmtt/m/n/10.95 fn search_vector(&self, query: Vec<f32>, k: usize) -> 
-Result<Vec<ScoredUnit>>;[] 
- []
-
-
-Overfull \hbox (10.11354pt too wide) in paragraph at lines 413--413
-[]    \TU/lmtt/m/n/10.95 fn search_bm25(&self, query: &str, k: usize) -> Result<
-Vec<ScoredUnit>>;[] 
- []
-
-
-Overfull \hbox (61.85228pt too wide) in paragraph at lines 414--414
-[]    \TU/lmtt/m/n/10.95 fn search_hybrid(&self, query: HybridQuery, k: usize) 
--> Result<Vec<ScoredUnit>>;[] 
- []
-
-
-Overfull \hbox (21.61104pt too wide) in paragraph at lines 423--423
-[]    \TU/lmtt/m/n/10.95 fn verify(&self, query: &str, candidates: Vec<ScoredUni
-t>, threshold: f32)[] 
- []
-
-
-Overfull \hbox (15.86229pt too wide) in paragraph at lines 425--425
-[]    \TU/lmtt/m/n/10.95 fn calibrate(&self, dataset: CalibrationSet) -> Result<
-CalibrationCurve>;[] 
- []
-
-
-Overfull \hbox (10.11354pt too wide) in paragraph at lines 434--434
-[]    \TU/lmtt/m/n/10.95 fn plan(&self, query: Query, context: PlanContext) -> 
-Result<QueryPlan>;[] 
- []
-
-
-Overfull \hbox (33.10854pt too wide) in paragraph at lines 435--435
-[]    \TU/lmtt/m/n/10.95 fn optimize(&self, plan: QueryPlan, stats: IndexStats) -> Result<QueryPlan>;[] 
- []
-
+luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
+luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3296,7 +3360,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[10])
+[10]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3304,24 +3368,24 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[11]
+[11])
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[12]
 \openout2 = docs/Volume_02_Semantic_Parsing/Volume_02_Semantic_Parsing.aux
  (./docs/Volume_02_Semantic_Parsing/Volume_02_Semantic_Parsing.tex
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[12
+Chapter 2.
+[13
 
 
 
 
 ]
-Chapter 2.
-[13]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3330,28 +3394,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [14]
-Overfull \hbox (163.92468pt too wide) in paragraph at lines 130--145
- [][] 
- []
-
-
-Overfull \hbox (15.86229pt too wide) in paragraph at lines 167--167
-[]    \TU/lmtt/m/n/10.95 {"name": "id", "type": "BIGINT", "nullable": false, "pr
-imary_key": true},[] 
- []
-
-
-Overfull \hbox (33.10854pt too wide) in paragraph at lines 168--168
-[]    \TU/lmtt/m/n/10.95 {"name": "email", "type": "VARCHAR(255)", "nullable": 
-false, "unique": true}[] 
- []
-
-
-Overfull \hbox (4.36479pt too wide) in paragraph at lines 170--170
-[]  \TU/lmtt/m/n/10.95 "indexes": [{"name": "idx_email", "columns": ["email"], 
-"unique": true}],[] 
- []
-
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3360,7 +3402,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [15]
-Overfull \hbox (5.62898pt too wide) in paragraph at lines 224--225
+Overfull \hbox (5.62898pt too wide) in paragraph at lines 228--229
 []\TU/lmr/bx/n/10.95 In-cre-men-tal re-parse\TU/lmr/m/n/10.95 : tree-sitter reus
 es syn-tax tree nodes
  []
@@ -3373,19 +3415,14 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [16]
-Overfull \hbox (76.45601pt too wide) in paragraph at lines 254--269
- [][] 
- []
-
-
-Overfull \hbox (1.49606pt too wide) in paragraph at lines 283--284
+Overfull \hbox (1.49606pt too wide) in paragraph at lines 289--290
 []\TU/lmr/m/n/10.95 Units pro-duced: \TU/lmtt/m/n/10.95 Document\TU/lmr/m/n/10.
 95 , \TU/lmtt/m/n/10.95 Section\TU/lmr/m/n/10.95 (level), \TU/lmtt/m/n/10.95 Par
 agraph\TU/lmr/m/n/10.95 , \TU/lmtt/m/n/10.95 CodeBlock\TU/lmr/m/n/10.95 (lang), \TU/lmtt/m/n/10.95 Table\TU/lmr/m/n/10.95 , \TU/lmtt/m/n/10.95 List\TU/lmr/m/n/10.95 ,
  []
 
 
-Overfull \hbox (1.68529pt too wide) in paragraph at lines 301--303
+Overfull \hbox (1.68529pt too wide) in paragraph at lines 307--309
 []\TU/lmr/m/n/10.95 Parses Ope-nAPI 3.0/3.1 and Asyn-cAPI 2.x/3.x specs. Pro-duc
 es units for ev-ery reusable
  []
@@ -3398,17 +3435,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [17]
-Overfull \hbox (4.36479pt too wide) in paragraph at lines 339--339
-[]    \TU/lmtt/m/n/10.95 fn chunk(&self, unit: SemanticUnit, config: ChunkConfig
-) -> Vec<Chunk>;[] 
- []
-
-
-Overfull \hbox (4.36479pt too wide) in paragraph at lines 348--348
-[]    \TU/lmtt/m/n/10.95 strategy: ChunkStrategy,       // "hierarchical", "slid
-ing", "semantic"[] 
- []
-
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3417,6 +3443,9 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [18]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
@@ -3444,14 +3473,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [21]
-Overfull \hbox (21.61104pt too wide) in paragraph at lines 494--494
-[]  \TU/lmtt/m/n/10.95 "entities": [{"id": "...", "type": "...", "name": "...", "unit_id": "..."}],[] 
- []
-
-
-Overfull \hbox (56.10353pt too wide) in paragraph at lines 495--495
-[]  \TU/lmtt/m/n/10.95 "relations": [{"source": "...", "target": "...", "type": "...", "confidence": 0.0-
- []
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -3465,10 +3487,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [22]
-Overfull \hbox (0.50328pt too wide) in paragraph at lines 565--576
- [][] 
- []
-
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3503,12 +3521,6 @@ Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
 Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
-
-Overfull \hbox (19.31152pt too wide) in paragraph at lines 80--80
-[]\TU/lmtt/m/n/10.95 ├󰀀─󰀀─󰀀 nodes:{type}       # Key: node_id (fi
-xed 32 bytes), Value: serialized props[] 
- []
-
 Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
@@ -3524,27 +3536,6 @@ Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
 Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
-
-Overfull \hbox (42.30652pt too wide) in paragraph at lines 82--82
-[]\TU/lmtt/m/n/10.95 ├󰀀─󰀀─󰀀 adj:out:{type}     # Key: src_id, Val
-ue: list of (rel_type, dst_id) - adjacency[] 
- []
-
-Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
-Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
-Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
-Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
-Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
-Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
-Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
-Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
-Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
-
-Overfull \hbox (53.80402pt too wide) in paragraph at lines 83--83
-[]\TU/lmtt/m/n/10.95 ├󰀀─󰀀─󰀀 adj:in:{type}      # Key: dst_id, Val
-ue: list of (rel_type, src_id) - reverse adj[] 
- []
-
 Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
@@ -3560,11 +3551,24 @@ Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
 Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
-
-Overfull \hbox (30.80902pt too wide) in paragraph at lines 85--85
-[]\TU/lmtt/m/n/10.95 ├󰀀─󰀀─󰀀 idx:prop:{key}     # Key: prop_value | node_id, Value: empty (property index)[] 
- []
-
+Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no └ (U+2514) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
 Missing character: There is no └ (U+2514) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
@@ -3609,7 +3613,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [27]
-Overfull \hbox (38.71535pt too wide) in paragraph at lines 164--165
+Overfull \hbox (38.71535pt too wide) in paragraph at lines 166--167
 []\TU/lmr/bx/n/10.95 Pat-tern match-ing\TU/lmr/m/n/10.95 : Cypher-like declar-a-
 tive pat-terns (e.g., \TU/lmtt/m/n/10.95 (a:Function)-[:CALLS*1..3]-
  []
@@ -3622,11 +3626,14 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [28]
-Overfull \hbox (1.86714pt too wide) in paragraph at lines 229--230
+Overfull \hbox (1.86714pt too wide) in paragraph at lines 231--232
 [] []\TU/lmr/bx/n/10.95 An-a-lyzer:[] \TU/lmr/m/n/10.95 Language-specific (e.g.,
  \TU/lmtt/m/n/10.95 code \TU/lmr/m/n/10.95 an-a-lyzer for source: split on punc-
 tu-a-tion, camel-
  []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -3640,7 +3647,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [29]
-Overfull \hbox (5.28705pt too wide) in paragraph at lines 282--283
+Overfull \hbox (5.28705pt too wide) in paragraph at lines 284--285
 [] []\TU/lmr/bx/n/10.95 Vec-tor (HNSW):[] \TU/lmr/m/n/10.95 In-cre-men-tal add/u
 p-date. HNSW sup-ports dy-namic in-ser-tion. Deletes
  []
@@ -3681,19 +3688,14 @@ luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
 luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
 luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
 luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
-Overfull \hbox (334.88pt too wide) in paragraph at lines 78--79
- [][] 
- []
-
-
-Overfull \hbox (10.48598pt too wide) in paragraph at lines 86--87
+Overfull \hbox (10.48598pt too wide) in paragraph at lines 92--93
 []\TU/lmr/m/n/10.95 Query text $\TU/latinmodern-math.otf(1)/m/n/10.95 𝑞$ \TU
 /lmr/m/n/10.95 is em-bed-ded us-ing the same model as in-ges-tion (con-fig: \TU
 /lmtt/m/n/10.95 [index.hnsw.dim]\TU/lmr/m/n/10.95 ).
  []
 
 [33]
-Overfull \hbox (32.57018pt too wide) in paragraph at lines 103--104
+Overfull \hbox (32.57018pt too wide) in paragraph at lines 109--110
 [] []\TU/lmr/bx/n/10.95 Batch Pro-cess-ing.[] \TU/lmr/m/n/10.95 Can-di-dates are
  scored in batches (con-fig: \TU/lmtt/m/n/10.95 [evidence_gate.batch_size]\TU/l
 mr/m/n/10.95 ). 
@@ -3723,7 +3725,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [36]
-Overfull \hbox (24.87978pt too wide) in paragraph at lines 236--237
+Overfull \hbox (24.87978pt too wide) in paragraph at lines 242--243
 []\TU/lmr/m/n/10.95 Cal-i-bra-tion ar-ti-facts are stored in \TU/lmtt/m/n/10.95
  .llmwiki/evidence/cross-encoder/calibration.json
  []
@@ -3760,16 +3762,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [40]
-Overfull \hbox (15.86229pt too wide) in paragraph at lines 376--376
-[]\TU/lmtt/m/n/10.95 calibration = "isotonic"      # "none" | "platt" | "isotoni
-c" | "temperature"[] 
- []
-
-
-Overfull \hbox (56.74243pt too wide) in paragraph at lines 419--433
- [][] 
- []
-
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3811,13 +3803,10 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 ]
 Chapter 5.
 [45]
-Overfull \hbox (4.36479pt too wide) in paragraph at lines 92--92
-[]  \TU/lmtt/m/n/10.95 kind: StepKind,        // Search, Synthesize, ToolCall, 
-Aggregate, Branch[] 
- []
+Underfull \vbox (badness 4036) has occurred while \output is active []
 
 
-Underfull \vbox (badness 5288) has occurred while \output is active []
+Underfull \vbox (badness 4036) has occurred while \output is active []
 
 
 
@@ -3828,10 +3817,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [46]
-Overfull \hbox (50.94257pt too wide) in paragraph at lines 169--183
- [][] 
- []
-
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3840,11 +3825,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [47]
-Overfull \hbox (15.86229pt too wide) in paragraph at lines 205--205
-[]    \TU/lmtt/m/n/10.95 fn complete(&self, req: CompletionRequest) -> Result<Co
-mpletionResponse>;[] 
- []
-
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3861,22 +3841,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [49]
-Overfull \hbox (15.86229pt too wide) in paragraph at lines 310--310
-[]\TU/lmtt/m/n/10.95 event: step_progress  { "step_id": "...", "progress": 0.5, "details": "..." }[] 
- []
-
-
-Overfull \hbox (27.35979pt too wide) in paragraph at lines 311--311
-[]\TU/lmtt/m/n/10.95 event: evidence       { "unit_id": "...", "relevance": 0.94
-, "preview": "..." }[] 
- []
-
-
-Overfull \hbox (15.86229pt too wide) in paragraph at lines 314--314
-[]\TU/lmtt/m/n/10.95 event: plan_complete  { "answer": "...", "citations": [...]
-, "usage": {...} }[] 
- []
-
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3884,7 +3848,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[50])
+[50]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3892,22 +3856,17 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[51]
+[51])
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[52]
 \openout2 = docs/Volume_06_Evaluation/Volume_06_Evaluation.aux
  (./docs/Volume_06_Evaluation/Volume_06_Evaluation.tex
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[52
-
-
-
-
-]
 Chapter 6.
 
 Overfull \hbox (0.63515pt too wide) in paragraph at lines 13--14
@@ -3916,12 +3875,12 @@ t-ters)\TU/lmr/bx/n/10.95 . []\TU/lmr/m/n/10.95 Stan-dard RAG met-rics (re-call@
 k, MRR)
  []
 
+[53
 
-Overfull \hbox (117.55026pt too wide) in paragraph at lines 34--46
- [][] 
- []
 
-[53]
+
+
+]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3930,10 +3889,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [54]
-Overfull \hbox (221.96902pt too wide) in paragraph at lines 173--174
- [][] 
- []
-
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3974,11 +3929,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 
 ]
 Chapter 7.
-
-Overfull \hbox (67.91272pt too wide) in paragraph at lines 16--27
- [][] 
- []
-
 [59]
 Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
@@ -4001,6 +3951,50 @@ Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
 Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no │ (U+2502) in font [lmmono10-regular]:!
+Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no │ (U+2502) in font [lmmono10-regular]:!
+Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no │ (U+2502) in font [lmmono10-regular]:!
+Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no │ (U+2502) in font [lmmono10-regular]:!
+Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no │ (U+2502) in font [lmmono10-regular]:!
+Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no │ (U+2502) in font [lmmono10-regular]:!
+Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no │ (U+2502) in font [lmmono10-regular]:!
+Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no │ (U+2502) in font [lmmono10-regular]:!
 Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
@@ -4073,6 +4067,16 @@ Missing character: There is no └ (U+2514) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
 Missing character: There is no │ (U+2502) in font [lmmono10-regular]:!
+Missing character: There is no └ (U+2514) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no │ (U+2502) in font [lmmono10-regular]:!
+Missing character: There is no └ (U+2514) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no └ (U+2514) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
 Missing character: There is no └ (U+2514) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
@@ -4151,11 +4155,6 @@ Missing character: There is no └ (U+2514) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
 ]
-Overfull \hbox (10.11354pt too wide) in paragraph at lines 161--161
-[]\TU/lmtt/m/n/10.95 curl -L https://github.com/llmwiki/llmwiki/releases/latest/
-download/llmwiki-
- []
-
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -4192,6 +4191,20 @@ Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
 Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no │ (U+2502) in font [lmmono10-regular]:!
+Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no │ (U+2502) in font [lmmono10-regular]:!
+Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
 Missing character: There is no │ (U+2502) in font [lmmono10-regular]:!
 Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
@@ -4216,6 +4229,13 @@ Missing character: There is no │ (U+2502) in font [lmmono10-regular]:!
 Missing character: There is no └ (U+2514) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no │ (U+2502) in font [lmmono10-regular]:!
+Missing character: There is no └ (U+2514) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
 Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
@@ -4230,10 +4250,20 @@ Missing character: There is no │ (U+2502) in font [lmmono10-regular]:!
 Missing character: There is no └ (U+2514) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no │ (U+2502) in font [lmmono10-regular]:!
+Missing character: There is no └ (U+2514) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
 Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
 Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ├ (U+251C) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
+Missing character: There is no └ (U+2514) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
 Missing character: There is no ─ (U+2500) in font [lmmono10-regular]:!
 Missing character: There is no └ (U+2514) in font [lmmono10-regular]:!
@@ -4364,11 +4394,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [75]
-Overfull \hbox (33.10854pt too wide) in paragraph at lines 331--331
-[]\TU/lmtt/m/n/10.95 {"type": "subscribe", "payload": {"events": ["ingest.progre
-ss", "query.token"]}}[] 
- []
-
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -4377,11 +4402,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [76]
-Overfull \hbox (10.11354pt too wide) in paragraph at lines 350--350
-[]  \TU/lmtt/m/n/10.95 rpc IngestProgress(IngestProgressRequest) returns (stream
- IngestProgress);[] 
- []
-
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -4423,17 +4443,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 ]
 Chapter 9.
 [81]
-Overfull \hbox (50.35478pt too wide) in paragraph at lines 95--95
-[]\TU/lmtt/m/n/10.95 use llmwiki_core::{Parser, Artifact, SemanticUnit, ParserSc
-hema, MimeType, Result};[] 
- []
-
-
-Overfull \hbox (10.11354pt too wide) in paragraph at lines 102--102
-[]    \TU/lmtt/m/n/10.95 async fn parse(&self, artifact: Artifact) -> Result<Vec
-<SemanticUnit>> {[] 
- []
-
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -4442,11 +4451,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [82]
-Overfull \hbox (10.11354pt too wide) in paragraph at lines 166--166
-[]    \TU/lmtt/m/n/10.95 fn chunk(&self, unit: SemanticUnit, config: ChunkConfig
-) -> Vec<Chunk> {[] 
- []
-
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -4455,34 +4459,11 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [83]
-Overfull \hbox (38.85728pt too wide) in paragraph at lines 168--168
-[]            \TU/lmtt/m/n/10.95 ChunkStrategy::Hierarchical => self.hierarchica
-l_chunk(unit, config),[] 
- []
+Underfull \vbox (badness 2735) has occurred while \output is active []
 
 
-Overfull \hbox (27.35979pt too wide) in paragraph at lines 180--180
-[]                \TU/lmtt/m/n/10.95 ConfigField::Bool("preserve_headers", "Keep
- markdown headers"),[] 
- []
+Underfull \vbox (badness 2735) has occurred while \output is active []
 
-
-Overfull \hbox (15.86229pt too wide) in paragraph at lines 201--201
-[]        \TU/lmtt/m/n/10.95 let session = ort::Session::builder()?.commit_from_
-file(model_path)?;[] 
- []
-
-
-Overfull \hbox (10.11354pt too wide) in paragraph at lines 209--209
-[]    \TU/lmtt/m/n/10.95 async fn embed_batch(&self, texts: &[String]) -> Result
-<Vec<Vec<f32>>> {[] 
- []
-
-
-Overfull \hbox (4.36479pt too wide) in paragraph at lines 218--218
-[]    \TU/lmtt/m/n/10.95 fn model_id(&self) -> ModelId { ModelId::Custom("my-emb
-edder".into()) }[] 
- []
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -4492,17 +4473,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [84]
-Overfull \hbox (21.61104pt too wide) in paragraph at lines 259--259
-[]    \TU/lmtt/m/n/10.95 fn verify(&self, query: &str, candidates: Vec<ScoredUni
-t>, threshold: f32)[] 
- []
-
-
-Overfull \hbox (21.61104pt too wide) in paragraph at lines 266--266
-[]    \TU/lmtt/m/n/10.95 fn calibrate(&self, dataset: CalibrationSet) -> Result<
-CalibrationCurve> {[] 
- []
-
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -4511,28 +4481,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [85]
-Overfull \hbox (15.86229pt too wide) in paragraph at lines 283--283
-[]    \TU/lmtt/m/n/10.95 fn plan(&self, query: Query, context: PlanContext) -> 
-Result<QueryPlan> {[] 
- []
-
-
-Overfull \hbox (38.85728pt too wide) in paragraph at lines 292--292
-[]    \TU/lmtt/m/n/10.95 fn optimize(&self, plan: QueryPlan, stats: IndexStats) -> Result<QueryPlan> {[] 
- []
-
-
-Overfull \hbox (15.86229pt too wide) in paragraph at lines 318--318
-[]    \TU/lmtt/m/n/10.95 fn schema(&self) -> ToolSchema { ToolSchema::from_type:
-:<MyToolInput>() }[] 
- []
-
-
-Overfull \hbox (61.85228pt too wide) in paragraph at lines 319--319
-[]    \TU/lmtt/m/n/10.95 fn output_schema(&self) -> ToolSchema { ToolSchema::fro
-m_type::<MyToolOutput>() }[] 
- []
-
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -4541,16 +4489,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [86]
-Overfull \hbox (21.61104pt too wide) in paragraph at lines 354--354
-[]    \TU/lmtt/m/n/10.95 async fn authorize(&self, ctx: &AuthContext, resource: &str, action: &str)[] 
- []
-
-
-Overfull \hbox (61.85228pt too wide) in paragraph at lines 359--359
-[]    \TU/lmtt/m/n/10.95 fn extract_credentials(&self, request: &HttpRequest) ->
- Option<AuthCredentials> {[] 
- []
-
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -4559,9 +4497,11 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [87]
-Overfull \hbox (33.10854pt too wide) in paragraph at lines 399--399
-[]    \TU/lmtt/m/n/10.95 let result = llmwiki_query(&repo, "What does sample.py do?").await.unwrap();[] 
- []
+Underfull \vbox (badness 1122) has occurred while \output is active []
+
+
+Underfull \vbox (badness 1122) has occurred while \output is active []
+
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -4633,10 +4573,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [96]
-Overfull \hbox (209.17012pt too wide) in paragraph at lines 186--199
- [][] 
- []
-
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -4644,7 +4580,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[97]
+[97])
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -4652,7 +4588,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[98])
+[98]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -4723,10 +4659,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-13.52023pt}.
 
 [106]
-Overfull \hbox (42.50862pt too wide) in paragraph at lines 149--162
- [][] 
- []
-
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -4735,7 +4667,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [107]
-Overfull \hbox (19.13637pt too wide) in paragraph at lines 238--239
+Overfull \hbox (19.13637pt too wide) in paragraph at lines 244--245
 []\TU/lmr/m/n/10.95 En-tity res-o-lu-tion qual-ity de-pends on em-bed-ding qual-
 ity; poor em-bed-dings $\TU/latinmodern-math.otf(1)/m/n/10.95 →$ \TU/lmr/m/n/
 10.95 over/under-
@@ -4776,30 +4708,6 @@ Package hyperref Warning: Difference (2) between bookmark levels is greater
 (hyperref)                than one, level fixed on input line 5.
 
 
-Overfull \hbox (12.53848pt too wide) in paragraph at lines 12--47
- [][] 
- []
-
-
-Overfull \hbox (573.49092pt too wide) in paragraph at lines 65--65
-[]\TU/lmtt/m/n/10.95 parsers = ["python", "markdown", "pdf", "openapi", "sql", 
-"yaml", "json", "javascript", "typescript", "rust", "go", "java", "cpp", "csharp
-", "protobuf", "dockerfile", "toml"][] 
- []
-
-
-Overfull \hbox (251.56099pt too wide) in paragraph at lines 66--66
-[]\TU/lmtt/m/n/10.95 chunker = { type = "ast-aware", max_tokens = 512, overlap 
-= 50, respect_boundaries = true, preserve_hierarchy = true }[] 
- []
-
-
-Overfull \hbox (153.83226pt too wide) in paragraph at lines 67--67
-[]\TU/lmtt/m/n/10.95 embedder = { model = "bge-m3", batch_size = 32, device = "c
-pu", normalize = true, max_seq_len = 512 }[] 
- []
-
-
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
 (fancyhdr)                \setlength{\headheight}{13.59999pt}.
@@ -4809,22 +4717,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 [113
 
 ]
-Overfull \hbox (297.55098pt too wide) in paragraph at lines 71--71
-[]\TU/lmtt/m/n/10.95 entity_resolution = { enabled = true, threshold = 0.85, wei
-ghts = { name = 0.3, type = 0.2, context = 0.2, embedding = 0.3 } }[] 
- []
-
-
-Overfull \hbox (257.30974pt too wide) in paragraph at lines 75--75
-[]\TU/lmtt/m/n/10.95 hnsw = { m = 16, ef_construction = 200, ef_search = 64, dim
- = 1024, space = "cosine", disk_backed = true, mmap = true }[] 
- []
-
-
-Overfull \hbox (67.60103pt too wide) in paragraph at lines 77--77
-[]\TU/lmtt/m/n/10.95 hybrid = { vector_weight = 0.6, keyword_weight = 0.3, graph
-_weight = 0.1, rrf_k = 60 }[] 
- []
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -4838,11 +4731,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [114]
-Overfull \hbox (61.85228pt too wide) in paragraph at lines 129--129
-[]\TU/lmtt/m/n/10.95 tracing = { enabled = true, endpoint = "http://localhost:43
-17", sampling_rate = 0.1 }[] 
- []
-
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -4851,6 +4739,12 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [115]
+Underfull \vbox (badness 4819) has occurred while \output is active []
+
+
+Underfull \vbox (badness 4819) has occurred while \output is active []
+
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -4859,7 +4753,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [116]
-Overfull \hbox (57.42717pt too wide) in paragraph at lines 277--279
+Overfull \hbox (57.42717pt too wide) in paragraph at lines 279--281
 \TU/lmr/m/n/10.95 claim $\TU/latinmodern-math.otf(1)/m/n/10.95 𝑐$ \TU/lmr/m/
 n/10.95 in an-swer is en-tailed by cited ev-i-dence $\TU/latinmodern-math.otf(1
 )/m/n/10.95 𝑒$\TU/lmr/m/n/10.95 : $[]\TU/latinmodern-math.otf(1)/m/n/10.95 (
@@ -4978,132 +4872,15 @@ Appendix A.
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
 nput line 8.
 (./schemas/SemanticUnit.json
-Overfull \hbox (138.2332pt too wide) in paragraph at lines 7--8
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
-][][] 
- []
-
-
-Overfull \hbox (394.46527pt too wide) in paragraph at lines 8--9
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
-][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (223.64389pt too wide) in paragraph at lines 11--12
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
-][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (13.40219pt too wide) in paragraph at lines 13--14
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-) (./schemas/Chunk.json
-Overfull \hbox (125.0931pt too wide) in paragraph at lines 7--8
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
-][][] 
- []
-
-
-Overfull \hbox (33.11235pt too wide) in paragraph at lines 8--9
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
-][][] 
- []
-
-
-Overfull \hbox (157.94336pt too wide) in paragraph at lines 11--12
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
-][][][][][] 
- []
-
-
-Overfull \hbox (26.5423pt too wide) in paragraph at lines 12--13
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
-][][] 
- []
-
-) (./schemas/Entity.json [125
+LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10> not available
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 13.
+) (./schemas/Chunk.json [125
 
 
 
 
-]
-Overfull \hbox (105.38293pt too wide) in paragraph at lines 7--8
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (210.50378pt too wide) in paragraph at lines 9--10
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
-][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (19.97224pt too wide) in paragraph at lines 10--11
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
-][][] 
- []
-
-
-Overfull \hbox (19.97224pt too wide) in paragraph at lines 11--12
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
-] 
- []
-
-
-Overfull \hbox (13.40219pt too wide) in paragraph at lines 12--13
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
-] 
- []
-
-) (./schemas/Relation.json
-Overfull \hbox (111.95299pt too wide) in paragraph at lines 7--8
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
-][] 
- []
-
-
-Overfull \hbox (111.95299pt too wide) in paragraph at lines 8--9
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
-][] 
- []
-
-
-Overfull \hbox (269.63426pt too wide) in paragraph at lines 9--10
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
-][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (13.40219pt too wide) in paragraph at lines 10--11
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (19.97224pt too wide) in paragraph at lines 11--12
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
-] 
- []
-
-) (./schemas/QueryPlan.json
-Overfull \hbox (217.07384pt too wide) in paragraph at lines 15--16
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
-][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (65.96262pt too wide) in paragraph at lines 16--17
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
-] 
- []
-
-
-Overfull \hbox (52.82251pt too wide) in paragraph at lines 17--18
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
+])
+(./schemas/Entity.json) (./schemas/Relation.json) (./schemas/QueryPlan.json
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -5112,22 +4889,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [126]) (./schemas/ToolSchema.json
-Overfull \hbox (52.82251pt too wide) in paragraph at lines 13--14
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (46.25246pt too wide) in paragraph at lines 14--15
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
-][][] 
- []
-
-
-Overfull \hbox (0.26208pt too wide) in paragraph at lines 17--18
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-))
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -5135,29 +4896,24 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[127]
+[127]))
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[128]
 \openout2 = appendix/Appendix_C.aux
  (./appendix/Appendix_C.tex
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[128
-
-
-
-
-]
 Appendix B.
-(./config/full_config.toml
-Overfull \hbox (39.6824pt too wide) in paragraph at lines 15--16
-[][][][][][][][][][][][][][][][][][][][][][][][] 
- []
+(./config/full_config.toml [129
 
-[129]))
+
+
+
+]))
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -5169,13 +4925,18 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 \openout2 = appendix/Appendix_D.aux
  (./appendix/Appendix_D.tex
 Appendix C.
-(./grammars/python.scm) (./grammars/javascript.scm) (./grammars/rust.scm
-[131
+(./grammars/python.scm) (./grammars/javascript.scm) [131
 
 
 
 
-]) (./grammars/go.scm) (./grammars/sql.scm
+] (./grammars/rust.scm) (./grammars/go.scm) (./grammars/sql.scm
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -5194,52 +4955,44 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 [133]
 \openout2 = appendix/Appendix_E.aux
  (./appendix/Appendix_E.tex
-Underfull \hbox (badness 1968) in paragraph at lines 16--17
+Underfull \hbox (badness 1968) in paragraph at lines 17--18
 \TU/lmr/m/n/10.95 hop rea-son-ing, de-ter-min-is-tic up-
  []
 
 
-Underfull \hbox (badness 1953) in paragraph at lines 22--23
+Underfull \hbox (badness 1953) in paragraph at lines 23--24
 \TU/lmr/m/n/10.95 ror re-cov-ery; uni-fied query lan-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 23--24
+Underfull \hbox (badness 10000) in paragraph at lines 24--25
 []|\TU/lmr/m/n/10.95 Hardware-agnostic; quan-ti-za-tion
  []
 
 
-Underfull \hbox (badness 2698) in paragraph at lines 28--29
+Underfull \hbox (badness 2698) in paragraph at lines 29--30
 []|\TU/lmr/m/n/10.95 Air-gapped vi-able; no con-tainer
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 29--30
+Underfull \hbox (badness 10000) in paragraph at lines 30--31
 []|\TU/lmr/m/n/10.95 Hard lim-its on to-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 29--30
+Underfull \hbox (badness 10000) in paragraph at lines 30--31
 \TU/lmr/m/n/10.95 kens/time/cost/calls; grace-ful
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 29--30
+Underfull \hbox (badness 10000) in paragraph at lines 30--31
 \TU/lmr/m/n/10.95 degra-da-tion; pre-vents run-away
  []
 
 
-Underfull \hbox (badness 4927) in paragraph at lines 30--31
+Underfull \hbox (badness 4927) in paragraph at lines 31--32
 []|\TU/lmr/m/n/10.95 2% thresh-old on Ev-i-dence F1,
  []
-
-
-Overfull \hbox (50.55444pt too wide) in paragraph at lines 12--33
- [][] 
- []
-
-
-LaTeX Warning: Float too large for page by 0.66959pt on input line 33.
 
 )
 
@@ -5329,7 +5082,7 @@ Package minitoc Info: I0009
 (minitoc)             Listing minitoc auxiliary files. 
 (minitoc)             Creating the LLMWiki.maf file.
 
-\openout5 = LLMWiki.maf
+\openout6 = LLMWiki.maf
 
 Package minitoc(hints) Warning: W0087
 (minitoc(hints))                The quotchap package should be 
@@ -5406,40 +5159,41 @@ Package rerunfilecheck Info: File `LLMWiki.out' has not changed.
 )
 
 Here is how much of LuaTeX's memory you used:
- 110145 strings out of 476081
- 306132,4101490 words of node,token memory allocated
+ 112664 strings out of 476081
+ 934315,4101490 words of node,token memory allocated
  1575 words of node memory still in use:
    13 hlist, 2 vlist, 4 rule, 2 glue, 4 kern, 1 glyph, 105 attribute, 161 glue_s
 pec, 57 attribute_list, 2 write, 27 pdf_action nodes
-   avail lists: 1:8,2:8400,3:1474,4:548,5:1709,6:440,7:24664,8:67,9:5392,10:16,1
-1:1877
- 129088 multiletter control sequences out of 65536+600000
- 150 fonts using 32513423 bytes
- 84i,19n,104p,2494b,2385s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/users/jmkjm/appdata/local/programs/miktex/fonts/opentype/public/lm/lmmono10-
-italic.otf><c:/users/jmkjm/appdata/local/programs/miktex/fonts/opentype/public/l
-m/lmroman8-regular.otf><c:/users/jmkjm/appdata/local/programs/miktex/fonts/opent
-ype/public/lm/lmroman8-italic.otf><C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/
-fonts/opentype/public/lm-math/latinmodern-math.otf><c:/users/jmkjm/appdata/local
-/programs/miktex/fonts/opentype/public/lm/lmromancaps10-regular.otf><C:/Users/jm
-kjm/AppData/Local/Programs/MiKTeX/fonts/opentype/public/lm-math/latinmodern-math
-.otf><c:/users/jmkjm/appdata/local/programs/miktex/fonts/opentype/public/lm/lmro
-man9-regular.otf><C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/fonts/opentype/pu
-blic/lm-math/latinmodern-math.otf><c:/users/jmkjm/appdata/local/programs/miktex/
-fonts/opentype/public/lm/lmroman10-italic.otf><c:/users/jmkjm/appdata/local/prog
-rams/miktex/fonts/opentype/public/lm/lmroman10-bold.otf><c:/users/jmkjm/appdata/
-local/programs/miktex/fonts/opentype/public/lm/lmroman10-regular.otf><c:/users/j
-mkjm/appdata/local/programs/miktex/fonts/opentype/public/lm/lmmono10-regular.otf
-><c:/users/jmkjm/appdata/local/programs/miktex/fonts/opentype/public/lm/lmroman1
-2-regular.otf><c:/users/jmkjm/appdata/local/programs/miktex/fonts/opentype/publi
-c/lm/lmroman17-regular.otf><c:/users/jmkjm/appdata/local/programs/miktex/fonts/o
-pentype/public/lm/lmroman12-bold.otf><C:/Users/jmkjm/AppData/Local/Programs/MiKT
-eX/fonts/type1/public/ccicons/ccicons.pfb><C:/Users/jmkjm/AppData/Local/Programs
-/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Users/jmkjm/AppData/Local/
-Programs/MiKTeX/fonts/type1/urw/zapfding/uzdr.pfb>
-Output written on LLMWiki.pdf (159 pages, 944296 bytes).
+   avail lists: 1:5,2:12351,3:1646,4:21902,5:17126,6:440,7:28237,8:66,9:43117,10
+:71,11:1877
+ 131542 multiletter control sequences out of 65536+600000
+ 163 fonts using 35656031 bytes
+ 84i,21n,115p,2494b,2502s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<c:/users/jmkjm/appdata/local/programs/miktex/fonts/opentype/public/lm/lmmonolt1
+0-bold.otf><c:/users/jmkjm/appdata/local/programs/miktex/fonts/opentype/public/l
+m/lmroman6-regular.otf><c:/users/jmkjm/appdata/local/programs/miktex/fonts/opent
+ype/public/lm/lmmono10-italic.otf><c:/users/jmkjm/appdata/local/programs/miktex/
+fonts/opentype/public/lm/lmroman8-regular.otf><c:/users/jmkjm/appdata/local/prog
+rams/miktex/fonts/opentype/public/lm/lmroman8-italic.otf><c:/users/jmkjm/appdata
+/local/programs/miktex/fonts/opentype/public/lm/lmromancaps10-regular.otf><C:/Us
+ers/jmkjm/AppData/Local/Programs/MiKTeX/fonts/opentype/public/lm-math/latinmoder
+n-math.otf><C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/fonts/opentype/public/l
+m-math/latinmodern-math.otf><c:/users/jmkjm/appdata/local/programs/miktex/fonts/
+opentype/public/lm/lmroman9-regular.otf><C:/Users/jmkjm/AppData/Local/Programs/M
+iKTeX/fonts/opentype/public/lm-math/latinmodern-math.otf><c:/users/jmkjm/appdata
+/local/programs/miktex/fonts/opentype/public/lm/lmroman10-italic.otf><c:/users/j
+mkjm/appdata/local/programs/miktex/fonts/opentype/public/lm/lmroman10-bold.otf><
+c:/users/jmkjm/appdata/local/programs/miktex/fonts/opentype/public/lm/lmroman10-
+regular.otf><c:/users/jmkjm/appdata/local/programs/miktex/fonts/opentype/public/
+lm/lmmono10-regular.otf><c:/users/jmkjm/appdata/local/programs/miktex/fonts/open
+type/public/lm/lmroman12-regular.otf><c:/users/jmkjm/appdata/local/programs/mikt
+ex/fonts/opentype/public/lm/lmroman17-regular.otf><c:/users/jmkjm/appdata/local/
+programs/miktex/fonts/opentype/public/lm/lmroman12-bold.otf><C:/Users/jmkjm/AppD
+ata/Local/Programs/MiKTeX/fonts/type1/public/ccicons/ccicons.pfb><C:/Users/jmkjm
+/AppData/Local/Programs/MiKTeX/fonts/type1/urw/zapfding/uzdr.pfb>
+Output written on LLMWiki.pdf (159 pages, 967344 bytes).
 
-PDF statistics: 3595 PDF objects out of 4296 (max. 8388607)
+PDF statistics: 3606 PDF objects out of 4296 (max. 8388607)
  1226 named destinations out of 1440 (max. 1048576)
  2320 words of extra memory for PDF output out of 10000 (max. 100000000)
 
