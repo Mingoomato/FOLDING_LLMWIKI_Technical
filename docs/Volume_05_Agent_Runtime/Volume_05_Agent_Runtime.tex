@@ -1,0 +1,308 @@
+%===============================================================================
+% LLMWiki Technical Specification — Volume 05: Agent Runtime
+%===============================================================================
+\chapter{Agent Runtime}
+\label{cha:agent-runtime}
+
+This volume specifies the \emph{agent runtime}---the execution environment that carries out query plans, orchestrates tool calls, manages conversation state, and streams results. The runtime is the bridge between the Query Planner (Vol.~07) and the external world (API, CLI, LLM providers).
+
+\section{Design Goals}
+\label{sec:runtime:goals}
+
+\begin{designprinciple}[Stateless Execution]
+Each query execution is a self-contained episode. No persistent agent state across queries; all context is passed explicitly in the plan and conversation history.
+\end{designprinciple}
+
+\begin{designprinciple}[Tool-First Architecture]
+LLMs are not the primary actors; tools are. The LLM plans and decides; tools execute deterministically. This inverts the typical ``agent = LLM + tools'' model.
+\end{designprinciple}
+
+\begin{designprinciple}[Streaming by Default]
+All long-running operations (search, synthesis, tool calls) stream partial results. The API responds with Server-Sent Events (SSE) or WebSocket frames.
+\end{designprinciple}
+
+\begin{designprinciple}[Budget Enforcement]
+Every execution has configurable budgets: token budget, time budget, tool call budget, cost budget. Exceeding any budget terminates with a partial result.
+\end{designprinciple}
+
+\begin{designprinciple}[Observability Native]
+Every decision (plan step, tool choice, retrieval result, synthesis token) is logged with structured traces. OpenTelemetry compatible.
+\end{designprinciple}
+
+\section{Runtime Architecture}
+\label{sec:runtime:architecture}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+  mod/.style={draw, rounded corners, fill=llmwikiorange!10, minimum width=3cm, minimum height=1.2cm, font=\small},
+  flow/.style={->, thick, >=stealth}
+]
+  \node[mod] (planner) at (0,2) {Query Planner};
+  \node[mod] (executor) at (4,2) {Plan Executor};
+  \node[mod] (toolreg) at (8,2) {Tool Registry};
+  \node[mod] (llm) at (8,0) {LLM Client};
+  \node[mod] (state) at (4,0) {State Manager};
+  \node[mod] (stream) at (0,0) {Stream Handler};
+
+  \draw[flow] (planner) -- (executor);
+  \draw[flow] (executor) -- (toolreg);
+  \draw[flow] (executor) -- (state);
+  \draw[flow] (executor) -- (llm);
+  \draw[flow] (executor) -- (stream);
+  \draw[flow] (state) -- (stream);
+  \draw[flow] (llm) -- (stream);
+  \draw[flow] (toolreg) -- (stream);
+\end{tikzpicture}
+\caption{Agent Runtime components.}
+\label{fig:runtime:arch}
+\end{figure}
+
+\subsection{Core Components}
+\label{sec:runtime:components}
+
+\begin{itemize}
+  \item \textbf{Plan Executor}: Traverses the query plan DAG, executes nodes in topological order, handles parallelism and dependencies.
+  \item \textbf{Tool Registry}: Maps tool names to implementations, handles invocation, timeouts, retries, and result normalization.
+  \item \textbf{LLM Client}: Abstracts LLM providers (local: llama.cpp, vLLM, ollama; remote: OpenAI, Anthropic, etc.) with unified streaming interface.
+  \item \textbf{State Manager}: Maintains scratchpad, conversation history, intermediate results, and budget counters.
+  \item \textbf{Stream Handler}: Emits SSE/WebSocket events for partial results, progress, errors, and final answer.
+\end{itemize}
+
+\section{Plan Execution Model}
+\label{sec:runtime:plan-exec}
+
+\subsection{Query Plan Structure}
+\label{sec:runtime:plan-structure}
+
+The planner (Vol.~07) produces a \texttt{QueryPlan}:
+
+\begin{verbatim}
+struct QueryPlan {
+  id: PlanId,
+  query: String,
+  steps: Vec<PlanStep>,
+  edges: Vec<(StepId, StepId)>,  // DAG dependencies
+  budget: ExecutionBudget,
+  config: PlanConfig,
+}
+
+struct PlanStep {
+  id: StepId,
+  kind: StepKind,        // Search, Synthesize, ToolCall, Aggregate, Branch
+  tool: Option<ToolName>,
+  input: StepInput,      // Template with variable interpolation
+  output: StepOutput,    // Expected output schema
+  depends_on: Vec<StepId>,
+  parallel: bool,
+  retry: RetryPolicy,
+  timeout_ms: u64,
+}
+\end{verbatim}
+
+\subsection{Execution Algorithm}
+\label{sec:runtime:exec-algo}
+
+\begin{algorithm}[H]
+\caption{Plan Execution}
+\label{alg:plan-exec}
+\begin{algorithmic}[1]
+\Require Plan $P$, initial state $S_0$
+\Ensure Final state $S_f$ with answer
+\State $S \gets S_0$, $completed \gets \varnothing$
+\State $ready \gets \{ s \in P.steps \mid s.depends\_on \subseteq completed \}$
+\While{$ready \neq \varnothing$}
+  \If{$\exists s \in ready: s.parallel$}
+    \State $batch \gets \{ s \in ready \mid s.parallel \}$
+    \State $results \gets \textsc{ExecuteParallel}(batch, S)$
+  \Else
+    \State $s \gets \textsc{Pop}(ready)$
+    \State $results \gets \textsc{ExecuteStep}(s, S)$
+  \EndIf
+  \State $S \gets \textsc{UpdateState}(S, results)$
+  \State $completed \gets completed \cup \{s.id \mid s \in batch \lor s\}$
+  \State $ready \gets \{ s \in P.steps \setminus completed \mid s.depends\_on \subseteq completed \}$
+  \State \textsc{CheckBudget}(S, P.budget) \Comment{May raise BudgetExceeded}
+  \State \textsc{EmitProgress}(S, completed) \Comment{Stream update}
+\EndWhile
+\State \Return $S$
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Step Kinds}
+\label{sec:runtime:step-kinds}
+
+\begin{itemize}
+  \item \texttt{Search}: Invoke hybrid search + evidence gate (Vol.~04)
+  \item \texttt{Synthesize}: Call LLM with evidence context, stream tokens
+  \item \texttt{ToolCall}: Invoke registered tool (see \S\ref{sec:runtime:tools})
+  \item \texttt{Aggregate}: Merge results from parallel branches
+  \item \texttt{Branch}: Conditional execution based on prior result
+\end{itemize}
+
+\section{Tool System}
+\label{sec:runtime:tools}
+
+\subsection{Tool Trait}
+\label{sec:runtime:tool-trait}
+
+\begin{verbatim}
+trait Tool {
+    fn name(&self) -> &str;
+    fn description(&self) -> &str;
+    fn schema(&self) -> ToolSchema;          // JSON Schema for input
+    fn output_schema(&self) -> ToolSchema;   // JSON Schema for output
+    fn execute(&self, input: ToolInput) -> Result<ToolOutput>;
+    fn execute_stream(&self, input: ToolInput) -> Stream<ToolOutput>;
+    fn timeout_ms(&self) -> u64 { 30000 }
+    fn retry(&self) -> RetryPolicy { RetryPolicy::default() }
+}
+\end{verbatim}
+
+\subsection{Built-in Tools}
+\label{sec:runtime:builtin-tools}
+
+\begin{table}[htbp]
+\centering
+\caption{Built-in Tools}
+\label{tab:runtime:builtin-tools}
+\begin{tabular}{lll}
+\toprule
+\textbf{Tool} & \textbf{Input} & \textbf{Output} \\
+\midrule
+\texttt{search} & \texttt{SearchInput}\{query, k, filters\} & \texttt{SearchOutput}\{results[], citations[]\} \\
+\texttt{graph\_traverse} & \texttt{TraverseInput}\{start, pattern, hops\} & \texttt{Subgraph}\{nodes[], edges[]\} \\
+\texttt{read\_unit} & \texttt{UnitId} & \texttt{SemanticUnit} \\
+\texttt{read\_file} & \texttt{FilePath} & \texttt{FileContent} \\
+\texttt{llm\_complete} & \texttt{CompletionInput}\{prompt, params\} & \texttt{Stream<String>} \\
+\texttt{extract\_entities} & \texttt{ExtractInput}\{text, types\} & \texttt{Entities}\{entities[], relations[]\} \\
+\texttt{summarize} & \texttt{SummarizeInput}\{units[], max\_len\} & \texttt{String} \\
+\texttt{verify\_evidence} & \texttt{VerifyInput}\{query, units[]\} & \texttt{VerifiedUnits}\{verified[]\} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Custom Tools}
+\label{sec:runtime:custom-tools}
+
+Users register custom tools via config:
+
+\begin{verbatim}
+[tools.custom.my_tool]
+module = "my_tools"
+class = "MyTool"
+timeout_ms = 10000
+retry = { max_attempts = 2, backoff_ms = 500 }
+\end{verbatim}
+
+Tools can be synchronous (return \texttt{Result}) or streaming (return \texttt{Stream}). Streaming tools emit partial results for long operations (e.g., file scanning, API pagination).
+
+\section{LLM Client Abstraction}
+\label{sec:runtime:llm-client}
+
+\begin{verbatim}
+trait LLMClient {
+    fn complete(&self, req: CompletionRequest) -> Result<CompletionResponse>;
+    fn stream(&self, req: CompletionRequest) -> Stream<CompletionChunk>;
+    fn embed(&self, texts: Vec<String>) -> Result<Vec<Vec<f32>>>;
+    fn models(&self) -> Vec<ModelInfo>;
+    fn count_tokens(&self, text: &str) -> usize;
+}
+\end{verbatim}
+
+\paragraph{Providers:}
+\begin{itemize}
+  \item \textbf{Local}: llama.cpp (server), vLLM, ollama, TGI
+  \item \textbf{Remote}: OpenAI, Anthropic, Azure, Vertex, Bedrock
+  \item \textbf{Unified API}: OpenAI-compatible endpoint
+\end{itemize}
+
+The runtime selects the provider per plan step (e.g., small local model for planning, large model for synthesis).
+
+\section{State Management}
+\label{sec:runtime:state}
+
+\begin{verbatim}
+struct ExecutionState {
+  plan_id: PlanId,
+  step_results: HashMap<StepId, StepResult>,
+  scratchpad: Scratchpad,           // Key-value store for LLM use
+  conversation: Vec<Message>,       // User/assistant messages
+  evidence: Vec<VerifiedUnit>,      // Accumulated evidence
+  budget: BudgetTracker,            // Tokens, time, cost, calls
+  trace: TraceContext,              // OpenTelemetry trace
+}
+\end{verbatim}
+
+\paragraph{Scratchpad:} Structured key-value store accessible to LLM via tool calls. Used for intermediate reasoning, variable passing between steps, and user-facing ``thoughts''.
+
+\paragraph{Budget Tracker:} Hard limits with configurable actions on exceed:
+\begin{verbatim}
+budget:
+  max_tokens: 100000
+  max_time_ms: 120000
+  max_tool_calls: 50
+  max_cost_usd: 0.50
+  on_exceed: "truncate"  # "error" | "truncate" | "partial"
+\end{verbatim}
+
+\section{Streaming Protocol}
+\label{sec:runtime:streaming}
+
+API uses Server-Sent Events (SSE) over HTTP or WebSocket:
+
+\begin{verbatim}
+# Event types
+event: plan_start     { "plan_id": "...", "steps": N }
+event: step_start     { "step_id": "...", "kind": "Search" }
+event: step_progress  { "step_id": "...", "progress": 0.5, "details": "..." }
+event: evidence       { "unit_id": "...", "relevance": 0.94, "preview": "..." }
+event: token          { "token": "the", "step_id": "..." }
+event: step_complete  { "step_id": "...", "output": {...} }
+event: plan_complete  { "answer": "...", "citations": [...], "usage": {...} }
+event: error          { "step_id": "...", "error": "..." }
+event: budget_warning { "type": "tokens", "used": 80000, "limit": 100000 }
+\end{verbatim}
+
+Clients can render progressive UI: show plan, show evidence as it arrives, stream answer tokens.
+
+\section{Error Handling and Retries}
+\label{sec:runtime:errors}
+
+\begin{itemize}
+  \item \textbf{Transient errors} (network, timeout): Retry per step policy (exponential backoff)
+  \item \textbf{Tool errors}: Captured in \texttt{StepResult.error}, execution continues if step not critical
+  \item \textbf{LLM errors}: Rate limit $\to$ backoff; context overflow $\to$ truncate/summarize history
+  \item \textbf{Budget exceeded}: Emit \texttt{budget\_warning}, then \texttt{plan\_complete} with partial answer
+  \item \textbf{Fatal errors}: Invalid plan, OOM, provider unavailable $\to$ abort with error event
+\end{itemize}
+
+\section{Conversation Management}
+\label{sec:runtime:conversation}
+
+Multi-turn conversations maintain history in \texttt{ExecutionState.conversation}. The planner can reference prior turns for context. History is pruned to fit budget (summarize old turns, keep recent).
+
+\section{Patent-Relevant Novelty}
+\label{sec:runtime:patent}
+
+\begin{patentclaim}
+\textbf{Claim 8:} An agent runtime wherein: (a) query plans are DAGs executed by a deterministic executor with topological scheduling, (b) tools are first-class citizens with JSON Schema contracts, streamable execution, and configurable timeouts/retries, (c) LLM invocation is abstracted behind a provider-agnostic client supporting both local and remote models, (d) execution state includes a structured scratchpad accessible to tools and LLM, and (e) hard budgets (tokens, time, cost, calls) are enforced at the executor level with configurable overflow behavior.
+\end{patentclaim}
+
+\section{Summary}
+\label{sec:runtime:summary}
+
+The Agent Runtime executes query plans as deterministic, budgeted, observable tool orchestrations:
+\begin{enumerate}
+  \item \textbf{Plan executor}: DAG-aware, parallel-capable, topological
+  \item \textbf{Tool system}: Schema-contracted, streamable, extensible
+  \item \textbf{LLM abstraction}: Multi-provider, local-first, token-aware
+  \item \textbf{State}: Scratchpad, evidence accumulator, budget tracker
+  \item \textbf{Streaming}: SSE/WebSocket with fine-grained event types
+  \item \textbf{Budgets}: Hard limits with graceful degradation
+\end{enumerate}
+The runtime is the ``CPU'' of LLMWiki; the Query Planner (Vol.~07) is the compiler that generates its instruction sequences.
+
+%===============================================================================
+% End of Volume 05
+%===============================================================================

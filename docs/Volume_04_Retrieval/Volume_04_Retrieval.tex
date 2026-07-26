@@ -1,0 +1,316 @@
+%===============================================================================
+% LLMWiki Technical Specification — Volume 04: Retrieval & Evidence Gate
+%===============================================================================
+\chapter{Retrieval and Evidence Gate}
+\label{cha:retrieval}
+
+This volume specifies the \emph{retrieval pipeline}---the hybrid search mechanism that fuses vector, keyword, and graph signals---and the \emph{Evidence Gate}, the mandatory verification stage that ensures every retrieved unit cited in an answer is semantically relevant to the query. This is the critical differentiator from prior RAG systems: retrieval is necessary but not sufficient; evidence verification is mandatory.
+
+\section{Evidence Gate: Core Principle}
+\label{sec:retrieval:evidence-gate}
+
+\begin{designprinciple}[Evidence Closure]
+No retrieval result reaches the synthesis stage without passing cross-encoder verification against a calibrated threshold. This enforces \emph{evidence closure}: every citation in an answer traces to a verified unit.
+\end{designprinciple}
+
+\begin{definition}[Evidence Gate]
+\label{def:evidence-gate}
+The Evidence Gate is a function $\mathcal{G}: \mathcal{Q} \times \mathcal{U}^* \times \Theta \to \mathcal{U}^*$ that takes a query $q$, a candidate set $\mathcal{R} \subseteq \mathcal{U}$, and a threshold $\tau \in \Theta$, and returns only those units $u \in \mathcal{R}$ where $\text{score}(q, u) \geq \tau$, where $\text{score}$ is computed by a cross-encoder.
+\end{definition}
+
+\section{Why Not Reranking?}
+\label{sec:retrieval:not-rerank}
+
+The Evidence Gate is \textbf{not} a reranker. Key distinctions:
+
+\begin{table}[htbp]
+\centering
+\caption{Reranker vs. Evidence Gate}
+\label{tab:retrieval:reranker-vs-gate}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Property} & \textbf{Reranker} & \textbf{Evidence Gate} \\
+\midrule
+Output & Reordered top-$k$ & Filtered subset (size $\leq k$) \\
+Threshold & Implicit (top-$k$) & Explicit calibrated $\tau$ \\
+Goal & Improve ranking & Enforce relevance / reject noise \\
+Failure mode & Bad results still returned & Empty set $\to$ ``no evidence'' \\
+Citation policy & Top-$k$ cited & Only verified cited \\
+Calibration & Rarely calibrated & Mandatory calibration \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+This distinction is fundamental: a reranker always returns $k$ results; the Evidence Gate may return $0$ (triggering ``insufficient evidence'' response), which is the correct behavior when no unit actually supports the query.
+
+\section{Retrieval Pipeline}
+\label{sec:retrieval:pipeline}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+  stage/.style={draw, rounded corners, fill=llmwikiblue!5, minimum width=2.5cm, minimum height=1.2cm, font=\small},
+  flow/.style={->, thick, >=stealth}
+]
+  \node[stage] (query) at (0,0) {Query $q$};
+  \node[stage] (embed) at (4,0) {Embed Query};
+  \node[stage] (hybrid) at (8,0) {Hybrid Search\\(Vec + BM25 + Graph)};
+  \node[stage] (candidates) at (12,0) {Candidates $\mathcal{R}$};
+  \node[stage] (gate) at (16,0) {Evidence Gate\\(Cross-Encoder)};
+  \node[stage] (verified) at (20,0) {Verified $\mathcal{E}$};
+  \node[stage] (synth) at (24,0) {Synthesize + Cite};
+
+  \draw[flow] (query) -- (embed);
+  \draw[flow] (embed) -- (hybrid);
+  \draw[flow] (hybrid) -- (candidates);
+  \draw[flow] (candidates) -- (gate);
+  \draw[flow] (gate) -- (verified);
+  \draw[flow] (verified) -- (synth);
+
+  % Calibration feedback
+  \node[draw, dashed, rounded corners, fill=gray!5, minimum width=3cm, minimum height=1.5cm] (cal) at (16,-3) {
+    \node[anchor=north west, font=\bfseries] at (0.3,1.2) {Calibration};
+    \node[anchor=west] at (0.3,0.5) {Isotonic / Platt};
+    \node[anchor=west] at (0.3,0.0) {Temperature scaling};
+    \node[anchor=west] at (0.3,-0.5) {Validation set};
+  };
+  \draw[flow, dashed] (gate) -- (cal);
+  \draw[flow, dashed] (cal) -- (gate);
+\end{tikzpicture}
+\caption{Retrieval + Evidence Gate pipeline.}
+\label{fig:retrieval:pipeline}
+\end{figure}
+
+\subsection{Stage 1: Query Embedding}
+\label{sec:retrieval:query-embed}
+
+Query text $q$ is embedded using the same model as ingestion (config: \texttt{[index.hnsw.dim]}). For multi-vector queries (e.g., ColBERT-style), each token embedding is preserved.
+
+\subsection{Stage 2: Hybrid Search}
+\label{sec:retrieval:hybrid-search}
+
+Detailed in Vol.~03 \S\ref{sec:kg:hybrid-search}. Returns candidate set $\mathcal{R}$ of size $k_{cand}$ (default 50).
+
+\subsection{Stage 3: Evidence Gate}
+\label{sec:retrieval:evidence-gate}
+
+\paragraph{Cross-Encoder Model.}
+A transformer cross-encoder (e.g., \texttt{cross-encoder/ms-marco-MiniLM-L-6-v2}, \texttt{jinaai/jina-reranker-v2-base}) scores $(q, u)$ pairs:
+\begin{equation}
+\text{score}(q, u) = \text{sigmoid}\big(\text{CrossEncoder}([q; \text{SEP}; u.content])\big)
+\end{equation}
+
+\paragraph{Batch Processing.}
+Candidates are scored in batches (config: \texttt{[evidence\_gate.batch\_size]}).
+
+\paragraph{Thresholding.}
+Units with $\text{score} < \tau$ are discarded. $\tau$ is calibrated per model/dataset (see \S\ref{sec:retrieval:calibration}).
+
+\begin{algorithm}[H]
+\caption{Evidence Gate}
+\label{alg:evidence-gate}
+\begin{algorithmic}[1]
+\Require Query $q$, candidates $\mathcal{R}$, threshold $\tau$, batch size $B$
+\Ensure Verified units $\mathcal{E}$
+\State $\mathcal{E} \gets \varnothing$
+\For{$i = 1$ to $\lceil |\mathcal{R}| / B \rceil$}
+  \State $batch \gets \mathcal{R}[(i-1)B : iB]$
+  \State $scores \gets \textsc{CrossEncoderBatch}(q, batch)$
+  \ForEach{$(u, s) \in \textsc{Zip}(batch, scores)$}
+    \If{$s \geq \tau$}
+      \State $\mathcal{E} \gets \mathcal{E} \cup \{(u, s)\}$
+    \EndIf
+  \EndFor
+\EndFor
+\State \Return \textsc{SortByScoreDesc}($\mathcal{E}$)
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Stage 4: Synthesis with Forced Citations}
+\label{sec:retrieval:synthesis}
+
+The verified set $\mathcal{E}$ is packed into the LLM context with explicit citation markers:
+
+\begin{verbatim}
+[EVIDENCE]
+Source: units/ab/cdef1234.json (Function: process_payment)
+Content: def process_payment(amount: Decimal, currency: str) -> bool:
+    \"\"\"Process a payment transaction...\"\"\"
+    validate_currency(currency)
+    ...
+Relevance: 0.94
+[/EVIDENCE]
+
+[EVIDENCE]
+Source: units/ef/5678abcd.json (Class: PaymentProcessor)
+Content: class PaymentProcessor:
+    def __init__(self, gateway: PaymentGateway):
+        self.gateway = gateway
+    ...
+Relevance: 0.87
+[/EVIDENCE]
+
+ANSWER THE QUERY USING ONLY THE EVIDENCE ABOVE.
+IF EVIDENCE IS INSUFFICIENT, SAY: "Insufficient evidence to answer."
+CITE SOURCES AS [E1], [E2], ...
+\end{verbatim}
+
+This forces the LLM to ground every claim in the provided evidence.
+
+\section{Threshold Calibration}
+\label{sec:retrieval:calibration}
+
+The threshold $\tau$ must be calibrated to achieve desired precision/recall tradeoff. Uncalibrated cross-encoder scores are not probabilities.
+
+\subsection{Calibration Methods}
+\label{sec:retrieval:cal-methods}
+
+\begin{enumerate}
+  \item \textbf{Isotonic Regression}: Non-parametric, fits piecewise constant function. Requires validation set $\mathcal{D}_{val} = \{(q, u, y)\}$ where $y \in \{0,1\}$ is relevance judgement.
+  \item \textbf{Platt Scaling}: Fits logistic regression $\sigma(As + B)$ to scores $s$. Simpler, less flexible.
+  \item \textbf{Temperature Scaling}: Single parameter $T > 0$, calibrated $\sigma(s / T)$. Most efficient.
+\end{enumerate}
+
+\begin{algorithm}[H]
+\caption{Calibration Procedure}
+\label{alg:calibration}
+\begin{algorithmic}[1]
+\Require Validation set $\mathcal{D}_{val} = \{(q_i, u_i, y_i)\}$, cross-encoder $f$
+\Ensure Calibrated threshold $\tau^*$ for target precision $P_{target}$
+\State $scores \gets [f(q_i, u_i) \text{ for } (q_i, u_i, y_i) \in \mathcal{D}_{val}]$
+\State $labels \gets [y_i \text{ for } (q_i, u_i, y_i) \in \mathcal{D}_{val}]$
+\State Fit calibrator $C$ on $(scores, labels)$ \Comment{Isotonic/Platt/Temperature}
+\State $cal\_scores \gets C(scores)$
+\State $\tau^* \gets \text{threshold achieving } P_{target} \text{ on } \mathcal{D}_{val}$
+\State \Return $\tau^*, C$
+\end{algorithmic}
+\end{algorithm}
+
+Calibration artifacts are stored in \texttt{.llmwiki/evidence/cross-encoder/calibration.json} and loaded at startup.
+
+\subsection{Confidence Intervals}
+\label{sec:retrieval:confidence}
+
+Beyond point threshold, we provide confidence intervals per prediction:
+\begin{itemize}
+  \item \textbf{Conformal Prediction}: Split conformal for distribution-free coverage guarantees
+  \item \textbf{MC Dropout}: Enable dropout at inference, multiple forward passes $\to$ uncertainty
+  \item \textbf{Ensemble}: Multiple cross-encoders $\to$ variance as uncertainty
+\end{itemize}
+
+Default: Temperature scaling + conformal prediction with 95% coverage.
+
+\section{Query Planner Integration}
+\label{sec:retrieval:planner-integration}
+
+The Query Planner (Vol.~07) decomposes complex queries into subqueries, each executed through the retrieval + evidence gate pipeline:
+
+\begin{verbatim}
+Query: "How does the payment module handle refunds?"
+
+Plan:
+  Subquery 1: "refund processing logic" -> Search + Gate -> [E1, E2]
+  Subquery 2: "refund API endpoints" -> Search + Gate -> [E3]
+  Subquery 3: "refund error codes" -> Search + Gate -> [E4, E5]
+
+Synthesis: Combine [E1..E5] with citations
+\end{verbatim}
+
+Each subquery has its own budget and can use different retrieval parameters (e.g., more graph hops for API questions, more vector weight for logic questions).
+
+\section{Evidence Gate Config}
+\label{sec:retrieval:evidence-config}
+
+\begin{verbatim}
+[evidence_gate]
+model = "cross-encoder/ms-marco-MiniLM-L-6-v2"
+threshold = 0.72              # calibrated threshold
+calibration = "isotonic"      # "none" | "platt" | "isotonic" | "temperature"
+batch_size = 16
+max_candidates = 50           # max inputs to gate
+max_verified = 20             # max outputs from gate
+timeout_ms = 2000             # per-query gate timeout
+
+# Conformal prediction
+conformal = true
+coverage = 0.95
+calibration_set = "eval/evidence_calibration.jsonl"
+\end{verbatim}
+
+\section{Evaluation Metrics}
+\label{sec:retrieval:metrics}
+
+The Evidence Gate is evaluated on:
+
+\begin{table}[htbp]
+\centering
+\caption{Evidence Gate Evaluation Metrics}
+\label{tab:retrieval:metrics}
+\begin{tabular}{lll}
+\toprule
+\textbf{Metric} & \textbf{Definition} & \textbf{Target} \\
+\midrule
+Precision@k & $\frac{|\{u \in \text{top-}k(\mathcal{E}): y_u=1\}|}{k}$ & $> 0.85$ \\
+Recall@k & $\frac{|\{u \in \mathcal{E}: y_u=1\}|}{|\{u: y_u=1\}|}$ & $> 0.75$ \\
+F1 & Harmonic mean of P/R & $> 0.80$ \\
+AUC-ROC & Area under ROC curve & $> 0.90$ \\
+ECE (Expected Calibration Error) & $\sum_b \frac{|B_b|}{N} |acc(B_b) - conf(B_b)|$ & $< 0.05$ \\
+Conformal Coverage & Empirical coverage of prediction sets & $\approx 0.95$ \\
+Empty Rate & $\frac{|\{q: \mathcal{E}(q) = \varnothing\}|}{|Q|}$ & $< 0.10$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Comparison with Prior Art}
+\label{sec:retrieval:prior-art}
+
+\begin{table}[htbp]
+\centering
+\caption{Retrieval + Verification in Prior Art}
+\label{tab:retrieval:prior-art}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{System} & \textbf{Hybrid Search} & \textbf{Cross-Encoder} & \textbf{Mandatory Gate} & \textbf{Calibration} \\
+\midrule
+Standard RAG & \xmark (vec only) & \xmark & \xmark & \xmark \\
+RAG with Reranker & \cmark (vec) & \cmark & \xmark & \xmark \\
+GraphRAG & \cmark (vec+graph) & \xmark & \xmark & \xmark \\
+HippoRAG & \cmark (graph PPR) & \xmark & \xmark & \xmark \\
+LightRAG & \cmark (dual-level) & \xmark & \xmark & \xmark \\
+REALM/RA-CM3 & \xmark & \xmark & \xmark & \xmark \\
+LLMWiki & \cmark (3-signal) & \cmark & \cmark & \cmark \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Patent-Relevant Novelty}
+\label{sec:retrieval:patent}
+
+\begin{patentclaim}
+\textbf{Claim 6:} A retrieval system comprising: (a) a hybrid searcher combining vector similarity, keyword matching, and graph adjacency traversal, (b) an evidence gate that applies a cross-encoder to every retrieval candidate, (c) a calibrated threshold that rejects candidates below a precision-targeted score, and (d) a synthesis stage that only cites units passing the evidence gate, ensuring evidence closure.
+\end{patentclaim}
+
+\begin{patentclaim}
+\textbf{Claim 7:} The system of Claim 6 wherein the evidence gate operates as a filter (not a reranker), such that zero candidates may be returned when no evidence meets the threshold, triggering an explicit ``insufficient evidence'' response rather than hallucinated synthesis.
+\end{patentclaim}
+
+\begin{patentdiscussion}
+Prior art (rerankers, RAG, GraphRAG) never enforces evidence closure: they always return top-$k$ for synthesis. The mandatory gate with calibrated threshold is a structural invariant, not a heuristic.
+\end{patentdiscussion}
+
+\section{Summary}
+\label{sec:retrieval:summary}
+
+The retrieval pipeline transforms a query into a verified evidence set:
+\begin{enumerate}
+  \item \textbf{Hybrid Search}: Vector (HNSW) + Keyword (BM25) + Graph (PPR/adjacency)
+  \item \textbf{Evidence Gate}: Cross-encoder verification with calibrated threshold
+  \item \textbf{Calibration}: Isotonic/Platt/Temperature + Conformal prediction
+  \item \textbf{Forced Citations}: Synthesis only from verified units
+  \item \textbf{Evidence Closure}: Every citation traces to verified unit; empty $\mathcal{E} \to$ controlled ``no answer''
+\end{enumerate}
+This pipeline is the enforcement mechanism for LLMWiki's core invariant: \emph{answers are evidence-bounded}.
+
+%===============================================================================
+% End of Volume 04
+%===============================================================================

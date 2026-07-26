@@ -1,0 +1,19 @@
+﻿%===============================================================================
+% Appendix C: Configuration Reference
+%===============================================================================
+\chapter{Configuration Reference}
+\label{app:config}
+
+\section{Full config.toml}
+\lstinputlisting[language=TOML]{config/full_config.toml}
+
+\section{Environment Variable Overrides}
+All configuration keys can be overridden via environment variables:
+\begin{verbatim}
+LLMWIKI_<SECTION>_<KEY>=value
+\end{verbatim}
+Example: \texttt{LLMWIKI\_INGESTION\_EMBEDDER\_MODEL=bge-m3}
+
+%===============================================================================
+% End of Appendix C
+%===============================================================================

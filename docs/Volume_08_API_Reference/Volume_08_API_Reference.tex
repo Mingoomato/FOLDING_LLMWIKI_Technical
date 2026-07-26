@@ -1,0 +1,499 @@
+%===============================================================================
+% LLMWiki Technical Specification — Volume 08: API Reference
+%===============================================================================
+\chapter{API Reference}
+\label{cha:api}
+
+This volume specifies the public API contracts: REST endpoints, gRPC services, WebSocket protocol, authentication, rate limiting, and SDKs. All APIs are versioned; breaking changes only in major versions.
+
+\section{API Overview}
+\label{sec:api:overview}
+
+\begin{itemize}
+  \item \textbf{Base URL}: \texttt{http://<host>:8080/api/v1}
+  \item \textbf{Protocol}: HTTP/1.1, h2 (gRPC), WebSocket
+  \item \textbf{Format}: JSON (request/response), SSE (streaming)
+  \item \textbf{Auth}: Bearer token (OIDC), API Key, or none (dev)
+  \item \textbf{Versioning}: URL path \texttt{/v1/}, header \texttt{Accept: application/vnd.llmwiki.v1+json}
+\end{itemize}
+
+\section{Authentication}
+\label{sec:api:auth}
+
+\subsection{Bearer Token (OIDC)}
+\label{sec:api:oidc}
+
+\begin{verbatim}
+Authorization: Bearer <access_token>
+\end{verbatim}
+
+Token validated against configured OIDC issuer. Claims mapped to \texttt{UserContext}:
+\begin{verbatim}
+{
+  "sub": "user_123",
+  "email": "user@example.com",
+  "roles": ["admin", "analyst"],
+  "org_id": "org_456",
+  "permissions": ["query", "ingest", "admin"]
+}
+\end{verbatim}
+
+\subsection{API Key}
+\label{sec:api:apikey}
+
+\begin{verbatim}
+Authorization: ApiKey <key_id>.<secret>
+# or header
+X-API-Key: <key_id>.<secret>
+\end{verbatim}
+
+API keys managed via \texttt{/admin/api-keys} (admin only). Scoped permissions.
+
+\subsection{Anonymous (Development)}
+\label{sec:api:anon}
+
+\texttt{auth: "none"} in config disables auth. Only for local development.
+
+\section{Core Endpoints}
+\label{sec:api:endpoints}
+
+\subsection{Health}
+\label{sec:api:health}
+
+\begin{verbatim}
+GET /health/live
+GET /health/ready
+GET /health/deep
+
+Response (ready):
+{
+  "status": "ready",
+  "checks": {
+    "graph": "ok",
+    "index": "ok",
+    "evidence_gate": "ok",
+    "wal": "ok"
+  },
+  "version": "0.1.0",
+  "repo_id": "prod-main"
+}
+\end{verbatim}
+
+\subsection{Query}
+\label{sec:api:query}
+
+\paragraph{Execute Query (Non-streaming)}
+\begin{verbatim}
+POST /query
+Content-Type: application/json
+
+{
+  "query": "How does the payment service handle retries?",
+  "context_budget": 8000,
+  "evidence_threshold": 0.72,
+  "max_steps": 5,
+  "stream": false,
+  "plan_options": {
+    "max_depth": 3,
+    "include_graph": true
+  }
+}
+
+Response:
+{
+  "query_id": "q_abc123",
+  "answer": "The payment service uses exponential backoff...",
+  "citations": [
+    {
+      "unit_id": "sha256:a1b2c3...",
+      "relevance": 0.94,
+      "span": {"start_line": 45, "end_line": 67},
+      "preview": "fn handle_retry(...) { ... }"
+    }
+  ],
+  "evidence_count": 12,
+  "rejected_count": 35,
+  "plan": {...},
+  "usage": {
+    "tokens": 2450,
+    "latency_ms": 312,
+    "llm_calls": 2
+  }
+}
+\end{verbatim}
+
+\paragraph{Execute Query (Streaming)}
+\begin{verbatim}
+POST /query/stream
+Content-Type: application/json
+Accept: text/event-stream
+
+{ "query": "...", "stream": true, ... }
+
+SSE Events:
+event: plan_start
+data: {"plan_id": "p_123", "steps": 5}
+
+event: step_start
+data: {"step_id": "s_1", "kind": "Search", "tool": "hybrid_search"}
+
+event: evidence
+data: {"unit_id": "sha256:...", "relevance": 0.94, "preview": "..."}
+
+event: token
+data: {"token": "The", "step_id": "s_3"}
+
+event: token
+data: {"token": " payment", "step_id": "s_3"}
+
+event: step_complete
+data: {"step_id": "s_1", "output": {"results": [...]}}
+
+event: plan_complete
+data: {"answer": "...", "citations": [...], "usage": {...}}
+\end{verbatim}
+
+\subsection{Ingestion}
+\label{sec:api:ingest}
+
+\paragraph{Ingest Path}
+\begin{verbatim}
+POST /ingest
+Content-Type: application/json
+
+{
+  "path": "/data/source-code",
+  "mode": "incremental",  # or "full"
+  "parsers": ["python", "markdown", "yaml"],
+  "options": {
+    "chunk_size": 512,
+    "overlap": 50,
+    "embed": true
+  }
+}
+
+Response:
+{
+  "job_id": "job_xyz789",
+  "status": "accepted",
+  "estimated_units": 5000
+}
+\end{verbatim}
+
+\paragraph{Ingest Status}
+\begin{verbatim}
+GET /ingest/{job_id}
+
+Response:
+{
+  "job_id": "job_xyz789",
+  "status": "running",  # pending|running|completed|failed
+  "progress": 0.65,
+  "units_processed": 3250,
+  "units_total": 5000,
+  "added": 3200,
+  "modified": 45,
+  "removed": 5,
+  "errors": 0,
+  "started_at": "2024-01-15T10:30:00Z",
+  "updated_at": "2024-01-15T10:31:45Z"
+}
+\end{verbatim}
+
+\paragraph{Ingest History}
+\begin{verbatim}
+GET /ingest/history?limit=20
+\end{verbatim}
+
+\subsection{Repository Management}
+\label{sec:api:repo}
+
+\begin{verbatim}
+GET /repo              # Current repo info
+POST /repo/init        # Initialize new repo
+POST /repo/clone       # Clone from git/remote
+GET /repo/stats        # Unit/graph/index counts
+POST /repo/verify      # Integrity check
+POST /repo/compact     # Reclaim space, rebuild indices
+POST /repo/backup      # Trigger backup
+GET /repo/wal          # WAL entries (paginated)
+\end{verbatim}
+
+\subsection{Graph Operations}
+\label{sec:api:graph}
+
+\paragraph{Traverse}
+\begin{verbatim}
+POST /graph/traverse
+{
+  "start": "sha256:...",
+  "pattern": {
+    "edge_types": ["CALLS", "REFERENCES"],
+    "node_types": ["Function", "Class"],
+    "direction": "out",
+    "max_hops": 3,
+    "limit": 100
+  }
+}
+
+Response:
+{
+  "nodes": [...],
+  "edges": [...],
+  "subgraph_id": "sg_123"
+}
+\end{verbatim}
+
+\paragraph{Entity Lookup}
+\begin{verbatim}
+GET /graph/entity/{entity_id}
+GET /graph/entity/by-name?name=process_order&type=Function
+\end{verbatim}
+
+\paragraph{Neighborhood}
+\begin{verbatim}
+GET /graph/neighborhood?ids=sha256:a,sha256:b&hops=2
+\end{verbatim}
+
+\subsection{Index Operations}
+\label{sec:api:index}
+
+\begin{verbatim}
+POST /index/rebuild        # Full rebuild
+POST /index/reembed        # Re-embed (model change)
+GET /index/stats           # Vector count, dimension, memory
+GET /index/health          # HNSW/BM25 status
+\end{verbatim}
+
+\subsection{Unit Access}
+\label{sec:api:unit}
+
+\begin{verbatim}
+GET /units/{unit_id}           # Full unit
+GET /units/{unit_id}/raw       # Raw content
+GET /units/batch?ids=...       # Multiple units
+GET /units/search?q=...        # Search units (alias for /query)
+\end{verbatim}
+
+\subsection{Evidence Gate}
+\label{sec:api:evidence}
+
+\begin{verbatim}
+POST /evidence/verify
+{
+  "query": "How does X work?",
+  "candidates": ["sha256:a", "sha256:b", ...],
+  "threshold": 0.72
+}
+
+Response:
+{
+  "verified": [
+    {"unit_id": "sha256:a", "score": 0.94}
+  ],
+  "rejected": [
+    {"unit_id": "sha256:b", "score": 0.45}
+  ],
+  "calibration": "isotonic"
+}
+\end{verbatim}
+
+\subsection{Administration}
+\label{sec:api:admin}
+
+\begin{verbatim}
+GET  /admin/config              # Current config (sanitized)
+POST /admin/config/reload       # Reload from file
+GET  /admin/metrics             # Prometheus metrics
+GET  /admin/pprof/...           # Go-style pprof (if enabled)
+
+# API Key management
+POST   /admin/api-keys            # Create
+GET    /admin/api-keys            # List
+DELETE /admin/api-keys/{key_id}   # Revoke
+
+# Parser management
+GET    /admin/parsers             # List loaded parsers
+POST   /admin/parsers/reload      # Reload parser configs
+\end{verbatim}
+
+\section{WebSocket API}
+\label{sec:api:ws}
+
+For real-time, bidirectional communication (CLI, IDE extensions).
+
+\begin{verbatim}
+WS /ws/v1
+
+# Client -> Server
+{"type": "query", "payload": {"query": "...", "stream": true}}
+{"type": "ingest", "payload": {"path": "..."}}
+{"type": "subscribe", "payload": {"events": ["ingest.progress", "query.token"]}}
+
+# Server -> Client
+{"type": "event", "event": "query.token", "data": {"token": "..."}}
+{"type": "event", "event": "ingest.progress", "data": {"progress": 0.5}}
+{"type": "result", "request_id": "...", "data": {...}}
+{"type": "error", "request_id": "...", "code": "...", "message": "..."}
+\end{verbatim}
+
+\section{gRPC API}
+\label{sec:api:grpc}
+
+Defined in \texttt{proto/llmwiki/v1/api.proto}. Mirrors REST with strongly-typed messages.
+
+\begin{verbatim}
+service LLMWiki {
+  rpc Query(QueryRequest) returns (QueryResponse);
+  rpc QueryStream(QueryRequest) returns (stream QueryStreamEvent);
+  rpc Ingest(IngestRequest) returns (IngestResponse);
+  rpc IngestProgress(IngestProgressRequest) returns (stream IngestProgress);
+  rpc GraphTraverse(GraphTraverseRequest) returns (GraphTraverseResponse);
+  rpc UnitGet(UnitGetRequest) returns (Unit);
+  rpc HealthCheck(HealthRequest) returns (HealthResponse);
+}
+\end{verbatim}
+
+gRPC gateway (transcoding) exposes same REST endpoints automatically.
+
+\section{Error Handling}
+\label{sec:api:errors}
+
+\begin{verbatim}
+# Standard error response
+{
+  "error": {
+    "code": "EVIDENCE_INSUFFICIENT",
+    "message": "No evidence units passed verification threshold",
+    "details": {
+      "query_id": "q_abc",
+      "candidates": 42,
+      "verified": 0,
+      "threshold": 0.72
+    }
+  },
+  "request_id": "req_xyz",
+  "timestamp": "2024-01-15T10:30:00Z"
+}
+\end{verbatim}
+
+\begin{table}[htbp]
+\centering
+\caption{Error Codes}
+\label{tab:api:errors}
+\begin{tabular}{ll}
+\toprule
+\textbf{Code} & \textbf{Meaning} \\
+\midrule
+INVALID_REQUEST & Request validation failed \\
+UNAUTHENTICATED & Missing/invalid auth \\
+FORBIDDEN & Insufficient permissions \\
+NOT_FOUND & Resource not found \\
+CONFLICT & Resource conflict (e.g., repo exists) \\
+EVIDENCE_INSUFFICIENT & Gate rejected all candidates \\
+BUDGET_EXCEEDED & Token/time/cost budget exceeded \\
+INTERNAL_ERROR & Unexpected server error \\
+SERVICE_UNAVAILABLE & Dependency down (embedder, LLM) \\
+RATE_LIMITED & Too many requests \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Rate Limiting}
+\label{sec:api:ratelimit}
+
+\begin{verbatim}
+Headers on all responses:
+X-RateLimit-Limit: 100
+X-RateLimit-Remaining: 95
+X-RateLimit-Reset: 1705312800
+
+On 429:
+Retry-After: 60
+\end{verbatim}
+
+Limits configurable per auth type (API key, user, IP, global).
+
+\section{SDKs}
+\label{sec:api:sdks}
+
+\begin{table}[htbp]
+\centering
+\caption{Official SDKs}
+\label{tab:api:sdks}
+\begin{tabular}{lll}
+\toprule
+\textbf{Language} & \textbf{Package} & \textbf{Status} \\
+\midrule
+Python & \texttt{pip install llmwiki} & v0.1 (alpha) \\
+TypeScript/JS & \texttt{npm install @llmwiki/sdk} & v0.1 (alpha) \\
+Rust & \texttt{cargo add llmwiki-client} & v0.1 (alpha) \\
+Go & \texttt{go get github.com/llmwiki/go-sdk} & Planned \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Python SDK Example}
+\begin{verbatim}
+from llmwiki import LLMWikiClient
+
+client = LLMWikiClient(
+    base_url="http://localhost:8080",
+    api_key="key_id.secret"
+)
+
+# Simple query
+result = client.query("How does retry logic work?")
+print(result.answer)
+for cite in result.citations:
+    print(f"  [{cite.unit_id[:8]}] {cite.preview}")
+
+# Streaming
+for event in client.query_stream("Explain the auth flow"):
+    if event.type == "token":
+        print(event.token, end="", flush=True)
+    elif event.type == "plan_complete":
+        print("\n---")
+        print(f"Evidence: {event.data.evidence_count}")
+\end{verbatim}
+
+\section{OpenAPI Specification}
+\label{sec:api:openapi}
+
+Full OpenAPI 3.1 spec at \texttt{/openapi.json} and \texttt{/openapi.yaml}.
+Generated from source-of-truth \texttt{api/src/routes.rs} (Axum) or \texttt{api/src/main.rs} (Actix).
+
+\section{API Versioning Policy}
+\label{sec:api:versioning}
+
+\begin{itemize}
+  \item \textbf{v1}: Current stable. No breaking changes.
+  \item \textbf{Deprecation}: 6 months notice via \texttt{Sunset} header and changelog.
+  \item \textbf{New versions}: \texttt{/v2/} path; both served simultaneously during transition.
+  \item \textbf{Experimental}: \texttt{/v1/experimental/} prefix; no stability guarantee.
+\end{itemize}
+
+\section{Patent-Relevant Novelty}
+\label{sec:api:patent}
+
+\begin{patentclaim}
+\textbf{Claim 11:} An API for a semantic operating layer comprising: (a) a query endpoint that returns answers with mandatory evidence citations verified by a cross-encoder gate, (b) an ingestion endpoint that accepts filesystem paths and returns content-addressed unit diffs, (c) a graph traversal endpoint exposing the knowledge graph as a queryable API, (d) a streaming protocol that emits fine-grained events (plan, evidence, token, citation) for real-time UI, and (e) an evidence verification endpoint that exposes the gate as a first-class callable service.
+\end{patentclaim}
+
+\section{Summary}
+\label{sec:api:summary}
+
+The LLMWiki API exposes the full power of the semantic operating layer through:
+\begin{enumerate}
+  \item \textbf{REST}: Simple, cacheable, widely compatible
+  \item \textbf{gRPC}: High-performance, typed, streaming-native
+  \item \textbf{WebSocket}: Bidirectional, real-time, IDE-friendly
+  \item \textbf{SDKs}: Idiomatic clients for major languages
+\end{enumerate}
+All endpoints respect the architectural invariants: evidence closure, content addressing, deterministic replay.
+
+The next volume (Vol.~09) guides developers extending LLMWiki.
+
+%===============================================================================
+% End of Volume 08
+%===============================================================================

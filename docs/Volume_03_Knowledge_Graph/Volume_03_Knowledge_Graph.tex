@@ -1,0 +1,352 @@
+%===============================================================================
+% LLMWiki Technical Specification — Volume 03: Knowledge Graph
+%===============================================================================
+\chapter{Knowledge Graph \& Semantic Index}
+\label{cha:knowledge-graph}
+
+This volume specifies the \emph{knowledge graph} (property graph with typed nodes/edges) and the \emph{semantic index} (hybrid search: vector + keyword + graph adjacency). These two modules form Layer 2 Core (Vol.~01, \S\ref{sec:arch:core}) and are tightly coupled: the graph provides structural semantics, the index provides fast retrieval, and both share the same content-addressed unit identifiers.
+
+\section{Knowledge Graph}
+\label{sec:kg:graph}
+
+\subsection{Data Model}
+\label{sec:kg:data-model}
+
+\begin{definition}[Property Graph]
+\label{def:property-graph}
+A \emph{property graph} $G = (V, E, \lambda_V, \lambda_E, \sigma_V, \sigma_E)$ where:
+\begin{itemize}
+  \item $V$: set of nodes (entities, concepts, units)
+  \item $E \subseteq V \times V$: set of directed edges (relationships)
+  \item $\lambda_V: V \to \mathcal{L}_V$: node label function (type)
+  \item $\lambda_E: E \to \mathcal{L}_E$: edge label function (relation type)
+  \item $\sigma_V: V \to \mathcal{P}(\text{Key} \times \text{Value})$: node properties
+  \item $\sigma_E: E \to \mathcal{P}(\text{Key} \times \text{Value})$: edge properties
+\end{itemize}
+\end{definition}
+
+\paragraph{Node Types.}
+\begin{itemize}
+  \item \texttt{Unit}: A semantic unit from parsing (Vol.~02). Properties: \texttt{id (SHA256)}, \texttt{type}, \texttt{span}, \texttt{file\_path}, \texttt{language}, \texttt{metadata(JSON)}.
+  \item \texttt{Entity}: Resolved entity (class, function, table, concept). Properties: \texttt{name}, \texttt{type}, \texttt{canonical\_id}, \texttt{description}, \texttt{embedding\_ref}.
+  \item \texttt{File}: Source artifact. Properties: \texttt{path}, \texttt{hash}, \texttt{size}, \texttt{mtime}, \texttt{mime}.
+  \item \texttt{Module/Package/Namespace}: Logical grouping. Properties: \texttt{name}, \texttt{parent\_id}.
+\end{itemize}
+
+\paragraph{Edge Types.}
+\begin{itemize}
+  \item \texttt{CONTAINS}: File $\to$ Unit, Module $\to$ Unit, Unit $\to$ Unit (nesting)
+  \item \texttt{DEFINES}: Unit $\to$ Entity (unit defines entity)
+  \item \texttt{REFERENCES}: Unit $\to$ Entity (unit references entity)
+  \item \texttt{CALLS}: Entity $\to$ Entity (function call)
+  \item \texttt{INHERITS}: Entity $\to$ Entity (class inheritance)
+  \item \texttt{IMPORTS}: Module $\to$ Module
+  \item \texttt{RELATES}: Entity $\leftrightarrow$ Entity (semantic similarity, co-occurrence)
+  \item \texttt{NEXT\_TO}: Unit $\to$ Unit (sequential proximity in source)
+\end{itemize}
+
+\paragraph{Content-Addressed Identity.}
+Every \texttt{Unit} node has \texttt{id = SHA256(canonical\_form)}. \texttt{Entity} nodes have \texttt{canonical\_id} derived from name + type + context hash. This ensures deterministic identity across re-ingestion.
+
+\subsection{Graph Store Backend}
+\label{sec:kg:store}
+
+The \texttt{GraphStore} trait (Vol.~01, \S\ref{iface:graphstore}) admits multiple backends:
+
+\begin{table}[htbp]
+\centering
+\caption{Graph Store Backend Comparison}
+\label{tab:kg:backends}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Backend} & \textbf{Embedded} & \textbf{Scale} & \textbf{Transactions} & \textbf{License} \\
+\midrule
+RocksDB (custom) & Yes & 10B+ edges & Yes (WAL) & Apache-2.0 \\
+SQLite (with ext) & Yes & 100M edges & Yes (WAL) & Public Domain \\
+Redwood (Rust) & Yes & 1B edges & Yes & MIT \\
+Neo4j Embedded & No & 100B edges & Yes & GPL/Commercial \\
+Kuzu & Yes & 10B edges & Yes & MIT \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Default:} RocksDB-based custom store (\texttt{llmwiki-graph}). Nodes and edges stored as separate column families with prefix encoding for efficient prefix scans (by type, by partition).
+
+\subsubsection{Storage Layout (RocksDB)}
+\label{sec:kg:rocksdb-layout}
+
+\begin{verbatim}
+Column Families:
+├── nodes:{type}       # Key: node_id (fixed 32 bytes), Value: serialized props
+├── edges:{rel_type}   # Key: src_id(32) | dst_id(32), Value: edge props
+├── adj:out:{type}     # Key: src_id, Value: list of (rel_type, dst_id) - adjacency
+├── adj:in:{type}      # Key: dst_id, Value: list of (rel_type, src_id) - reverse adj
+├── idx:label:{label}  # Key: label | node_id, Value: empty (label index)
+├── idx:prop:{key}     # Key: prop_value | node_id, Value: empty (property index)
+└── meta               # Key: "stats", "version", "config", Value: JSON
+\end{verbatim}
+
+\subsection{Entity Resolution}
+\label{sec:kg:entity-resolution}
+
+When a parser emits a \texttt{Unit} that \texttt{DEFINES} or \texttt{REFERENCES} an entity, the graph layer resolves it to a canonical \texttt{Entity} node.
+
+\begin{algorithm}[H]
+\caption{Entity Resolution}
+\label{alg:entity-resolution}
+\begin{algorithmic}[1]
+\Require Unit $u$ with entity mention $m = (name, type, context)$
+\Ensure Resolved \texttt{Entity} node $e$
+\State $candidates \gets \textsc{LookupByNameType}(G, m.name, m.type)$
+\If{$candidates = \varnothing$}
+  \State \Return \textsc{CreateEntity}(m, u)
+\EndIf
+\State $best \gets \arg\max_{c \in candidates} \textsc{Score}(c, m, u)$
+\If{$\textsc{Score}(best, m, u) \geq \tau_{er}$}
+  \State \textsc{UpdateEntity}(best, u) \Comment{Merge context, update embedding}
+  \State \Return $best$
+\Else
+  \State \Return \textsc{CreateEntity}(m, u) \Comment{New distinct entity}
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+\textbf{Scoring function:}
+\begin{align*}
+\textsc{Score}(c, m, u) = &\; \alpha \cdot \text{FuzzyMatch}(c.name, m.name) \\
+&+ \beta \cdot \text{TypeCompat}(c.type, m.type) \\
+&+ \gamma \cdot \text{ContextOverlap}(c.context, u.context) \\
+&+ \delta \cdot \text{CosineSim}(c.embedding, u.embedding)
+\end{align*}
+Default weights: $\alpha=0.3, \beta=0.2, \gamma=0.2, \delta=0.3$. Threshold $\tau_{er}=0.85$ (configurable).
+
+\subsection{Incremental Graph Updates}
+\label{sec:kg:incremental}
+
+On ingestion diff $(added, modified, removed)$ units (Vol.~02, Alg.~\ref{alg:incremental-diff}):
+
+\begin{algorithm}[H]
+\caption{Incremental Graph Update}
+\label{alg:graph-incremental}
+\begin{algorithmic}[1]
+\Require Diff sets $A$ (added), $M$ (modified), $R$ (removed)
+\Ensure Updated graph $G'$
+\ForEach{$u \in R$}
+  \State \textsc{DeleteNode}(u.id) \Comment{Tombstone}
+  \State \textsc{DeleteEdges}(u.id) \Comment{All incident edges}
+\EndFor
+\ForEach{$u \in A \cup M$}
+  \State \textsc{UpsertUnitNode}(u)
+  \State $entities \gets \textsc{ExtractEntities}(u)$
+  \ForEach{$e \in entities$}
+    \State $resolved \gets \textsc{ResolveEntity}(e, u)$ \Comment{Alg.~\ref{alg:entity-resolution}}
+    \If{$e.relation = \text{DEFINES}$}
+      \State \textsc{UpsertEdge}(u.id, resolved, \texttt{DEFINES})
+    \Else
+      \State \textsc{UpsertEdge}(u.id, resolved, \texttt{REFERENCES})
+    \EndIf
+  \EndFor
+  \State \textsc{UpsertAdjacency}(u) \Comment{Contains, Next\_To}
+\EndFor
+\State \textsc{CommitTransactionCommit()
+\State \Return $G$
+\end{algorithmic}
+\end{algorithm}
+
+All operations within a single ingestion are batched in one RocksDB write batch (atomic).
+
+\subsection{Graph Traversal Primitives}
+\label{sec:kg:traversal}
+
+The \texttt{traverse} and \texttt{neighborhoods} methods (Vol.~01, \S\ref{iface:graphstore}) support:
+
+\begin{itemize}
+  \item \textbf{Pattern matching}: Cypher-like declarative patterns (e.g., \texttt{(a:Function)-[:CALLS*1..3]->(b:Function)})
+  \item \textbf{Bounded BFS/DFS}: $k$-hop neighborhoods with edge-type filters
+  \item \textbf{Personalized PageRank}: For HippoRAG-style retrieval (Vol.~04)
+  \item \textbf{Shortest path}: Between two entities
+  \item \textbf{Subgraph extraction}: Induced subgraph for context packing
+\end{itemize}
+
+\begin{verbatim}
+# TraversalPattern examples
+pattern = {
+  "start": { "type": "Function", "name": "process_order" },
+  "hops": 3,
+  "edge_types": ["CALLS", "REFERENCES"],
+  "direction": "out",
+  "filter": { "node_type": ["Function", "Class"] },
+  "limit": 100
+}
+\end{verbatim}
+
+\section{Semantic Index}
+\label{sec:kg:index}
+
+The \texttt{SemanticIndex} (Vol.~01, \S\ref{iface:semantic-index}) is a hybrid index combining three retrieval signals:
+
+\begin{enumerate}
+  \item \textbf{Vector (HNSW)}: Dense embedding similarity
+  \item \textbf{Keyword (BM25)}: Sparse lexical matching
+  \item \textbf{Graph Adjacency}: Structural proximity in knowledge graph
+\end{enumerate}
+
+\subsection{HNSW Vector Index}
+\label{sec:kg:hnsw}
+
+\paragraph{Implementation:} \texttt{hnswlib} (C++ with Python/Rust bindings) or \texttt{faiss} (with disk-backed index). Disk-backed mode: memory-mapped file for vectors, metadata in separate store.
+
+\paragraph{Configuration:}
+\begin{verbatim}
+hnsw:
+  M: 16                    # max connections per node
+  ef_construction: 200     # build-time search width
+  ef_search: 64           # query-time search width
+  dim: 1024               # embedding dimension
+  space: "cosine"         # or "l2", "ip"
+  disk_backed: true
+  mmap: true
+\end{verbatim}
+
+\paragraph{Content-Addressed Vectors.}
+Vectors are stored keyed by \texttt{unit\_id} (SHA256). The index maps \texttt{unit\_id} $\to$ internal HNSW label. On upsert: if unit exists, update vector; if new, add. On delete: mark tombstone (lazy cleanup during compaction).
+
+\subsection{BM25 Keyword Index}
+\label{sec:kg:bm25}
+
+\paragraph{Implementation:} \texttt{tantivy} (Rust) or \texttt{OpenSearch} (if distributed). Tantivy is embedded, fast, and supports incremental updates.
+
+\paragraph{Schema:}
+\begin{verbatim}
+fields:
+  - unit_id: Keyword (stored, indexed)  # SHA256
+  - content: Text (analyzer: language-specific)
+  - file_path: Keyword (stored, indexed)
+  - unit_type: Keyword (stored, indexed)
+  - language: Keyword (stored, indexed)
+\end{verbatim}
+
+\paragraph{Analyzer:} Language-specific (e.g., \texttt{code} analyzer for source: split on punctuation, camelCase, snake\_case; \texttt{standard} for prose).
+
+\subsection{Graph Adjacency Index}
+\label{sec:kg:adjacency-index}
+
+For query-time graph expansion (Vol.~04), we maintain a lightweight adjacency index separate from the full graph store:
+
+\begin{verbatim}
+Adjacency Index (RocksDB column family "adj:index"):
+Key: unit_id (32 bytes)
+Value: serialized adjacency list
+  [
+    { "rel": "CONTAINS", "target": "sha256...", "weight": 1.0 },
+    { "rel": "REFERENCES", "target": "sha256...", "weight": 0.8 },
+    { "rel": "NEXT_TO", "target": "sha256...", "weight": 0.3 }
+  ]
+\end{verbatim}
+
+Updated incrementally alongside graph. Used for \texttt{search\_graph} in hybrid retrieval.
+
+\subsection{Hybrid Search}
+\label{sec:kg:hybrid-search}
+
+The \texttt{search\_hybrid} method combines three signals:
+
+\begin{algorithm}[H]
+\caption{Hybrid Search}
+\label{alg:hybrid-search}
+\begin{algorithmic}[1]
+\Require Query $q$ (text + optional embedding), $k$, weights $w_v, w_k, w_g$
+\Ensure Top-$k$ scored units
+\State $q_v \gets \textsc{Embed}(q.text)$ \Comment{If not provided}
+\State $R_v \gets \textsc{HNSWSearch}(q_v, k \times 3)$
+\State $R_k \gets \textsc{BM25Search}(q.text, k \times 3)$
+\State $R_g \gets \textsc{GraphExpand}(q, k \times 2)$ \Comment{Adjacency traversal}
+\State $scores \gets \varnothing$
+\ForEach{$r \in R_v \cup R_k \cup R_g$}
+  \State $s_v \gets r \in R_v ? \text{Score}(r, R_v) : 0$
+  \State $s_k \gets r \in R_k ? \text{Score}(r, R_k) : 0$
+  \State $s_g \gets r \in R_g ? \text{Score}(r, R_g) : 0$
+  \State $scores[r.id] = w_v \cdot s_v + w_k \cdot s_k + w_g \cdot s_g$
+\EndFor
+\State \Return \textsc{TopK}($scores, k$)
+\end{algorithmic}
+\end{algorithm}
+
+Default weights: $w_v=0.6, w_k=0.3, w_g=0.1$ (configurable per query type).
+
+Score normalization: Reciprocal Rank Fusion (RRF) or min-max normalization per signal before weighted sum.
+
+\subsection{Index Update Strategy}
+\label{sec:kg:index-update}
+
+\paragraph{Vector (HNSW):} Incremental add/update. HNSW supports dynamic insertion. Deletes = tombstones. Periodic \texttt{rebuild\_threshold} triggers full rebuild.
+
+\paragraph{BM25 (Tantivy):} Incremental commit. Segments merged in background. Delete = term tombstone.
+
+\paragraph{Graph Adjacency:} Updated in same transaction as graph (RocksDB batch).
+
+\section{Query-Time Graph Expansion}
+\label{sec:kg:graph-expansion}
+
+Used by retriever to expand candidate set via graph structure:
+
+\begin{enumerate}
+  \item \textbf{Seed}: Start from vector/keyword hits $S$
+  \item \textbf{Expand}: For each $s \in S$, fetch $k$-hop neighborhood $N_k(s)$
+  \item \textbf{Score}: Personalized PageRank from $S$ over induced subgraph
+  \item \textbf{Merge}: Add top-$m$ PPR nodes to candidate pool
+\end{enumerate}
+
+This implements the ``graph traversal'' retrieval path complementary to vector/keyword.
+
+\section{Performance Characteristics}
+\label{sec:kg:performance}
+
+\begin{table}[htbp]
+\centering
+\caption{Expected Performance (Single Node, SSD)}
+\label{tab:kg:perf}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Operation} & \textbf{Latency (p99)} & \textbf{Throughput} \\
+\midrule
+Node upsert (batch 1000) & < 50 ms & 20k nodes/s \\
+Edge upsert (batch 5000) & < 100 ms & 50k edges/s \\
+$k$-hop traversal (k=2, 100 seeds) & < 10 ms & 10k queries/s \\
+PPR (100 seeds, 3 hops) & < 50 ms & 2k queries/s \\
+HNSW search (k=10, ef=64) & < 5 ms & 2k queries/s \\
+BM25 search (k=10) & < 3 ms & 3k queries/s \\
+Hybrid search (k=20) & < 15 ms & 1k queries/s \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Patent-Relevant Novelty}
+\label{sec:kg:patent}
+
+\begin{patentclaim}
+\textbf{Claim 4:} A knowledge graph system wherein: (a) all nodes are content-addressed via SHA-256 of their canonical representation, (b) entity resolution merges mentions using a weighted combination of name similarity, type compatibility, context overlap, and embedding similarity, (c) the graph is persisted in a column-family store with prefix-encoded keys enabling type-partitioned scans, and (d) a separate graph adjacency index enables sub-millisecond $k$-hop expansion for hybrid retrieval.
+\end{patentclaim}
+
+\begin{patentclaim}
+\textbf{Claim 5:} The system of Claim 4 wherein incremental updates to the graph and indices are executed atomically within a single write batch, and deterministic replay is achieved by re-applying the ingestion log against an empty store.
+\end{patentclaim}
+
+\section{Summary}
+\label{sec:kg:summary}
+
+The knowledge graph and semantic index form the queryable substrate of LLMWiki:
+\begin{enumerate}
+  \item \textbf{Graph}: Property graph with content-addressed nodes, entity resolution, and incremental updates
+  \item \textbf{Vector Index}: HNSW with disk-backed storage, SHA-256 keyed
+  \item \textbf{Keyword Index}: Tantivy BM25 with language-aware analyzers
+  \item \textbf{Adjacency Index}: Lightweight graph expansion for structural retrieval
+  \item \textbf{Hybrid Search}: RRF-weighted fusion of three signals
+\end{enumerate}
+All indices share the same unit identifiers, enabling seamless cross-index joins and evidence tracing (Vol.~06).
+
+The next volume (Vol.~04) details the retrieval pipeline including the Evidence Gate.
+
+%===============================================================================
+% End of Volume 03
+%===============================================================================

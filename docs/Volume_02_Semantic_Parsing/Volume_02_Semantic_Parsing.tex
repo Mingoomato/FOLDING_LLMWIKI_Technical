@@ -1,0 +1,609 @@
+%===============================================================================
+% LLMWiki Technical Specification — Volume 02: Semantic Parsing
+%===============================================================================
+\chapter{Semantic Parsing}
+\label{cha:semantic-parsing}
+
+This volume specifies the \emph{semantic parsing} layer---the bridge between raw artifacts (source code, documents, schemas, APIs) and the content-addressed semantic units that populate the knowledge graph and search indices. Unlike traditional document chunking, semantic parsing extracts \emph{typed, structured, hierarchically organized} units with explicit semantic annotations.
+
+\section{Design Goals}
+\label{sec:parsing:goals}
+
+\begin{designprinciple}[Language Awareness]
+Parsers understand the syntax and semantics of their target language (Python, SQL, OpenAPI, Markdown, etc.), producing units that reflect logical constructs (functions, classes, tables, sections) rather than arbitrary text spans.
+\end{designprinciple}
+
+\begin{designprinciple}[Structure Preservation]
+The hierarchical structure of the source artifact is preserved in the unit tree. A Python class contains method units; a Markdown document contains section units; an OpenAPI spec contains operation units.
+\end{designprinciple}
+
+\begin{designprinciple}[Content Addressability]
+Each semantic unit is identified by SHA-256 of its canonical representation. Identical logical constructs yield identical identifiers regardless of source file location.
+\end{designprinciple}
+
+\begin{designprinciple}[Incremental Re-parse]
+When an artifact changes, only affected units are re-parsed. The parser emits a diff of (added, modified, removed) unit IDs.
+\end{designprinciple}
+
+\begin{designprinciple}[Extensibility]
+New parsers are added via the \texttt{Parser} trait (Vol.~01, \S\ref{iface:parser}) without modifying core ingestion logic.
+\end{designprinciple}
+
+\section{Parser Architecture}
+\label{sec:parsing:architecture}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+  parser/.style={draw, rounded corners, fill=llmwikiblue!10, minimum width=3cm, minimum height=1.2cm},
+  artifact/.style={draw, rounded corners, fill=llmwikigreen!10, minimum width=3cm, minimum height=1.2cm},
+  unit/.style={draw, rounded corners, fill=llmwikiorange!10, minimum width=3cm, minimum height=1.2cm},
+  flow/.style={->, thick, >=stealth}
+]
+  \node[artifact] (source) at (0,0) {Source Artifact};
+  \node[parser] (detect) at (4,1.5) {MIME Detection};
+  \node[parser] (route) at (4,0) {Parser Router};
+  \node[parser] (parse) at (4,-1.5) {Language Parser};
+  \node[unit] (units) at (8,0) {Semantic Units};
+  \node[unit] (meta) at (8,2.5) {Parse Metadata};
+
+  \draw[flow] (source) -- (detect);
+  \draw[flow] (detect) -- (route);
+  \draw[flow] (route) -- (parse);
+  \draw[flow] (parse) -- (units);
+  \draw[flow] (parse) -- (meta);
+  
+  % Parser registry
+  \node[draw, dashed, rounded corners, minimum height=2.5cm] (registry) at (10,-1.5) {
+    \node[anchor=north west, font=\bfseries] at (0.3,2.2) {Parser Registry};
+    \node[anchor=west] at (0.3,1.6) {python : TreeSitterParser};
+    \node[anchor=west] at (0.3,1.1) {markdown : MarkdownParser};
+    \node[anchor=west] at (0.3,0.6) {pdf : PdfParser};
+    \node[anchor=west] at (0.3,0.1) {openapi : SpecParser};
+    \node[anchor=west] at (0.3,-0.4) {sql : SqlParser};
+    \node[anchor=west] at (0.3,-0.9) {yaml/json : StructuredParser};
+  };
+  \draw[flow, dashed] (route) -- (registry);
+\end{tikzpicture}
+\caption{Parser pipeline: detection, routing, parsing, and unit emission.}
+\label{fig:parsing:pipeline}
+\end{figure}
+
+\subsection{Parser Trait}
+\label{sec:parsing:parser-trait}
+
+Every parser implements the \texttt{Parser} interface (Vol.~01, \S\ref{iface:parser}):
+
+\begin{verbatim}
+trait Parser {
+    fn parse(&self, artifact: Artifact) -> Result<Vec<SemanticUnit>>;
+    fn supported_mimes(&self) -> Vec<MimeType>;
+    fn schema(&self) -> ParserSchema;
+}
+\end{verbatim}
+
+\textbf{Artifact} encapsulates the raw bytes, path, MIME type, and optional metadata (encoding, language hints).
+\textbf{SemanticUnit} is the canonical output (defined below).
+\textbf{ParserSchema} describes the unit types this parser produces (e.g., \texttt{PythonFunction}, \texttt{SQLTable}, \texttt{MarkdownSection}).
+
+\subsection{Parser Registry}
+\label{sec:parsing:registry}
+
+The registry maps MIME types (and file extensions as fallback) to parser instances. Parsers are loaded dynamically at startup from \texttt{config.toml} \texttt{[ingestion.parsers]}.
+
+\begin{verbatim}
+# Config example
+[ingestion.parsers]
+python = { type = "tree-sitter", grammars = ["python"] }
+markdown = { type = "markdown", extract_frontmatter = true }
+pdf = { type = "pdf", ocr = false }
+openapi = { type = "openapi", version = "3.1" }
+sql = { type = "sql", dialect = "postgres" }
+\end{verbatim}
+
+\section{Semantic Unit Model}
+\label{sec:parsing:semantic-unit}
+
+\begin{definition}[Semantic Unit]
+\label{def:semantic-unit}
+A \emph{semantic unit} $u$ is a tuple:
+\begin{equation}
+u = (\text{id}, \text{type}, \text{content}, \text{span}, \text{metadata}, \text{children})
+\end{equation}
+where:
+\begin{itemize}
+  \item \texttt{id} = SHA-256(canonical(content, type, span))
+  \item \texttt{type} $\in$ \{\texttt{Function}, \texttt{Class}, \texttt{Section}, \texttt{Table}, \texttt{Operation}, \dots\}
+  \item \texttt{content}: canonical text representation (whitespace-normalized)
+  \item \texttt{span}: \texttt{(start\_line, end\_line, start\_col, end\_col)} in source
+  \item \texttt{metadata}: typed key-value annotations (see \S\ref{sec:parsing:metadata})
+  \item \texttt{children}: ordered list of child unit IDs (hierarchy)
+\end{itemize}
+\end{definition}
+
+\subsection{Unit Type Taxonomy}
+\label{sec:parsing:unit-types}
+
+\begin{table}[htbp]
+\centering
+\caption{Core Semantic Unit Types by Parser Domain}
+\label{tab:parsing:unit-types}
+\begin{tabular}{lll}
+\toprule
+\textbf{Domain} & \textbf{Unit Types} & \textbf{Key Metadata} \\
+\midrule
+Python & Module, Class, Function, Method, Decorator, Import & signature, decorators, type\_hints, docstring \\
+JavaScript/TS & Module, Class, Function, ArrowFunction, Interface, Type & signature, jsdoc, exports \\
+Markdown & Document, Section, CodeBlock, List, Table, Link & heading\_level, language, alt\_text \\
+PDF & Page, Paragraph, Table, Figure, Header, Footer & bbox, font\_info, page\_num \\
+OpenAPI & Info, Server, Path, Operation, Schema, Parameter & method, path, status\_codes, auth \\
+SQL DDL & Database, Schema, Table, Column, Index, Constraint & data\_type, nullable, default, references \\
+YAML/JSON & Document, Mapping, Sequence, Scalar & json\_path, schema\_ref \\
+Dockerfile & Instruction, Stage, Arg, Env, Label & instruction, value, stage \\
+Protobuf & Message, Enum, Service, Field, RPC & field\_number, type, label \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Metadata Schema}
+\label{sec:parsing:metadata}
+
+Each unit type defines a typed metadata schema. Examples:
+
+\begin{verbatim}
+# Python Function metadata
+{
+  "signature": "def foo(x: int, y: str = 'a') -> bool",
+  "decorators": ["@staticmethod", "@cache"],
+  "type_hints": {"x": "int", "y": "str", "return": "bool"},
+  "docstring": "Returns True if...",
+  "is_async": false,
+  "is_generator": false,
+  "complexity": 3
+}
+
+# SQL Table metadata
+{
+  "columns": [
+    {"name": "id", "type": "BIGINT", "nullable": false, "primary_key": true},
+    {"name": "email", "type": "VARCHAR(255)", "nullable": false, "unique": true}
+  ],
+  "indexes": [{"name": "idx_email", "columns": ["email"], "unique": true}],
+  "foreign_keys": [{"column": "user_id", "references": "users.id"}],
+  "engine": "InnoDB",
+  "charset": "utf8mb4"
+}
+
+# OpenAPI Operation metadata
+{
+  "method": "POST",
+  "path": "/api/v1/users",
+  "operation_id": "createUser",
+  "parameters": [{"name": "body", "in": "body", "schema": "UserInput"}],
+  "responses": {"201": "User", "400": "Error"},
+  "security": [{"BearerAuth": []}],
+  "deprecated": false
+}
+\end{verbatim}
+
+\subsection{Canonicalization}
+\label{sec:parsing:canonicalize}
+
+Content-addressability requires deterministic canonicalization:
+
+\begin{algorithm}[H]
+\caption{Unit Canonicalization}
+\label{alg:canonicalize}
+\begin{algorithmic}[1]
+\Require Unit $u$ with fields $(type, content, span, metadata, children)$
+\Ensure Canonical byte string $C$ for hashing
+\State $C \gets \text{type} \parallel \texttt{:}$ \Comment{Type prefix}
+\State $C \gets C \parallel \textsc{NormalizeWhitespace}(content)$ \Comment{Canonical text}
+\State $C \gets C \parallel \textsc{SortKeys}(metadata)$ \Comment{Deterministic JSON}
+\State $C \gets C \parallel \textsc{Sort}(children)$ \Comment{Sorted child IDs}
+\State \Return $C$
+\end{algorithmic}
+\end{algorithm}
+
+This ensures: (a) semantically identical units in different files produce identical IDs, (b) formatting changes that don't affect semantics (whitespace, comment reordering) don't change IDs if metadata excludes them.
+
+\section{Language-Specific Parsers}
+\label{sec:parsing:language-parsers}
+
+\subsection{Tree-sitter Based Parsers (Code)}
+\label{sec:parsing:tree-sitter}
+
+For programming languages, we use \href{https://tree-sitter.github.io/}{tree-sitter} for robust, incremental, error-tolerant parsing.
+
+\begin{designdecision}
+\label{dec:tree-sitter}
+\textbf{Decision:} Use tree-sitter as the primary parsing engine for all supported programming languages.
+\end{designdecision}
+
+\begin{designrationale}
+\begin{enumerate}
+  \item \textbf{Incremental re-parse}: tree-sitter reuses syntax tree nodes for unchanged regions ($O(\log n)$ edits).
+  \item \textbf{Error tolerance}: Recovers gracefully from syntax errors; produces partial trees.
+  \item \textbf{Unified API}: Same query language (\texttt{SCM}) across 40+ languages.
+  \item \textbf{Bindings}: Rust (\texttt{tree-sitter}), Python (\texttt{tree-sitter-languages}), Node.js available.
+  \item \textbf{Grammar maintenance}: Community-maintained grammars; we vendor specific versions.
+\end{enumerate}
+\end{designrationale}
+
+\paragraph{Tree-sitter Query Patterns.}
+Semantic units are extracted via SCM queries. Example for Python functions:
+
+\begin{verbatim}
+(function_definition
+  name: (identifier) @name
+  parameters: (parameters) @params
+  return_type: (type)? @return_type
+  body: (block) @body
+  decorators: (decorator)* @decorators
+) @function
+\end{verbatim}
+
+The query captures are mapped to \texttt{SemanticUnit} fields. A \texttt{QueryMapper} per language handles this transformation.
+
+\subsubsection{Supported Languages}
+\label{sec:parsing:ts-languages}
+
+\begin{table}[htbp]
+\centering
+\caption{Tree-sitter Languages Supported (v0.1)}
+\label{tab:parsing:ts-languages}
+\begin{tabular}{lll}
+\toprule
+\textbf{Language} & \textbf{Grammar Version} & \textbf{Unit Types} \\
+\midrule
+Python & 0.20.1 & Module, Class, Function, Method, Decorator, Import, TypeAlias \\
+JavaScript & 0.20.0 & Module, Class, Function, ArrowFunction, Interface, Type, Import \\
+TypeScript & 0.20.0 & (extends JS) + TypeAnnotation, Generic \\
+Rust & 0.20.1 & Module, Struct, Enum, Fn, Impl, Trait, Macro, Use \\
+Go & 0.20.0 & Package, Struct, Func, Method, Interface, Type, Import \\
+Java & 0.20.1 & Class, Interface, Method, Field, Constructor, Annotation \\
+C/C++ & 0.20.1 & Function, Struct, Class, Macro, Include, Namespace \\
+C\# & 0.20.0 & Class, Method, Property, Interface, Attribute, Using \\
+SQL & 0.20.0 & (see \S\ref{sec:parsing:sql-parser}) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Markdown Parser}
+\label{sec:parsing:markdown}
+
+Uses \texttt{pulldown-cmark} (Rust) or \texttt{markdown-it} (Python) with extensions:
+\begin{itemize}
+  \item GitHub Flavored Markdown (GFM): tables, task lists, strikethrough
+  \item Frontmatter (YAML/TOML/JSON) extraction
+  \item Heading anchoring and TOC generation
+  \item Code block language detection
+  \item Link/reference resolution
+\end{itemize}
+
+Units produced: \texttt{Document}, \texttt{Section}(level), \texttt{Paragraph}, \texttt{CodeBlock}(lang), \texttt{Table}, \texttt{List}, \texttt{Link}, \texttt{Image}.
+
+\subsection{PDF Parser}
+\label{sec:parsing:pdf}
+
+Uses \texttt{pdfplumber} (Python) or \texttt{lopdf} (Rust) with optional OCR (\texttt{tesseract}):
+\begin{itemize}
+  \item Text extraction with position (bbox, font, size)
+  \item Table detection (via \texttt{pdfplumber} table extraction)
+  \item Figure/image extraction (bbox, optional OCR)
+  \item Reading order reconstruction (column-aware)
+\end{itemize}
+
+Units: \texttt{Page}, \texttt{Paragraph}, \texttt{Table}, \texttt{Figure}, \texttt{Header}, \texttt{Footer}.
+
+\subsection{OpenAPI / AsyncAPI Parser}
+\label{sec:parsing:openapi}
+
+Parses OpenAPI 3.0/3.1 and AsyncAPI 2.x/3.x specs. Produces units for every reusable component:
+\begin{itemize}
+  \item \texttt{Info}, \texttt{Server}, \texttt{Path}, \texttt{Operation}
+  \item \texttt{Schema} (with JSON Schema resolution)
+  \item \texttt{Parameter}, \texttt{RequestBody}, \texttt{Response}
+  \item \texttt{SecurityScheme}, \texttt{Tag}, \texttt{ExternalDocs}
+\end{itemize}
+
+Cross-references (\texttt{\$ref}) are resolved and stored as graph edges in the semantic units.
+
+\subsection{SQL DDL Parser}
+\label{sec:parsing:sql-parser}
+
+Uses \texttt{sqlglot} (Python) for multi-dialect parsing (PostgreSQL, MySQL, SQLite, BigQuery, Snowflake, T-SQL).
+Produces units for: \texttt{Database}, \texttt{Schema}, \texttt{Table}, \texttt{Column}, \texttt{Index}, \texttt{Constraint}, \texttt{View}, \texttt{Function}, \texttt{Trigger}.
+
+Column-level lineage is extracted: \texttt{Column} units reference source columns in \texttt{SELECT} clauses.
+
+\subsection{Structured Data Parser (YAML/JSON/TOML)}
+\label{sec:parsing:structured}
+
+For configuration and data files:
+\begin{itemize}
+  \item JSON Schema / OpenAPI schema detection (if \texttt{\$schema} present)
+  \item Path-based units: each mapping key becomes a unit with JSON path metadata
+  \item Array elements indexed with position
+  \item Merge with schema annotations when available
+\end{itemize}
+
+\section{Structure-Aware Chunking}
+\label{sec:parsing:chunking}
+
+After parsing, semantic units may exceed embedding model context windows. The \texttt{Chunker} splits units while preserving semantic boundaries.
+
+\begin{interface}[Chunker]
+\label{iface:chunker-detail}
+\begin{verbatim}
+trait Chunker {
+    fn chunk(&self, unit: SemanticUnit, config: ChunkConfig) -> Vec<Chunk>;
+    fn config_schema(&self) -> ChunkConfigSchema;
+}
+
+struct ChunkConfig {
+    max_tokens: usize,
+    overlap_tokens: usize,
+    respect_boundaries: bool,      // Don't split inside function/class
+    preserve_hierarchy: bool,      // Include parent context
+    strategy: ChunkStrategy,       // "hierarchical", "sliding", "semantic"
+}
+\end{verbatim}
+\end{interface}
+
+\subsection{Hierarchical Chunking Algorithm}
+\label{sec:parsing:hierarchical-chunk}
+
+Default strategy for code and structured documents:
+
+\begin{algorithm}[H]
+\caption{Hierarchical Chunking}
+\label{alg:hierarchical-chunk}
+\begin{algorithmic}[1]
+\Require Unit $u$ with children $c_1, \dots, c_n$, config $cfg$
+\Ensure Chunks $\mathcal{C}$ each $\leq cfg.max\_tokens$
+\State $\mathcal{C} \gets \varnothing$
+\State $current \gets \varnothing$, $current\_tokens \gets 0$
+\ForEach{child $c \in children(u)$ in order}
+  \State $child\_tokens \gets \textsc{TokenCount}(c.content)$
+  \If{$current\_tokens + child\_tokens > cfg.max\_tokens$ and $current \neq \varnothing$}
+    \State $\mathcal{C} \gets \mathcal{C} \cup \{current\}$
+    \If{$cfg.overlap\_tokens > 0$}
+      \State $current \gets \textsc{Tail}(current, cfg.overlap\_tokens)$
+      \State $current\_tokens \gets \textsc{TokenCount}(current)$
+    \Else
+      \State $current \gets \varnothing$, $current\_tokens \gets 0$
+    \EndIf
+  \EndIf
+  \State $current \gets current \parallel c.content$
+  \State $current\_tokens \gets current\_tokens + child\_tokens$
+\EndFor
+\If{$current \neq \varnothing$} $\mathcal{C} \gets \mathcal{C} \cup \{current\}$
+\State \Return $\mathcal{C}$
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Sliding Window (Fallback)}
+\label{sec:parsing:sliding}
+
+For plain text or when hierarchical structure is unavailable:
+
+\begin{verbatim}
+# Sliding window with sentence boundary awareness
+strategy = "sliding"
+window_size = 512      # tokens
+overlap = 50           # tokens
+split_on = ["\n\n", "\n", ". ", "! ", "? ", "; "]
+\end{verbatim}
+
+\subsection{Semantic Chunking (Experimental)}
+\label{sec:parsing:semantic-chunk}
+
+Uses embedding similarity to find natural boundaries:
+
+\begin{algorithm}[H]
+\caption{Semantic Chunking via Embedding Similarity}
+\label{alg:semantic-chunk}
+\begin{algorithmic}[1]
+\Require Sentences $s_1, \dots, s_n$, threshold $\theta$, max\_tokens
+\Ensure Chunks $\mathcal{C}$
+\State $embs \gets \textsc{Embed}(s_1, \dots, s_n)$
+\State $boundaries \gets \{1\}$
+\For{$i = 2$ to $n$}
+  \State $sim \gets \textsc{Cosine}(embs[i-1], embs[i])$
+  \If{$sim < \theta$}
+    \State $boundaries \gets boundaries \cup \{i\}$
+  \EndIf
+\EndFor
+\State $boundaries \gets boundaries \cup \{n+1\}$
+\State $\mathcal{C} \gets \varnothing$
+\ForEach{consecutive $(b_j, b_{j+1}) \in boundaries$}
+  \State $chunk \gets \textsc{MergeSentences}(s_{b_j}, \dots, s_{b_{j+1}-1})$
+  \If{$\textsc{TokenCount}(chunk) > max\_tokens$}
+    \State $\mathcal{C} \gets \mathcal{C} \cup \textsc{SlidingWindow}(chunk)$
+  \Else
+    \State $\mathcal{C} \gets \mathcal{C} \cup \{chunk\}$
+  \EndIf
+\EndFor
+\State \Return $\mathcal{C}$
+\end{algorithmic}
+\end{algorithm}
+
+\section{Entity and Relation Extraction}
+\label{sec:parsing:entity-extraction}
+
+After chunking, lightweight extraction identifies entities and relations within and across units.
+
+\subsection{Rule-Based Extraction}
+\label{sec:parsing:rule-extraction}
+
+Zero-LLM approach using tree-sitter queries and regex patterns:
+\begin{itemize}
+  \item \textbf{Code}: Function calls, imports, class inheritance, type references
+  \item \textbf{Markdown}: Links, cross-references, image references
+  \item \textbf{OpenAPI}: Schema references, parameter bindings, auth requirements
+  \item \textbf{SQL}: Table/column references, foreign keys, join conditions
+  \item \textbf{Config}: Environment variable references, file path references
+\end{itemize}
+
+Produces \texttt{(source\_unit, target\_unit, relation\_type, confidence)} tuples.
+
+\subsection{LLM-Assisted Extraction (Optional)}
+\label{sec:parsing:llm-extraction}
+
+For complex relations (e.g., implicit semantic links, cross-file call graphs), a local LLM can be invoked:
+
+\begin{verbatim}
+# Extraction prompt template (Vol. 05 Agent Runtime)
+EXTRACT_ENTITIES_RELATIONS = """
+Given the following semantic units from a {language} codebase,
+extract entities and relations in JSON format.
+
+Units:
+{units_json}
+
+Entity types: {config.entity_types}
+Relation types: {config.relation_types}
+
+Output format:
+{{
+  "entities": [{"id": "...", "type": "...", "name": "...", "unit_id": "..."}],
+  "relations": [{"source": "...", "target": "...", "type": "...", "confidence": 0.0-1.0}]
+}}
+"""
+\end{verbatim}
+
+\subsection{Entity Resolution}
+\label{sec:parsing:entity-resolution}
+
+Extracted entities are resolved against the knowledge graph (Vol.~03):
+
+\begin{algorithm}[H]
+\caption{Entity Resolution}
+\label{alg:entity-resolution}
+\begin{algorithmic}[1]
+\Require Extracted entity $e$ with name $n$, type $t$; graph $G$
+\Ensure Resolved node ID or new node
+\State $candidates \gets \textsc{GraphLookup}(G, name=n, type=t)$
+\If{$candidates = \varnothing$}
+  \State \Return \textsc{CreateNode}(G, e) \Comment{New entity}
+\Else
+  \State $best \gets \arg\max_{c \in candidates} \textsc{Similarity}(c, e)$
+  \If{$\textsc{Similarity}(best, e) \geq \tau_{er}$}
+    \State \Return $best.id$ \Comment{Merge}
+  \Else
+    \State \Return \textsc{CreateNode}(G, e) \Comment{Distinct entity}
+  \EndIf
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+Similarity combines: name fuzzy match, type compatibility, context overlap (shared neighbors), embedding cosine similarity.
+
+\section{Incremental Parsing}
+\label{sec:parsing:incremental}
+
+When a file changes, re-parsing only affected regions is critical for latency.
+
+\paragraph{Tree-sitter Incremental Parse.}
+Tree-sitter accepts the old tree and the edit (byte range + new text). It returns a new tree with reused nodes. We compute the diff at unit level:
+
+\begin{algorithm}[H]
+\caption{Incremental Unit Diff}
+\label{alg:incremental-diff}
+\begin{algorithmic}[1]
+\Require Old units $U_{old}$, new tree $T_{new}$, edit range $E$
+\Ensure $(added, modified, removed)$ unit ID sets
+\State $U_{new} \gets \textsc{ExtractUnits}(T_{new})$
+\State $affected \gets \{ u \in U_{old} \mid u.span \cap E \neq \varnothing \}$
+\State $unchanged \gets U_{old} \setminus affected$
+\State $modified \gets \{ u_{new} \in U_{new} \mid \exists u_{old} \in affected: u_{new}.id = u_{old}.id \land u_{new} \neq u_{old} \}$
+\State $added \gets \{ u_{new} \in U_{new} \mid u_{new}.id \notin U_{old}.ids \}$
+\State $removed \gets \{ u_{old} \in affected \mid u_{old}.id \notin U_{new}.ids \}$
+\State \Return $(added, modified, removed)$
+\end{algorithmic}
+\end{algorithm}
+
+Only $added \cup modified$ units are re-embedded and re-indexed. $removed$ units are tombstoned in indices.
+
+\section{Embedding Generation}
+\label{sec:parsing:embedding}
+
+The \texttt{Embedder} trait (Vol.~01, \S\ref{iface:embedder}) abstracts local embedding models.
+
+\subsection{Supported Models}
+\label{sec:parsing:embed-models}
+
+\begin{table}[htbp]
+\centering
+\caption{Local Embedding Models (Recommended)}
+\label{tab:parsing:embed-models}
+\begin{tabular}{llcccc}
+\toprule
+\textbf{Model} & \textbf{Dim} & \textbf{Max Tok} & \textbf{Speed (CPU)} & \textbf{MTEB} & \textbf{License} \\
+\midrule
+BGE-M3 & 1024 & 8192 & $\sim$500 tok/s & 62.3 & MIT \\
+E5-Large-v2 & 1024 & 512 & $\sim$400 tok/s & 61.5 & MIT \\
+Nomic-Embed-Text-v1.5 & 768 & 8192 & $\sim$600 tok/s & 60.1 & Apache-2.0 \\
+BGE-Small-En-v1.5 & 384 & 512 & $\sim$1200 tok/s & 58.2 & MIT \\
+Multilingual-E5-Large & 1024 & 512 & $\sim$350 tok/s & 63.1 & MIT \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Batch Inference}
+\label{sec:parsing:batch-inference}
+
+All embeddings use batched inference for throughput:
+
+\begin{verbatim}
+# Embedder config
+batch_size = 32
+max_seq_len = 512
+normalize = true
+device = "cpu"  # or "cuda", "mps"
+onnx_runtime = true  # optimized inference
+\end{verbatim}
+
+Embeddings are stored as \texttt{float32} in the HNSW index (Vol.~03) and as \texttt{float16} in the unit metadata for memory efficiency.
+
+\section{Parser Extensibility Guide}
+\label{sec:parsing:extensibility}
+
+To add a custom parser:
+
+1. Implement \texttt{Parser} trait
+2. Register in \texttt{config.toml}
+3. Define unit types and metadata schemas
+4. (Optional) Add tree-sitter grammar or SCM queries
+5. Write tests against \texttt{testdata/} fixtures
+
+\begin{verbatim}
+# Example: Custom parser for GraphQL SDL
+[ingestion.parsers.graphql]
+type = "custom"
+module = "my_parsers.graphql_parser"
+class = "GraphQLParser"
+supported_mimes = ["application/graphql", "text/x.graphql"]
+extensions = [".graphql", ".gql"]
+\end{verbatim}
+
+\section{Summary}
+\label{sec:parsing:summary}
+
+The semantic parsing layer transforms heterogeneous artifacts into a uniform representation of content-addressed, hierarchically structured, metadata-rich semantic units. Key properties:
+
+\begin{enumerate}
+  \item \textbf{Language-aware}: Tree-sitter for code, specialized parsers for structured formats
+  \item \textbf{Hierarchical}: Units form trees reflecting source structure
+  \item \textbf{Content-addressed}: SHA-256 identifiers enable deduplication and lineage
+  \item \textbf{Incremental}: Tree-sitter's incremental parsing + unit-level diff
+  \item \textbf{Extensible}: Parser trait + registry for new formats
+  \item \textbf{Metadata-rich}: Typed annotations per unit type for downstream use
+\end{enumerate}
+
+The next volume (Vol.~03) details how these units populate the knowledge graph and semantic indices.
+
+%===============================================================================
+% End of Volume 02
+%===============================================================================

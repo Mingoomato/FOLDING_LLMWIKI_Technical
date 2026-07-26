@@ -1,0 +1,518 @@
+﻿%===============================================================================
+% LLMWiki Technical Specification - Volume 09: Developer Guide
+%===============================================================================
+\chapter{Developer Guide}
+\label{cha:dev-guide}
+
+This volume is for developers extending LLMWiki: adding parsers, chunkers, embedders, graph backends, index backends, evidence verifiers, planner strategies, tools, and auth providers.
+
+\section{Development Environment}
+\label{sec:dev:env}
+
+\subsection{Prerequisites}
+\label{sec:dev:prereqs}
+
+\begin{verbatim}
+# Rust (for core)
+rustup install stable
+rustup component add rustfmt clippy
+
+# Python (for ML, parsers, scripts)
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements-dev.txt
+
+# Node.js (for Web UI, if applicable)
+corepack enable
+pnpm install
+
+# System deps
+# Ubuntu: sudo apt install libssl-dev libclang-dev pkg-config
+# macOS: brew install llvm pkg-config
+\end{verbatim}
+
+\subsection{Repository Structure}
+\label{sec:dev:structure}
+
+\begin{verbatim}
+llmwiki/
+-- crates/
+   -- llmwiki-core/          # Core types, traits, errors
+   -- llmwiki-ingestion/     # Parsers, chunkers, embedders
+   -- llmwiki-graph/         # Graph store, entity resolution
+   -- llmwiki-index/         # HNSW, BM25, hybrid search
+   -- llmwiki-evidence/      # Evidence gate, cross-encoder
+   -- llmwiki-planner/       # Query planner, optimizer
+   -- llmwiki-runtime/       # Agent runtime, tools, LLM client
+   -- llmwiki-api/           # REST/gRPC/WS handlers
+   -- llmwiki-cli/           # CLI commands
+-- python/
+   -- llmwiki/               # Python bindings (pyo3)
+   -- scripts/               # Evaluation, benchmarking
+-- web/                       # React/Vite admin UI
+-- docker/
+-- helm/
+-- eval/                      # Evaluation datasets, configs
+-- docs/                      # This documentation
+-- Cargo.toml                 # Workspace root
+\end{verbatim}
+
+\subsection{Build and Test}
+\label{sec:dev:build-test}
+
+\begin{verbatim}
+# Build all (release)
+cargo build --release --workspace
+
+# Run unit tests
+cargo test --workspace
+
+# Run integration tests (requires Docker)
+cargo test --workspace --test integration
+
+# Run specific crate tests
+cargo test -p llmwiki-ingestion
+
+# Build Python wheel
+maturin develop --release -m python/Cargo.toml
+
+# Lint
+cargo fmt --all --check
+cargo clippy --workspace -- -D warnings
+\end{verbatim}
+
+\section{Extension Points Deep Dive}
+\label{sec:dev:extensions}
+
+\subsection{Custom Parser}
+\label{sec:dev:parser}
+
+1. Create crate \texttt{llmwiki-parser-myformat}
+2. Implement \texttt{Parser} trait:
+
+\begin{verbatim}
+// src/lib.rs
+use llmwiki_core::{Parser, Artifact, SemanticUnit, ParserSchema, MimeType, Result};
+use async_trait::async_trait;
+
+pub struct MyFormatParser;
+
+#[async_trait]
+impl Parser for MyFormatParser {
+    async fn parse(&self, artifact: Artifact) -> Result<Vec<SemanticUnit>> {
+        // 1. Parse artifact.bytes into AST
+        // 2. Extract semantic units from AST
+        // 3. For each unit: compute content hash, extract metadata
+        // 4. Return units
+    }
+
+    fn supported_mimes(&self) -> Vec<MimeType> {
+        vec!["application/x-myformat".parse().unwrap()]
+    }
+
+    fn schema(&self) -> ParserSchema {
+        ParserSchema {
+            unit_types: vec!["MyUnit".into()],
+            metadata_fields: vec!["custom_field".into()],
+        }
+    }
+}
+
+// Register in config
+// config.toml:
+// [ingestion.parsers.myformat]
+// type = "dynamic"
+// lib = "llmwiki_parser_myformat"
+// entry = "MyFormatParser::new"
+\end{verbatim}
+
+3. Add to \texttt{Cargo.toml}:
+\begin{verbatim}
+[package]
+name = "llmwiki-parser-myformat"
+cdylib = true  # For dynamic loading
+
+[dependencies]
+llmwiki-core = { path = "../../crates/llmwiki-core" }
+llmwiki-ingestion = { path = "../../crates/llmwiki-ingestion" }
+tree-sitter = "0.22"  # If using tree-sitter
+\end{verbatim}
+
+\paragraph{Tree-sitter Grammar Integration.}
+If your format has a tree-sitter grammar:
+\begin{verbatim}
+// build.rs
+fn main() {
+    tree_sitter_grammar::build("myformat", &["src/grammar.json"]);
+}
+\end{verbatim}
+
+Then use \texttt{tree-sitter} in parser:
+\begin{verbatim}
+let mut parser = tree_sitter::Parser::new();
+parser.set_language(&tree_sitter_myformat::language())?;
+let tree = parser.parse(&source, None)?;
+\end{verbatim}
+
+\subsection{Custom Chunker}
+\label{sec:dev:chunker}
+
+\begin{verbatim}
+use llmwiki_core::{Chunker, SemanticUnit, Chunk, ChunkConfig, Result};
+
+pub struct MyChunker;
+
+impl Chunker for MyChunker {
+    fn chunk(&self, unit: SemanticUnit, config: ChunkConfig) -> Vec<Chunk> {
+        match config.strategy {
+            ChunkStrategy::Hierarchical => self.hierarchical_chunk(unit, config),
+            ChunkStrategy::Sliding => self.sliding_chunk(unit, config),
+            ChunkStrategy::Semantic => self.semantic_chunk(unit, config),
+            _ => vec![Chunk::from_unit(unit)],
+        }
+    }
+
+    fn config_schema(&self) -> ChunkConfigSchema {
+        ChunkConfigSchema {
+            fields: vec![
+                ConfigField::Int("max_tokens", "Max tokens per chunk"),
+                ConfigField::Int("overlap_tokens", "Overlap tokens"),
+                ConfigField::Bool("preserve_headers", "Keep markdown headers"),
+            ],
+        }
+    }
+}
+\end{verbatim}
+
+\subsection{Custom Embedder}
+\label{sec:dev:embedder}
+
+\begin{verbatim}
+use llmwiki_core::{Embedder, ModelId, Result};
+use ndarray::Array2;
+
+pub struct MyEmbedder {
+    session: ort::Session,  // ONNX Runtime
+    dim: usize,
+}
+
+impl MyEmbedder {
+    pub fn new(model_path: &str) -> Result<Self> {
+        let session = ort::Session::builder()?.commit_from_file(model_path)?;
+        let dim = session.outputs[0].dimensions()[1] as usize;
+        Ok(Self { session, dim })
+    }
+}
+
+#[async_trait]
+impl Embedder for MyEmbedder {
+    async fn embed_batch(&self, texts: &[String]) -> Result<Vec<Vec<f32>>> {
+        // Tokenize, pad, run inference, normalize
+        let inputs = self.tokenize(texts)?;
+        let outputs = self.session.run(inputs)?;
+        let embeddings = self.postprocess(outputs)?;
+        Ok(embeddings)
+    }
+
+    fn dimension(&self) -> usize { self.dim }
+    fn model_id(&self) -> ModelId { ModelId::Custom("my-embedder".into()) }
+}
+\end{verbatim}
+
+\subsection{Custom Graph Store}
+\label{sec:dev:graph-store}
+
+Implement \texttt{GraphStore} trait (Vol.~01, \S\ref{iface:graphstore}). Key methods:
+\begin{itemize}
+  \item \texttt{upsert\_nodes}: Batch insert/update nodes
+  \item \texttt{upsert\_edges}: Batch insert/update edges
+  \item \texttt{traverse}: Pattern-based traversal
+  \item \texttt{neighborhoods}: $-hop neighborhoods
+\end{itemize}
+
+See \texttt{crates/llmwiki-graph/src/store/rocksdb.rs} for reference implementation.
+
+\subsection{Custom Index Backend}
+\label{sec:dev:index-backend}
+
+Implement \texttt{SemanticIndex} trait (Vol.~01, \S\ref{iface:semantic-index}):
+\begin{itemize}
+  \item \texttt{upsert}: Add/update vectors + metadata
+  \item \texttt{search\_vector}: ANN search
+  \item \texttt{search\_bm25}: Keyword search
+  \item \texttt{search\_hybrid}: Fused search
+\end{itemize}
+
+See \texttt{crates/llmwiki-index/src/backend/hnsw\_tantivy.rs}.
+
+\subsection{Custom Evidence Verifier}
+\label{sec:dev:evidence-verifier}
+
+Implement \texttt{EvidenceGate} trait (Vol.~01, \S\ref{iface:evidence-gate}):
+\begin{verbatim}
+pub struct MyEvidenceGate {
+    model: CrossEncoder,
+    calibrator: Calibrator,
+}
+
+impl EvidenceGate for MyEvidenceGate {
+    fn verify(&self, query: &str, candidates: Vec<ScoredUnit>, threshold: f32) 
+        -> Result<Vec<VerifiedUnit>> {
+        // Score each (query, unit) pair
+        // Apply calibration
+        // Filter by threshold
+    }
+
+    fn calibrate(&self, dataset: CalibrationSet) -> Result<CalibrationCurve> {
+        // Fit isotonic/Platt/temperature
+    }
+}
+\end{verbatim}
+
+\subsection{Custom Query Planner Strategy}
+\label{sec:dev:planner}
+
+Implement \texttt{QueryPlanner} trait (Vol.~01, \S\ref{iface:query-planner}):
+\begin{verbatim}
+pub struct MyPlanner {
+    cost_model: CostModel,
+    llm: LLMClient,
+}
+
+impl QueryPlanner for MyPlanner {
+    fn plan(&self, query: Query, context: PlanContext) -> Result<QueryPlan> {
+        // 1. Analyze query intent
+        // 2. Decompose into subqueries
+        // 3. Choose retrieval strategies per subquery
+        // 4. Build DAG with dependencies
+        // 5. Optimize order (cost model)
+        // 6. Return plan
+    }
+
+    fn optimize(&self, plan: QueryPlan, stats: IndexStats) -> Result<QueryPlan> {
+        // Reorder, merge, prune based on stats
+    }
+}
+\end{verbatim}
+
+\subsection{Custom Agent Tool}
+\label{sec:dev:tool}
+
+\begin{verbatim}
+use llmwiki_core::{Tool, ToolInput, ToolOutput, ToolSchema, Result};
+use async_trait::async_trait;
+use serde::{Deserialize, Serialize};
+
+#[derive(Deserialize)]
+struct MyToolInput { query: String, limit: usize }
+
+#[derive(Serialize)]
+struct MyToolOutput { results: Vec<String> }
+
+pub struct MyTool;
+
+#[async_trait]
+impl Tool for MyTool {
+    fn name(&self) -> &str { "my_tool" }
+    fn description(&self) -> &str { "Custom tool description" }
+    fn schema(&self) -> ToolSchema { ToolSchema::from_type::<MyToolInput>() }
+    fn output_schema(&self) -> ToolSchema { ToolSchema::from_type::<MyToolOutput>() }
+
+    async fn execute(&self, input: ToolInput) -> Result<ToolOutput> {
+        let params: MyToolInput = serde_json::from_value(input.0)?;
+        // Execute logic
+        let output = MyToolOutput { results: vec![] };
+        Ok(ToolOutput(serde_json::to_value(output)?))
+    }
+}
+\end{verbatim}
+
+Register in config:
+\begin{verbatim}
+[tools.custom.my_tool]
+module = "my_tools"
+class = "MyTool"
+\end{verbatim}
+
+\subsection{Custom Auth Provider}
+\label{sec:dev:auth}
+
+\begin{verbatim}
+use llmwiki_core::{AuthProvider, AuthContext, UserInfo, Result};
+use async_trait::async_trait;
+
+pub struct MyAuthProvider;
+
+#[async_trait]
+impl AuthProvider for MyAuthProvider {
+    async fn authenticate(&self, credentials: AuthCredentials) 
+        -> Result<AuthContext> {
+        // Validate token, API key, etc.
+        // Return context with user_id, roles, permissions
+    }
+
+    async fn authorize(&self, ctx: &AuthContext, resource: &str, action: &str) 
+        -> Result<bool> {
+        // Check permissions
+    }
+
+    fn extract_credentials(&self, request: &HttpRequest) -> Option<AuthCredentials> {
+        // Extract from header, cookie, query param
+    }
+}
+\end{verbatim}
+
+\section{Testing Extensions}
+\label{sec:dev:testing}
+
+\subsection{Parser Tests}
+\begin{verbatim}
+// tests/parser_test.rs
+use llmwiki_ingestion::Parser;
+
+#[test]
+fn parse_myformat() {
+    let parser = MyFormatParser;
+    let artifact = Artifact::from_bytes(b"...", "test.myformat");
+    let units = parser.parse(artifact).await.unwrap();
+    
+    assert_eq!(units.len(), 3);
+    assert_eq!(units[0].unit_type, "MyUnit");
+    assert!(units[0].id.starts_with("sha256:"));
+}
+\end{verbatim}
+
+\subsection{Integration Tests}
+\begin{verbatim}
+// tests/integration_test.rs
+use llmwiki_core::*;
+
+#[tokio::test]
+async fn full_ingestion_query_cycle() {
+    let repo = temp_repo();
+    llmwiki_init(&repo).await;
+    
+    // Ingest
+    llmwiki_ingest(&repo, "testdata/sample.py").await.unwrap();
+    
+    // Query
+    let result = llmwiki_query(&repo, "What does sample.py do?").await.unwrap();
+    
+    assert!(!result.answer.is_empty());
+    assert!(result.citations.len() > 0);
+    assert!(result.citations.iter().all(|c| c.relevance > 0.7));
+}
+\end{verbatim}
+
+\subsection{Property-Based Testing}
+\begin{verbatim}
+use proptest::prelude::*;
+
+proptest! {
+    #[test]
+    fn canonicalization_deterministic(content in "\\PC*") {
+        let unit1 = SemanticUnit::new("Test", content.clone());
+        unit1.content = content.clone();
+        let id1 = unit1.compute_id();
+        
+        let unit2 = SemanticUnit::new("Test()", content);
+        let id2 = unit2.compute_id();
+        
+        prop_assert_eq!(id1, id2);
+    }
+}
+\end{verbatim}
+
+\section{Debugging and Profiling}
+\label{sec:dev:debugging}
+
+\subsection{Logging}
+\begin{verbatim}
+# Debug parser
+RUST_LOG=llmwiki_ingestion=debug llmwiki ingest path/
+
+# Debug query pipeline
+RUST_LOG=llmwiki_runtime=debug,llmwiki_planner=trace llmwiki query "test"
+
+# Structured JSON logs
+RUST_LOG=info llmwiki server --log-format json
+\end{verbatim}
+
+\subsection{Profiling}
+\begin{verbatim}
+# CPU profiling (perf)
+perf record --call-graph dwarf llmwiki ingest large-codebase/
+perf report
+
+# Memory profiling
+cargo install flamegraph
+cargo flamegraph --bin llmwiki -- ingest large-codebase/
+
+# Heap profiling (jemalloc)
+MALLOC_CONF=prof:true,prof_prefix:jeprof ./llmwiki ingest ...
+jeprof --pdf ./llmwiki jeprof.*.heap > heap.pdf
+\end{verbatim}
+
+\section{Contributing}
+\label{sec:dev:contributing}
+
+\subsection{Code Style}
+\begin{itemize}
+  \item Rust: \texttt{rustfmt} (default), \texttt{clippy} (deny warnings)
+  \item Python: \texttt{ruff} (format + lint), \texttt{mypy} (strict)
+  \item Commits: Conventional Commits (\texttt{feat:}, \texttt{fix:}, \texttt{docs:}, etc.)
+\end{itemize}
+
+\subsection{PR Process}
+\begin{enumerate}
+  \item Fork, create branch \texttt{feat/my-feature}
+  \item Write tests for new functionality
+  \item Ensure all tests pass: \texttt{cargo test --workspace}
+  \item Run evaluation: \texttt{llmwiki eval run --config eval/ci.yaml}
+  \item Open PR with description linking to issue
+  \item CI must pass (tests, lints, eval regression check)
+  \item Maintainer review -> merge
+\end{enumerate}
+
+\subsection{Adding a New Volume}
+\begin{enumerate}
+  \item Create \texttt{docs/Volume\_XX\_Name/Volume\_XX\_Name.tex}
+  \item Add \texttt{\textbackslash include\{docs/Volume\_XX\_Name/Volume\_XX\_Name\}} to \texttt{LLMWiki.tex}
+  \item Update \texttt{volume-labels.tex} if needed
+  \item Run \texttt{make pdf} to verify compilation
+\end{enumerate}
+
+\section{Release Process}
+\label{sec:dev:release}
+
+\begin{enumerate}
+  \item Update \texttt{Cargo.toml} version
+  \item Update \texttt{CHANGELOG.md}
+  \item Tag: \texttt{git tag v0.X.Y}
+  \item GitHub Actions builds and publishes:
+    \item Docker images to GHCR
+    \item Binaries to GitHub Releases
+    \item Python wheels to PyPI
+    \item Docs to GitHub Pages
+\end{enumerate}
+
+\section{Summary}
+\label{sec:dev-guide:summary}
+
+LLMWiki is designed for extensibility at every layer. The trait-based plugin system allows:
+\begin{enumerate}
+  \item \textbf{Parsers}: New languages/formats without core changes
+  \item \textbf{Chunkers}: Domain-specific segmentation strategies
+  \item \textbf{Embedders}: Any ONNX-compatible or custom model
+  \item \textbf{Graph stores}: RocksDB, SQLite, Kuzu, Neo4j, etc.
+  \item \textbf{Indices}: HNSW, FAISS, DiskANN, custom
+  \item \textbf{Evidence gates}: Cross-encoder, LLM-judge, heuristic
+  \item \textbf{Planners}: Rule-based, LLM-based, hybrid
+  \item \textbf{Tools}: Arbitrary computation exposed to planner
+  \item \textbf{Auth}: OIDC, API keys, mTLS, custom
+\end{enumerate}
+All extensions are dynamically loaded, versioned, and testable in isolation.
+
+%===============================================================================
+% End of Volume 09
+%===============================================================================

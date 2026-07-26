@@ -1,0 +1,305 @@
+﻿%===============================================================================
+% Appendix A: Mathematical Notation
+%===============================================================================
+
+\section{Mathematical Notation}
+\label{app:notation}
+
+\begin{table}[htbp]
+\centering
+\caption{Notation Summary}
+\label{tab:notation}
+\begin{tabular}{cl}
+\toprule
+\textbf{Symbol} & \textbf{Meaning} \\
+\midrule
+$\mathcal{U}$ & Set of all semantic units \\
+$u$ & A semantic unit \\
+$\text{id}(u)$ & Content address (SHA-256) of unit $u$ \\
+$\text{canonical}(u)$ & Canonical byte representation of $u$ \\
+$G = (V, E)$ & Knowledge graph (nodes, edges) \\
+$v \in V$ & Graph node (unit or entity) \\
+$e = (v_1, v_2, \ell) \in E$ & Typed directed edge with label $\ell$ \\
+$\lambda_V, \lambda_E$ & Node/edge label functions \\
+$\sigma_V, \sigma_E$ & Node/edge property functions \\
+$I_v$ & Hybrid semantic index (vector, keyword, graph) \\
+$\text{HNSW}(q, k)$ & Vector ANN search for query $q$, top $k$ \\
+$\text{BM25}(q, k)$ & Keyword search for query $q$, top $k$ \\
+$\text{GraphExpand}(S, h)$ & $h$-hop neighborhood from seed set $S$ \\
+$\text{RRF}(R_1, \dots, R_m)$ & Reciprocal Rank Fusion of ranked lists \\
+$\text{CE}(q, u)$ & Cross-encoder relevance score for $(q, u)$ \\
+$\mathcal{G}(q, \mathcal{R}, \tau)$ & Evidence Gate: filter $\mathcal{R}$ by $\text{CE}(q, u) \geq \tau$ \\
+$\mathcal{E} \subseteq \mathcal{U}$ & Verified evidence set \\
+$\tau$ & Gate threshold (calibrated) \\
+$P = (V_P, E_P)$ & Query plan DAG \\
+$v \in V_P$ & Plan step (search, synthesize, tool, aggregate) \\
+$e \in E_P$ & Data dependency between steps \\
+$\text{TopoSort}(P)$ & Topological execution order \\
+$\mathcal{B}$ & Execution budget (tokens, time, calls, cost) \\
+$\text{SHA256}(x)$ & SHA-256 hash of $x$ \\
+$\mathbb{1}[\cdot]$ & Indicator function \\
+$\cos(a, b)$ & Cosine similarity between vectors $a, b$ \\
+$\text{Jaccard}(A, B)$ & Jaccard index of sets $A, B$ \\
+$\text{Fuzzy}(s_1, s_2)$ & Fuzzy string similarity (Levenshtein ratio) \\
+$\text{NLI}(p, h)$ & Natural Language Inference: $\{\text{Entailment, Neutral, Contradiction}\}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%===============================================================================
+% Appendix B: Configuration Schema (Complete)
+%===============================================================================
+
+\section{Complete Configuration Schema}
+\label{app:config}
+
+\begin{verbatim}
+# .llmwiki/config.toml (full schema with defaults)
+
+[repository]
+id = "llmwiki-main"
+created_at = "2024-01-15T10:30:00Z"
+version = "0.1.0"
+
+[ingestion]
+parsers = ["python", "markdown", "pdf", "openapi", "sql", "yaml", "json", "javascript", "typescript", "rust", "go", "java", "cpp", "csharp", "protobuf", "dockerfile", "toml"]
+chunker = { type = "ast-aware", max_tokens = 512, overlap = 50, respect_boundaries = true, preserve_hierarchy = true }
+embedder = { model = "bge-m3", batch_size = 32, device = "cpu", normalize = true, max_seq_len = 512 }
+
+[graph]
+store = "rocksdb"
+entity_resolution = { enabled = true, threshold = 0.85, weights = { name = 0.3, type = 0.2, context = 0.2, embedding = 0.3 } }
+index_types = ["btree", "adjacency", "label", "property"]
+
+[index]
+hnsw = { m = 16, ef_construction = 200, ef_search = 64, dim = 1024, space = "cosine", disk_backed = true, mmap = true }
+bm25 = { k1 = 1.2, b = 0.75, analyzer = "code" }
+hybrid = { vector_weight = 0.6, keyword_weight = 0.3, graph_weight = 0.1, rrf_k = 60 }
+adjacency = { enabled = true, max_edges_per_node = 1000 }
+
+[evidence_gate]
+model = "cross-encoder/ms-marco-MiniLM-L-6-v2"
+threshold = 0.72
+calibration = "isotonic"
+batch_size = 16
+max_candidates = 50
+max_verified = 20
+timeout_ms = 2000
+conformal = true
+coverage = 0.95
+
+[planner]
+max_depth = 5
+max_branching = 4
+cost_model = "learned"
+cache_ttl = "1h"
+strategies = ["hybrid", "vector", "graph", "keyword"]
+estimator = "linear"
+
+[runtime]
+max_tokens = 100000
+max_time_ms = 120000
+max_tool_calls = 50
+max_cost_usd = 0.50
+on_exceed = "truncate"
+stream = true
+heartbeat_interval_ms = 1000
+
+[llm]
+planning_model = "llama-3.1-8b-instruct"
+synthesis_model = "llama-3.1-8b-instruct"
+extraction_model = "llama-3.1-8b-instruct"
+provider = "ollama"
+base_url = "http://localhost:11434"
+temperature = 0.1
+top_p = 0.9
+max_new_tokens = 2048
+
+[api]
+bind = "127.0.0.1:8080"
+auth = "none"
+rate_limit = 100
+rate_limit_window = "1m"
+cors_origins = ["*"]
+max_request_size = "10MB"
+request_timeout_ms = 30000
+
+[monitoring]
+metrics_port = 9090
+tracing = { enabled = true, endpoint = "http://localhost:4317", sampling_rate = 0.1 }
+logging = { level = "info", format = "json", output = "stdout" }
+
+[storage]
+wal_dir = "wal"
+units_dir = "units"
+graph_dir = "graph"
+index_dir = "index"
+planner_dir = "planner"
+evidence_dir = "evidence"
+backup_dir = "backups"
+sync_on_write = true
+shard_prefix_len = 2
+\end{verbatim}
+
+%===============================================================================
+% Appendix C: API Schemas (OpenAPI Excerpts)
+%===============================================================================
+
+\section{API Schemas}
+\label{app:api-schemas}
+
+\subsection{Query Request}
+\begin{verbatim}
+QueryRequest:
+  type: object
+  required: [query]
+  properties:
+    query:
+      type: string
+      description: Natural language query
+    context_budget:
+      type: integer
+      default: 8000
+      maximum: 100000
+    evidence_threshold:
+      type: number
+      default: 0.72
+      minimum: 0.0
+      maximum: 1.0
+    max_steps:
+      type: integer
+      default: 5
+      maximum: 20
+    stream:
+      type: boolean
+      default: false
+    plan_options:
+      type: object
+      properties:
+        max_depth:
+          type: integer
+          default: 3
+        include_graph:
+          type: boolean
+          default: true
+\end{verbatim}
+
+\subsection{Query Response}
+\begin{verbatim}
+QueryResponse:
+  type: object
+  properties:
+    query_id:
+      type: string
+    answer:
+      type: string
+    citations:
+      type: array
+      items:
+        type: object
+        properties:
+          unit_id:
+            type: string
+            pattern: "^sha256:[a-f0-9]{64}$"
+          relevance:
+            type: number
+            minimum: 0.0
+            maximum: 1.0
+          span:
+            type: object
+            properties:
+              start_line:
+                type: integer
+              end_line:
+                type: integer
+          preview:
+            type: string
+    evidence_count:
+      type: integer
+    rejected_count:
+      type: integer
+    plan:
+      $ref: '#/components/schemas/QueryPlan'
+    usage:
+      type: object
+      properties:
+        tokens:
+          type: integer
+        latency_ms:
+          type: integer
+        llm_calls:
+          type: integer
+\end{verbatim}
+
+%===============================================================================
+% Appendix D: Evaluation Protocol
+%===============================================================================
+
+\section{Evaluation Protocol}
+\label{app:eval-protocol}
+
+\subsection{Dataset Construction}
+\label{app:eval-dataset}
+
+Each benchmark dataset in LLMWikiBench follows this construction protocol:
+
+\begin{enumerate}
+  \item \textbf{Corpus Selection}: Curated real-world repositories (GitHub, documentation sites, API registries) with permissive licenses.
+  \item \question{Question Generation}:
+    \begin{itemize}
+      \item Template-based: Parameterized templates for common patterns (e.g., "How does X call Y?")
+      \item LLM-assisted: Local LLM generates diverse question variations
+      \item Human review: All questions reviewed for clarity and answerability
+    \end{itemize}
+  \item \textbf{Ground Truth Answers}: Written by domain experts, verified against source corpus.
+  \item \textbf{Evidence Annotation}: Experts mark exact unit spans (by SHA-256 ID) supporting each answer.
+  \item \textbf{Quality Control}: Inter-annotator agreement (Cohen $\kappa > 0.8$) on 10\% sample.
+\end{enumerate}
+
+\subsection{Metrics Computation}
+\label{app:eval-metrics}
+
+\begin{algorithm}[H]
+\caption{Evidence Recall@k}
+\label{alg:ev-recall}
+\begin{algorithmic}[1]
+\Require $Q$: queries, $\mathcal{E}^*(q)$: ground-truth evidence IDs, $\mathcal{E}_k(q)$: gate-verified top-$k$
+\Ensure $\text{EvRecall}@k$
+\State $sum \gets 0$
+\ForEach{$q \in Q$}
+  \State $common \gets |\mathcal{E}^*(q) \cap \mathcal{E}_k(q)|$
+  \State $sum \gets sum + \frac{common}{|\mathcal{E}^*(q)|}$
+\EndFor
+\State \Return $\frac{sum}{|Q|}$
+\end{algorithmic}
+\end{algorithm}
+
+Attribution Score uses a fine-tuned NLI model (BART-large-MNLI) to check if each claim $c$ in answer is entailed by cited evidence $e$:
+$\text{Attribution}(a) = \frac{1}{|claims(a)|} \sum_{c \in claims(a)} \mathbb{1}[\text{NLI}(e_c, c) = \text{Entailment}]$
+
+Hallucination Rate: $\frac{1}{|claims(a)|} \sum_c \mathbb{1}[\text{NLI}(e_c, c) = \text{Contradiction} \lor \neg \exists e_c]$
+
+\subsection{Statistical Rigor}
+\label{app:eval-stats}
+
+All reported metrics include:
+\begin{itemize}
+  \item 95\% Bootstrap confidence intervals (1000 resamples)
+  \item Paired Wilcoxon signed-rank test for pairwise comparisons ($p < 0.05$)
+  \item Benjamini-Hochberg FDR correction for multiple comparisons
+  \item Cohen $d$ effect sizes
+\end{itemize}
+
+Regression gate: CI pipeline fails if any primary metric (Evidence F1, Attribution, Hallucination) degrades by $> 2\%$ absolute vs. \texttt{main} branch baseline.
+
+%===============================================================================
+% Appendix G: Glossary of Terms (from glossary.tex)
+%===============================================================================
+
+\section{Glossary of Key Terms}
+\label{app:glossary}
+
+\glsaddall
+\printglossary[style=long, title=Glossary]
+
+%===============================================================================

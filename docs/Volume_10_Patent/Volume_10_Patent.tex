@@ -1,0 +1,189 @@
+﻿%===============================================================================
+% LLMWiki Technical Specification - Volume 10: Patent Draft
+%===============================================================================
+\chapter{Patent Draft}
+\label{cha:patent}
+
+This volume presents the patent claims for the novel aspects of LLMWiki. Claims are written in USPTO format with supporting specification references. Each claim corresponds to an architectural invariant or novel combination identified in Volumes 01-09.
+
+\section{Field of the Invention}
+\label{sec:patent:field}
+
+The present invention relates to systems and methods for transforming heterogeneous digital artifacts into an evidence-aware semantic knowledge space, specifically a local-first semantic operating layer that enforces evidence closure through mandatory cross-encoder verification.
+
+\section{Background}
+\label{sec:patent:background}
+
+Prior art includes Retrieval-Augmented Generation (RAG) systems (Lewis et al., 2020), GraphRAG (Edge et al., 2024), HippoRAG (Zhang et al., 2024), LightRAG (Zeng et al., 2024), and RAPTOR (Sarthi et al., 2024). These systems share common limitations: (1) vector indices as primary knowledge representation, (2) optional or post-hoc evidence verification, (3) dependence on external LLM APIs for critical-path operations, (4) lack of deterministic replay, and (5) no content-addressed unit identity.
+
+\section{Summary of the Invention}
+\label{sec:patent:summary}
+
+The invention provides a semantic operating layer comprising: a content-addressed filesystem-backed write-ahead log; a property knowledge graph as canonical representation; a hybrid semantic index fusing vector, keyword, and graph signals; an evidence gate enforcing cross-encoder verification; and a DAG-based query planner with cost-based optimization.
+
+\section{Independent Claims}
+\label{sec:patent:independent}
+
+\begin{claim}[System Architecture]
+\label{claim:system}
+A semantic operating layer system comprising:
+\begin{enumerate}
+  \item a filesystem-backed write-ahead log storing content-addressed semantic units, each unit identified by a SHA-256 hash of its canonical representation;
+  \item a property knowledge graph wherein nodes represent semantic units and entities, and edges represent typed relationships, said graph persisted in a column-family store with prefix-encoded keys enabling type-partitioned scans;
+  \item a hybrid semantic index combining a hierarchical navigable small world (HNSW) vector index, a BM25 inverted index, and a graph adjacency index, all keyed by the content-addressed unit identifiers;
+  \item an evidence gate configured to receive a query and a candidate set of units from the hybrid index, and to verify each candidate by computing a cross-encoder relevance score between the query and the unit content, retaining only candidates whose score exceeds a calibrated threshold; and
+  \item a query planner that decomposes an input query into a directed acyclic graph of subqueries, each subquery assigned a retrieval strategy, and executes said subqueries in topological order with cost-based optimization.
+\end{enumerate}
+\end{claim}
+
+\begin{claim}[Method of Deterministic Ingestion and Replay]
+\label{claim:replay}
+A computer-implemented method for deterministic knowledge ingestion and replay, comprising:
+\begin{enumerate}
+  \item parsing a source artifact into a hierarchical tree of semantic units using a language-aware parser;
+  \item computing a content address for each unit as SHA-256(canonical(content, type, span, metadata, children));
+  \item extracting entity mentions and relations from units via rule-based patterns or a local language model;
+  \item resolving entities against the knowledge graph using a weighted similarity function combining fuzzy name match, type compatibility, context overlap, and embedding cosine similarity;
+  \item writing a diff of (added, modified, removed) unit identifiers to the filesystem-backed write-ahead log as an atomic append-only JSONL record;
+  \item applying the diff to the knowledge graph and hybrid index within a single atomic transaction;
+  \item wherein replay is achieved by sequentially applying logged diffs to an empty store, producing bitwise-identical state.
+\end{enumerate}
+\end{claim}
+
+\begin{claim}[Evidence Gate with Calibrated Threshold]
+\label{claim:evidence-gate}
+An evidence verification apparatus comprising:
+\begin{enumerate}
+  \item a cross-encoder model that takes a (query, unit) pair and outputs a relevance score in [0, 1];
+  \item a calibrator trained on a validation set of (query, unit, label) triples, mapping raw scores to calibrated probabilities via isotonic regression or temperature scaling;
+  \item a threshold selector that chooses an operating point $\tau$ such that false discovery rate $\leq \alpha$ on held-out data;
+  \item a gate function $\mathcal{G}(q, \mathcal{R}, \tau) = \{ u \in \mathcal{R} \mid \text{calibrated\_score}(q, u) \geq \tau \}$;
+  \item wherein the gate is a mandatory pipeline stage: no unit reaches the synthesis stage without passing the gate; and
+  \item wherein the gate may return an empty set, triggering an "insufficient evidence" response rather than hallucinated synthesis.
+\end{enumerate}
+\end{claim}
+
+\begin{claim}[Deployment Architecture]
+\label{claim:deployment}
+A deployment method for a semantic operating layer, comprising:
+\begin{enumerate}
+  \item packaging the entire system---parsers, embedders, cross-encoder, graph store, indices, planner, runtime---as a single statically-linked binary with embedded ONNX models and tree-sitter grammars;
+  \item storing all mutable state in a single directory \texttt{.llmwiki/} containing subdirectories for units, graph partitions, index files, and write-ahead log;
+  \item enabling air-gapped operation by eliminating all external network dependencies in the critical path (ingestion, indexing, retrieval, verification);
+  \item supporting horizontal scaling via directory synchronization (\texttt{rsync}, \texttt{git}, or object store replication) without consensus protocols;
+  \item providing deterministic replay by copying \texttt{.llmwiki/} to a fresh machine and restarting the binary.
+\end{enumerate}
+\end{claim}
+
+\section{Dependent Claims}
+\label{sec:patent:dependent}
+
+\begin{claim}[Parser Extensibility]
+\label{claim:parser-ext}
+The system of Claim 1, further comprising a parser registry that dynamically loads parser implementations conforming to a \texttt{Parser} trait, each parser declaring its supported MIME types and output unit schema, whereby new languages and formats are added without modifying the core ingestion pipeline.
+\end{claim}
+
+\begin{claim}[Tree-sitter Integration]
+\label{claim:tree-sitter}
+The system of Claim 6, wherein at least one parser uses a tree-sitter grammar to produce a concrete syntax tree, and semantic units are extracted via S-expression query patterns (SCM) mapped to unit fields, enabling incremental re-parsing with $O(\log n)$ edit complexity.
+\end{claim}
+
+\begin{claim}[Hierarchical Chunking]
+\label{claim:chunking}
+The system of Claim 1, further comprising a chunker that recursively partitions semantic units along structural boundaries (functions, classes, sections) while respecting a maximum token budget and configurable overlap, producing chunks that preserve hierarchical context via parent unit references.
+\end{claim}
+
+\begin{claim}[Local Embedding Inference]
+\label{claim:local-embed}
+The system of Claim 1, wherein the embedder executes entirely on local hardware (CPU, GPU, or NPU) using ONNX Runtime with model quantization (INT8, INT4), supporting batch inference with dynamic padding, and requiring zero external API calls.
+\end{claim}
+
+\begin{claim}[Entity Resolution]
+\label{claim:entity-resolution}
+The system of Claim 1, wherein entity resolution merges mentions into canonical entities using a scoring function $S(e_1, e_2) = \alpha \cdot \text{Fuzzy}(n_1, n_2) + \beta \cdot \mathbb{1}[t_1 = t_2] + \gamma \cdot \text{Jaccard}(ctx_1, ctx_2) + \delta \cdot \cos(emb_1, emb_2)$, with $\alpha+\beta+\gamma+\delta=1$, and creates a new entity iff $\max S < \tau_{er}$.
+\end{claim}
+
+\begin{claim}[Graph Adjacency Index]
+\label{claim:adj-index}
+The system of Claim 1, wherein the graph adjacency index is a separate column family storing for each unit a serialized list of (relation\_type, target\_unit\_id, weight) tuples, enabling sub-millisecond $k$-hop expansion during hybrid retrieval without accessing the primary graph store.
+\end{claim}
+
+\begin{claim}[Hybrid Retrieval with Reciprocal Rank Fusion]
+\label{claim:hybrid-rrf}
+The system of Claim 1, wherein hybrid retrieval combines vector, keyword, and graph scores via reciprocal rank fusion: $score(u) = \sum_{s \in \{v,k,g\}} w_s \cdot \frac{1}{k + rank_s(u)}$, where $w_s$ are configurable weights and $rank_s(u)$ is the position of $u$ in the top-$K$ results of signal $s$.
+\end{claim}
+
+\begin{claim}[DAG Query Planner]
+\label{claim:dag-planner}
+The system of Claim 1, wherein the query planner produces a plan represented as a directed acyclic graph $P = (V, E)$ where each vertex $v \in V$ is a retrieval, synthesis, or tool invocation step with declared inputs and outputs, and edges $E$ represent data dependencies, and the executor schedules steps in topological order with parallel fan-out where dependencies permit.
+\end{claim}
+
+\begin{claim}[Budgeted Execution]
+\label{claim:budget}
+The system of Claim 10, further comprising a budget tracker that enforces hard limits on cumulative tokens, wall-clock time, tool invocations, and monetary cost, with configurable overflow behavior: truncate, return partial, or error.
+\end{claim}
+
+\begin{claim}[Streaming Protocol]
+\label{claim:streaming}
+The system of Claim 1, further comprising a Server-Sent Events (SSE) endpoint that emits fine-grained events: plan\_start, step\_start, evidence\_found, token, step\_complete, plan\_complete, budget\_warning, enabling real-time UI rendering of the query execution pipeline.
+\end{claim}
+
+\begin{claim}[Evaluation Framework]
+\label{claim:eval}
+A computer-implemented evaluation method for a semantic operating layer, comprising:
+\begin{enumerate}
+  \item datasets with human-annotated evidence spans for each query;
+  \item metrics: Evidence Recall@k, Evidence Precision@k, Evidence F1@k, Gate Rejection Rate, Attribution Score (claim-level NLI verification against citations), and Citation Quality (mean cross-encoder score of cited units);
+  \item automated configuration sweeps over retrieval $k$, hybrid weights, gate threshold $\tau$, embedder model, and LLM model;
+  \item statistical rigor: bootstrap confidence intervals, paired Wilcoxon tests, Benjamini-Hochberg correction, effect size reporting;
+  \item regression gates in continuous integration blocking merges on $>2\%$ metric degradation.
+\end{enumerate}
+\end{claim}
+
+\section{Design Decisions Supporting Novelty}
+\label{sec:patent:decisions}
+
+\begin{table}[htbp]
+\centering
+\caption{Design Decisions Supporting Novelty}
+\label{tab:patent:decisions}
+\begin{tabular}{lll}
+\toprule
+\textbf{Decision} & \textbf{Novelty Argument} & \textbf{Prior Art Gap} \\
+\midrule
+Filesystem as WAL & No RAG system uses directory sync for replay & All require Kafka/Redis/DB WAL \\
+Graph as source of truth & Vectors are projections, not primary & RAG: vectors primary; GraphRAG: LLM-built graph \\
+Mandatory evidence gate & Not a reranker; zero results allowed & All prior art returns top-K \\
+Content-addressed units & SHA-256 identity across all indices & No prior art uses content hashing \\
+Local-first, LLM-optional & Critical path has no API calls & All major frameworks require LLM API \\
+DAG planner with costs & Topological execution with parallelism & RAG: single retrieval; GraphRAG: fixed patterns \\
+Deterministic replay & Bitwise identical re-execution & No prior art guarantees replay \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Specification Support}
+\label{sec:patent:spec-support}
+
+Each claim is supported by the specification in Volumes 01-09:
+\begin{itemize}
+  \item Claims 1-5: Vol. 01 (\S\ref{sec:architecture:three-layer}, \ref{sec:architecture:filesystem-wal}, \ref{sec:architecture:invariants}), Vol. 02 (\S\ref{sec:parsing:incremental}), Vol. 03 (\S\ref{sec:kg:entity-resolution}, \ref{sec:kg:index}), Vol. 04 (\S\ref{sec:retrieval:evidence-gate}), Vol. 07 (\S\ref{sec:planner:dag})
+  \item Claims 6-8: Vol. 02 (\S\ref{sec:parsing:parser-trait}, \ref{sec:parsing:tree-sitter}, \ref{sec:parsing:chunking}), Vol. 02 (\S\ref{sec:parsing:embedding})
+  \item Claims 9-10: Vol. 03 (\S\ref{sec:kg:entity-resolution}, \ref{sec:kg:adjacency-index}, \ref{sec:kg:hybrid-search})
+  \item Claims 11-13: Vol. 07 (\S\ref{sec:planner:dag}, \ref{sec:runtime:budget}, \ref{sec:runtime:streaming})
+  \item Claim 14: Vol. 06 (\S\ref{sec:eval:metrics}, \ref{sec:eval:pipeline}, \ref{sec:eval:statistical})
+\end{itemize}
+
+\section{Potential Design-Arounds and Defense}
+\label{sec:patent:defense}
+
+\begin{itemize}
+  \item \textbf{Design-around}: Use vector DB with post-hoc reranking. \textbf{Defense}: Claim 3 requires mandatory gate before synthesis; reranking is not gating.
+  \item \textbf{Design-around}: Use database WAL instead of filesystem. \textbf{Defense}: Claim 1 requires filesystem-backed WAL with directory-sync replay.
+  \item \textbf{Design-around}: Skip graph, use only hybrid vector/keyword. \textbf{Defense}: Claim 1 requires graph as canonical knowledge representation with adjacency index.
+  \item \textbf{Design-around}: Cloud-only deployment. \textbf{Defense}: Claim 4 requires single-binary air-gapped operation.
+\end{itemize}
+
+%===============================================================================
+% End of Volume 10
+%===============================================================================

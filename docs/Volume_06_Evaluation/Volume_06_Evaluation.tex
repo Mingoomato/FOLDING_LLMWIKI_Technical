@@ -1,0 +1,275 @@
+%===============================================================================
+% LLMWiki Technical Specification — Volume 06: Evaluation
+%===============================================================================
+\chapter{Evaluation Framework}
+\label{cha:evaluation}
+
+This volume defines the evaluation methodology for LLMWiki: benchmarks, metrics, experimental protocols, and the automated evaluation pipeline. Rigorous evaluation is not an afterthought; it is a first-class component that validates the architectural claims (evidence closure, deterministic replay, local-first quality).
+
+\section{Evaluation Philosophy}
+\label{sec:eval:philosophy}
+
+\begin{designprinciple}[Measure What Matters]
+Standard RAG metrics (recall@k, MRR) are insufficient. We evaluate: \textbf{evidence quality} (are citations actually relevant?), \textbf{answer correctness} (ground truth comparison), \textbf{attribution accuracy} (claim-to-evidence mapping), and \textbf{system properties} (latency, determinism, replay fidelity).
+\end{designprinciple}
+
+\begin{designprinciple}[Local-First Evaluation]
+All evaluation runs locally. No external API calls for ground truth generation or metric computation. LLM-as-judge is optional and confined to specific qualitative assessments.
+\end{designprinciple}
+
+\begin{designprinciple}[Regression-Proof]
+Evaluation datasets, prompts, and thresholds are version-controlled alongside code. CI runs full evaluation on every PR; regressions block merge.
+\end{designprinciple}
+
+\section{Benchmark Suite}
+\label{sec:eval:benchmarks}
+
+\subsection{Internal Benchmarks}
+\label{sec:eval:internal}
+
+\begin{table}[htbp]
+\centering
+\caption{LLMWiki Internal Benchmarks}
+\label{tab:eval:internal}
+\begin{tabular}{llll}
+\toprule
+\textbf{Benchmark} & \textbf{Domain} & \textbf{Size} & \textbf{Focus} \\
+\midrule
+CodeQA-Python & Python codebases & 50 repos, 200K units & Code understanding, cross-file references \\
+API-Doc & OpenAPI specs & 100 specs, 50K ops & Schema-to-natural-language \\
+SQL-Schema & SQL DDL & 200 schemas, 10K tables & Table/column/relationship QA \\
+Tech-Docs & Markdown/PDF & 500 docs, 1M tokens & Long-document QA, structure \\
+Config-Files & YAML/JSON/TOML & 1000 configs & Config understanding, env vars \\
+Mixed-Corpus & All above & 1M units & Cross-domain retrieval \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Construction Process:}
+\begin{enumerate}
+  \item \textbf{Seed corpora}: Curated real-world repositories (Apache, Kubernetes, etc.)
+  \item \textbf{Question generation}: Template-based + LLM-assisted (local model) for diversity
+  \item \textbf{Expert review}: Domain experts verify questions and ground truth answers
+  \item \textbf{Evidence annotation}: Human annotators mark exact unit spans supporting each answer
+  \item \textbf{Quality control}: Inter-annotator agreement (Cohen's $\kappa > 0.8$)
+\end{enumerate}
+
+\subsection{External Benchmarks (Adapted)}
+\label{sec:eval:external}
+
+We adapt standard benchmarks to LLMWiki's evidence-required setting:
+
+\begin{itemize}
+  \item \textbf{Natural Questions (NQ)}: Filter to questions answerable from our test corpora
+  \item \textbf{HotpotQA}: Multi-hop; verify graph traversal quality
+  \item \textbf{MS MARCO}: Passage ranking; compare hybrid search vs. baselines
+  \item \textbf{BEIR}: 18 datasets; zero-shot retrieval quality
+  \item \textbf{CodeSearchNet}: Code retrieval; evaluate parser+embedder quality
+  \item \textbf{Spider / BIRD}: Text-to-SQL; evaluate SQL parser + graph
+\end{itemize}
+
+\section{Metric Definitions}
+\label{sec:eval:metrics}
+
+\subsection{Retrieval Metrics}
+\label{sec:eval:retrieval-metrics}
+
+\begin{definition}[Evidence Recall@k]
+\label{def:evidence-recall}
+Fraction of ground-truth evidence units recovered in top-$k$ after Evidence Gate:
+\begin{equation}
+\text{EvRecall}@k = \frac{1}{|Q|} \sum_{q \in Q} \frac{|\mathcal{E}^*(q) \cap \mathcal{E}_k(q)|}{|\mathcal{E}^*(q)|}
+\end{equation}
+where $\mathcal{E}^*(q)$ = human-annotated evidence units, $\mathcal{E}_k(q)$ = gate-verified top-$k$.
+\end{definition}
+
+\begin{definition}[Evidence Precision@k]
+\label{def:evidence-precision}
+\begin{equation}
+\text{EvPrecision}@k = \frac{1}{|Q|} \sum_{q \in Q} \frac{|\mathcal{E}^*(q) \cap \mathcal{E}_k(q)|}{|\mathcal{E}_k(q)|}
+\end{equation}
+\end{definition}
+
+\begin{definition}[Evidence F1@k]
+\label{def:evidence-f1}
+Harmonic mean of EvRecall and EvPrecision.
+\end{definition}
+
+\begin{definition}[Gate Rejection Rate]
+\label{def:gate-rejection}
+Fraction of retrieved candidates rejected by Evidence Gate:
+\begin{equation}
+\text{GateReject} = \frac{|\mathcal{R}| - |\mathcal{E}|}{|\mathcal{R}|}
+\end{equation}
+High rejection with maintained EvRecall indicates effective noise filtering.
+\end{definition}
+
+\subsection{Answer Quality Metrics}
+\label{sec:eval:answer-metrics}
+
+\begin{definition}[Answer Correctness (Exact Match / F1 / Semantic)]
+\label{def:ans-correct}
+Given ground truth answer $a^*$ and predicted answer $\hat{a}$:
+\begin{itemize}
+  \item \texttt{EM}: Exact string match (normalized)
+  \item \texttt{Token-F1}: Token-level F1
+  \item \texttt{Semantic}: Embedding cosine $\geq \tau$ (e.g., 0.85 with BGE-M3)
+\end{itemize}
+\end{definition}
+
+\begin{definition}[Attribution Score]
+\label{def:attribution}
+Measures whether every claim in the answer is supported by cited evidence.
+\begin{enumerate}
+  \item Segment answer into atomic claims $c_1, \dots, c_n$ (via NLI model or LLM)
+  \item For each claim $c_i$, check if $\exists e \in \text{citations}: \text{NLI}(e, c_i) = \text{Entailment}$
+  \item \texttt{Attribution} = $\frac{1}{n} \sum_i \mathbb{1}[\text{supported}(c_i)]$
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Citation Quality]
+\label{def:citation-quality}
+For each cited unit $u$, score = $\text{CrossEncoder}(q, u)$. Average over all citations. Penalizes ``hallucinated citations'' (citing irrelevant units).
+\end{definition}
+
+\subsection{System Property Metrics}
+\label{sec:eval:system-metrics}
+
+\begin{itemize}
+  \item \textbf{Deterministic Replay Fidelity}: Bitwise equality of answers across re-runs (modulo LLM sampling)
+  \item \textbf{Ingestion Latency}: ms/unit (p50, p99)
+  \item \textbf{Query Latency}: End-to-end p50/p95/p99
+  \item \textbf{Index Size}: GB per million units
+  \item \textbf{Memory Footprint}: RSS at rest / under load
+  \item \textbf{Uptime / Crash Recovery}: Time to replay WAL and serve queries
+\end{itemize}
+
+\section{Evaluation Pipeline}
+\label{sec:eval:pipeline}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+  stage/.style={draw, rounded corners, fill=llmwikiblue!5, minimum width=2.5cm, minimum height=1.2cm, font=\small},
+  flow/.style={->, thick, >=stealth}
+]
+  \node[stage] (dataset) at (0,0) {Dataset\\(Questions + GT)};
+  \node[stage] (ingest) at (4,0) {Ingest Corpus};
+  \node[stage] (retrieve) at (8,0) {Retrieve + Gate};
+  \node[stage] (answer) at (12,0) {Generate Answer};
+  \node[stage] (metrics) at (16,0) {Compute Metrics};
+  \node[stage] (report) at (20,0) {Report + Diff};
+
+  \draw[flow] (dataset) -- (ingest);
+  \draw[flow] (ingest) -- (retrieve);
+  \draw[flow] (retrieve) -- (answer);
+  \draw[flow] (answer) -- (metrics);
+  \draw[flow] (metrics) -- (report);
+
+  \node[draw, dashed, rounded corners, below=0.5cm of retrieve] (config) {Config: k, $\tau$, weights, model};
+  \node[draw, dashed, rounded corners, below=0.5cm of answer] (llmcfg) {LLM Config};
+  \draw[flow, dashed] (config) -- (retrieve);
+  \draw[flow, dashed] (llmcfg) -- (answer);
+\end{tikzpicture}
+\caption{Automated evaluation pipeline.}
+\label{fig:eval:pipeline}
+\end{figure}
+
+\subsection{Configuration Matrix}
+\label{sec:eval:config-matrix}
+
+We sweep key parameters to understand tradeoffs:
+
+\begin{verbatim}
+# eval_config.yaml
+retrieval:
+  k: [5, 10, 20, 50]
+  hybrid_weights:
+    - [1.0, 0.0, 0.0]  # Vector only
+    - [0.0, 1.0, 0.0]  # BM25 only
+    - [0.6, 0.3, 0.1]  # Default hybrid
+  gate_threshold: [0.5, 0.6, 0.7, 0.75, 0.8, 0.9]
+embedders:
+  - "bge-m3"
+  - "e5-large-v2"
+  - "nomic-embed-text-v1.5"
+llms:
+  - "llama-3.1-8b-instruct"    # Local
+  - "llama-3.1-70b-instruct"   # Local (quantized)
+  - "gpt-4o-mini"              # Remote (optional)
+\end{verbatim}
+
+Each combination = one evaluation run. Results stored in \texttt{eval/results/} with full config hash for reproducibility.
+
+\subsection{Statistical Rigor}
+\label{sec:eval:statistical}
+
+\begin{itemize}
+  \item \textbf{Bootstrap confidence intervals}: 1000 resamples, 95% CI for all metrics
+  \item \textbf{Paired significance}: Wilcoxon signed-rank test for pairwise model comparisons
+  \item \textbf{Multiple comparison correction}: Benjamini-Hochberg FDR control
+  \item \textbf{Effect sizes}: Cohen's $d$ reported alongside $p$-values
+\end{itemize}
+
+\section{Regression Detection}
+\label{sec:eval:regression}
+
+\begin{verbatim}
+# .github/workflows/eval.yml
+name: Evaluation
+on: [pull_request, push]
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run evaluation
+        run: |
+          llmwiki eval run --config eval_config.yaml --baseline main
+      - name: Check regressions
+        run: |
+          llmwiki eval check --threshold 0.02  # 2% regression tolerance
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-report
+          path: eval/report.html
+\end{verbatim}
+
+Baseline is the \texttt{main} branch. Any metric regression $> 2\%$ (configurable) blocks merge.
+
+\section{Qualitative Evaluation}
+\label{sec:eval:qualitative}
+
+Automated metrics are supplemented by:
+
+\begin{enumerate}
+  \item \textbf{Expert review}: Domain experts rate answer quality on 1-5 scale (helpful, accurate, well-cited)
+  \item \textbf{Failure analysis}: Categorize errors (missing evidence, wrong synthesis, gateway false negative, etc.)
+  \item \textbf{Ablation studies}: Remove components (graph, gate, planner) to measure contribution
+  \item \textbf{User studies}: Task completion time, trust ratings, citation usefulness
+\end{enumerate}
+
+\section{Patent-Relevant Novelty}
+\label{sec:eval:patent}
+
+\begin{patentclaim}
+\textbf{Claim 9:} An evaluation framework for semantic operating layers characterized by: (a) evidence-centric metrics (Evidence Recall/Precision/F1) that measure retrieval quality after mandatory cross-encoder verification, (b) attribution scoring that decomposes answers into atomic claims and verifies each against cited evidence using NLI, (c) a configuration matrix sweep that characterizes system behavior across retrieval, gating, and synthesis parameters, and (d) deterministic replay verified via bitwise answer comparison across re-runs.
+\end{patentclaim}
+
+\section{Summary}
+\label{sec:eval:summary}
+
+LLMWiki's evaluation framework goes beyond standard RAG benchmarks by:
+\begin{enumerate}
+  \item \textbf{Evidence-first metrics}: Quality of verified evidence, not just raw retrieval
+  \item \textbf{Attribution verification}: Claim-level NLI checking against citations
+  \item \textbf{Configuration sweeps}: Understanding tradeoffs, not single-point numbers
+  \item \textbf{Regression gates}: CI-enforced quality floors
+  \item \textbf{System properties}: Determinism, latency, replay---all measured
+\end{enumerate}
+This ensures that architectural improvements (Vol.~01--05) translate to measurable user value.
+
+%===============================================================================
+% End of Volume 06
+%===============================================================================

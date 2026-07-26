@@ -1,0 +1,507 @@
+%===============================================================================
+% LLMWiki Technical Specification - Volume 01: Architecture
+%===============================================================================
+\chapter{Architecture}
+\label{cha:architecture}
+
+LLMWiki is not a Retrieval-Augmented Generation (RAG) framework. It is a \textbf{semantic operating layer} that continuously transforms heterogeneous digital artifacts into an evidence-aware knowledge space. This volume establishes the architectural foundations: the three-layer decomposition, the filesystem-as-WAL principle, the data flow invariants, and the module interface contracts that all subsequent volumes build upon.
+
+\section{Design Philosophy}
+\label{sec:architecture:philosophy}
+
+\begin{designprinciple}[Graph as Source of Truth]
+The property knowledge graph is the canonical knowledge representation. Vector indices are derived projections optimized for similarity search---not the primary store.
+\end{designprinciple}
+
+\begin{designprinciple}[Filesystem as Write-Ahead Log]
+The local filesystem (directory structure .llmwiki/) serves as the sole durability mechanism. No auxiliary transaction log service (Kafka, Redis Streams, etc.) is required.
+\end{designprinciple}
+
+\begin{designprinciple}[Evidence Gate as First-Class Module]
+Retrieval results must pass a mandatory cross-encoder verification stage before synthesis. This is not a reranker; it is an evidence filter with calibrated confidence thresholds.
+\end{designprinciple}
+
+\begin{designprinciple}[Local-First, LLM-Optional]
+All critical-path operations (parsing, chunking, embedding, graph update, indexing, evidence verification) run locally with zero external API dependencies. LLMs are used only for planning, entity extraction (optional), and answer synthesis.
+\end{designprinciple}
+
+\begin{designprinciple}[Content Addressability]
+Every semantic unit is identified by SHA-256 of its canonical form. Identical content implies identical identifier across all indices, enabling deduplication, caching, and verifiable lineage.
+\end{designprinciple}
+
+\begin{designprinciple}[Incremental Consistency]
+After any ingestion, the system state (G, I, U) - graph, index, units - satisfies: a query executed against the live state produces the same result as replaying the ingestion log.
+\end{designprinciple}
+
+\begin{designprinciple}[Deterministic Replay]
+Given identical .llmwiki/ directory and identical query q, two executions produce bitwise-identical results (modulo non-deterministic LLM sampling, which is confined to planning/synthesis).
+\end{designprinciple}
+
+\section{Three-Layer Architecture}
+\label{sec:architecture:three-layer}
+
+The system decomposes into three layers with strictly unidirectional data flow: Ingestion to Core to Query.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+  layer/.style={draw, rounded corners, thick, minimum width=5cm, minimum height=4cm},
+  module/.style={draw, rounded corners, fill=white, minimum width=4.5cm, minimum height=0.9cm, font=\small},
+  arrow/.style={->, thick, >=stealth, shorten >=2pt, shorten <=2pt}
+]
+  % Layer 1: Ingestion
+  \node[layer, fill=green!10] (ingest) at (0,0) {
+    \node[anchor=north west, font=\bfseries] at (0.3,3.7) {Layer 1: Ingestion};
+    \node[module] (parse) at (2.5,2.8) {Semantic Parser (Vol. 02)};
+    \node[module] (chunk) at (2.5,1.6) {Chunker (Vol. 02)};
+    \node[module] (embed) at (2.5,0.4) {Embedder (Vol. 02)};
+  };
+
+  % Layer 2: Core
+  \node[layer, fill=blue!10] (core) at (6,0) {
+    \node[anchor=north west, font=\bfseries] at (0.3,3.7) {Layer 2: Core};
+    \node[module] (graph) at (2.5,2.8) {Knowledge Graph (Vol. 03)};
+    \node[module] (index) at (2.5,1.6) {Semantic Index (Vol. 03)};
+    \node[module] (evidence) at (2.5,0.4) {Evidence Gate (Vol. 06)};
+  };
+
+  % Layer 3: Query
+  \node[layer, fill=orange!10] (query) at (12,0) {
+    \node[anchor=north west, font=\bfseries] at (0.3,3.7) {Layer 3: Query};
+    \node[module] (planner) at (2.5,2.8) {Query Planner (Vol. 07)};
+    \node[module] (runtime) at (2.5,1.6) {Agent Runtime (Vol. 05)};
+    \node[module] (api) at (2.5,0.4) {API Gateway (Vol. 08)};
+  };
+
+  % Filesystem / WAL
+  \node[draw, dashed, rounded corners, fill=gray!5, minimum height=3cm, minimum width=3cm] (fs) at (9,-3.5) {
+    \node[anchor=north west, font=\bfseries] at (0.3,2.7) {Filesystem (WAL)};
+    \node[anchor=west] at (0.3,1.5) {.llmwiki/};
+    \node[anchor=west] at (0.3,1.0) {  units/};
+    \node[anchor=west] at (0.3,0.5) {  graph/};
+    \node[anchor=west] at (0.3,0.0) {  index/};
+    \node[anchor=west] at (0.3,-0.5) {  wal/};
+  };
+
+  % Connections
+  \draw[arrow] (parse.east) -- ++(0.5,0) |- (graph.west);
+  \draw[arrow] (chunk.east) -- ++(0.5,0) |- (index.west);
+  \draw[arrow] (embed.east) -- ++(0.5,0) |- (index.west);
+  \draw[arrow] (graph.east) -- ++(0.5,0) |- (planner.west);
+  \draw[arrow] (index.east) -- ++(0.5,0) |- (planner.west);
+  \draw[arrow] (evidence.east) -- ++(0.5,0) |- (runtime.west);
+  \draw[arrow] (planner.east) -- ++(0.5,0) |- (runtime.west);
+  \draw[arrow] (runtime.east) -- ++(0.5,0) |- (api.west);
+  
+  % Filesystem connections
+  \draw[arrow] (parse.south) -- ++(0,-0.5) -| (fs.north);
+  \draw[arrow] (chunk.south) -- ++(0,-0.5) -| (fs.north);
+  \draw[arrow] (graph.south) -- ++(0,-0.5) -| (fs.north);
+  \draw[arrow] (index.south) -- ++(0,-0.5) -| (fs.north);
+\end{tikzpicture}
+\caption{Three-Layer Architecture of LLMWiki. Filesystem acts as write-ahead log (WAL) for all layers.}
+\label{fig:architecture:three-layer}
+\end{figure}
+
+\subsection{Layer 1: Ingestion Pipeline}
+\label{sec:arch:ingestion}
+Responsible for parsing heterogeneous artifacts into semantic units - content-addressed, typed, and annotated fragments. Modules:
+\begin{itemize}
+  \item Semantic Parser (Vol. 02): Language-aware parsing (code, markdown, PDF, OpenAPI, SQL DDL, etc.)
+  \item Chunker: Hierarchical, structure-aware segmentation with overlap control
+  \item Embedder: Local embedding models (BGE, E5, nomic-embed) with batch inference
+\end{itemize}
+
+\subsection{Layer 2: Core Knowledge Space}
+\label{sec:arch:core}
+The persistent, queryable knowledge representation. Three tightly coupled modules:
+\begin{itemize}
+  \item Knowledge Graph (Vol. 03): Property graph with typed nodes/edges, entity resolution, and incremental updates
+  \item Semantic Index (Vol. 03): Hybrid index (HNSW vector + BM25 keyword + graph adjacency)
+  \item Evidence Gate (Vol. 06): Cross-encoder verification + citation extraction + confidence calibration
+\end{itemize}
+
+\subsection{Layer 3: Query and Execution}
+\label{sec:arch:query}
+Composable query execution with planning and observability:
+\begin{itemize}
+  \item Query Planner (Vol. 07): DAG-based plan compilation, cost-based optimization, subquery decomposition
+  \item Agent Runtime (Vol. 05): Tool execution, state management, streaming responses
+  \item API Gateway (Vol. 08): REST/gRPC/WebSocket contracts, authentication, rate limiting
+\end{itemize}
+
+\section{Filesystem as Write-Ahead Log}
+\label{sec:architecture:filesystem-wal}
+
+\begin{designdecision}
+\label{dec:fs-as-wal}
+\textbf{Decision:} Use the local filesystem (directory structure .llmwiki/) as the write-ahead log instead of a dedicated WAL service (e.g., Kafka, Redis Streams, WAL-G).
+\end{designdecision}
+
+\begin{designrationale}
+\begin{enumerate}
+  \item Zero operational dependency: No separate service to deploy, monitor, or backup.
+  \item Deterministic replay: rsync or git of .llmwiki/ fully reproduces state.
+  \item Content-addressed deduplication: Units stored as units/<hash>.json are naturally deduplicated.
+  \item Atomicity via rename: Write to temp file, rename(2) for atomic commit - POSIX guarantee.
+  \item Backup equals copy: tar, rsync, borg, restic work natively.
+\end{enumerate}
+\end{designrationale}
+
+\begin{designtradeoff}
+\begin{itemize}
+  \item Concurrency: Single-writer per repository; multi-writer requires external locking (file lock or SQLite WAL mode).
+  \item Scale: Directory entry count grows with unit count. Mitigation: sharded subdirectories (units/ab/cd/ef...).
+  \item Durability: fsync on commit; configurable sync_on_write flag.
+\end{itemize}
+\end{designtradeoff}
+
+\subsection{Directory Layout}
+\label{sec:arch:fs-layout}
+
+\begin{verbatim}
+.llmwiki/
+|-- units/                    # Content-addressed semantic units
+|   |-- ab/cd/ef1234.json     # SHA-256 prefix sharding
+|   |-- ...
+|-- graph/                    # Knowledge graph persistence
+|   |-- nodes/                # Node partitions (by type)
+|   |-- edges/                # Edge partitions (by relation type)
+|   |-- indexes/              # Graph-local indexes (adjacency, labels)
+|-- index/                    # Semantic search indexes
+|   |-- hnsw/                 # HNSW vector index (disk-backed)
+|   |-- bm25/                 # BM25 inverted index (tantivy)
+|   |-- adjacency/            # Graph adjacency for traversal
+|-- wal/                      # Write-ahead log (append-only JSONL)
+|   |-- 2024-01-15-001.jsonl  # Daily rotation
+|   |-- ...
+|-- planner/                  # Query plan cache
+|   |-- plans/
+|-- evidence/                 # Evidence gate caches
+|   |-- cross-encoder/
+|-- config.toml               # Repository configuration
+\end{verbatim}
+
+\section{Data Flow Architecture}
+\label{sec:architecture:dataflow}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+  stage/.style={draw, rounded corners, fill=blue!5, minimum width=3cm, minimum height=1.5cm},
+  flow/.style={->, thick, >=stealth}
+]
+  % Ingestion stages
+  \node[stage] (artifact) at (0,0) {Artifact Input};
+  \node[stage] (parse) at (4,0) {Semantic Parse};
+  \node[stage] (chunk) at (8,0) {Structure-Aware Chunk};
+  \node[stage] (extract) at (12,0) {Entity/Relation Ext.};
+  \node[stage] (embed) at (16,0) {Embed + Index};
+  \node[stage] (persist) at (20,0) {Persist to FS + Graph};
+
+  \draw[flow] (artifact) -- (parse);
+  \draw[flow] (parse) -- (chunk);
+  \draw[flow] (chunk) -- (extract);
+  \draw[flow] (extract) -- (embed);
+  \draw[flow] (embed) -- (persist);
+
+  % Branching from persist
+  \node[stage] (query) at (10,-3) {Query Input};
+  \node[stage] (plan) at (14,-3) {Query Planner};
+  \node[stage] (retrieve) at (18,-3) {Hybrid Retrieve};
+  \node[stage] (evidence) at (22,-3) {Evidence Gate};
+  \node[stage] (synthesize) at (26,-3) {Synthesize + Cite};
+  \node[stage] (answer) at (30,-3) {Answer};
+
+  \draw[flow] (query) -- (plan);
+  \draw[flow] (plan) -- (retrieve);
+  \draw[flow] (retrieve) -- (evidence);
+  \draw[flow] (evidence) -- (synthesize);
+  \draw[flow] (synthesize) -- (answer);
+
+  % Connections from persist to query path
+  \draw[flow, dashed] (persist) -- ++(0,-1.5) -| (retrieve);
+\end{tikzpicture}
+\caption{End-to-end data flow: ingestion pipeline (top) and query pipeline (bottom).}
+\label{fig:architecture:dataflow}
+\end{figure}
+
+\subsection{Ingestion Pipeline}
+\label{sec:arch:ingestion-pipeline}
+
+\begin{algorithm}[H]
+\caption{Ingestion Pipeline}
+\label{alg:ingestion}
+\begin{algorithmic}[1]
+\Require Artifact A (file, API response, database row)
+\Ensure Persisted semantic units U, graph updates Delta G, index updates Delta I
+\State U = Parse(A) \Comment{Language-aware parser}
+\State U = Chunk(U) \Comment{Hierarchical, overlap-controlled}
+\State Delta G = ExtractEntitiesRelations(U) \Comment{Local LLM or rule-based}
+\State Delta I = Embed(U) \Comment{Batch local inference}
+\State WriteWAL(Delta G, Delta I, U) \Comment{Atomic append to WAL}
+\State ApplyGraph(Delta G) \Comment{Incremental graph update}
+\State ApplyIndex(Delta I) \Comment{Incremental index update}
+\State \Return U, Delta G, Delta I
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Query Pipeline}
+\label{sec:arch:query-pipeline}
+
+\begin{algorithm}[H]
+\caption{Query Execution Pipeline}
+\label{alg:query}
+\begin{algorithmic}[1]
+\Require Query q, context budget B, evidence threshold tau
+\Ensure Answer a with citations C
+\State P = Plan(q) \Comment{Planner outputs DAG of subqueries}
+\State R = empty set
+\ForEach{subquery s in P}
+  \State R_s = HybridRetrieve(s) \Comment{Vector + BM25 + Graph}
+  \State R = R union R_s
+\EndFor
+\State E = EvidenceGate(R, tau) \Comment{Cross-encoder verify}
+\State a = Synthesize(E, B) \Comment{LLM with citations forced}
+\State \Return a, C(E) \Comment{Answer + evidence citations}
+\end{algorithmic}
+\end{algorithm}
+
+\section{Core Invariants}
+\label{sec:architecture:invariants}
+
+\begin{invariant}[Content Addressability]
+\label{inv:content-address}
+Forall u in U: id(u) = SHA256(canonical(u)). Identical content implies identical identifier across all indices.
+\end{invariant}
+
+\begin{invariant}[Evidence Closure]
+\label{inv:evidence-closure}
+Forall a in Answers: citations(a) subset of U and forall c in citations(a): verify(c) >= tau.
+\end{invariant}
+
+\begin{invariant}[Incremental Consistency]
+\label{inv:incremental}
+After any ingestion I, the triple (G, I, U) satisfies: query(q, G, I, U) = replay(queries(q)).
+\end{invariant}
+
+\begin{invariant}[Local-First Determinism]
+\label{inv:local-determinism}
+Given identical .llmwiki/ directory and identical query q, two executions produce bitwise-identical results (modulo non-deterministic LLM sampling, which is confined to planning/synthesis).
+\end{invariant}
+
+\section{Comparison with Prior Art}
+\label{sec:architecture:prior-art}
+
+\begin{table}[htbp]
+\centering
+\caption{LLMWiki vs. Prior Art: Architectural Positioning}
+\label{tab:arch:prior-art}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Property} & \textbf{RAG} & \textbf{GraphRAG} & \textbf{HippoRAG} & \textbf{LLMWiki} \\
+\midrule
+Graph as source of truth & No & Yes & Yes & Yes \\
+Vectors as projection & No & No & No & Yes \\
+Filesystem as WAL & No & No & No & Yes \\
+Evidence gate (first-class) & No & No & No & Yes \\
+Local-first (no API required) & No & No & No & Yes \\
+Deterministic replay & No & No & No & Yes \\
+Content-addressed units & No & No & No & Yes \\
+Query planner (DAG) & No & No & No & Yes \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Patent-Relevant Novelty}
+\label{sec:architecture:patent}
+
+\begin{patentclaim}
+\textbf{Claim 1:} A semantic operating layer characterized by: (a) content-addressed semantic units stored in a filesystem-backed write-ahead log, (b) a property knowledge graph as the canonical knowledge representation, (c) a hybrid semantic index combining vector, keyword, and graph adjacency, (d) an evidence gate that verifies retrieval results via cross-encoder scoring before synthesis, and (e) a DAG-based query planner that decomposes queries into verifiable subqueries.
+\end{patentclaim}
+
+\begin{patentclaim}
+\textbf{Claim 2:} The system of Claim 1 wherein the filesystem serves as the sole durability mechanism, enabling deterministic replay via directory synchronization without auxiliary transaction logs.
+\end{patentclaim}
+
+\begin{patentclaim}
+\textbf{Claim 3:} The system of Claim 1 wherein the evidence gate operates as a mandatory pipeline stage, rejecting any retrieval result that fails cross-encoder verification against a calibrated threshold, thereby enforcing evidence closure.
+\end{patentclaim}
+
+\begin{patentdiscussion}
+Prior art distinctions:
+\begin{itemize}
+  \item RAG (Lewis et al., 2020): Vector index is primary; no graph; no evidence gate; API-dependent.
+  \item GraphRAG (Edge et al., 2024): Graph constructed via LLM; no content-addressed units; no filesystem WAL; no mandatory evidence gate.
+  \item HippoRAG (Zhang et al., 2024): Personalized PageRank over graph; no hybrid index; no deterministic replay.
+  \item LightRAG (Zeng et al., 2024): Dual-level retrieval; no evidence gate; no DAG planner.
+  \item RAPTOR (Sarthi et al., 2024): Recursive summarization tree; no graph; no filesystem WAL.
+\end{itemize}
+\end{patentdiscussion}
+
+\section{Module Interface Contracts}
+\label{sec:architecture:contracts}
+
+\begin{interface}[Parser]
+\label{iface:parser}
+\begin{verbatim}
+trait Parser {
+    fn parse(&self, artifact: Artifact) -> Result<Vec<SemanticUnit>>;
+    fn supported_mimes(&self) -> Vec<MimeType>;
+    fn schema(&self) -> ParserSchema;
+}
+\end{verbatim}
+\end{interface}
+
+\begin{interface}[Chunker]
+\label{iface:chunker}
+\begin{verbatim}
+trait Chunker {
+    fn chunk(&self, unit: SemanticUnit, config: ChunkConfig) -> Vec<Chunk>;
+    fn config_schema(&self) -> ChunkConfigSchema;
+}
+\end{verbatim}
+\end{interface}
+
+\begin{interface}[Embedder]
+\label{iface:embedder}
+\begin{verbatim}
+trait Embedder {
+    fn embed_batch(&self, texts: &[String]) -> Result<Vec<Vec<f32>>>;
+    fn dimension(&self) -> usize;
+    fn model_id(&self) -> ModelId;
+}
+\end{verbatim}
+\end{interface}
+
+\begin{interface}[GraphStore]
+\label{iface:graphstore}
+\begin{verbatim}
+trait GraphStore {
+    fn upsert_nodes(&self, nodes: Vec<Node>) -> Result<()>;
+    fn upsert_edges(&self, edges: Vec<Edge>) -> Result<()>;
+    fn traverse(&self, start: NodeId, pattern: TraversalPattern) -> Result<Vec<Path>>;
+    fn neighborhoods(&self, ids: &[NodeId], hops: u32) -> Result<Subgraph>;
+}
+\end{verbatim}
+\end{interface}
+
+\begin{interface}[SemanticIndex]
+\label{iface:semantic-index}
+\begin{verbatim}
+trait SemanticIndex {
+    fn upsert(&self, units: Vec<IndexedUnit>) -> Result<()>;
+    fn search_vector(&self, query: Vec<f32>, k: usize) -> Result<Vec<ScoredUnit>>;
+    fn search_bm25(&self, query: &str, k: usize) -> Result<Vec<ScoredUnit>>;
+    fn search_hybrid(&self, query: HybridQuery, k: usize) -> Result<Vec<ScoredUnit>>;
+}
+\end{verbatim}
+\end{interface}
+
+\begin{interface}[EvidenceGate]
+\label{iface:evidence-gate}
+\begin{verbatim}
+trait EvidenceGate {
+    fn verify(&self, query: &str, candidates: Vec<ScoredUnit>, threshold: f32) 
+        -> Result<Vec<VerifiedUnit>>;
+    fn calibrate(&self, dataset: CalibrationSet) -> Result<CalibrationCurve>;
+}
+\end{verbatim}
+\end{interface}
+
+\begin{interface}[QueryPlanner]
+\label{iface:query-planner}
+\begin{verbatim}
+trait QueryPlanner {
+    fn plan(&self, query: Query, context: PlanContext) -> Result<QueryPlan>;
+    fn optimize(&self, plan: QueryPlan, stats: IndexStats) -> Result<QueryPlan>;
+    fn explain(&self, plan: QueryPlan) -> PlanExplanation;
+}
+\end{verbatim}
+\end{interface}
+
+\section{Runtime Configuration}
+\label{sec:architecture:config}
+
+\begin{verbatim}
+# .llmwiki/config.toml
+[repository]
+id = "llmwiki-main"
+created_at = "2024-01-15T10:30:00Z"
+version = "0.1.0"
+
+[ingestion]
+parsers = ["python", "markdown", "pdf", "openapi", "sql", "yaml", "json"]
+chunker = { type = "ast-aware", max_tokens = 512, overlap = 50 }
+embedder = { model = "bge-m3", batch_size = 32, device = "cpu" }
+
+[graph]
+store = "rocksdb"
+entity_resolution = { enabled = true, threshold = 0.85 }
+index_types = ["btree", "adjacency", "label"]
+
+[index]
+hnsw = { m = 16, ef_construction = 200, ef_search = 64 }
+bm25 = { k1 = 1.2, b = 0.75 }
+hybrid = { vector_weight = 0.6, keyword_weight = 0.3, graph_weight = 0.1 }
+
+[evidence_gate]
+model = "cross-encoder/ms-marco-MiniLM-L-6-v2"
+threshold = 0.72
+calibration = "isotonic"
+batch_size = 16
+
+[planner]
+max_depth = 5
+max_branching = 4
+cost_model = "learned"
+cache_ttl = "1h"
+
+[api]
+bind = "127.0.0.1:8080"
+auth = "none"
+rate_limit = 100
+\end{verbatim}
+
+\section{Extension Points}
+\label{sec:architecture:extensions}
+
+\begin{table}[htbp]
+\centering
+\caption{LLMWiki Extension Points}
+\label{tab:arch:extensions}
+\begin{tabular}{lll}
+\toprule
+\textbf{Extension Point} & \textbf{Interface} & \textbf{Volume} \\
+\midrule
+Custom Parser & Parser & Vol. 02 \\
+Custom Chunker & Chunker & Vol. 02 \\
+Custom Embedder & Embedder & Vol. 02 \\
+Graph Store Backend & GraphStore & Vol. 03 \\
+Index Backend & SemanticIndex & Vol. 03 \\
+Evidence Verifier & EvidenceGate & Vol. 06 \\
+Query Planner Strategy & QueryPlanner & Vol. 07 \\
+Agent Tool & Tool & Vol. 05 \\
+Auth Provider & AuthProvider & Vol. 08 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Summary}
+\label{sec:architecture:summary}
+
+LLMWiki's architecture is defined by five differentiating choices:
+\begin{enumerate}
+  \item \textbf{Graph-first, vectors-second}: The property graph is the canonical knowledge representation; vectors are derived projections for similarity search.
+  \item \textbf{Filesystem as WAL}: Zero operational dependencies; deterministic replay via directory sync.
+  \item \textbf{Content-addressed units}: SHA-256 identities enable deduplication, caching, and verifiable lineage.
+  \item \textbf{Evidence gate as mandatory stage}: No retrieval result reaches synthesis without cross-encoder verification.
+  \item \textbf{DAG query planner}: Queries decompose into verifiable subqueries with cost-based optimization.
+\end{enumerate}
+These choices are not incremental improvements over RAG - they represent a different architectural category: a semantic operating layer.
+
+The subsequent volumes detail each module's algorithms, data structures, APIs, and implementation considerations.
+
+%===============================================================================
+% End of Volume 01
+%===============================================================================

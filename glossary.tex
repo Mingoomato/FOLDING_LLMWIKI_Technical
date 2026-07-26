@@ -1,0 +1,191 @@
+﻿%===============================================================================
+% LLMWiki Glossary
+%===============================================================================
+% Usage: \gls{label} or \Gls{label} (capitalized)
+% Defined with \newglossaryentry{label}{name={...}, description={...}}
+%===============================================================================
+
+\newglossaryentry{semantic-unit}{
+  name={Semantic Unit},
+  description={A content-addressed, typed, hierarchically structured fragment extracted from a source artifact. Identified by SHA-256 of its canonical representation.}
+}
+
+\newglossaryentry{knowledge-graph}{
+  name={Knowledge Graph},
+  description={A property graph where nodes represent semantic units and entities, and edges represent typed relationships (CONTAINS, DEFINES, REFERENCES, CALLS, INHERITS, etc.). The canonical knowledge representation in LLMWiki.}
+}
+
+\newglossaryentry{semantic-index}{
+  name={Semantic Index},
+  description={A hybrid search index combining HNSW vector similarity, BM25 keyword matching, and graph adjacency traversal, all keyed by content-addressed unit identifiers.}
+}
+
+\newglossaryentry{evidence-gate}{
+  name={Evidence Gate},
+  description={A mandatory pipeline stage that verifies retrieval candidates via cross-encoder scoring against a calibrated threshold. Unlike a reranker, it may reject all candidates (empty set), enforcing evidence closure.}
+}
+
+\newglossaryentry{evidence-closure}{
+  name={Evidence Closure},
+  description={The invariant that every citation in an answer traces to a verified evidence unit. Formally: $\forall a \in \text{Answers}: \text{citations}(a) \subseteq \mathcal{U} \land \forall c \in \text{citations}(a): \text{verify}(c) \geq \tau$.}
+}
+
+\newglossaryentry{content-addressable}{
+  name={Content Addressable},
+  description={A naming scheme where the identifier of an object is a cryptographic hash of its canonical content. In LLMWiki: $\text{id}(u) = \text{SHA256}(\text{canonical}(u))$. Enables deduplication, caching, and deterministic replay.}
+}
+
+\newglossaryentry{incremental-parsing}{
+  name={Incremental Parsing},
+  description={Re-parsing only the affected regions of a source artifact when it changes, using tree-sitter'\''s edit-aware API. Produces a diff of (added, modified, removed) semantic unit IDs.}
+}
+
+\newglossaryentry{entity-resolution}{
+  name={Entity Resolution},
+  description={The process of merging extracted entity mentions into canonical entities in the knowledge graph, using a weighted similarity function over name, type, context, and embedding.}
+}
+
+\newglossaryentry{query-planner}{
+  name={Query Planner},
+  description={A compiler that transforms a natural language query into a DAG of executable subqueries (retrieval, synthesis, tool calls), optimized via a cost model over index statistics.}
+}
+
+\newglossaryentry{agent-runtime}{
+  name={Agent Runtime},
+  description={The execution engine that traverses the query plan DAG, invokes tools (search, graph traversal, LLM completion), manages state (scratchpad, evidence, budget), and streams results via SSE.}
+}
+
+\newglossaryentry{local-first}{
+  name={Local-First},
+  description={An architectural principle: all critical-path operations (ingestion, indexing, retrieval, verification, planning) execute on local hardware with zero external API dependencies. LLMs are optional accelerators.}
+}
+
+\newglossaryentry{deterministic-replay}{
+  name={Deterministic Replay},
+  description={The property that re-applying the ingestion write-ahead log to an empty store produces bitwise-identical knowledge graph, indices, and unit store. Enables backup via directory copy, CI reproducibility, and auditability.}
+}
+
+\newglossaryentry{wal}{
+  name={Write-Ahead Log (WAL)},
+  description={In LLMWiki, the filesystem directory \texttt{.llmwiki/wal/} containing append-only JSONL records of every ingestion diff. Serves as the sole durability mechanism; no separate Kafka, Redis, or database log required.}
+}
+
+\newglossaryentry{hnsw}{
+  name={HNSW},
+  description={Hierarchical Navigable Small World, an approximate nearest neighbor graph algorithm for vector similarity search. Used as the vector index backend in LLMWiki.}
+}
+
+\newglossaryentry{bm25}{
+  name={BM25},
+  description={Best Matching 25, a probabilistic term-weighting ranking function for keyword search. Used as the lexical index backend in LLMWiki (via Tantivy).}
+}
+
+\newglossaryentry{cross-encoder}{
+  name={Cross-Encoder},
+  description={A transformer architecture that jointly encodes a (query, document) pair to predict relevance. Used in the Evidence Gate for verification; more accurate than bi-encoder dot product but slower.}
+}
+
+\newglossaryentry{calibration}{
+  name={Calibration},
+  description={Post-processing of model scores to match true probabilities. LLMWiki uses isotonic regression or temperature scaling on a held-out validation set to calibrate cross-encoder outputs.}
+}
+
+\newglossaryentry{hybrid-search}{
+  name={Hybrid Search},
+  description={Fusion of multiple retrieval signals (vector, keyword, graph). LLMWiki uses Reciprocal Rank Fusion (RRF) with configurable weights.}
+}
+
+\newglossaryentry{rrf}{
+  name={Reciprocal Rank Fusion (RRF)},
+  description={A rank aggregation method: $score(d) = \sum_{s} w_s \cdot \frac{1}{k + rank_s(d)}$, where $rank_s(d)$ is the position of document $d$ in signal $s$'\''s ranked list.}
+}
+
+\newglossaryentry{dag}{
+  name={Directed Acyclic Graph (DAG)},
+  description={A finite directed graph with no directed cycles. Query plans in LLMWiki are DAGs where nodes are execution steps and edges are data dependencies.}
+}
+
+\newglossaryentry{topological-order}{
+  name={Topological Order},
+  description={A linear ordering of DAG vertices such that for every directed edge $u \to v$, vertex $u$ comes before $v$. The agent runtime executes plan steps in topological order.}
+}
+
+\newglossaryentry{budget}{
+  name={Execution Budget},
+  description={Hard limits on cumulative tokens, wall-clock time, tool invocations, and monetary cost enforced by the agent runtime. Overflow behavior: truncate, partial, or error.}
+}
+
+\newglossaryentry{sse}{
+  name={Server-Sent Events (SSE)},
+  description={A unidirectional HTTP-based streaming protocol. LLMWiki uses SSE to emit fine-grained events (plan\_start, step\_start, evidence\_found, token, step\_complete, plan\_complete, budget\_warning).}
+}
+
+\newglossaryentry{air-gapped}{
+  name={Air-Gapped},
+  description={A deployment mode with no network connectivity to external systems. LLMWiki supports this via a single binary with embedded models and grammars, requiring zero external API calls.}
+}
+
+\newglossaryentry{tree-sitter}{
+  name={Tree-sitter},
+  description={A parsing system for programming languages that produces concrete syntax trees, supports incremental re-parsing, and provides a query language (SCM) for extracting semantic units.}
+}
+
+\newglossaryentry{scm}{
+  name={SCM (S-expression Query Patterns)},
+  description={Tree-sitter'\''s pattern language for matching syntax tree nodes. Used to define semantic unit extraction rules per language.}
+}
+
+\newglossaryentry{onnx}{
+  name={ONNX},
+  description={Open Neural Network Exchange, an open format for representing machine learning models. LLMWiki embedders and cross-encoders run via ONNX Runtime for hardware-agnostic inference.}
+}
+
+\newglossaryentry{quantization}{
+  name={Quantization},
+  description={Reducing model weight precision (e.g., FP32 $\to$ INT8, INT4) to decrease memory footprint and increase inference speed with minimal accuracy loss.}
+}
+
+\newglossaryentry{rrf}{
+  name={RRF},
+  description={See \gls{reciprocal-rank-fusion}.}
+}
+
+\newglossaryentry{reciprocal-rank-fusion}{
+  name={Reciprocal Rank Fusion},
+  description={A rank aggregation method: $score(d) = \sum_{s} w_s \cdot \frac{1}{k + rank_s(d)}$, where $rank_s(d)$ is the position of document $d$ in signal $s$ ranked list.}
+}
+
+\newglossaryentry{isotonic-regression}{
+  name={Isotonic Regression},
+  description={A non-parametric calibration method that fits a monotonic function to map raw scores to calibrated probabilities. Used for cross-encoder calibration in LLMWiki.}
+}
+
+\newglossaryentry{temperature-scaling}{
+  name={Temperature Scaling},
+  description={A parametric calibration method dividing logits by a learned temperature $T > 0$ before softmax. Simpler than isotonic regression but less flexible.}
+}
+
+\newglossaryentry{platt-scaling}{
+  name={Platt Scaling},
+  description={A parametric calibration method fitting a sigmoid $1/(1 + \exp(A \cdot x + B))$ to raw scores. Used for probabilistic calibration.}
+}
+
+\newglossaryentry{attribution}{
+  name={Attribution Score},
+  description={A metric measuring whether each claim in an answer is entailed by cited evidence. Computed via NLI model or LLM judge at the claim level.}
+}
+
+\newglossaryentry{citation-quality}{
+  name={Citation Quality},
+  description={The mean cross-encoder relevance score of all units cited in an answer. Penalizes hallucinated or irrelevant citations.}
+}
+
+\newglossaryentry{gate-rejection-rate}{
+  name={Gate Rejection Rate},
+  description={Fraction of retrieval candidates rejected by the Evidence Gate. High rejection with maintained recall indicates effective noise filtering.}
+}
+
+\newglossaryentry{sha256}{
+  name={SHA-256},
+  description={Secure Hash Algorithm 256-bit, a cryptographic hash function. Used in LLMWiki for content-addressed unit identifiers.}
+}

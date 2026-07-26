@@ -1,0 +1,488 @@
+%===============================================================================
+% LLMWiki Technical Specification — Volume 07: Deployment & Operations
+%===============================================================================
+\chapter{Deployment and Operations}
+\label{cha:deployment}
+
+This volume covers deploying LLMWiki in production: containerization, local-first modes, distributed scaling, monitoring, backup/recovery, and upgrade procedures.
+
+\section{Deployment Modes}
+\label{sec:deploy:modes}
+
+\begin{table}[htbp]
+\centering
+\caption{LLMWiki Deployment Modes}
+\label{tab:deploy:modes}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Mode} & \textbf{Use Case} & \textbf{Components} & \textbf{Scale} & \textbf{Deps} \\
+\midrule
+Embedded (Library) & Desktop app, CLI, tests & Rust/Python lib & 1 process & None \\
+Standalone Server & Single-user, team server & API + workers & 10K QPS & Docker \\
+High Availability & Production service & Load balancer + replicas & 100K QPS & K8s, Redis \\
+Air-gapped & Secure environments & Full offline bundle & 10K QPS & None \\
+Edge / Mobile & On-device & WASM / mobile lib & 1 QPS & None \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Container Images}
+\label{sec:deploy:containers}
+
+\texttt{Dockerfile} multi-stage build:
+
+\begin{verbatim}
+# Build stage
+FROM rust:1.78 AS builder
+WORKDIR /app
+COPY . .
+RUN cargo build --release --features api,embed-onnx
+
+# Runtime stage
+FROM debian:bookworm-slim
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates libssl3 libgomp1 && \
+    rm -rf /var/lib/apt/lists/*
+COPY --from=builder /app/target/release/llmwiki /usr/local/bin/
+COPY --from=builder /app/config/default.toml /etc/llmwiki/
+EXPOSE 8080
+USER 1000:1000
+ENTRYPOINT ["llmwiki", "server"]
+\end{verbatim}
+
+Images published to \texttt{ghcr.io/llmwiki/llmwiki}:{version, latest, sha}.
+
+\subsection{Image Variants}
+\label{sec:deploy:variants}
+
+\begin{itemize}
+  \item \texttt{llmwiki:cpu} - Default, ONNX Runtime CPU
+  \item \texttt{llmwiki:cuda} - CUDA 12.x, TensorRT optimized
+  \item \texttt{llmwiki:rocm} - AMD ROCm support
+  \item \texttt{llmwiki:minimal} - No embedder, external embedding service
+  \item \texttt{llmwiki:full} - All parsers, local LLM (llama.cpp)
+\end{itemize}
+
+\section{Kubernetes Deployment}
+\label{sec:deploy:k8s}
+
+\subsection{Helm Chart Structure}
+\label{sec:deploy:helm}
+
+\begin{verbatim}
+llmwiki/
+├── Chart.yaml
+├── values.yaml
+├── values-prod.yaml
+├── templates/
+│   ├── deployment.yaml
+│   ├── service.yaml
+│   ├── ingress.yaml
+│   ├── configmap.yaml
+│   ├── secret.yaml
+│   ├── pvc.yaml
+│   ├── hpa.yaml
+│   ├── servicemonitor.yaml
+│   └── _helpers.tpl
+└── charts/
+    └── redis/        # Optional: for distributed cache
+\end{verbatim}
+
+\subsection{Key Configuration}
+\label{sec:deploy:k8s-config}
+
+\begin{verbatim}
+# values.yaml
+replicaCount: 3
+image:
+  repository: ghcr.io/llmwiki/llmwiki
+  tag: "0.1.0"
+  pullPolicy: IfNotPresent
+
+resources:
+  limits:
+    cpu: "2000m"
+    memory: "4Gi"
+  requests:
+    cpu: "1000m"
+    memory: "2Gi"
+
+persistence:
+  enabled: true
+  size: 100Gi
+  storageClass: fast-ssd
+  accessMode: ReadWriteOnce
+
+config:
+  repository:
+    id: "prod-main"
+  ingestion:
+    embedder:
+      model: "bge-m3"
+      device: "cuda"
+  index:
+    hnsw:
+      ef_search: 128
+  evidence_gate:
+    threshold: 0.72
+  api:
+    auth: "oidc"
+    rate_limit: 1000
+
+hpa:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 20
+  targetCPU: 70
+  targetMemory: 80
+\end{verbatim}
+
+\subsection{Stateful Considerations}
+\label{sec:deploy:stateful}
+
+LLMWiki pods are \textbf{stateful} due to \texttt{.llmwiki/} directory. Options:
+
+\begin{enumerate}
+  \item \textbf{Shared PVC (ReadWriteMany)}: NFS, CephFS, Longhorn RWX. Single writer enforced by file lock.
+  \item \textbf{Per-pod PVC + Sync Sidecar}: Each pod has PVC; sidecar runs \texttt{rsync} or \texttt{git sync} for convergence. More complex but no RWX dependency.
+  \item \textbf{Object store backend}: S3/GCS for units/graph/index. Requires GraphStore/Index implementations with S3 backend.
+\end{enumerate}
+
+\textbf{Default:} Per-pod PVC + \texttt{lsyncd} sidecar for near-real-time sync.
+
+\section{Local-First Deployment}
+\label{sec:deploy:local}
+
+\subsection{Single Binary}
+\label{sec:deploy:single-binary}
+
+\begin{verbatim}
+# Install
+curl -L https://github.com/llmwiki/llmwiki/releases/latest/download/llmwiki-x86_64-unknown-linux-gnu.tar.gz | tar xz
+sudo mv llmwiki /usr/local/bin/
+
+# Initialize repository
+llmwiki init --repo ~/.llmwiki
+
+# Ingest
+llmwiki ingest ~/projects/my-codebase
+
+# Run server
+llmwiki server --bind 127.0.0.1:8080
+\end{verbatim}
+
+\subsection{Docker Compose (Local Stack)}
+\label{sec:deploy:compose}
+
+\begin{verbatim}
+# docker-compose.yml
+version: '3.8'
+services:
+  llmwiki:
+    image: ghcr.io/llmwiki/llmwiki:cpu
+    ports: ["8080:8080"]
+    volumes:
+      - ./data:/data
+      - ./config.toml:/etc/llmwiki/config.toml:ro
+    environment:
+      - LLMWIKI_REPO=/data/.llmwiki
+      - RUST_LOG=info
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Optional: local LLM for planning/synthesis
+  ollama:
+    image: ollama/ollama
+    volumes: ["./ollama:/root/.ollama"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+\end{verbatim}
+
+\subsection{Air-Gapped Installation}
+\label{sec:deploy:airgap}
+
+\begin{enumerate}
+  \item Download \texttt{llmwiki-airgap.tar.gz} (contains binary, models, grammars, config)
+  \item Extract on target machine
+  \item Run \texttt{./install.sh} (sets up systemd service, configures firewall)
+  \item No external network access ever required
+\end{enumerate}
+
+Air-gap bundle includes:
+\begin{itemize}
+  \item Embedding models (ONNX): \texttt{bge-m3}, \texttt{e5-large-v2}
+  \item Cross-encoder: \texttt{ms-marco-MiniLM-L-6-v2}
+  \item Tree-sitter grammars: all 20+ languages
+  \item Optional local LLM: \texttt{llama-3.1-8b-instruct-q4\_k\_m.gguf}
+\end{itemize}
+
+\section{Configuration Management}
+\label{sec:deploy:config}
+
+\begin{verbatim}
+# Config precedence (highest wins):
+# 1. CLI flags              --config.key=value
+# 2. Environment variables  LLMWIKI_CONFIG_KEY=value
+# 3. Config file            /etc/llmwiki/config.toml
+# 4. Defaults               built-in
+
+# Example env overrides
+LLMWIKI_REPOSITORY_ID=prod-main
+LLMWIKI_INGESTION_EMBEDDER_MODEL=bge-m3
+LLMWIKI_INDEX_HNSW_EF_SEARCH=128
+LLMWIKI_EVIDENCE_GATE_THRESHOLD=0.72
+LLMWIKI_API_AUTH=oidc
+LLMWIKI_API_OIDC_ISSUER=https://auth.example.com
+LLMWIKI_LOG_LEVEL=info
+LLMWIKI_LOG_FORMAT=json
+\end{verbatim}
+
+Config schema validated at startup (using \texttt{config-rs} + JSON Schema).
+
+\section{Monitoring and Observability}
+\label{sec:deploy:monitoring}
+
+\subsection{Metrics (Prometheus)}
+\label{sec:deploy:metrics}
+
+Exposed at \texttt{/metrics}:
+
+\begin{verbatim}
+# Ingestion
+llmwiki_ingestion_units_total{status="success|failed"} 
+llmwiki_ingestion_latency_seconds{quantile="0.5|0.95|0.99"}
+llmwiki_ingestion_bytes_total
+
+# Query
+llmwiki_query_total{status="success|failed|timeout"}
+llmwiki_query_latency_seconds{quantile="0.5|0.95|0.99"}
+llmwiki_query_retrieval_candidates
+llmwiki_query_evidence_verified
+llmwiki_query_evidence_rejected
+llmwiki_query_synthesis_tokens
+
+# System
+llmwiki_graph_nodes_total
+llmwiki_graph_edges_total
+llmwiki_index_vectors_total
+llmwiki_wal_size_bytes
+llmwiki_storage_size_bytes
+
+# LLM (if local)
+llmwiki_llm_inference_duration_seconds
+llmwiki_llm_tokens_per_second
+\end{verbatim}
+
+\subsection{Distributed Tracing (OpenTelemetry)}
+\label{sec:deploy:tracing}
+
+Every query execution produces a trace:
+
+\begin{verbatim}
+Span: query.execution
+├── Span: query.plan
+├── Span: retrieval.hybrid
+│   ├── Span: retrieval.vector
+│   ├── Span: retrieval.bm25
+│   └── Span: retrieval.graph
+├── Span: evidence.gate
+│   └── Span: evidence.cross_encoder_batch (repeated)
+├── Span: synthesis.llm
+└── Span: response.stream
+\end{verbatim}
+
+Exporters: OTLP HTTP/gRPC, Zipkin, Jaeger, stdout (dev).
+
+\subsection{Structured Logging}
+\label{sec:deploy:logging}
+
+JSON logs with fields:
+\begin{verbatim}
+{
+  "timestamp": "2024-01-15T10:30:00.123Z",
+  "level": "INFO",
+  "message": "Query executed",
+  "query_id": "q_abc123",
+  "user_id": "user_456",
+  "latency_ms": 245,
+  "retrieval_candidates": 47,
+  "evidence_verified": 12,
+  "plan_depth": 3,
+  "plan_nodes": 5
+}
+\end{verbatim}
+
+\subsection{Health Checks}
+\label{sec:deploy:health}
+
+\begin{itemize}
+  \item \texttt{GET /health/live} - Liveness (process alive)
+  \item \texttt{GET /health/ready} - Readiness (indices loaded, config valid)
+  \item \texttt{GET /health/deep} - Deep check (sample query executes)
+\end{itemize}
+
+\section{Backup and Recovery}
+\label{sec:deploy:backup}
+
+\subsection{Backup Strategy}
+\label{sec:deploy:backup-strategy}
+
+\begin{enumerate}
+  \item \textbf{WAL replay}: \texttt{.llmwiki/wal/} is append-only; replay from any point
+  \item \textbf{Snapshots}: Periodic \texttt{tar} of \texttt{.llmwiki/} (exclude \texttt{wal/*.jsonl} if replay from snapshot)
+  \item \textbf{Incremental}: \texttt{rsync --link-dest} for efficient daily backups
+  \item \textbf{Verification}: Restore to temp dir, run \texttt{llmwiki verify} (checksums, query smoke test)
+\end{enumerate}
+
+\subsection{Automated Backup (CronJob)}
+\label{sec:deploy:backup-cron}
+
+\begin{verbatim}
+# Kubernetes CronJob
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: llmwiki-backup
+spec:
+  schedule: "0 2 * * *"  # Daily 2 AM
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: backup
+            image: ghcr.io/llmwiki/backup:sid
+            env:
+            - name: SOURCE_DIR
+              value: "/data/.llmwiki"
+            - name: DEST_BUCKET
+              value: "s3://llmwiki-backups/prod"
+            - name: ENCRYPTION_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: llmwiki-backup-key
+                  key: key
+            command: ["/backup.sh"]
+          restartPolicy: OnFailure
+\end{verbatim}
+
+\subsection{Disaster Recovery}
+\label{sec:deploy:dr}
+
+\begin{enumerate}
+  \item Provision new PVC / disk
+  \item \texttt{rsync} latest backup to \texttt{.llmwiki/}
+  \item Start single pod with \texttt{--replay-wal} flag
+  \item Verify \texttt{llmwiki verify --deep}
+  \item Scale to target replicas
+\end{enumerate}
+
+RTO: ~5 min (depends on data size). RPO: 24h (daily backup) or continuous (WAL shipping to S3).
+
+\section{Upgrades and Migrations}
+\label{sec:deploy:upgrades}
+
+\subsection{Version Compatibility}
+\label{sec:deploy:compat}
+
+\begin{itemize}
+  \item \textbf{Patch (0.1.x)}: Rolling upgrade, zero downtime
+  \item \textbf{Minor (0.x.0)}: May require index rebuild; blue-green deploy recommended
+  \item \textbf{Major (x.0.0)}: Schema migration; downtime required; migration tool provided
+\end{itemize}
+
+\subsection{Index Migration}
+\label{sec:deploy:index-migration}
+
+When HNSW parameters change (M, ef\_construction) or embedder model changes:
+
+\begin{verbatim}
+# Rebuild index from units
+llmwiki index rebuild --repo .llmwiki --model bge-m3 --parallel 4
+
+# Or incremental: re-embed changed units only
+llmwiki index reembed --repo .llmwiki --since 2024-01-01
+\end{verbatim}
+
+Migration runs as Kubernetes Job or standalone binary.
+
+\subsection{Graph Migration}
+\label{sec:deploy:graph-migration}
+
+Schema changes (new node types, edge types, property changes):
+
+\begin{verbatim}
+llmwiki graph migrate --repo .llmwiki --to-version 2
+# Dry-run first:
+llmwiki graph migrate --repo .llmwiki --to-version 2 --dry-run
+\end{verbatim}
+
+\section{Security Hardening}
+\label{sec:deploy:security}
+
+\begin{itemize}
+  \item \textbf{Non-root}: Container runs as UID 1000
+  \item \textbf{Read-only rootfs}: \texttt{readOnlyRootFilesystem: true}
+  \item \textbf{No capabilities}: \texttt{drop: [ALL]}
+  \item \textbf{Network policies}: Ingress only from API gateway; egress only to model registry (if remote)
+  \item \textbf{Secrets}: API keys, OIDC secrets via Kubernetes Secrets / Vault
+  \item \textbf{Auth}: OIDC, API keys, mTLS for service-to-service
+  \item \textbf{Rate limiting}: Per-user, per-IP, per-API-key
+  \item \textbf{Audit logging}: All queries logged with user, query hash, result count
+\end{itemize}
+
+\section{Performance Tuning}
+\label{sec:deploy:tuning}
+
+\begin{table}[htbp]
+\centering
+\caption{Tuning Knobs by Workload}
+\label{tab:deploy:tuning}
+\begin{tabular}{lll}
+\toprule
+\textbf{Workload} & \textbf{Parameter} & \textbf{Recommendation} \\
+\midrule
+High ingestion & \texttt{ingestion.batch\_size} & 128-512 \\
+High ingestion & \texttt{index.hnsw.ef\_construction} & 400 (build quality) \\
+High query & \texttt{index.hnsw.ef\_search} & 128-256 (accuracy) \\
+High query & \texttt{evidence\_gate.batch\_size} & 32-64 \\
+Low latency & \texttt{planner.max\_depth} & 3 \\
+Low latency & \texttt{retrieval.max\_candidates} & 20 \\
+High recall & \texttt{retrieval.hybrid\_weights} & Increase vector weight \\
+Memory constrained & \texttt{index.hnsw.m} & 8-12 \\
+GPU & \texttt{embedder.device} & "cuda" \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Patent-Relevant Novelty}
+\label{sec:deploy:patent}
+
+\begin{patentclaim}
+\textbf{Claim 10:} A deployment architecture for a semantic operating layer wherein: (a) the entire system state is contained in a single filesystem directory enabling backup via standard file copy, (b) the system runs as a single stateless binary with embedded models requiring zero external services, (c) air-gapped operation is supported via a self-contained bundle including all models and grammars, and (d) deterministic replay is achieved by directory synchronization without auxiliary coordination services.
+\end{patentclaim}
+
+\section{Summary}
+\label{sec:deploy:summary}
+
+LLMWiki deployment prioritizes:
+\begin{enumerate}
+  \item \textbf{Operational simplicity}: Single binary, filesystem state, no external deps
+  \item \textbf{Local-first}: Works fully offline, air-gapped
+  \item \textbf{Production readiness}: K8s native, observability, HA, security
+  \item \textbf{Recoverability}: WAL replay, snapshot restore, verified backups
+  \item \textbf{Upgradability}: Blue-green, rolling, migration tooling
+\end{enumerate}
+The next volume (Vol.~08) specifies the API contracts.
+
+%===============================================================================
+% End of Volume 07
+%===============================================================================

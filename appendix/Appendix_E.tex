@@ -1,0 +1,35 @@
+﻿%===============================================================================
+% Appendix E: Design Decision Log (from DESIGN_DECISIONS.md)
+%===============================================================================
+
+\section{Design Decision Log}
+\label{app:decisions}
+
+\begin{table}[htbp]
+\centering
+\caption{Key Design Decisions}
+\label{tab:decisions}
+\begin{tabular}{llp{6cm}}
+\toprule
+\textbf{ID} & \textbf{Decision} & \textbf{Rationale} \\
+\midrule
+DD-001 & Graph as source of truth (vectors as projections) & Enables structural queries, multi-hop reasoning, deterministic updates. Vectors are lossy projections. \\
+DD-002 & Filesystem as WAL & Zero operational deps; rsync/git replay; content-addressed deduplication; POSIX rename atomicity. \\
+DD-003 & Mandatory evidence gate (not reranker) & Enforces evidence closure; empty set = "insufficient evidence"; calibrated threshold controls FDR. \\
+DD-004 & Content-addressed units (SHA-256) & Deduplication across indices; verifiable lineage; deterministic replay; cache keys. \\
+DD-005 & Local-first, LLM-optional critical path & Air-gapped deployment; predictable latency; data sovereignty; no rate limits. \\
+DD-006 & DAG query planner with cost model & Parallel fan-out; subquery decomposition; strategy selection per subquery; explainable plans. \\
+DD-007 & Tree-sitter for code parsing & Incremental parsing (O(log n)); error recovery; unified query language; 40+ languages. \\
+DD-008 & ONNX Runtime for embeddings & Hardware-agnostic; quantization support; no PyTorch/TF runtime deps; fast cold start. \\
+DD-009 & RocksDB for graph storage & Embedded; column families for prefix scans; WAL; compaction; mature. \\
+DD-010 & HNSW + Tantivy + custom adjacency & Best-in-class ANN; fast BM25; sub-ms graph expansion; single query fuses all three. \\
+DD-011 & Cross-encoder with isotonic calibration & Accurate relevance; calibrated probabilities; FDR control; conformal prediction. \\
+DD-012 & SSE streaming protocol & Fine-grained events (plan, step, evidence, token); real-time UI; bidirectional via WS. \\
+DD-013 & Single-binary deployment & Air-gapped viable; no container runtime needed; simple upgrades; reproducible. \\
+DD-014 & Budget enforcement at executor & Hard limits on tokens/time/cost/calls; graceful degradation; prevents runaway costs. \\
+DD-015 & Regression gates in CI & 2% threshold on Evidence F1, Attribution, Hallucination; blocks merges on quality drop. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%===============================================================================
