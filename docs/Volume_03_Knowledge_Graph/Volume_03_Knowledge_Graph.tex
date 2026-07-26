@@ -79,13 +79,13 @@ Kuzu & Yes & 10B edges & Yes & MIT \\
 
 \begin{verbatim}
 Column Families:
-├── nodes:{type}       # Key: node_id (fixed 32 bytes), Value: serialized props
-├── edges:{rel_type}   # Key: src_id(32) | dst_id(32), Value: edge props
-├── adj:out:{type}     # Key: src_id, Value: list of (rel_type, dst_id) - adjacency
-├── adj:in:{type}      # Key: dst_id, Value: list of (rel_type, src_id) - reverse adj
-├── idx:label:{label}  # Key: label | node_id, Value: empty (label index)
-├── idx:prop:{key}     # Key: prop_value | node_id, Value: empty (property index)
-└── meta               # Key: "stats", "version", "config", Value: JSON
+|-- nodes:{type}       # Key: node_id (fixed 32 bytes), Value: serialized props
+|-- edges:{rel_type}   # Key: src_id(32) | dst_id(32), Value: edge props
+|-- adj:out:{type}     # Key: src_id, Value: list of (rel_type, dst_id) - adjacency
+|-- adj:in:{type}      # Key: dst_id, Value: list of (rel_type, src_id) - reverse adj
+|-- idx:label:{label}  # Key: label | node_id, Value: empty (label index)
+|-- idx:prop:{key}     # Key: prop_value | node_id, Value: empty (property index)
+`-- meta               # Key: "stats", "version", "config", Value: JSON
 \end{verbatim}
 
 \subsection{Entity Resolution}

@@ -97,7 +97,7 @@ Query text $q$ is embedded using the same model as ingestion (config: \texttt{[i
 Detailed in Vol.~03 \S\ref{sec:kg:hybrid-search}. Returns candidate set $\mathcal{R}$ of size $k_{cand}$ (default 50).
 
 \subsection{Stage 3: Evidence Gate}
-\label{sec:retrieval:evidence-gate}
+\label{sec:retrieval:evidence-gate-stage3}
 
 \paragraph{Cross-Encoder Model.}
 A transformer cross-encoder (e.g., \texttt{cross-encoder/ms-marco-MiniLM-L-6-v2}, \texttt{jinaai/jina-reranker-v2-base}) scores $(q, u)$ pairs:

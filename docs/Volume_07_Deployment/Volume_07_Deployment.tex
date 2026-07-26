@@ -73,21 +73,21 @@ Images published to \texttt{ghcr.io/llmwiki/llmwiki}:{version, latest, sha}.
 
 \begin{verbatim}
 llmwiki/
-├── Chart.yaml
-├── values.yaml
-├── values-prod.yaml
-├── templates/
-│   ├── deployment.yaml
-│   ├── service.yaml
-│   ├── ingress.yaml
-│   ├── configmap.yaml
-│   ├── secret.yaml
-│   ├── pvc.yaml
-│   ├── hpa.yaml
-│   ├── servicemonitor.yaml
-│   └── _helpers.tpl
-└── charts/
-    └── redis/        # Optional: for distributed cache
+|-- Chart.yaml
+|-- values.yaml
+|-- values-prod.yaml
+|-- templates/
+|   |-- deployment.yaml
+|   |-- service.yaml
+|   |-- ingress.yaml
+|   |-- configmap.yaml
+|   |-- secret.yaml
+|   |-- pvc.yaml
+|   |-- hpa.yaml
+|   |-- servicemonitor.yaml
+|   `-- _helpers.tpl
+`-- charts/
+    `-- redis/        # Optional: for distributed cache
 \end{verbatim}
 
 \subsection{Key Configuration}
@@ -290,15 +290,15 @@ Every query execution produces a trace:
 
 \begin{verbatim}
 Span: query.execution
-├── Span: query.plan
-├── Span: retrieval.hybrid
-│   ├── Span: retrieval.vector
-│   ├── Span: retrieval.bm25
-│   └── Span: retrieval.graph
-├── Span: evidence.gate
-│   └── Span: evidence.cross_encoder_batch (repeated)
-├── Span: synthesis.llm
-└── Span: response.stream
+|-- Span: query.plan
+|-- Span: retrieval.hybrid
+|   |-- Span: retrieval.vector
+|   |-- Span: retrieval.bm25
+|   `-- Span: retrieval.graph
+|-- Span: evidence.gate
+|   `-- Span: evidence.cross_encoder_batch (repeated)
+|-- Span: synthesis.llm
+`-- Span: response.stream
 \end{verbatim}
 
 Exporters: OTLP HTTP/gRPC, Zipkin, Jaeger, stdout (dev).
