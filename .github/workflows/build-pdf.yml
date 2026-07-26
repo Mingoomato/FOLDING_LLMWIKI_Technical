@@ -91,16 +91,15 @@ jobs:
 
     - name: Build PDF with latexmk
       run: |
-        cd LLMWiki
         latexmk -lualatex -interaction=nonstopmode -halt-on-error -file-line-error -synctex=1 -output-directory=build LLMWiki.tex
         
     - name: Copy PDF to root
       run: |
-        cp LLMWiki/build/LLMWiki.pdf ./LLMWiki.pdf
+        cp build/LLMWiki.pdf ./LLMWiki.pdf
         
     - name: Upload PDF artifact
       uses: actions/upload-artifact@v4
       with:
         name: LLMWiki-PDF
-        path: LLMWiki.pdf
+        path: ./LLMWiki.pdf
         retention-days: 30
