@@ -1,16 +1,9 @@
-\begin{thebibliography}{70}
+\begin{thebibliography}{69}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
-
-\bibitem[{AAS2RTO authors}(2025)]{aas2rto2025}
-{AAS2RTO authors}.
-\newblock Aas2rto: Automated alert streams to real-time
-  observations---preparing for rapid follow-up of transient objects in the era
-  of lsst.
-\newblock \emph{Astronomy \& Astrophysics}, 2025.
 
 \bibitem[Abdin et~al.(2024)Abdin, Jacobs, Awan, Aneja, Awadallah, Awadalla,
   Bach, Bahree, Bakhtiari, and Behl]{abdin2024phi3}
@@ -39,14 +32,6 @@ Max Brunsfeld.
 \newblock Tree-sitter: An incremental parsing system for programming tools.
 \newblock \url{https://tree-sitter.github.io/tree-sitter/}, 2024.
 
-\bibitem[{Cell Systems authors}(2026)]{multimolecular2026}
-{Cell Systems authors}.
-\newblock Multimolecular proofreading overcomes the activity-fidelity
-  trade-off.
-\newblock \emph{Cell Systems}, 2026.
-\newblock
-  \url{https://www.cell.com/cell-systems/abstract/S2405-4712(26)00140-7}.
-
 \bibitem[Chen et~al.(2024)Chen, Lin, Han, and Sun]{chen2024faithful}
 Jiawei Chen, Hongyu Lin, Xianpei Han, and Le~Sun.
 \newblock Benchmarking large language models in retrieval-augmented generation.
@@ -71,10 +56,11 @@ Abhimanyu Dubey, Abhinav Jauhri, Abhinav Pandey, Abhishek Kadian, Ahmad
 \newblock The llama 3 herd of models.
 \newblock \emph{arXiv preprint arXiv:2407.21783}, 2024.
 
-\bibitem[Edge et~al.(2024)Edge, Trinh, Newman, Zhu, Raghunathan, and
-  Agarwal]{edge2024graphrag}
-Darren Edge, Ha~Trinh, Newman Newman, Miao Zhu, Saket Raghunathan, and Yatin
-  Agarwal.
+\bibitem[Edge et~al.(2024)Edge, Trinh, Cheng, Bradley, Chao, Mody, Truitt,
+  Metropolitansky, Ness, and Larson]{edge2024graphrag}
+Darren Edge, Ha~Trinh, Newman Cheng, Joshua Bradley, Alex Chao, Apurva Mody,
+  Steven Truitt, Dasha Metropolitansky, Robert~Osazuwa Ness, and Jonathan
+  Larson.
 \newblock From local to global: A graph rag approach to query-focused
   summarization.
 \newblock \emph{arXiv preprint arXiv:2404.16130}, 2024.
@@ -84,17 +70,11 @@ Darren Edge, Ha~Trinh, Newman Newman, Miao Zhu, Saket Raghunathan, and Yatin
 \newblock Elasticsearch: The distributed search and analytics engine.
 \newblock \url{https://www.elastic.co/elasticsearch}, 2024.
 
-\bibitem[{Fink Collaboration}(2025)]{fink2025active}
-{Fink Collaboration}.
-\newblock Real-time active learning for optimised spectroscopic follow-up:
-  Enhancing early sn ia classification with the fink broker.
-\newblock \emph{arXiv preprint arXiv:2502.19555}, 2025.
-
-\bibitem[{Follow-up scheduling authors}(2025)]{rlfollowup2025}
-{Follow-up scheduling authors}.
-\newblock Solving online resource-constrained scheduling for follow-up
-  observation in astronomy: A reinforcement learning approach.
-\newblock \emph{arXiv preprint arXiv:2502.11134}, 2025.
+\bibitem[Felber et~al.(2025)Felber, Hummes~Flores, and
+  Rincon~Galeana]{sheafdistributed2025}
+Stephan Felber, Bernardo Hummes~Flores, and Hugo Rincon~Galeana.
+\newblock A sheaf-theoretic characterization of tasks in distributed systems.
+\newblock \emph{arXiv preprint arXiv:2503.02556}, 2025.
 
 \bibitem[Formal et~al.(2021)Formal, Piwowarski, and
   Clinchant]{formal2021splade}
@@ -122,12 +102,32 @@ Luyu Gao, Aman Madaan, Shuyan Zhou, Uri Alon, Pengfei Liu, Yiming Yang, Jamie
 \newblock Gemma: Open models based on gemini research and technology.
 \newblock \emph{arXiv preprint arXiv:2403.08295}, 2024.
 
-\bibitem[Guo et~al.(2024)Guo, Zhu, Yang, Xie, Dong, Zhang, Chen, Bi, Wu, and
-  Li]{guo2024deepseek}
+\bibitem[Ghrist and Ding(2025)]{sheafnetworks2025}
+Robert Ghrist and Cassie Ding.
+\newblock Precision-graded cohomology and arithmetic persistence for network
+  sheaves.
+\newblock \emph{arXiv preprint arXiv:2511.00677}, 2025.
+
+\bibitem[Guo et~al.(2024{\natexlab{a}})Guo, Zhu, Yang, Xie, Dong, Zhang, Chen,
+  Bi, Wu, and Li]{guo2024deepseek}
 Daya Guo, Qihao Zhu, Dejian Yang, Zhenda Xie, Kai Dong, Wentao Zhang, Guanting
   Chen, Xiao Bi, Yu~Wu, and Y~K Li.
 \newblock Deepseek-coder: When the large language model meets programming.
-\newblock \emph{arXiv preprint arXiv:2401.14196}, 2024.
+\newblock \emph{arXiv preprint arXiv:2401.14196}, 2024{\natexlab{a}}.
+
+\bibitem[Guo et~al.(2024{\natexlab{b}})Guo, Xia, Yu, Ao, and
+  Huang]{guo2024lightrag}
+Zirui Guo, Lianghao Xia, Yanhua Yu, Tu~Ao, and Chao Huang.
+\newblock Lightrag: Simple and fast retrieval-augmented generation.
+\newblock \emph{arXiv preprint arXiv:2410.05779}, 2024{\natexlab{b}}.
+
+\bibitem[Guti{\'e}rrez et~al.(2024)Guti{\'e}rrez, Shu, Gu, Yasunaga, and
+  Su]{gutierrez2024hipporag}
+Bernal~Jim{\'e}nez Guti{\'e}rrez, Yiheng Shu, Yu~Gu, Michihiro Yasunaga, and
+  Yu~Su.
+\newblock Hipporag: Neurobiologically inspired long-term memory for large
+  language models.
+\newblock \emph{arXiv preprint arXiv:2405.14831}, 2024.
 
 \bibitem[He et~al.(2024)He, Tian, Sun, Chawla, Laurent, LeCun, Bresson, and
   Hooi]{wang2024gretriever}
@@ -169,6 +169,12 @@ Jeff Johnson, Matthijs Douze, and Herve Jegou.
 \newblock Billion-scale similarity search with gpus.
 \newblock \emph{IEEE Transactions on Big Data}, 7\penalty0 (3):\penalty0
   535--547, 2019.
+
+\bibitem[Kang et~al.(2026)Kang, Chen, Li, Wang, and Zhou]{lineagetracing2026}
+Zhixin Kang, Hui Chen, Siyang Li, Shou-Wen Wang, and Bin Zhou.
+\newblock Evolving strategies for lineage tracing: Genetic markers, synthetic
+  barcodes, and natural variants.
+\newblock \emph{Cell Stem Cell}, 2026.
 
 \bibitem[Karpukhin et~al.(2020)Karpukhin, Oguz, Min, Lewis, Wu, Edunov, Chen,
   and Yih]{karpukhin2020dpr}
@@ -219,22 +225,24 @@ Sheng-Chieh Lin and Jimmy Lin.
   representational slicing.
 \newblock \emph{arXiv preprint arXiv:2112.04666}, 2022.
 
-\bibitem[{Lineage tracing review authors}(2026)]{lineagetracing2026}
-{Lineage tracing review authors}.
-\newblock Evolving strategies for lineage tracing: Genetic markers, synthetic
-  barcodes, and natural variants.
-\newblock \emph{Cell Stem Cell}, 2026.
-
-\bibitem[Liu et~al.(2024)Liu, Zhang, and Liang]{liu2024attribution}
+\bibitem[Liu et~al.(2023)Liu, Zhang, and Liang]{liu2024verifiability}
 Nelson~F. Liu, Tianyi Zhang, and Percy Liang.
-\newblock Evaluating attribution in language models.
-\newblock \emph{arXiv preprint arXiv:2401.05432}, 2024.
+\newblock Evaluating verifiability in generative search engines.
+\newblock \emph{arXiv preprint arXiv:2304.09848}, 2023.
 
 \bibitem[Mallia et~al.(2021)Mallia, Khattab, Suel, and
   Tonellotto]{ma2021deepimpact}
 Antonio Mallia, Omar Khattab, Torsten Suel, and Nicola Tonellotto.
 \newblock Learning passage impacts for inverted indexes.
 \newblock In \emph{Proceedings of SIGIR}, pages 1723--1727, 2021.
+
+\bibitem[Mao et~al.(2026)]{multimolecular2026}
+Mao et~al.
+\newblock Multimolecular proofreading overcomes the activity-fidelity
+  trade-off.
+\newblock \emph{Cell Systems}, 2026.
+\newblock
+  \url{https://www.cell.com/cell-systems/abstract/S2405-4712(26)00140-7}.
 
 \bibitem[Menick et~al.(2023)Menick, Trebacz, Mikulik, Aslanides, Song,
   Chadwick, Glaese, Young, Campbell-Gillingham, Irving, and
@@ -255,11 +263,13 @@ Jacob Menick, Maja Trebacz, Vladimir Mikulik, John Aslanides, Francis Song,
 \newblock Milvus: An open-source vector database.
 \newblock \url{https://milvus.io/}, 2024.
 
-\bibitem[{Network sheaf authors}(2025)]{sheafnetworks2025}
-{Network sheaf authors}.
-\newblock Precision-graded cohomology and arithmetic persistence for network
-  sheaves.
-\newblock \emph{arXiv preprint arXiv:2511.00677}, 2025.
+\bibitem[M{\"o}ller et~al.(2025)M{\"o}ller, Ishida, Peloton,
+  Vidal~Vel{\'a}zquez, Soon, Martin, Cluver, Leoni, and Taylor]{fink2025active}
+A.~M{\"o}ller, E.~E.~O. Ishida, J.~Peloton, O.~Vidal~Vel{\'a}zquez, J.~Soon,
+  B.~Martin, M.~Cluver, M.~Leoni, and E.~Taylor.
+\newblock Real-time active learning for optimised spectroscopic follow-up:
+  Enhancing early sn ia classification with the fink broker.
+\newblock \emph{arXiv preprint arXiv:2502.19555}, 2025.
 
 \bibitem[Ninio(1975)]{ninio1975kinetic}
 Jacques Ninio.
@@ -272,6 +282,12 @@ Alexander~H Nitz, Tito Dal~Canton, Derek Davis, and Steven Reyes.
   binary mergers.
 \newblock \emph{Physical Review D}, 98\penalty0 (2):\penalty0 024050, 2018.
 
+\bibitem[Nussbaum et~al.(2024)Nussbaum, Morris, Duderstadt, and
+  Mulyar]{nomic2024nomic}
+Zach Nussbaum, John~X. Morris, Brandon Duderstadt, and Andriy Mulyar.
+\newblock Nomic embed: Training a reproducible long context text embedder.
+\newblock \emph{arXiv preprint arXiv:2402.01613}, 2024.
+
 \bibitem[{ONNX Runtime}(2024)]{onnx2024}
 {ONNX Runtime}.
 \newblock Onnx runtime: Cross-platform accelerated machine learning.
@@ -282,21 +298,17 @@ Alexander~H Nitz, Tito Dal~Canton, Derek Davis, and Steven Reyes.
 \newblock Opensearch: Open-source search and analytics suite.
 \newblock \url{https://opensearch.org/}, 2024.
 
+\bibitem[Peng et~al.(2024)Peng, Zhu, Liu, Bo, Shi, Hong, Zhang, and
+  Tang]{peng2024graphrag}
+Boci Peng, Yun Zhu, Yongchao Liu, Xiaohe Bo, Haizhou Shi, Chuntao Hong, Yan
+  Zhang, and Siliang Tang.
+\newblock Graph retrieval-augmented generation: A survey.
+\newblock \emph{arXiv preprint arXiv:2408.08921}, 2024.
+
 \bibitem[{pgvector}(2024)]{pgvector2024}
 {pgvector}.
 \newblock pgvector: Open-source vector similarity search for postgres.
 \newblock \url{https://github.com/pgvector/pgvector}, 2024.
-
-\bibitem[{Phylodynamic inference authors}(2025)]{phylodynamic2025}
-{Phylodynamic inference authors}.
-\newblock A bayesian phylodynamic inference framework for single-cell
-  crispr/cas9 lineage tracing barcode data with dependent target sites.
-\newblock \emph{PLOS Computational Biology}, 2025.
-
-\bibitem[{Predictive coding sheaf authors}(2025)]{sheafpc2025}
-{Predictive coding sheaf authors}.
-\newblock Sheaf cohomology of linear predictive coding networks.
-\newblock \emph{arXiv preprint arXiv:2511.11092}, 2025.
 
 \bibitem[{Qdrant}(2024)]{qdrant2024}
 {Qdrant}.
@@ -324,17 +336,25 @@ Parth Sarthi, Salman Abdullah, Aditi Tuli, Shubham Khanna, Anna Goldie, and
   retrieval.
 \newblock \emph{arXiv preprint arXiv:2401.18059}, 2024.
 
-\bibitem[{Sheaf-theoretic distributed systems
-  authors}(2025)]{sheafdistributed2025}
-{Sheaf-theoretic distributed systems authors}.
-\newblock A sheaf-theoretic characterization of tasks in distributed systems.
-\newblock \emph{arXiv preprint arXiv:2503.02556}, 2025.
-
-\bibitem[{Spectral coarse graining authors}(2025)]{spectralcoarse2025}
-{Spectral coarse graining authors}.
-\newblock Spectral coarse graining and rescaling for preserving structural and
+\bibitem[Schmidt et~al.(2025)Schmidt, Caccioli, and Aste]{spectralcoarse2025}
+M.~Schmidt, F.~Caccioli, and T.~Aste.
+\newblock Spectral coarse-graining and rescaling for preserving structural and
   dynamical properties in graphs.
-\newblock \emph{Physical Review E}, 2025.
+\newblock \emph{Physical Review E}, 112:\penalty0 034303, 2025.
+
+\bibitem[Sedgewick et~al.(2025)Sedgewick, Gall, Izzo, Agnello, Angus, Hjorth,
+  and Kadela]{aas2rto2025}
+Aidan Sedgewick, Christa Gall, Luca Izzo, Adriano Agnello, Charlotte~R. Angus,
+  Jens Hjorth, and Arthur Kadela.
+\newblock Aas2rto: Automated alert streams to real-time
+  observations---preparing for rapid follow-up of transient objects in the era
+  of lsst.
+\newblock \emph{arXiv preprint arXiv:2501.06968}, 2025.
+
+\bibitem[Seely(2025)]{sheafpc2025}
+Jeffrey Seely.
+\newblock Sheaf cohomology of linear predictive coding networks.
+\newblock \emph{arXiv preprint arXiv:2511.11092}, 2025.
 
 \bibitem[{SQLite Consortium}(2024)]{bradley2024sqlite}
 {SQLite Consortium}.
@@ -346,12 +366,6 @@ Parth Sarthi, Salman Abdullah, Aditi Tuli, Shubham Khanna, Anna Goldie, and
 \newblock Tantivy: A full-text search engine library in rust.
 \newblock \url{https://github.com/quickwit-oss/tantivy}, 2024.
 
-\bibitem[Team(2024)]{nomic2024nomic}
-Nomic~AI Team.
-\newblock Nomic embed: Training a reproducible, long-context, and multilingual
-  text embedder.
-\newblock \emph{arXiv preprint arXiv:2402.01613}, 2024.
-
 \bibitem[Touvron et~al.(2023)Touvron, Martin, Stone, Albert, Almahairi, Babaei,
   Bashlykov, Batra, Bhargava, and Bhosale]{touvron2023llama2}
 Hugo Touvron, Louis Martin, Kevin Stone, Peter Albert, Amjad Almahairi, Yasmine
@@ -359,11 +373,6 @@ Hugo Touvron, Louis Martin, Kevin Stone, Peter Albert, Amjad Almahairi, Yasmine
   Bhosale.
 \newblock Llama 2: Open foundation and fine-tuned chat models.
 \newblock \emph{arXiv preprint arXiv:2307.09288}, 2023.
-
-\bibitem[Truong et~al.(2023)Truong, Nguyen, and Pham]{truong2023recursive}
-Nhat Truong, Minh Nguyen, and Tuan Pham.
-\newblock Recursive abstractive processing for long document understanding.
-\newblock \emph{arXiv preprint arXiv:2310.06117}, 2023.
 
 \bibitem[Wang et~al.(2024)Wang, Yang, Huang, Jiao, Yang, Jiang, Majumder, and
   Wei]{wang2024e5}
@@ -399,10 +408,10 @@ Sean Welleck, Ximing Lu, Peter West, Faeze Brahman, Tianxiao Shen, Daniel
 \newblock Generating sequences by learning to self-correct.
 \newblock \emph{arXiv preprint arXiv:2211.00053}, 2022.
 
-\bibitem[Xiao et~al.(2023)Xiao, Liu, Pei, Su, Lu, and Liu]{xiao2023bge}
-Shitao Xiao, Zheng Liu, Yingxia Pei, Qixin Su, Yao Lu, and Liang Liu.
-\newblock Bge: Benchmarking general embeddings.
-\newblock \emph{arXiv preprint arXiv:2310.07224}, 2023.
+\bibitem[Xiao et~al.(2023)Xiao, Liu, Zhang, and Muennighoff]{xiao2023bge}
+Shitao Xiao, Zheng Liu, Peitian Zhang, and Niklas Muennighoff.
+\newblock C-pack: Packaged resources to advance general chinese embedding.
+\newblock \emph{arXiv preprint arXiv:2309.07597}, 2023.
 
 \bibitem[Xiong et~al.(2020)Xiong, Xiong, Li, Tang, Liu, Bennett, Ahmed, and
   Overwijk]{xiong2020ance}
@@ -420,30 +429,24 @@ Shunyu Yao, Dian Yu, Jeffrey Zhao, Izhak Shafran, Thomas~L Griffiths, Yuan Cao,
   models.
 \newblock \emph{Advances in Neural Information Processing Systems}, 36, 2023.
 
-\bibitem[Zeng et~al.(2024)Zeng, Liu, Wang, Li, Zhang, and
-  Liu]{zeng2024lightrag}
-Zhiwei Zeng, Yiming Liu, Zhao Wang, Yifan Li, Chen Zhang, and Zhicheng Liu.
-\newblock Lightrag: A lightweight retrieval-augmented generation framework for
-  efficient knowledge integration.
-\newblock \emph{arXiv preprint arXiv:2410.05779}, 2024.
-
-\bibitem[Zhang et~al.(2024)Zhang, Liu, Liu, Guan, Wang, and
-  Qiu]{zhang2024hipporag}
-Yukun Zhang, Yifan Liu, Feng Liu, Jie Guan, Xiaoyang Wang, and Xipeng Qiu.
-\newblock Hipporag: Neurobiologically inspired long-term memory for large
-  language models.
-\newblock \emph{arXiv preprint arXiv:2405.14831}, 2024.
-
-\bibitem[Zhong et~al.(2024)Zhong, Wu, Li, Peng, and Wu]{zhong2024kgr}
-Lei Zhong, Jiapu Wu, Qika Li, Hao Peng, and Xindong Wu.
-\newblock Knowledge graph retrieval-augmented generation for large language
-  models: A survey.
-\newblock \emph{arXiv preprint arXiv:2408.08921}, 2024.
+\bibitem[Zhang et~al.(2025)Zhang, Yu, Sun, Wei, Ju, and Tang]{rlfollowup2025}
+Yajie Zhang, Ce~Yu, Chao Sun, Jizeng Wei, Junhan Ju, and Shanjiang Tang.
+\newblock Solving online resource-constrained scheduling for follow-up
+  observation in astronomy: A reinforcement learning approach.
+\newblock \emph{arXiv preprint arXiv:2502.11134}, 2025.
 
 \bibitem[Zhuang and Zuccon(2022)]{zhuang2022learned}
 Shengyao Zhuang and Guido Zuccon.
 \newblock Fast passage re-ranking with contextualized exact term matching and
   efficient passage expansion.
 \newblock \emph{arXiv preprint arXiv:2108.08513}, 2022.
+
+\bibitem[Zwaans et~al.(2025)Zwaans, Seidel, Manceau, and
+  Stadler]{phylodynamic2025}
+A.~Zwaans, S.~Seidel, M.~Manceau, and T.~Stadler.
+\newblock A bayesian phylodynamic inference framework for single-cell
+  crispr/cas9 lineage tracing barcode data with dependent target sites.
+\newblock \emph{Philosophical Transactions of the Royal Society B},
+  380\penalty0 (1919), 2025.
 
 \end{thebibliography}

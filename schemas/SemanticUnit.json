@@ -1,15 +1,15 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "SemanticUnit",
+  "description": "Content-addressed blob; no location (see UnitOccurrence.json and Sec. A.1).",
   "type": "object",
-  "required": ["id", "type", "content", "file_path"],
+  "required": ["id", "type", "content", "canonicalization_version"],
   "properties": {
-    "id":        { "type": "string", "description": "SHA-256 of the canonical form" },
-    "type":      { "type": "string", "enum": ["function", "class", "section", "paragraph", "endpoint", "schema", "config"] },
-    "content":   { "type": "string" },
-    "file_path": { "type": "string" },
-    "span":      { "type": "array", "items": { "type": "integer" }, "minItems": 2, "maxItems": 2 },
-    "language":  { "type": "string" },
-    "metadata":  { "type": "object", "additionalProperties": true }
+    "id":                      { "type": "string", "description": "content_id: SHA-256 of canonical(content, canonicalization_version)" },
+    "type":                    { "type": "string", "enum": ["function", "class", "section", "paragraph", "endpoint", "schema", "config"] },
+    "content":                 { "type": "string", "description": "Canonical byte representation" },
+    "canonicalization_version": { "type": "string", "description": "Version of canonicalization applied" },
+    "language":                { "type": "string" },
+    "metadata":                { "type": "object", "additionalProperties": true }
   }
 }

@@ -15,6 +15,8 @@ Reallocating 'name_of_file' (item size: 1) to 51 items.
 A level-1 auxiliary file: docs/Volume_06_Evaluation/Volume_06_Evaluation.aux
 Reallocating 'name_of_file' (item size: 1) to 51 items.
 A level-1 auxiliary file: docs/Volume_07_Deployment/Volume_07_Deployment.aux
+Reallocating 'name_of_file' (item size: 1) to 61 items.
+A level-1 auxiliary file: docs/Volume_12_Mutation_Engine/Volume_12_Mutation_Engine.aux
 Reallocating 'name_of_file' (item size: 1) to 57 items.
 A level-1 auxiliary file: docs/Volume_08_API_Reference/Volume_08_API_Reference.aux
 Reallocating 'name_of_file' (item size: 1) to 61 items.
@@ -39,44 +41,44 @@ Reallocating 'name_of_file' (item size: 1) to 9 items.
 The style file: plainnat.bst
 Reallocating 'name_of_file' (item size: 1) to 8 items.
 Database file #1: LLMWiki.bib
-You've used 70 entries,
+You've used 69 entries,
             2773 wiz_defined-function locations,
-            920 strings with 18534 characters,
-and the built_in function-call counts, 33646 in all, are:
-= -- 2768
-> -- 2587
-< -- 43
-+ -- 883
-- -- 813
-* -- 2650
-:= -- 5375
-add.period$ -- 212
-call.type$ -- 70
-change.case$ -- 481
-chr.to.int$ -- 70
-cite$ -- 140
-duplicate$ -- 1404
-empty$ -- 2395
-format.name$ -- 893
-if$ -- 6905
-int.to.chr$ -- 1
+            921 strings with 18987 characters,
+and the built_in function-call counts, 35350 in all, are:
+= -- 2877
+> -- 2918
+< -- 35
++ -- 988
+- -- 918
+* -- 2918
+:= -- 5659
+add.period$ -- 209
+call.type$ -- 69
+change.case$ -- 512
+chr.to.int$ -- 68
+cite$ -- 138
+duplicate$ -- 1393
+empty$ -- 2381
+format.name$ -- 1000
+if$ -- 7220
+int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 54
-newline$ -- 360
-num.names$ -- 280
-pop$ -- 1043
+missing$ -- 53
+newline$ -- 355
+num.names$ -- 276
+pop$ -- 1092
 preamble$ -- 1
-purify$ -- 411
+purify$ -- 443
 quote$ -- 0
-skip$ -- 1228
+skip$ -- 1252
 stack$ -- 0
-substring$ -- 546
-swap$ -- 149
+substring$ -- 562
+swap$ -- 150
 text.length$ -- 7
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 770
+type$ -- 759
 warning$ -- 0
-while$ -- 241
+while$ -- 239
 width$ -- 0
-write$ -- 865
+write$ -- 855

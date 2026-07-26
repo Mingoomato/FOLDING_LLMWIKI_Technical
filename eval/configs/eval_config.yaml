@@ -1,0 +1,42 @@
+# eval_config.yaml
+# Matches the configuration matrix specified in Vol. 06 sec:eval:config-matrix.
+# Every combination below is one evaluation run; results are stored in
+# eval/results/<config_hash>/ for reproducibility (see run_eval.py).
+retrieval:
+  k: [5, 10, 20, 50]
+  hybrid_weights:
+    - [1.0, 0.0, 0.0]  # Vector only
+    - [0.0, 1.0, 0.0]  # BM25 only
+    - [0.6, 0.3, 0.1]  # Default hybrid
+  gate_threshold: [0.5, 0.6, 0.7, 0.75, 0.8, 0.9]
+
+embedders:
+  - "bge-m3"
+  - "e5-large-v2"
+  - "nomic-embed-text-v1.5"
+
+llms:
+  - "llama-3.1-8b-instruct"    # Local
+  - "llama-3.1-70b-instruct"   # Local (quantized)
+  - "gpt-4o-mini"              # Remote (optional; disabled by default, see local_only below)
+
+# Not in the Vol. 06 draft: made explicit here because the scaffold in this
+# directory needs it to run without network/API access, matching the
+# Local-First Evaluation design principle (Vol. 06 sec:eval:philosophy).
+# When true, run_eval.py substitutes a lightweight local baseline (TF-IDF /
+# BM25 retrieval, lexical-overlap NLI stand-in) for embedder/LLM entries
+# above rather than calling any external service. This is what lets the
+# harness actually run end-to-end today; it is NOT a substitute for the
+# real bge-m3/e5/nomic embedders and llama-3.1 models once this benchmark
+# is scaled beyond the toy corpus (see eval/README.md).
+local_only: true
+
+statistics:
+  bootstrap_resamples: 1000
+  confidence_level: 0.95
+  significance_test: "wilcoxon_signed_rank"
+  multiple_comparison_correction: "benjamini_hochberg"
+
+regression:
+  baseline: "main"
+  threshold: 0.02  # 2% regression tolerance, per Vol. 06 sec:eval:regression

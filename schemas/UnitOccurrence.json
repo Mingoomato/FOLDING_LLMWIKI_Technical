@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "UnitOccurrence",
+  "description": "One location where a SemanticUnit's content was observed (see Sec. A.1). content_id may repeat; occurrence_id is unique per location.",
+  "type": "object",
+  "required": ["occurrence_id", "content_id", "artifact_version_id", "span", "span_type", "ordinal"],
+  "properties": {
+    "occurrence_id":       { "type": "string", "description": "SHA-256(artifact_version_id, span)" },
+    "content_id":          { "type": "string", "description": "References SemanticUnit.id" },
+    "artifact_version_id": { "type": "string", "description": "References ArtifactVersion.version_id" },
+    "span":                { "type": "array", "items": { "type": "integer" }, "minItems": 2, "maxItems": 2, "description": "[start, end] in span_type units" },
+    "span_type":           { "type": "string", "enum": ["byte_offset", "unicode_codepoint", "line_column", "pdf_bbox", "sheet_cell", "slide_object_id"], "description": "Meaning of span's two coordinates; format-dependent" },
+    "ordinal":             { "type": "integer", "minimum": 0, "description": "Order among sibling occurrences" }
+  }
+}

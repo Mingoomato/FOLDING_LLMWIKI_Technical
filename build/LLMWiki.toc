@@ -1,337 +1,358 @@
 \acswitchoff 
 \babel@toc {english}{}\relax 
 \contentsline {part}{I\hspace {1em}Foundation and Architecture}{1}{part.1}%
-\contentsline {chapter}{\numberline {1}Architecture}{3}{chapter.1}%
-\contentsline {section}{\numberline {1.1}Design Philosophy}{3}{section.1.1}%
+\contentsline {chapter}{\numberline {1}Architecture}{2}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Design Philosophy}{2}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Three-Layer Architecture}{3}{section.1.2}%
-\contentsline {subsection}{\numberline {1.2.1}Layer 1: Ingestion Pipeline}{4}{subsection.1.2.1}%
-\contentsline {subsection}{\numberline {1.2.2}Layer 2: Core Knowledge Space}{4}{subsection.1.2.2}%
+\contentsline {subsection}{\numberline {1.2.1}Layer 1: Ingestion Pipeline}{3}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}Layer 2: Core Knowledge Space}{3}{subsection.1.2.2}%
 \contentsline {subsection}{\numberline {1.2.3}Layer 3: Query and Execution}{4}{subsection.1.2.3}%
-\contentsline {section}{\numberline {1.3}Filesystem as Write-Ahead Log}{5}{section.1.3}%
-\contentsline {subsection}{\numberline {1.3.1}Directory Layout}{5}{subsection.1.3.1}%
+\contentsline {section}{\numberline {1.3}Filesystem as Event Log, Projections as Derived State}{4}{section.1.3}%
+\contentsline {subsection}{\numberline {1.3.1}Directory Layout}{4}{subsection.1.3.1}%
 \contentsline {section}{\numberline {1.4}Data Flow Architecture}{5}{section.1.4}%
 \contentsline {subsection}{\numberline {1.4.1}Ingestion Pipeline}{6}{subsection.1.4.1}%
-\contentsline {subsection}{\numberline {1.4.2}Query Pipeline}{7}{subsection.1.4.2}%
-\contentsline {section}{\numberline {1.5}Core Invariants}{7}{section.1.5}%
-\contentsline {section}{\numberline {1.6}The Filesystem as Lineage Recorder}{7}{section.1.6}%
-\contentsline {paragraph}{Homoplasy.}{8}{section.1.6}%
-\contentsline {paragraph}{Dropout.}{8}{definition.1.15}%
-\contentsline {section}{\numberline {1.7}Comparison with Prior Art}{8}{section.1.7}%
-\contentsline {section}{\numberline {1.8}Patent-Relevant Novelty}{8}{section.1.8}%
-\contentsline {section}{\numberline {1.9}Module Interface Contracts}{9}{section.1.9}%
-\contentsline {section}{\numberline {1.10}Runtime Configuration}{10}{section.1.10}%
-\contentsline {section}{\numberline {1.11}Extension Points}{11}{section.1.11}%
-\contentsline {section}{\numberline {1.12}Summary}{11}{section.1.12}%
-\contentsline {xpart}{Foundation and Architecture}{3}{part.1}%
-\contentsline {chapter}{\numberline {2}Semantic Parsing}{13}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Design Goals}{13}{section.2.1}%
-\contentsline {section}{\numberline {2.2}Parser Architecture}{13}{section.2.2}%
-\contentsline {subsection}{\numberline {2.2.1}Parser Trait}{13}{subsection.2.2.1}%
-\contentsline {subsection}{\numberline {2.2.2}Parser Registry}{14}{subsection.2.2.2}%
-\contentsline {section}{\numberline {2.3}Semantic Unit Model}{14}{section.2.3}%
-\contentsline {subsection}{\numberline {2.3.1}Unit Type Taxonomy}{15}{subsection.2.3.1}%
-\contentsline {subsection}{\numberline {2.3.2}Metadata Schema}{15}{subsection.2.3.2}%
-\contentsline {subsection}{\numberline {2.3.3}Canonicalization}{16}{subsection.2.3.3}%
-\contentsline {section}{\numberline {2.4}Language-Specific Parsers}{16}{section.2.4}%
-\contentsline {subsection}{\numberline {2.4.1}Tree-sitter Based Parsers (Code)}{16}{subsection.2.4.1}%
-\contentsline {paragraph}{Tree-sitter Query Patterns.}{16}{Item.15}%
-\contentsline {subsubsection}{\numberline {2.4.1.1}Supported Languages}{17}{subsubsection.2.4.1.1}%
-\contentsline {subsection}{\numberline {2.4.2}Markdown Parser}{17}{subsection.2.4.2}%
-\contentsline {subsection}{\numberline {2.4.3}PDF Parser}{17}{subsection.2.4.3}%
-\contentsline {subsection}{\numberline {2.4.4}OpenAPI / AsyncAPI Parser}{18}{subsection.2.4.4}%
-\contentsline {subsection}{\numberline {2.4.5}SQL DDL Parser}{18}{subsection.2.4.5}%
-\contentsline {subsection}{\numberline {2.4.6}Structured Data Parser (YAML/JSON/TOML)}{18}{subsection.2.4.6}%
-\contentsline {section}{\numberline {2.5}Structure-Aware Chunking}{18}{section.2.5}%
-\contentsline {subsection}{\numberline {2.5.1}Hierarchical Chunking Algorithm}{19}{subsection.2.5.1}%
-\contentsline {subsection}{\numberline {2.5.2}Sliding Window (Fallback)}{19}{subsection.2.5.2}%
-\contentsline {subsection}{\numberline {2.5.3}Semantic Chunking (Experimental)}{19}{subsection.2.5.3}%
-\contentsline {subsection}{\numberline {2.5.4}Scale-Free Chunking by Graph Renormalization}{20}{subsection.2.5.4}%
-\contentsline {paragraph}{Status.}{21}{definition.2.11}%
-\contentsline {section}{\numberline {2.6}Entity and Relation Extraction}{21}{section.2.6}%
-\contentsline {subsection}{\numberline {2.6.1}Rule-Based Extraction}{21}{subsection.2.6.1}%
-\contentsline {subsection}{\numberline {2.6.2}LLM-Assisted Extraction (Optional)}{21}{subsection.2.6.2}%
-\contentsline {subsection}{\numberline {2.6.3}Entity Resolution}{22}{subsection.2.6.3}%
-\contentsline {section}{\numberline {2.7}Incremental Parsing}{22}{section.2.7}%
-\contentsline {paragraph}{Tree-sitter Incremental Parse.}{22}{section.2.7}%
-\contentsline {section}{\numberline {2.8}Embedding Generation}{23}{section.2.8}%
-\contentsline {subsection}{\numberline {2.8.1}Supported Models}{23}{subsection.2.8.1}%
-\contentsline {subsection}{\numberline {2.8.2}Batch Inference}{23}{subsection.2.8.2}%
-\contentsline {section}{\numberline {2.9}Parser Extensibility Guide}{23}{section.2.9}%
-\contentsline {section}{\numberline {2.10}Summary}{24}{section.2.10}%
-\contentsline {chapter}{\numberline {3}Knowledge Graph \& Semantic Index}{25}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Knowledge Graph}{25}{section.3.1}%
-\contentsline {subsection}{\numberline {3.1.1}Data Model}{25}{subsection.3.1.1}%
-\contentsline {paragraph}{Node Types.}{25}{definition.3.1}%
-\contentsline {paragraph}{Edge Types.}{26}{definition.3.1}%
-\contentsline {paragraph}{Content-Addressed Identity.}{26}{definition.3.1}%
-\contentsline {subsection}{\numberline {3.1.2}Graph Store Backend}{26}{subsection.3.1.2}%
-\contentsline {subsubsection}{\numberline {3.1.2.1}Storage Layout (RocksDB)}{26}{subsubsection.3.1.2.1}%
-\contentsline {subsection}{\numberline {3.1.3}Entity Resolution}{27}{subsection.3.1.3}%
-\contentsline {subsection}{\numberline {3.1.4}Incremental Graph Updates}{27}{subsection.3.1.4}%
-\contentsline {subsection}{\numberline {3.1.5}Graph Traversal Primitives}{28}{subsection.3.1.5}%
-\contentsline {section}{\numberline {3.2}Semantic Index}{28}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}HNSW Vector Index}{28}{subsection.3.2.1}%
-\contentsline {paragraph}{Implementation:}{28}{subsection.3.2.1}%
-\contentsline {paragraph}{Configuration:}{28}{subsection.3.2.1}%
-\contentsline {paragraph}{Content-Addressed Vectors.}{29}{subsection.3.2.1}%
-\contentsline {subsection}{\numberline {3.2.2}BM25 Keyword Index}{29}{subsection.3.2.2}%
-\contentsline {paragraph}{Implementation:}{29}{subsection.3.2.2}%
-\contentsline {paragraph}{Schema:}{29}{subsection.3.2.2}%
-\contentsline {paragraph}{Analyzer:}{29}{subsection.3.2.2}%
-\contentsline {subsection}{\numberline {3.2.3}Graph Adjacency Index}{29}{subsection.3.2.3}%
-\contentsline {subsection}{\numberline {3.2.4}Hybrid Search}{29}{subsection.3.2.4}%
-\contentsline {subsection}{\numberline {3.2.5}Index Update Strategy}{30}{subsection.3.2.5}%
-\contentsline {paragraph}{Vector (HNSW):}{30}{subsection.3.2.5}%
-\contentsline {paragraph}{BM25 (Tantivy):}{30}{subsection.3.2.5}%
-\contentsline {paragraph}{Graph Adjacency:}{30}{subsection.3.2.5}%
-\contentsline {section}{\numberline {3.3}Query-Time Graph Expansion}{30}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Performance Characteristics}{30}{section.3.4}%
-\contentsline {section}{\numberline {3.5}Patent-Relevant Novelty}{30}{section.3.5}%
-\contentsline {section}{\numberline {3.6}Summary}{31}{section.3.6}%
-\contentsline {chapter}{\numberline {4}Retrieval and Evidence Gate}{33}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Evidence Gate: Core Principle}{33}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Why Not Reranking?}{33}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Retrieval Pipeline}{33}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}Stage 1: Query Embedding}{34}{subsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.3.2}Stage 2: Hybrid Search}{34}{subsection.4.3.2}%
-\contentsline {subsection}{\numberline {4.3.3}Stage 3: Evidence Gate}{34}{subsection.4.3.3}%
-\contentsline {paragraph}{Cross-Encoder Model.}{34}{subsection.4.3.3}%
-\contentsline {paragraph}{Batch Processing.}{34}{equation.4.1}%
-\contentsline {paragraph}{Thresholding.}{34}{equation.4.1}%
-\contentsline {subsection}{\numberline {4.3.4}Multi-Stage Proofreading Cascade}{35}{subsection.4.3.4}%
-\contentsline {paragraph}{Cost.}{36}{Item.37}%
-\contentsline {subsection}{\numberline {4.3.5}Stage 4: Synthesis with Forced Citations}{36}{subsection.4.3.5}%
-\contentsline {section}{\numberline {4.4}Threshold Calibration}{37}{section.4.4}%
-\contentsline {subsection}{\numberline {4.4.1}Calibration Methods}{37}{subsection.4.4.1}%
-\contentsline {subsection}{\numberline {4.4.2}Label-Free Calibration by Discordant Pairing}{37}{subsection.4.4.2}%
-\contentsline {paragraph}{Reporting.}{38}{algorithm.13}%
-\contentsline {paragraph}{Limitations, stated plainly.}{38}{definition.4.8}%
-\contentsline {subsection}{\numberline {4.4.3}Confidence Intervals}{39}{subsection.4.4.3}%
-\contentsline {section}{\numberline {4.5}Global Consistency of Evidence}{39}{section.4.5}%
-\contentsline {paragraph}{Why cohomology rather than pairwise conflict detection.}{40}{algorithm.14}%
-\contentsline {paragraph}{Cost.}{40}{algorithm.14}%
-\contentsline {section}{\numberline {4.6}Query Planner Integration}{40}{section.4.6}%
-\contentsline {section}{\numberline {4.7}Evidence Gate Config}{41}{section.4.7}%
-\contentsline {section}{\numberline {4.8}Evaluation Metrics}{41}{section.4.8}%
-\contentsline {section}{\numberline {4.9}Comparison with Prior Art}{41}{section.4.9}%
-\contentsline {section}{\numberline {4.10}Patent-Relevant Novelty}{42}{section.4.10}%
-\contentsline {section}{\numberline {4.11}Summary}{43}{section.4.11}%
-\contentsline {chapter}{\numberline {5}Agent Runtime}{45}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Design Goals}{45}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Runtime Architecture}{45}{section.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}Core Components}{46}{subsection.5.2.1}%
-\contentsline {section}{\numberline {5.3}Plan Execution Model}{46}{section.5.3}%
-\contentsline {subsection}{\numberline {5.3.1}Query Plan Structure}{46}{subsection.5.3.1}%
-\contentsline {subsection}{\numberline {5.3.2}Execution Algorithm}{47}{subsection.5.3.2}%
-\contentsline {subsection}{\numberline {5.3.3}Step Kinds}{47}{subsection.5.3.3}%
-\contentsline {section}{\numberline {5.4}Tool System}{47}{section.5.4}%
-\contentsline {subsection}{\numberline {5.4.1}Tool Trait}{47}{subsection.5.4.1}%
-\contentsline {subsection}{\numberline {5.4.2}Built-in Tools}{47}{subsection.5.4.2}%
-\contentsline {subsection}{\numberline {5.4.3}Custom Tools}{48}{subsection.5.4.3}%
-\contentsline {section}{\numberline {5.5}LLM Client Abstraction}{48}{section.5.5}%
-\contentsline {paragraph}{Providers:}{48}{section.5.5}%
-\contentsline {section}{\numberline {5.6}State Management}{48}{section.5.6}%
-\contentsline {paragraph}{Scratchpad:}{49}{section.5.6}%
-\contentsline {paragraph}{Budget Tracker:}{49}{section.5.6}%
-\contentsline {section}{\numberline {5.7}Budget as Allocation, Not Truncation}{49}{section.5.7}%
-\contentsline {section}{\numberline {5.8}Streaming Protocol}{50}{section.5.8}%
-\contentsline {section}{\numberline {5.9}Error Handling and Retries}{51}{section.5.9}%
-\contentsline {section}{\numberline {5.10}Conversation Management}{51}{section.5.10}%
-\contentsline {section}{\numberline {5.11}Patent-Relevant Novelty}{51}{section.5.11}%
-\contentsline {section}{\numberline {5.12}Summary}{51}{section.5.12}%
-\contentsline {chapter}{\numberline {6}Evaluation Framework}{53}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Evaluation Philosophy}{53}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Benchmark Suite}{53}{section.6.2}%
-\contentsline {subsection}{\numberline {6.2.1}Internal Benchmarks}{53}{subsection.6.2.1}%
-\contentsline {paragraph}{Construction Process:}{53}{table.caption.19}%
-\contentsline {subsection}{\numberline {6.2.2}External Benchmarks (Adapted)}{54}{subsection.6.2.2}%
-\contentsline {section}{\numberline {6.3}Metric Definitions}{54}{section.6.3}%
-\contentsline {subsection}{\numberline {6.3.1}Retrieval Metrics}{54}{subsection.6.3.1}%
-\contentsline {subsection}{\numberline {6.3.2}Answer Quality Metrics}{55}{subsection.6.3.2}%
-\contentsline {subsection}{\numberline {6.3.3}System Property Metrics}{55}{subsection.6.3.3}%
-\contentsline {section}{\numberline {6.4}Evaluation Pipeline}{55}{section.6.4}%
-\contentsline {subsection}{\numberline {6.4.1}Configuration Matrix}{56}{subsection.6.4.1}%
-\contentsline {subsection}{\numberline {6.4.2}Statistical Rigor}{56}{subsection.6.4.2}%
-\contentsline {section}{\numberline {6.5}Regression Detection}{56}{section.6.5}%
-\contentsline {section}{\numberline {6.6}Qualitative Evaluation}{57}{section.6.6}%
-\contentsline {section}{\numberline {6.7}Patent-Relevant Novelty}{57}{section.6.7}%
-\contentsline {section}{\numberline {6.8}Summary}{57}{section.6.8}%
-\contentsline {chapter}{\numberline {7}Deployment and Operations}{59}{chapter.7}%
-\contentsline {section}{\numberline {7.1}Deployment Modes}{59}{section.7.1}%
-\contentsline {section}{\numberline {7.2}Container Images}{59}{section.7.2}%
-\contentsline {subsection}{\numberline {7.2.1}Image Variants}{60}{subsection.7.2.1}%
-\contentsline {section}{\numberline {7.3}Kubernetes Deployment}{60}{section.7.3}%
-\contentsline {subsection}{\numberline {7.3.1}Helm Chart Structure}{60}{subsection.7.3.1}%
-\contentsline {subsection}{\numberline {7.3.2}Key Configuration}{60}{subsection.7.3.2}%
-\contentsline {subsection}{\numberline {7.3.3}Stateful Considerations}{61}{subsection.7.3.3}%
-\contentsline {section}{\numberline {7.4}Local-First Deployment}{61}{section.7.4}%
-\contentsline {subsection}{\numberline {7.4.1}Single Binary}{61}{subsection.7.4.1}%
-\contentsline {subsection}{\numberline {7.4.2}Docker Compose (Local Stack)}{62}{subsection.7.4.2}%
-\contentsline {subsection}{\numberline {7.4.3}Air-Gapped Installation}{62}{subsection.7.4.3}%
-\contentsline {section}{\numberline {7.5}Configuration Management}{63}{section.7.5}%
-\contentsline {section}{\numberline {7.6}Monitoring and Observability}{63}{section.7.6}%
-\contentsline {subsection}{\numberline {7.6.1}Metrics (Prometheus)}{63}{subsection.7.6.1}%
-\contentsline {subsection}{\numberline {7.6.2}Distributed Tracing (OpenTelemetry)}{64}{subsection.7.6.2}%
-\contentsline {subsection}{\numberline {7.6.3}Structured Logging}{64}{subsection.7.6.3}%
-\contentsline {subsection}{\numberline {7.6.4}Health Checks}{64}{subsection.7.6.4}%
-\contentsline {section}{\numberline {7.7}Backup and Recovery}{64}{section.7.7}%
-\contentsline {subsection}{\numberline {7.7.1}Backup Strategy}{65}{subsection.7.7.1}%
-\contentsline {subsection}{\numberline {7.7.2}Automated Backup (CronJob)}{65}{subsection.7.7.2}%
-\contentsline {subsection}{\numberline {7.7.3}Disaster Recovery}{65}{subsection.7.7.3}%
-\contentsline {section}{\numberline {7.8}Upgrades and Migrations}{66}{section.7.8}%
-\contentsline {subsection}{\numberline {7.8.1}Version Compatibility}{66}{subsection.7.8.1}%
-\contentsline {subsection}{\numberline {7.8.2}Index Migration}{66}{subsection.7.8.2}%
-\contentsline {subsection}{\numberline {7.8.3}Graph Migration}{66}{subsection.7.8.3}%
-\contentsline {section}{\numberline {7.9}Security Hardening}{66}{section.7.9}%
-\contentsline {section}{\numberline {7.10}Performance Tuning}{67}{section.7.10}%
-\contentsline {section}{\numberline {7.11}Patent-Relevant Novelty}{67}{section.7.11}%
-\contentsline {section}{\numberline {7.12}Summary}{67}{section.7.12}%
-\contentsline {part}{II\hspace {1em}Reference and Extension}{69}{part.2}%
-\contentsline {chapter}{\numberline {8}API Reference}{71}{chapter.8}%
-\contentsline {section}{\numberline {8.1}API Overview}{71}{section.8.1}%
-\contentsline {section}{\numberline {8.2}Authentication}{71}{section.8.2}%
-\contentsline {subsection}{\numberline {8.2.1}Bearer Token (OIDC)}{71}{subsection.8.2.1}%
-\contentsline {subsection}{\numberline {8.2.2}API Key}{71}{subsection.8.2.2}%
-\contentsline {subsection}{\numberline {8.2.3}Anonymous (Development)}{72}{subsection.8.2.3}%
-\contentsline {section}{\numberline {8.3}Core Endpoints}{72}{section.8.3}%
-\contentsline {subsection}{\numberline {8.3.1}Health}{72}{subsection.8.3.1}%
-\contentsline {subsection}{\numberline {8.3.2}Query}{72}{subsection.8.3.2}%
-\contentsline {paragraph}{Execute Query (Non-streaming)}{72}{subsection.8.3.2}%
-\contentsline {paragraph}{Execute Query (Streaming)}{73}{subsection.8.3.2}%
-\contentsline {subsection}{\numberline {8.3.3}Ingestion}{73}{subsection.8.3.3}%
-\contentsline {paragraph}{Ingest Path}{73}{subsection.8.3.3}%
-\contentsline {paragraph}{Ingest Status}{74}{subsection.8.3.3}%
-\contentsline {paragraph}{Ingest History}{74}{subsection.8.3.3}%
-\contentsline {subsection}{\numberline {8.3.4}Repository Management}{74}{subsection.8.3.4}%
-\contentsline {subsection}{\numberline {8.3.5}Graph Operations}{75}{subsection.8.3.5}%
-\contentsline {paragraph}{Traverse}{75}{subsection.8.3.5}%
-\contentsline {paragraph}{Entity Lookup}{75}{subsection.8.3.5}%
-\contentsline {paragraph}{Neighborhood}{75}{subsection.8.3.5}%
-\contentsline {subsection}{\numberline {8.3.6}Index Operations}{75}{subsection.8.3.6}%
-\contentsline {subsection}{\numberline {8.3.7}Unit Access}{75}{subsection.8.3.7}%
-\contentsline {subsection}{\numberline {8.3.8}Evidence Gate}{75}{subsection.8.3.8}%
-\contentsline {subsection}{\numberline {8.3.9}Administration}{76}{subsection.8.3.9}%
-\contentsline {section}{\numberline {8.4}WebSocket API}{76}{section.8.4}%
-\contentsline {section}{\numberline {8.5}gRPC API}{77}{section.8.5}%
-\contentsline {section}{\numberline {8.6}Error Handling}{77}{section.8.6}%
-\contentsline {section}{\numberline {8.7}Rate Limiting}{77}{section.8.7}%
-\contentsline {section}{\numberline {8.8}SDKs}{78}{section.8.8}%
-\contentsline {paragraph}{Python SDK Example}{78}{table.caption.24}%
-\contentsline {section}{\numberline {8.9}OpenAPI Specification}{79}{section.8.9}%
-\contentsline {section}{\numberline {8.10}API Versioning Policy}{79}{section.8.10}%
-\contentsline {section}{\numberline {8.11}Patent-Relevant Novelty}{79}{section.8.11}%
-\contentsline {section}{\numberline {8.12}Summary}{79}{section.8.12}%
-\contentsline {xpart}{Reference and Extension}{71}{part.2}%
-\contentsline {chapter}{\numberline {9}Developer Guide}{81}{chapter.9}%
-\contentsline {section}{\numberline {9.1}Development Environment}{81}{section.9.1}%
-\contentsline {subsection}{\numberline {9.1.1}Prerequisites}{81}{subsection.9.1.1}%
-\contentsline {subsection}{\numberline {9.1.2}Repository Structure}{81}{subsection.9.1.2}%
-\contentsline {subsection}{\numberline {9.1.3}Build and Test}{82}{subsection.9.1.3}%
-\contentsline {section}{\numberline {9.2}Extension Points Deep Dive}{82}{section.9.2}%
-\contentsline {subsection}{\numberline {9.2.1}Custom Parser}{82}{subsection.9.2.1}%
-\contentsline {paragraph}{Tree-sitter Grammar Integration.}{83}{subsection.9.2.1}%
-\contentsline {subsection}{\numberline {9.2.2}Custom Chunker}{83}{subsection.9.2.2}%
-\contentsline {subsection}{\numberline {9.2.3}Custom Embedder}{84}{subsection.9.2.3}%
-\contentsline {subsection}{\numberline {9.2.4}Custom Graph Store}{85}{subsection.9.2.4}%
-\contentsline {subsection}{\numberline {9.2.5}Custom Index Backend}{85}{subsection.9.2.5}%
-\contentsline {subsection}{\numberline {9.2.6}Custom Evidence Verifier}{85}{subsection.9.2.6}%
-\contentsline {subsection}{\numberline {9.2.7}Custom Query Planner Strategy}{86}{subsection.9.2.7}%
-\contentsline {subsection}{\numberline {9.2.8}Custom Agent Tool}{86}{subsection.9.2.8}%
-\contentsline {subsection}{\numberline {9.2.9}Custom Auth Provider}{87}{subsection.9.2.9}%
-\contentsline {section}{\numberline {9.3}Testing Extensions}{87}{section.9.3}%
-\contentsline {subsection}{\numberline {9.3.1}Parser Tests}{87}{subsection.9.3.1}%
-\contentsline {subsection}{\numberline {9.3.2}Integration Tests}{88}{subsection.9.3.2}%
-\contentsline {subsection}{\numberline {9.3.3}Property-Based Testing}{88}{subsection.9.3.3}%
-\contentsline {section}{\numberline {9.4}Debugging and Profiling}{89}{section.9.4}%
-\contentsline {subsection}{\numberline {9.4.1}Logging}{89}{subsection.9.4.1}%
-\contentsline {subsection}{\numberline {9.4.2}Profiling}{89}{subsection.9.4.2}%
-\contentsline {section}{\numberline {9.5}Contributing}{89}{section.9.5}%
-\contentsline {subsection}{\numberline {9.5.1}Code Style}{89}{subsection.9.5.1}%
-\contentsline {subsection}{\numberline {9.5.2}PR Process}{89}{subsection.9.5.2}%
-\contentsline {subsection}{\numberline {9.5.3}Adding a New Volume}{90}{subsection.9.5.3}%
-\contentsline {section}{\numberline {9.6}Release Process}{90}{section.9.6}%
-\contentsline {section}{\numberline {9.7}Summary}{90}{section.9.7}%
-\contentsline {part}{III\hspace {1em}Intellectual Property and Research}{91}{part.3}%
-\contentsline {chapter}{\numberline {10}Patent Draft}{93}{chapter.10}%
-\contentsline {section}{\numberline {10.1}Field of the Invention}{93}{section.10.1}%
-\contentsline {section}{\numberline {10.2}Background}{93}{section.10.2}%
-\contentsline {section}{\numberline {10.3}Summary of the Invention}{93}{section.10.3}%
-\contentsline {section}{\numberline {10.4}Independent Claims}{93}{section.10.4}%
-\contentsline {section}{\numberline {10.5}Dependent Claims}{96}{section.10.5}%
-\contentsline {section}{\numberline {10.6}Design Decisions Supporting Novelty}{97}{section.10.6}%
-\contentsline {section}{\numberline {10.7}Specification Support}{97}{section.10.7}%
-\contentsline {section}{\numberline {10.8}Potential Design-Arounds and Defense}{98}{section.10.8}%
-\contentsline {paragraph}{On the ``combination of known elements'' objection.}{98}{section.10.8}%
-\contentsline {xpart}{Intellectual Property and Research}{93}{part.3}%
-\contentsline {chapter}{\numberline {11}Research Paper: LLMWiki - A Semantic Operating Layer for Evidence-Aware Knowledge Management}{101}{chapter.11}%
-\contentsline {section}{\numberline {11.1}Introduction}{101}{section.11.1}%
-\contentsline {paragraph}{Contributions.}{102}{section.11.1}%
-\contentsline {section}{\numberline {11.2}Related Work}{102}{section.11.2}%
-\contentsline {subsection}{\numberline {11.2.1}Retrieval-Augmented Generation}{102}{subsection.11.2.1}%
-\contentsline {subsection}{\numberline {11.2.2}Graph-Enhanced RAG}{102}{subsection.11.2.2}%
-\contentsline {subsection}{\numberline {11.2.3}Evidence and Attribution}{103}{subsection.11.2.3}%
-\contentsline {subsection}{\numberline {11.2.4}Local and Deterministic Systems}{103}{subsection.11.2.4}%
-\contentsline {subsection}{\numberline {11.2.5}Methods Imported from Adjacent Sciences}{103}{subsection.11.2.5}%
-\contentsline {section}{\numberline {11.3}System Architecture}{104}{section.11.3}%
-\contentsline {subsection}{\numberline {11.3.1}Three-Layer Decomposition}{104}{subsection.11.3.1}%
-\contentsline {subsection}{\numberline {11.3.2}Filesystem as Write-Ahead Log}{104}{subsection.11.3.2}%
-\contentsline {subsection}{\numberline {11.3.3}Content Addressing}{104}{subsection.11.3.3}%
-\contentsline {subsection}{\numberline {11.3.4}Evidence Gate}{104}{subsection.11.3.4}%
-\contentsline {subsection}{\numberline {11.3.5}DAG Query Planner}{104}{subsection.11.3.5}%
-\contentsline {subsection}{\numberline {11.3.6}Label-Free Significance via Discordant Pairing}{104}{subsection.11.3.6}%
-\contentsline {subsection}{\numberline {11.3.7}Proofreading Cascade}{105}{subsection.11.3.7}%
-\contentsline {subsection}{\numberline {11.3.8}Cohomological Evidence Closure}{105}{subsection.11.3.8}%
-\contentsline {section}{\numberline {11.4}Evaluation}{105}{section.11.4}%
-\contentsline {subsection}{\numberline {11.4.1}Benchmarks}{105}{subsection.11.4.1}%
-\contentsline {subsection}{\numberline {11.4.2}Baselines}{106}{subsection.11.4.2}%
-\contentsline {subsection}{\numberline {11.4.3}Metrics}{106}{subsection.11.4.3}%
-\contentsline {paragraph}{Status of empirical claims.}{107}{subsection.11.4.3}%
-\contentsline {subsection}{\numberline {11.4.4}Results}{107}{subsection.11.4.4}%
-\contentsline {subsection}{\numberline {11.4.5}Ablation Studies}{107}{subsection.11.4.5}%
-\contentsline {subsection}{\numberline {11.4.6}Calibration Analysis}{107}{subsection.11.4.6}%
-\contentsline {section}{\numberline {11.5}Discussion}{108}{section.11.5}%
-\contentsline {subsection}{\numberline {11.5.1}Why Evidence Gate Works}{108}{subsection.11.5.1}%
-\contentsline {subsection}{\numberline {11.5.2}Local-First Implications}{108}{subsection.11.5.2}%
-\contentsline {subsection}{\numberline {11.5.3}Limitations}{108}{subsection.11.5.3}%
-\contentsline {section}{\numberline {11.6}Conclusion}{108}{section.11.6}%
-\contentsline {part}{IV\hspace {1em}Appendices}{111}{part.4}%
-\contentsline {section}{\numberline {.1}Mathematical Notation}{113}{section.Alph0.1}%
-\contentsline {section}{\numberline {.2}Complete Configuration Schema}{113}{section.Alph0.2}%
-\contentsline {section}{\numberline {.3}API Schemas}{115}{section.Alph0.3}%
-\contentsline {subsection}{\numberline {.3.1}Query Request}{115}{subsection.Alph0.3.1}%
-\contentsline {subsection}{\numberline {.3.2}Query Response}{116}{subsection.Alph0.3.2}%
-\contentsline {section}{\numberline {.4}Evaluation Protocol}{117}{section.Alph0.4}%
-\contentsline {subsection}{\numberline {.4.1}Dataset Construction}{117}{subsection.Alph0.4.1}%
-\contentsline {subsection}{\numberline {.4.2}Metrics Computation}{117}{subsection.Alph0.4.2}%
-\contentsline {subsection}{\numberline {.4.3}Statistical Rigor}{118}{subsection.Alph0.4.3}%
-\contentsline {section}{\numberline {.5}Glossary of Key Terms}{118}{section.Alph0.5}%
-\contentsline {xpart}{Appendices}{113}{part.4}%
-\contentsline {chapter}{\numberline {A}Data Model Definitions}{125}{appendix.A}%
-\contentsline {section}{\numberline {A.1}SemanticUnit}{125}{section.A.1}%
-\contentsline {section}{\numberline {A.2}Chunk}{125}{section.A.2}%
-\contentsline {section}{\numberline {A.3}Entity}{126}{section.A.3}%
-\contentsline {section}{\numberline {A.4}Relation}{126}{section.A.4}%
-\contentsline {section}{\numberline {A.5}QueryPlan}{126}{section.A.5}%
-\contentsline {section}{\numberline {A.6}ToolSchema}{127}{section.A.6}%
-\contentsline {chapter}{\numberline {B}Configuration Reference}{129}{appendix.B}%
-\contentsline {section}{\numberline {B.1}Full config.toml}{129}{section.B.1}%
-\contentsline {section}{\numberline {B.2}Environment Variable Overrides}{130}{section.B.2}%
-\contentsline {chapter}{\numberline {C}Parser Grammar Specifications}{131}{appendix.C}%
-\contentsline {section}{\numberline {C.1}Python (tree-sitter-python)}{131}{section.C.1}%
-\contentsline {section}{\numberline {C.2}JavaScript/TypeScript}{131}{section.C.2}%
-\contentsline {section}{\numberline {C.3}Rust}{132}{section.C.3}%
-\contentsline {section}{\numberline {C.4}Go}{132}{section.C.4}%
-\contentsline {section}{\numberline {C.5}SQL}{132}{section.C.5}%
-\contentsline {section}{\numberline {C.6}Design Decision Log}{134}{section.C.6}%
-\contentsline {chapter}{\numberline {D}Extended Related Work}{137}{appendix.D}%
-\contentsline {section}{\numberline {D.1}Dense Retrieval}{137}{section.D.1}%
-\contentsline {section}{\numberline {D.2}Sparse Retrieval}{137}{section.D.2}%
-\contentsline {section}{\numberline {D.3}Hybrid Retrieval}{137}{section.D.3}%
-\contentsline {section}{\numberline {D.4}Graph-Enhanced Retrieval}{137}{section.D.4}%
-\contentsline {section}{\numberline {D.5}Recursive/Tree-Based Retrieval}{137}{section.D.5}%
-\contentsline {section}{\numberline {D.6}Evidence and Attribution}{137}{section.D.6}%
-\contentsline {section}{\numberline {D.7}Local/Private LLMs}{137}{section.D.7}%
-\contentsline {section}{\numberline {D.8}Vector Databases}{138}{section.D.8}%
-\contentsline {section}{\numberline {D.9}Graph Databases}{138}{section.D.9}%
-\contentsline {section}{\numberline {D.10}Parsing and Embedding}{138}{section.D.10}%
+\contentsline {subsection}{\numberline {1.4.2}Query Pipeline}{6}{subsection.1.4.2}%
+\contentsline {section}{\numberline {1.5}Crash Consistency and Recovery}{6}{section.1.5}%
+\contentsline {subsection}{\numberline {1.5.1}Event Lifecycle}{7}{subsection.1.5.1}%
+\contentsline {subsection}{\numberline {1.5.2}Idempotent, Resumable Projection}{7}{subsection.1.5.2}%
+\contentsline {subsection}{\numberline {1.5.3}Crash Recovery Scanner}{7}{subsection.1.5.3}%
+\contentsline {subsection}{\numberline {1.5.4}Atomic Commit: POSIX and Windows}{8}{subsection.1.5.4}%
+\contentsline {subsection}{\numberline {1.5.5}What Live-Copy Backups Do Not Give You}{8}{subsection.1.5.5}%
+\contentsline {section}{\numberline {1.6}Core Invariants}{8}{section.1.6}%
+\contentsline {section}{\numberline {1.7}The Filesystem as Lineage Recorder}{9}{section.1.7}%
+\contentsline {paragraph}{Homoplasy.}{9}{section.1.7}%
+\contentsline {paragraph}{Dropout.}{9}{definition.1.15}%
+\contentsline {section}{\numberline {1.8}Comparison with Prior Art}{10}{section.1.8}%
+\contentsline {section}{\numberline {1.9}Patent-Relevant Novelty}{11}{section.1.9}%
+\contentsline {section}{\numberline {1.10}Module Interface Contracts}{11}{section.1.10}%
+\contentsline {section}{\numberline {1.11}Runtime Configuration}{12}{section.1.11}%
+\contentsline {section}{\numberline {1.12}Extension Points}{13}{section.1.12}%
+\contentsline {section}{\numberline {1.13}Summary}{13}{section.1.13}%
+\contentsline {xpart}{Foundation and Architecture}{2}{part.1}%
+\contentsline {chapter}{\numberline {2}Semantic Parsing}{15}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Design Goals}{15}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Parser Architecture}{15}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Parser Trait}{15}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Parser Registry}{16}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Office and HWP Format Coverage}{16}{subsection.2.2.3}%
+\contentsline {section}{\numberline {2.3}Semantic Unit Model}{17}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Unit Type Taxonomy}{18}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Metadata Schema}{18}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}Canonicalization}{19}{subsection.2.3.3}%
+\contentsline {section}{\numberline {2.4}Language-Specific Parsers}{19}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Tree-sitter Based Parsers (Code)}{19}{subsection.2.4.1}%
+\contentsline {paragraph}{Tree-sitter Query Patterns.}{20}{Item.18}%
+\contentsline {subsubsection}{\numberline {2.4.1.1}Supported Languages}{20}{subsubsection.2.4.1.1}%
+\contentsline {subsection}{\numberline {2.4.2}Markdown Parser}{20}{subsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.4.3}PDF Parser}{20}{subsection.2.4.3}%
+\contentsline {subsection}{\numberline {2.4.4}OpenAPI / AsyncAPI Parser}{21}{subsection.2.4.4}%
+\contentsline {subsection}{\numberline {2.4.5}SQL DDL Parser}{21}{subsection.2.4.5}%
+\contentsline {subsection}{\numberline {2.4.6}Structured Data Parser (YAML/JSON/TOML)}{21}{subsection.2.4.6}%
+\contentsline {section}{\numberline {2.5}Structure-Aware Chunking}{21}{section.2.5}%
+\contentsline {subsection}{\numberline {2.5.1}Hierarchical Chunking Algorithm}{22}{subsection.2.5.1}%
+\contentsline {subsection}{\numberline {2.5.2}Sliding Window (Fallback)}{22}{subsection.2.5.2}%
+\contentsline {subsection}{\numberline {2.5.3}Semantic Chunking (Experimental)}{22}{subsection.2.5.3}%
+\contentsline {subsection}{\numberline {2.5.4}Scale-Free Chunking by Graph Renormalization}{23}{subsection.2.5.4}%
+\contentsline {paragraph}{Status.}{24}{definition.2.11}%
+\contentsline {section}{\numberline {2.6}Entity and Relation Extraction}{24}{section.2.6}%
+\contentsline {subsection}{\numberline {2.6.1}Rule-Based Extraction}{24}{subsection.2.6.1}%
+\contentsline {subsection}{\numberline {2.6.2}LLM-Assisted Extraction (Optional)}{24}{subsection.2.6.2}%
+\contentsline {subsection}{\numberline {2.6.3}Entity Resolution}{25}{subsection.2.6.3}%
+\contentsline {section}{\numberline {2.7}Incremental Parsing}{25}{section.2.7}%
+\contentsline {paragraph}{Tree-sitter Incremental Parse.}{25}{section.2.7}%
+\contentsline {section}{\numberline {2.8}Embedding Generation}{26}{section.2.8}%
+\contentsline {subsection}{\numberline {2.8.1}Supported Models}{26}{subsection.2.8.1}%
+\contentsline {subsection}{\numberline {2.8.2}Batch Inference}{26}{subsection.2.8.2}%
+\contentsline {section}{\numberline {2.9}Parser Extensibility Guide}{26}{section.2.9}%
+\contentsline {section}{\numberline {2.10}Summary}{27}{section.2.10}%
+\contentsline {chapter}{\numberline {3}Knowledge Graph \& Semantic Index}{28}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Knowledge Graph}{28}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Data Model}{28}{subsection.3.1.1}%
+\contentsline {paragraph}{Node Types.}{28}{definition.3.1}%
+\contentsline {paragraph}{Edge Types.}{29}{definition.3.1}%
+\contentsline {paragraph}{Content-Addressed Identity.}{29}{definition.3.1}%
+\contentsline {subsection}{\numberline {3.1.2}Graph Store Backend}{29}{subsection.3.1.2}%
+\contentsline {subsubsection}{\numberline {3.1.2.1}Storage Layout (RocksDB)}{29}{subsubsection.3.1.2.1}%
+\contentsline {subsection}{\numberline {3.1.3}Entity Resolution}{30}{subsection.3.1.3}%
+\contentsline {subsection}{\numberline {3.1.4}Incremental Graph Updates}{30}{subsection.3.1.4}%
+\contentsline {subsection}{\numberline {3.1.5}Graph Traversal Primitives}{31}{subsection.3.1.5}%
+\contentsline {section}{\numberline {3.2}Semantic Index}{31}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}HNSW Vector Index}{31}{subsection.3.2.1}%
+\contentsline {paragraph}{Implementation:}{31}{subsection.3.2.1}%
+\contentsline {paragraph}{Configuration:}{31}{subsection.3.2.1}%
+\contentsline {paragraph}{Content-Addressed Vectors.}{32}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}BM25 Keyword Index}{32}{subsection.3.2.2}%
+\contentsline {paragraph}{Implementation:}{32}{subsection.3.2.2}%
+\contentsline {paragraph}{Schema:}{32}{subsection.3.2.2}%
+\contentsline {paragraph}{Analyzer:}{32}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Graph Adjacency Index}{32}{subsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.2.4}Hybrid Search}{32}{subsection.3.2.4}%
+\contentsline {subsection}{\numberline {3.2.5}Index Update Strategy}{33}{subsection.3.2.5}%
+\contentsline {paragraph}{Vector (HNSW):}{33}{subsection.3.2.5}%
+\contentsline {paragraph}{BM25 (Tantivy):}{33}{subsection.3.2.5}%
+\contentsline {paragraph}{Graph Adjacency:}{33}{subsection.3.2.5}%
+\contentsline {section}{\numberline {3.3}Query-Time Graph Expansion}{33}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Performance Characteristics}{33}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Patent-Relevant Novelty}{33}{section.3.5}%
+\contentsline {section}{\numberline {3.6}Summary}{34}{section.3.6}%
+\contentsline {chapter}{\numberline {4}Retrieval and Evidence Gate}{35}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Evidence Gate: Core Principle}{35}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Why Not Reranking?}{36}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Retrieval Pipeline}{36}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Stage 1: Query Embedding}{36}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Stage 2: Hybrid Search}{37}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}Stage 3: Evidence Gate}{37}{subsection.4.3.3}%
+\contentsline {paragraph}{Cross-Encoder Model.}{37}{subsection.4.3.3}%
+\contentsline {paragraph}{Batch Processing.}{37}{equation.4.1}%
+\contentsline {paragraph}{Thresholding.}{37}{equation.4.1}%
+\contentsline {subsection}{\numberline {4.3.4}Multi-Stage Proofreading Cascade}{37}{subsection.4.3.4}%
+\contentsline {paragraph}{Cost.}{38}{Item.44}%
+\contentsline {subsection}{\numberline {4.3.5}Stage 5: Synthesis, Then Claim Support and Coverage Verification}{39}{subsection.4.3.5}%
+\contentsline {section}{\numberline {4.4}Threshold Calibration: Supervised Score Calibration}{40}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Calibration Methods}{40}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Empirical Null Thresholding: Negative-Only FAR Estimation}{40}{subsection.4.4.2}%
+\contentsline {paragraph}{Reporting.}{41}{algorithm.13}%
+\contentsline {paragraph}{Limitations, stated plainly.}{42}{definition.4.8}%
+\contentsline {subsection}{\numberline {4.4.3}Confidence Intervals: Coverage Calibration}{42}{subsection.4.4.3}%
+\contentsline {section}{\numberline {4.5}Global Consistency of Evidence (Experimental Research Hypothesis)}{42}{section.4.5}%
+\contentsline {paragraph}{Why cohomology rather than pairwise conflict detection.}{44}{algorithm.14}%
+\contentsline {paragraph}{Cost.}{44}{algorithm.14}%
+\contentsline {subsection}{\numberline {4.5.1}What This Construction Does Not Yet Specify}{44}{subsection.4.5.1}%
+\contentsline {section}{\numberline {4.6}Query Planner Integration}{45}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Evidence Gate Config}{45}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Evaluation Metrics}{46}{section.4.8}%
+\contentsline {section}{\numberline {4.9}Comparison with Prior Art}{46}{section.4.9}%
+\contentsline {section}{\numberline {4.10}Patent-Relevant Novelty}{46}{section.4.10}%
+\contentsline {section}{\numberline {4.11}Summary}{47}{section.4.11}%
+\contentsline {chapter}{\numberline {5}Agent Runtime}{49}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Design Goals}{49}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Runtime Architecture}{49}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Core Components}{50}{subsection.5.2.1}%
+\contentsline {section}{\numberline {5.3}Plan Execution Model}{50}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Query Plan Structure}{50}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Execution Algorithm}{51}{subsection.5.3.2}%
+\contentsline {subsection}{\numberline {5.3.3}Step Kinds}{51}{subsection.5.3.3}%
+\contentsline {section}{\numberline {5.4}Tool System}{51}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Tool Trait}{51}{subsection.5.4.1}%
+\contentsline {subsection}{\numberline {5.4.2}Built-in Tools}{51}{subsection.5.4.2}%
+\contentsline {subsection}{\numberline {5.4.3}Custom Tools}{52}{subsection.5.4.3}%
+\contentsline {section}{\numberline {5.5}LLM Client Abstraction}{52}{section.5.5}%
+\contentsline {paragraph}{Providers:}{52}{section.5.5}%
+\contentsline {section}{\numberline {5.6}State Management}{52}{section.5.6}%
+\contentsline {paragraph}{Scratchpad:}{53}{section.5.6}%
+\contentsline {paragraph}{Budget Tracker:}{53}{section.5.6}%
+\contentsline {section}{\numberline {5.7}Budget as Allocation, Not Truncation}{53}{section.5.7}%
+\contentsline {section}{\numberline {5.8}Streaming Protocol}{54}{section.5.8}%
+\contentsline {section}{\numberline {5.9}Error Handling and Retries}{55}{section.5.9}%
+\contentsline {section}{\numberline {5.10}Conversation Management}{55}{section.5.10}%
+\contentsline {section}{\numberline {5.11}Patent-Relevant Novelty}{55}{section.5.11}%
+\contentsline {section}{\numberline {5.12}Summary}{55}{section.5.12}%
+\contentsline {chapter}{\numberline {6}Evaluation Framework}{57}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Evaluation Philosophy}{57}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Benchmark Suite}{57}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}Internal Benchmarks}{57}{subsection.6.2.1}%
+\contentsline {paragraph}{Construction Process:}{57}{table.caption.19}%
+\contentsline {subsection}{\numberline {6.2.2}External Benchmarks (Adapted)}{58}{subsection.6.2.2}%
+\contentsline {section}{\numberline {6.3}Metric Definitions}{58}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}Retrieval Metrics}{58}{subsection.6.3.1}%
+\contentsline {subsection}{\numberline {6.3.2}Answer Quality Metrics}{59}{subsection.6.3.2}%
+\contentsline {subsection}{\numberline {6.3.3}System Property Metrics}{59}{subsection.6.3.3}%
+\contentsline {section}{\numberline {6.4}Evaluation Pipeline}{59}{section.6.4}%
+\contentsline {subsection}{\numberline {6.4.1}Configuration Matrix}{60}{subsection.6.4.1}%
+\contentsline {subsection}{\numberline {6.4.2}Statistical Rigor}{60}{subsection.6.4.2}%
+\contentsline {section}{\numberline {6.5}Regression Detection}{60}{section.6.5}%
+\contentsline {section}{\numberline {6.6}Qualitative Evaluation}{61}{section.6.6}%
+\contentsline {section}{\numberline {6.7}Patent-Relevant Novelty}{61}{section.6.7}%
+\contentsline {section}{\numberline {6.8}Summary}{61}{section.6.8}%
+\contentsline {chapter}{\numberline {7}Deployment and Operations}{62}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Deployment Tiers}{62}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Deployment Modes}{63}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Container Images}{63}{section.7.3}%
+\contentsline {subsection}{\numberline {7.3.1}Image Variants}{63}{subsection.7.3.1}%
+\contentsline {section}{\numberline {7.4}Kubernetes Deployment [Enterprise Cluster tier]}{64}{section.7.4}%
+\contentsline {subsection}{\numberline {7.4.1}Helm Chart Structure}{64}{subsection.7.4.1}%
+\contentsline {subsection}{\numberline {7.4.2}Key Configuration}{64}{subsection.7.4.2}%
+\contentsline {subsection}{\numberline {7.4.3}Stateful Considerations}{65}{subsection.7.4.3}%
+\contentsline {section}{\numberline {7.5}Local-First Deployment}{65}{section.7.5}%
+\contentsline {subsection}{\numberline {7.5.1}Single Binary}{65}{subsection.7.5.1}%
+\contentsline {subsection}{\numberline {7.5.2}Docker Compose (Local Stack)}{66}{subsection.7.5.2}%
+\contentsline {subsection}{\numberline {7.5.3}Air-Gapped Installation}{66}{subsection.7.5.3}%
+\contentsline {section}{\numberline {7.6}Configuration Management}{67}{section.7.6}%
+\contentsline {section}{\numberline {7.7}Monitoring and Observability}{67}{section.7.7}%
+\contentsline {subsection}{\numberline {7.7.1}Metrics (Prometheus)}{67}{subsection.7.7.1}%
+\contentsline {subsection}{\numberline {7.7.2}Distributed Tracing (OpenTelemetry)}{68}{subsection.7.7.2}%
+\contentsline {subsection}{\numberline {7.7.3}Structured Logging}{68}{subsection.7.7.3}%
+\contentsline {subsection}{\numberline {7.7.4}Health Checks}{68}{subsection.7.7.4}%
+\contentsline {section}{\numberline {7.8}Backup and Recovery}{68}{section.7.8}%
+\contentsline {subsection}{\numberline {7.8.1}Backup Strategy}{68}{subsection.7.8.1}%
+\contentsline {subsection}{\numberline {7.8.2}Automated Backup (CronJob)}{69}{subsection.7.8.2}%
+\contentsline {subsection}{\numberline {7.8.3}Disaster Recovery}{69}{subsection.7.8.3}%
+\contentsline {section}{\numberline {7.9}Upgrades and Migrations}{69}{section.7.9}%
+\contentsline {subsection}{\numberline {7.9.1}Version Compatibility}{69}{subsection.7.9.1}%
+\contentsline {subsection}{\numberline {7.9.2}Index Migration}{70}{subsection.7.9.2}%
+\contentsline {subsection}{\numberline {7.9.3}Graph Migration}{70}{subsection.7.9.3}%
+\contentsline {section}{\numberline {7.10}Security Hardening}{70}{section.7.10}%
+\contentsline {section}{\numberline {7.11}Performance Tuning}{70}{section.7.11}%
+\contentsline {section}{\numberline {7.12}Patent-Relevant Novelty}{70}{section.7.12}%
+\contentsline {section}{\numberline {7.13}Summary}{71}{section.7.13}%
+\contentsline {chapter}{\numberline {8}Mutation and Approval Engine}{72}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Why This Is a Fourth Layer, Not a Tool Call}{72}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Pipeline}{72}{section.8.2}%
+\contentsline {section}{\numberline {8.3}Mutation Events Are WAL Events}{73}{section.8.3}%
+\contentsline {section}{\numberline {8.4}Interfaces}{73}{section.8.4}%
+\contentsline {section}{\numberline {8.5}Approval Policy}{75}{section.8.5}%
+\contentsline {section}{\numberline {8.6}Scheduled and Recurring Mutation}{75}{section.8.6}%
+\contentsline {section}{\numberline {8.7}Format Coverage}{75}{section.8.7}%
+\contentsline {part}{II\hspace {1em}Reference and Extension}{77}{part.2}%
+\contentsline {chapter}{\numberline {9}API Reference}{78}{chapter.9}%
+\contentsline {section}{\numberline {9.1}API Overview}{78}{section.9.1}%
+\contentsline {section}{\numberline {9.2}Authentication}{78}{section.9.2}%
+\contentsline {subsection}{\numberline {9.2.1}Bearer Token (OIDC)}{78}{subsection.9.2.1}%
+\contentsline {subsection}{\numberline {9.2.2}API Key}{78}{subsection.9.2.2}%
+\contentsline {subsection}{\numberline {9.2.3}Anonymous (Development)}{79}{subsection.9.2.3}%
+\contentsline {section}{\numberline {9.3}Core Endpoints}{79}{section.9.3}%
+\contentsline {subsection}{\numberline {9.3.1}Health}{79}{subsection.9.3.1}%
+\contentsline {subsection}{\numberline {9.3.2}Query}{79}{subsection.9.3.2}%
+\contentsline {paragraph}{Execute Query (Non-streaming)}{79}{subsection.9.3.2}%
+\contentsline {paragraph}{Execute Query (Streaming)}{80}{subsection.9.3.2}%
+\contentsline {subsection}{\numberline {9.3.3}Ingestion}{80}{subsection.9.3.3}%
+\contentsline {paragraph}{Ingest Path}{80}{subsection.9.3.3}%
+\contentsline {paragraph}{Ingest Status}{81}{subsection.9.3.3}%
+\contentsline {paragraph}{Ingest History}{81}{subsection.9.3.3}%
+\contentsline {subsection}{\numberline {9.3.4}Repository Management}{81}{subsection.9.3.4}%
+\contentsline {subsection}{\numberline {9.3.5}Graph Operations}{82}{subsection.9.3.5}%
+\contentsline {paragraph}{Traverse}{82}{subsection.9.3.5}%
+\contentsline {paragraph}{Entity Lookup}{82}{subsection.9.3.5}%
+\contentsline {paragraph}{Neighborhood}{82}{subsection.9.3.5}%
+\contentsline {subsection}{\numberline {9.3.6}Index Operations}{82}{subsection.9.3.6}%
+\contentsline {subsection}{\numberline {9.3.7}Unit Access}{82}{subsection.9.3.7}%
+\contentsline {subsection}{\numberline {9.3.8}Evidence Gate}{82}{subsection.9.3.8}%
+\contentsline {subsection}{\numberline {9.3.9}Administration}{83}{subsection.9.3.9}%
+\contentsline {section}{\numberline {9.4}WebSocket API}{83}{section.9.4}%
+\contentsline {section}{\numberline {9.5}gRPC API}{84}{section.9.5}%
+\contentsline {section}{\numberline {9.6}Error Handling}{84}{section.9.6}%
+\contentsline {section}{\numberline {9.7}Rate Limiting}{84}{section.9.7}%
+\contentsline {section}{\numberline {9.8}SDKs}{85}{section.9.8}%
+\contentsline {paragraph}{Python SDK Example}{85}{table.caption.25}%
+\contentsline {section}{\numberline {9.9}OpenAPI Specification}{86}{section.9.9}%
+\contentsline {section}{\numberline {9.10}API Versioning Policy}{86}{section.9.10}%
+\contentsline {section}{\numberline {9.11}Patent-Relevant Novelty}{86}{section.9.11}%
+\contentsline {section}{\numberline {9.12}Summary}{86}{section.9.12}%
+\contentsline {xpart}{Reference and Extension}{78}{part.2}%
+\contentsline {chapter}{\numberline {10}Developer Guide}{87}{chapter.10}%
+\contentsline {section}{\numberline {10.1}Development Environment}{87}{section.10.1}%
+\contentsline {subsection}{\numberline {10.1.1}Prerequisites}{87}{subsection.10.1.1}%
+\contentsline {subsection}{\numberline {10.1.2}Repository Structure}{87}{subsection.10.1.2}%
+\contentsline {subsection}{\numberline {10.1.3}Build and Test}{88}{subsection.10.1.3}%
+\contentsline {section}{\numberline {10.2}Extension Points Deep Dive}{88}{section.10.2}%
+\contentsline {subsection}{\numberline {10.2.1}Custom Parser}{88}{subsection.10.2.1}%
+\contentsline {paragraph}{Tree-sitter Grammar Integration.}{89}{subsection.10.2.1}%
+\contentsline {subsection}{\numberline {10.2.2}Custom Chunker}{89}{subsection.10.2.2}%
+\contentsline {subsection}{\numberline {10.2.3}Custom Embedder}{90}{subsection.10.2.3}%
+\contentsline {subsection}{\numberline {10.2.4}Custom Graph Store}{91}{subsection.10.2.4}%
+\contentsline {subsection}{\numberline {10.2.5}Custom Index Backend}{91}{subsection.10.2.5}%
+\contentsline {subsection}{\numberline {10.2.6}Custom Evidence Verifier}{91}{subsection.10.2.6}%
+\contentsline {subsection}{\numberline {10.2.7}Custom Query Planner Strategy}{92}{subsection.10.2.7}%
+\contentsline {subsection}{\numberline {10.2.8}Custom Agent Tool}{92}{subsection.10.2.8}%
+\contentsline {subsection}{\numberline {10.2.9}Custom Auth Provider}{93}{subsection.10.2.9}%
+\contentsline {section}{\numberline {10.3}Testing Extensions}{93}{section.10.3}%
+\contentsline {subsection}{\numberline {10.3.1}Parser Tests}{93}{subsection.10.3.1}%
+\contentsline {subsection}{\numberline {10.3.2}Integration Tests}{94}{subsection.10.3.2}%
+\contentsline {subsection}{\numberline {10.3.3}Property-Based Testing}{94}{subsection.10.3.3}%
+\contentsline {section}{\numberline {10.4}Debugging and Profiling}{95}{section.10.4}%
+\contentsline {subsection}{\numberline {10.4.1}Logging}{95}{subsection.10.4.1}%
+\contentsline {subsection}{\numberline {10.4.2}Profiling}{95}{subsection.10.4.2}%
+\contentsline {section}{\numberline {10.5}Contributing}{95}{section.10.5}%
+\contentsline {subsection}{\numberline {10.5.1}Code Style}{95}{subsection.10.5.1}%
+\contentsline {subsection}{\numberline {10.5.2}PR Process}{95}{subsection.10.5.2}%
+\contentsline {subsection}{\numberline {10.5.3}Adding a New Volume}{96}{subsection.10.5.3}%
+\contentsline {section}{\numberline {10.6}Release Process}{96}{section.10.6}%
+\contentsline {section}{\numberline {10.7}Summary}{96}{section.10.7}%
+\contentsline {part}{III\hspace {1em}Intellectual Property and Research}{97}{part.3}%
+\contentsline {chapter}{\numberline {11}Patent Draft}{98}{chapter.11}%
+\contentsline {section}{\numberline {11.1}Field of the Invention}{98}{section.11.1}%
+\contentsline {section}{\numberline {11.2}Background}{98}{section.11.2}%
+\contentsline {section}{\numberline {11.3}Summary of the Invention}{98}{section.11.3}%
+\contentsline {section}{\numberline {11.4}Independent Claims}{98}{section.11.4}%
+\contentsline {section}{\numberline {11.5}Dependent Claims}{102}{section.11.5}%
+\contentsline {section}{\numberline {11.6}Design Decisions Supporting Novelty}{103}{section.11.6}%
+\contentsline {section}{\numberline {11.7}Specification Support}{103}{section.11.7}%
+\contentsline {section}{\numberline {11.8}Prior Art Research Notes (Informal)}{104}{section.11.8}%
+\contentsline {section}{\numberline {11.9}Potential Design-Arounds and Defense}{105}{section.11.9}%
+\contentsline {paragraph}{On the ``combination of known elements'' objection.}{106}{section.11.9}%
+\contentsline {xpart}{Intellectual Property and Research}{98}{part.3}%
+\contentsline {chapter}{\numberline {12}Research Paper: LLMWiki - A Semantic Operating Layer for Evidence-Aware Knowledge Management}{107}{chapter.12}%
+\contentsline {section}{\numberline {12.1}Introduction}{107}{section.12.1}%
+\contentsline {paragraph}{Contributions.}{108}{section.12.1}%
+\contentsline {section}{\numberline {12.2}Related Work}{108}{section.12.2}%
+\contentsline {subsection}{\numberline {12.2.1}Retrieval-Augmented Generation}{108}{subsection.12.2.1}%
+\contentsline {subsection}{\numberline {12.2.2}Graph-Enhanced RAG}{109}{subsection.12.2.2}%
+\contentsline {subsection}{\numberline {12.2.3}Evidence and Attribution}{109}{subsection.12.2.3}%
+\contentsline {subsection}{\numberline {12.2.4}Local and Deterministic Systems}{109}{subsection.12.2.4}%
+\contentsline {subsection}{\numberline {12.2.5}Methods Imported from Adjacent Sciences}{109}{subsection.12.2.5}%
+\contentsline {section}{\numberline {12.3}System Architecture}{110}{section.12.3}%
+\contentsline {subsection}{\numberline {12.3.1}Three-Layer Decomposition}{110}{subsection.12.3.1}%
+\contentsline {subsection}{\numberline {12.3.2}Filesystem as Write-Ahead Log}{110}{subsection.12.3.2}%
+\contentsline {subsection}{\numberline {12.3.3}Content Addressing}{110}{subsection.12.3.3}%
+\contentsline {subsection}{\numberline {12.3.4}Evidence Gate}{110}{subsection.12.3.4}%
+\contentsline {subsection}{\numberline {12.3.5}DAG Query Planner}{110}{subsection.12.3.5}%
+\contentsline {subsection}{\numberline {12.3.6}Label-Free Significance via Discordant Pairing}{110}{subsection.12.3.6}%
+\contentsline {subsection}{\numberline {12.3.7}Proofreading Cascade}{111}{subsection.12.3.7}%
+\contentsline {subsection}{\numberline {12.3.8}Cohomological Evidence Closure (Research Hypothesis)}{111}{subsection.12.3.8}%
+\contentsline {section}{\numberline {12.4}Evaluation}{112}{section.12.4}%
+\contentsline {subsection}{\numberline {12.4.1}Benchmarks}{112}{subsection.12.4.1}%
+\contentsline {subsection}{\numberline {12.4.2}Baselines}{112}{subsection.12.4.2}%
+\contentsline {subsection}{\numberline {12.4.3}Metrics}{112}{subsection.12.4.3}%
+\contentsline {paragraph}{Status of empirical claims.}{113}{subsection.12.4.3}%
+\contentsline {subsection}{\numberline {12.4.4}Performance Targets (Preliminary, Unverified)}{113}{subsection.12.4.4}%
+\contentsline {subsection}{\numberline {12.4.5}Ablation Studies (Preliminary, Unverified)}{113}{subsection.12.4.5}%
+\contentsline {subsection}{\numberline {12.4.6}Calibration Analysis (Planned)}{114}{subsection.12.4.6}%
+\contentsline {section}{\numberline {12.5}Discussion}{114}{section.12.5}%
+\contentsline {subsection}{\numberline {12.5.1}Why Evidence Gate Works}{115}{subsection.12.5.1}%
+\contentsline {subsection}{\numberline {12.5.2}Local-First Implications}{115}{subsection.12.5.2}%
+\contentsline {subsection}{\numberline {12.5.3}Limitations}{115}{subsection.12.5.3}%
+\contentsline {section}{\numberline {12.6}Conclusion}{115}{section.12.6}%
+\contentsline {part}{IV\hspace {1em}Appendices}{116}{part.4}%
+\contentsline {section}{\numberline {.1}Mathematical Notation}{117}{section.Alph0.1}%
+\contentsline {section}{\numberline {.2}Complete Configuration Schema}{117}{section.Alph0.2}%
+\contentsline {section}{\numberline {.3}API Schemas}{119}{section.Alph0.3}%
+\contentsline {subsection}{\numberline {.3.1}Query Request}{119}{subsection.Alph0.3.1}%
+\contentsline {subsection}{\numberline {.3.2}Query Response}{120}{subsection.Alph0.3.2}%
+\contentsline {section}{\numberline {.4}Evaluation Protocol}{121}{section.Alph0.4}%
+\contentsline {subsection}{\numberline {.4.1}Dataset Construction}{121}{subsection.Alph0.4.1}%
+\contentsline {subsection}{\numberline {.4.2}Metrics Computation}{121}{subsection.Alph0.4.2}%
+\contentsline {subsection}{\numberline {.4.3}Statistical Rigor}{122}{subsection.Alph0.4.3}%
+\contentsline {section}{\numberline {.5}Glossary of Key Terms}{122}{section.Alph0.5}%
+\contentsline {xpart}{Appendices}{117}{part.4}%
+\contentsline {chapter}{\numberline {A}Data Model Definitions}{129}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Content Identity vs. Occurrence Identity}{129}{section.A.1}%
+\contentsline {section}{\numberline {A.2}SemanticUnit}{129}{section.A.2}%
+\contentsline {section}{\numberline {A.3}UnitOccurrence}{130}{section.A.3}%
+\contentsline {section}{\numberline {A.4}ArtifactVersion}{130}{section.A.4}%
+\contentsline {section}{\numberline {A.5}Chunk}{131}{section.A.5}%
+\contentsline {section}{\numberline {A.6}Entity}{131}{section.A.6}%
+\contentsline {section}{\numberline {A.7}Relation}{132}{section.A.7}%
+\contentsline {section}{\numberline {A.8}QueryPlan}{132}{section.A.8}%
+\contentsline {section}{\numberline {A.9}ToolSchema}{133}{section.A.9}%
+\contentsline {chapter}{\numberline {B}Configuration Reference}{134}{appendix.B}%
+\contentsline {section}{\numberline {B.1}Full config.toml}{134}{section.B.1}%
+\contentsline {section}{\numberline {B.2}Environment Variable Overrides}{135}{section.B.2}%
+\contentsline {chapter}{\numberline {C}Parser Grammar Specifications}{136}{appendix.C}%
+\contentsline {section}{\numberline {C.1}Python (tree-sitter-python)}{136}{section.C.1}%
+\contentsline {section}{\numberline {C.2}JavaScript/TypeScript}{136}{section.C.2}%
+\contentsline {section}{\numberline {C.3}Rust}{137}{section.C.3}%
+\contentsline {section}{\numberline {C.4}Go}{137}{section.C.4}%
+\contentsline {section}{\numberline {C.5}SQL}{137}{section.C.5}%
+\contentsline {section}{\numberline {C.6}Design Decision Log}{139}{section.C.6}%
+\contentsline {chapter}{\numberline {D}Extended Related Work}{141}{appendix.D}%
+\contentsline {section}{\numberline {D.1}Dense Retrieval}{141}{section.D.1}%
+\contentsline {section}{\numberline {D.2}Sparse Retrieval}{141}{section.D.2}%
+\contentsline {section}{\numberline {D.3}Hybrid Retrieval}{141}{section.D.3}%
+\contentsline {section}{\numberline {D.4}Graph-Enhanced Retrieval}{141}{section.D.4}%
+\contentsline {section}{\numberline {D.5}Recursive/Tree-Based Retrieval}{141}{section.D.5}%
+\contentsline {section}{\numberline {D.6}Evidence and Attribution}{141}{section.D.6}%
+\contentsline {section}{\numberline {D.7}Local/Private LLMs}{141}{section.D.7}%
+\contentsline {section}{\numberline {D.8}Vector Databases}{142}{section.D.8}%
+\contentsline {section}{\numberline {D.9}Graph Databases}{142}{section.D.9}%
+\contentsline {section}{\numberline {D.10}Parsing and Embedding}{142}{section.D.10}%
 \contentsfinish 

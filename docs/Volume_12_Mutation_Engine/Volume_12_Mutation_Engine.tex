@@ -1,0 +1,127 @@
+%===============================================================================
+% LLMWiki Technical Specification - Volume 12: Mutation and Approval Engine
+%===============================================================================
+\chapter{Mutation and Approval Engine}
+\label{cha:mutation}
+
+\begin{quote}
+\textit{Status: [SPECIFIED]. This chapter is new as of this revision. Volumes~01--09 specify LLMWiki as a read path: artifacts in, evidence-gated answers out. They do not specify how LLMWiki writes back to the artifacts it reads --- folder-level document revision, format-preserving edits, human approval, and resynchronization --- which is a first-class function of the Folding product this specification supports, not an optional extension. This chapter closes that gap.}
+\end{quote}
+
+\section{Why This Is a Fourth Layer, Not a Tool Call}
+\label{sec:mutation:why}
+
+Vol.~05's Agent Runtime already executes tools with side effects. It would be possible to implement document editing as one more tool the planner invokes. This chapter argues that is the wrong layer, for the same reason the Evidence Gate (Vol.~04) is not implemented as prompt instructions: a capability that can silently corrupt the user's source artifacts needs invariants enforced by the architecture, not conventions followed by a prompt.
+
+\begin{designprinciple}[Mutation Requires Approval by Construction]
+No write to a source artifact is possible through any code path that does not pass through human approval (or an explicitly configured autonomous-approval policy, \S\ref{sec:mutation:policy}) and produce a rollback record. This is enforced the same way Evidence Closure (Vol.~04 Def.~\ref{def:evidence-gate}) is enforced: by making the unapproved path not exist, not by trusting callers to check.
+\end{designprinciple}
+
+\section{Pipeline}
+\label{sec:mutation:pipeline}
+
+\begin{enumerate}
+  \item \textbf{User Request.} A query or explicit edit instruction that the planner (Vol.~07) routes to the mutation path instead of (or in addition to) the read path.
+  \item \textbf{Edit Plan.} The planner produces a structured plan: which \texttt{Artifact}s (Appendix~B \S\ref{app:data-model:identity}) are affected, and for each, which \texttt{UnitOccurrence}s change and how.
+  \item \textbf{Format-Aware Patch.} \texttt{PatchPlanner} (\S\ref{sec:mutation:interfaces}) lowers the edit plan into a format-specific patch --- a diff for plain text/code, an OOXML part-level edit for DOCX/PPTX/XLSX, a HWPX record edit, a content-stream edit for PDF --- never a blind byte-range overwrite of a structured format.
+  \item \textbf{Dry-Run Render.} The patch is applied to a scratch copy and rendered (not just diffed textually) so a reviewer sees the actual resulting document, not an inferred one.
+  \item \textbf{Semantic + Structural Diff.} \texttt{RenderComparator} produces two diffs: a structural one (what changed in the document's own object model --- paragraphs, cells, slides) and a semantic one (what claims changed, reusing the Claim Support machinery of Vol.~04 \S\ref{sec:retrieval:synthesis} to describe \emph{what} changed, not only \emph{where}).
+  \item \textbf{Human Approval.} \texttt{ApprovalStore} records an explicit accept/reject/edit-further decision against the specific patch and diff shown, not against the edit plan in the abstract --- approval is of the artifact, not of the intent.
+  \item \textbf{Atomic File Commit.} The patch is applied to the real artifact using the same atomic-write discipline as \S\ref{sec:architecture:crash-consistency} (temp file + fsync + rename/\texttt{MoveFileEx}, directory fsync), and the mutation is appended to \texttt{wal/} as a new event type (\S\ref{sec:mutation:eventing}) --- it is not a side channel outside the event log LLMWiki already treats as authoritative.
+  \item \textbf{Rollback Record.} The pre-image (prior \texttt{ArtifactVersion.raw\_hash} and, for large artifacts, a reference to the last checkpointed content) is retained so \texttt{RollbackManager} can revert without depending on the user's own backup discipline.
+  \item \textbf{Reparse and Reindex.} \texttt{SyncCoordinator} triggers a new \texttt{ArtifactVersion} (Appendix~B) and routes it through the existing Ingestion Pipeline (Vol.~01 Algorithm~\ref{alg:ingestion}) --- a mutation does not get a separate reindexing mechanism, it re-enters the same event-sourced pipeline every other artifact change goes through.
+\end{enumerate}
+
+\section{Mutation Events Are WAL Events}
+\label{sec:mutation:eventing}
+
+\S\ref{sec:architecture:crash-consistency} defines an event lifecycle of PREPARED $\to$ COMMITTED $\to$ PROJECTED for ingestion. A mutation extends that lifecycle with one additional pre-commit state:
+
+\begin{center}
+\texttt{PREPARED} $\to$ \texttt{PENDING\_APPROVAL} $\to$ \texttt{COMMITTED} $\to$ \texttt{PROJECTED}
+\end{center}
+
+An event in \texttt{PENDING\_APPROVAL} is durable (so an approval decision survives a crash) but is not yet applied to the artifact and carries no weight in \texttt{ApplyGraph}/\texttt{ApplyIndex} --- it exists so the approval queue itself survives a restart, not so a query can see an unapproved edit. Rejection is not a deletion of the event; it is a terminal state (\texttt{REJECTED}) recorded in the same append-only log, so ``this edit was proposed and rejected'' remains part of the auditable history rather than disappearing. A rollback is symmetrically a new event referencing the \texttt{ArtifactVersion} it reverts to, not an in-place undo --- consistent with \S\ref{sec:architecture:filesystem-wal}'s principle that nothing in \texttt{wal/} is ever rewritten, only appended to.
+
+\section{Interfaces}
+\label{sec:mutation:interfaces}
+
+\begin{verbatim}
+trait DocumentReader {
+    fn read(&self, artifact: &ArtifactVersion) -> Result<DocumentModel>;
+}
+
+trait DocumentWriter {
+    fn write(&self, model: &DocumentModel, target: &Artifact) -> Result<RawBytes>;
+}
+
+trait PatchPlanner {
+    fn plan(&self, edit: &EditPlan, current: &DocumentModel) -> Result<FormatPatch>;
+}
+
+trait FormatValidator {
+    fn validate(&self, patch: &FormatPatch, format: MimeType) -> Result<ValidationReport>;
+    // Rejects patches that would produce a structurally invalid file for its format
+    // (malformed OOXML relationships, unbalanced HWPX records, non-renderable PDF
+    // content streams) before a human ever sees a dry-run render of it.
+}
+
+trait RenderComparator {
+    fn diff(&self, before: &DocumentModel, after: &DocumentModel)
+        -> Result<(StructuralDiff, SemanticDiff)>;
+}
+
+trait ApprovalStore {
+    fn submit(&self, patch: &FormatPatch, diff: &(StructuralDiff, SemanticDiff))
+        -> Result<ApprovalRequestId>;
+    fn decide(&self, id: ApprovalRequestId, decision: ApprovalDecision) -> Result<()>;
+}
+
+trait CommitCoordinator {
+    fn commit(&self, patch: &FormatPatch, approval: ApprovalRequestId) -> Result<ArtifactVersion>;
+    // Performs the atomic write (Sec. crash-consistency) and appends the COMMITTED
+    // mutation event; the only path by which FormatPatch bytes reach a real file.
+}
+
+trait RollbackManager {
+    fn rollback(&self, artifact_id: ArtifactId, to_version: ArtifactVersionId) -> Result<ArtifactVersion>;
+}
+
+trait SyncCoordinator {
+    fn resync(&self, version: &ArtifactVersion) -> Result<()>;
+    // Re-enters Algorithm ingestion (Vol. 01) for the new ArtifactVersion.
+}
+\end{verbatim}
+
+\texttt{CommitCoordinator} is deliberately the only trait implementation with filesystem write access to source artifacts; \texttt{PatchPlanner}, \texttt{RenderComparator}, and \texttt{ApprovalStore} operate on in-memory or scratch-copy representations only, so the design principle of \S\ref{sec:mutation:why} is an architectural fact (one narrow, auditable write path) rather than a convention every caller must independently uphold.
+
+\section{Approval Policy}
+\label{sec:mutation:policy}
+
+Not every deployment wants a human in the loop for every edit. \texttt{ApprovalStore} is configured with a policy, not a hardcoded human gate:
+\begin{itemize}
+  \item \textbf{Manual (default):} every mutation requires an explicit human decision.
+  \item \textbf{Auto-approve below risk threshold:} mutations whose \texttt{SemanticDiff} touches no claim outside the ones the originating query already cited as evidence may auto-commit; anything touching uncited content requires manual approval. This reuses the Claim Support / Evidence Coverage machinery of Vol.~04 \S\ref{sec:retrieval:synthesis} as the risk signal, rather than introducing a separate heuristic.
+  \item \textbf{Scheduled report generation:} a recurring job (\S\ref{sec:mutation:scheduled}) may run with auto-approval scoped to a specific artifact set and edit class, configured explicitly per job, never globally.
+\end{itemize}
+Whatever the policy, \S\ref{sec:mutation:eventing}'s event trail (including auto-approved mutations, which still pass through \texttt{PENDING\_APPROVAL}$\to$\texttt{COMMITTED} and are attributed to the policy that approved them) is what makes ``who approved this and under what rule'' answerable after the fact.
+
+\section{Scheduled and Recurring Mutation}
+\label{sec:mutation:scheduled}
+
+The product surface this chapter exists to support includes recurring report generation over a watched folder (\S\ref{sec:mutation:why}), not only interactive single-document edits. A scheduled job is a \texttt{CommitCoordinator} client like any other: it produces an \texttt{EditPlan} on a timer or a source-artifact-change trigger, goes through the same patch/dry-run/diff/(policy-scoped) approval/commit/reindex pipeline, and its mutation events are indistinguishable in \texttt{wal/} from an interactively approved edit except for the policy identifier that authorized them. No separate mutation mechanism is introduced for the scheduled case.
+
+\section{Format Coverage}
+\label{sec:mutation:formats}
+
+Vol.~02's parser coverage is read-oriented and, as of this revision, does not yet specify writers for every format LLMWiki must read. \texttt{DocumentReader}/\texttt{DocumentWriter} pairs are required, not optional, for any format this chapter's approval pipeline supports mutating:
+
+\begin{itemize}
+  \item \textbf{Plain text / code / Markdown:} read and write via the existing Vol.~02 parsers; patches are line/span diffs.
+  \item \textbf{DOCX / PPTX / XLSX (OOXML):} part-level XML edits preserving unrelated parts, relationships, and styles byte-for-byte; comments and tracked changes are read as \texttt{UnitOccurrence} metadata, not discarded on write.
+  \item \textbf{HWP / HWPX:} record-level edits via the HWPX XML schema (HWP binary format is read-only pending a written-back-safe encoder; this is a stated gap, not a silent one).
+  \item \textbf{PDF:} layout-preserving edits are scoped to content streams that can be regenerated without full re-layout (text replacement within an existing text run, form-field values); structural PDF edits (reflowing paragraphs) are out of scope for this revision and route to ``regenerate from source'' where a source format is available instead.
+  \item \textbf{Images/tables/charts embedded in the above:} treated as opaque objects with position metadata; content-level edits to an embedded object are out of scope for this revision.
+\end{itemize}
+
+This list is deliberately narrower than Vol.~02's read coverage claims (Appendix~D); write support for a format is added when its \texttt{DocumentWriter} exists and passes \texttt{FormatValidator}, not implied by read support.

@@ -8,7 +8,7 @@
     "name":      { "type": "string" },
     "type":      { "type": "string", "enum": ["symbol", "concept", "file", "service", "table"] },
     "aliases":   { "type": "array", "items": { "type": "string" } },
-    "unit_refs": { "type": "array", "items": { "type": "string" } },
+    "unit_refs": { "type": "array", "items": { "type": "string" }, "description": "UnitOccurrence.occurrence_id values where this entity was mentioned/defined -- occurrence, not bare content_id, so provenance points to a specific file+span" },
     "embedding": { "type": "array", "items": { "type": "number" } }
   }
 }

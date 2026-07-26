@@ -6,6 +6,30 @@
 
 This volume covers deploying LLMWiki in production: containerization, local-first modes, distributed scaling, monitoring, backup/recovery, and upgrade procedures.
 
+\section{Deployment Tiers}
+\label{sec:deploy:tiers}
+
+Everything in this volume, taken together, could be read as v1 scope: Kubernetes, Helm, Vault, Consul, and Ceph-class storage alongside a single binary that runs with zero external services. That reading would contradict the Local-First design principle (Vol.~01 \S\ref{sec:architecture:philosophy}) and the single-binary deployment goal. This section states explicitly which components belong to which tier, so ``supported at largest scale'' and ``required to run at all'' are not conflated. See DESIGN\_DECISIONS.md DD-022 for the recorded rationale.
+
+\begin{table}[htbp]
+\centering
+\caption{Deployment Tiers: Cumulative Complexity, Independent Sufficiency}
+\label{tab:deploy:tiers}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{p{2.6cm}p{3.6cm}p{4.2cm}p{4.2cm}}
+\toprule
+\textbf{Tier} & \textbf{Use Case} & \textbf{Required} & \textbf{Explicitly Not Required} \\
+\midrule
+\textbf{Local MVP} & Individual user, desktop app, CLI, air-gapped single machine & Single binary (\texttt{llmwiki:cpu}/\texttt{llmwiki:full}) or embedded library mode; local \texttt{.llmwiki/} filesystem & Docker, Kubernetes, Helm, Vault, Consul, Ceph/Longhorn, Redis, any network service \\
+\textbf{Team Server} & Small team, shared server, single-writer repository & Standalone Server mode (Table~\ref{tab:deploy:modes}): API + workers, Docker container, optional shared read-replica index & Kubernetes, Helm, Vault, Consul, Ceph --- a plain volume or NFS mount suffices at this scale; RWX shared storage is an Enterprise Cluster concern (\S\ref{sec:deploy:stateful}) \\
+\textbf{Enterprise Cluster} & HA production service, multi-writer, compliance requirements & Everything above, plus Kubernetes, Helm (\S\ref{sec:deploy:helm}), Vault/Consul for secrets and discovery, Ceph/Longhorn-class RWX storage, load-balanced replicas & --- \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+A new deployment (and a new reader of this volume) should default to Local MVP and add tiers only as actual need --- team-scale sharing, then HA/compliance --- arises. \S\ref{sec:deploy:local} covers Local MVP in detail; \S\ref{sec:deploy:k8s} (Kubernetes/Helm) and the Vault/Consul references in \S\ref{sec:deploy:stateful} and later in this volume are \textbf{Enterprise Cluster only} and are marked as such at each occurrence below.
+
 \section{Deployment Modes}
 \label{sec:deploy:modes}
 
@@ -65,8 +89,10 @@ Images published to \texttt{ghcr.io/llmwiki/llmwiki}:{version, latest, sha}.
   \item \texttt{llmwiki:full} - All parsers, local LLM (llama.cpp)
 \end{itemize}
 
-\section{Kubernetes Deployment}
+\section{Kubernetes Deployment [Enterprise Cluster tier]}
 \label{sec:deploy:k8s}
+
+This section and its subsections apply to the Enterprise Cluster tier only (\S\ref{sec:deploy:tiers}); Local MVP and Team Server deployments do not need any of it.
 
 \subsection{Helm Chart Structure}
 \label{sec:deploy:helm}

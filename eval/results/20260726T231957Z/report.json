@@ -1,0 +1,128 @@
+{
+  "generated_at": "2026-07-26T23:19:57.465855+00:00",
+  "corpus": {
+    "raw_files": [
+      "heapq.py",
+      "queue.py"
+    ],
+    "n_semantic_units": 49,
+    "n_occurrences": 54
+  },
+  "gold_set": {
+    "path": "C:\\Users\\jmkjm\\Documents\\2026\ub144_\uc815\ubbfc\uaddc_\ud65c\ub3d9\uc790\ub8cc\\FOLDING_JIMIJIMI\\LLMWiki\\eval\\datasets\\codeqa_python\\gold_sample.jsonl",
+    "n_questions": 5,
+    "status": "single-reviewer illustrative sample -- NOT a validated benchmark; see PROTOCOL.md"
+  },
+  "retrieval_backend": "BM25 (local, no external calls) -- see retrieval_baseline.py docstring for scope",
+  "gate_threshold": 0.0,
+  "metrics": {
+    "k=5": {
+      "evidence_recall_at_k": 0.6,
+      "evidence_recall_at_k_bootstrap_ci": [
+        0.6,
+        0.2,
+        1.0
+      ],
+      "evidence_precision_at_k": 0.12000000000000002,
+      "evidence_f1_at_k": 0.20000000000000004
+    },
+    "k=10": {
+      "evidence_recall_at_k": 1.0,
+      "evidence_recall_at_k_bootstrap_ci": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "evidence_precision_at_k": 0.1,
+      "evidence_f1_at_k": 0.18181818181818182
+    },
+    "k=20": {
+      "evidence_recall_at_k": 1.0,
+      "evidence_recall_at_k_bootstrap_ci": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "evidence_precision_at_k": 0.05,
+      "evidence_f1_at_k": 0.09523809523809523
+    },
+    "gate_rejection_rate": 0.0
+  },
+  "per_query_detail": [
+    {
+      "query_id": "gen-8deab73c8802-0",
+      "question": "What does the function `heappush` do?",
+      "top_5_retrieved": [
+        "5edfd86a25addf7c50b9de07b9f9e38ff16647e4ff0c9f0d64c29230e6114d44",
+        "e3303e43e4e34afcefbb80ba4b3f4841cebf87bc9933a0918ea3b0ec3523fff4",
+        "f9077bb4c431c8eba6eaa9fb1c579033d8c9c326f22b8d3b0dcd760e237d1c2d",
+        "54cb92ade4ff0d74ad70dd6b77a57f930983470f29c7459c89447ec06c588c78",
+        "0a7ecc1e69be87862ecfae80e61789e497cf11b280a45dee667b1baba72ab59b"
+      ],
+      "ground_truth": [
+        "e3303e43e4e34afcefbb80ba4b3f4841cebf87bc9933a0918ea3b0ec3523fff4"
+      ],
+      "hit_at_5": true
+    },
+    {
+      "query_id": "gen-cedeac032c5a-2",
+      "question": "What does the function `heappop` do?",
+      "top_5_retrieved": [
+        "5edfd86a25addf7c50b9de07b9f9e38ff16647e4ff0c9f0d64c29230e6114d44",
+        "df953cae7d75fbbc474108afc5511a4af0c89a165e8abdadb08cafa813478946",
+        "43b98ecc161a5d1e8ac992891c96c8a06fdb35b89beefe065f4f7923b01a9642",
+        "0a7ecc1e69be87862ecfae80e61789e497cf11b280a45dee667b1baba72ab59b",
+        "ce9447a0057cf1f6b80643ba46a5283cb6522a48e7a8fdf2ed226c87b06cc6fc"
+      ],
+      "ground_truth": [
+        "df953cae7d75fbbc474108afc5511a4af0c89a165e8abdadb08cafa813478946"
+      ],
+      "hit_at_5": true
+    },
+    {
+      "query_id": "gen-c55e67f024cd-8",
+      "question": "What does the function `heapify` do?",
+      "top_5_retrieved": [
+        "5edfd86a25addf7c50b9de07b9f9e38ff16647e4ff0c9f0d64c29230e6114d44",
+        "a4a7f14b7c8d2f2403fee562bc5962e43e90626e14959ab20dd5ccde2fac0eee",
+        "7f47d0fa43f94ddd381c03037e9780aadb9a4f3b3c52ea4fc18d476c0ab89b79",
+        "8c21aac047fe73e10b2d6a7c7e6f231eec93901a5a391ff10f44e9802e34d5bd",
+        "4b6e7aa0823c3a55910c4f3148b0cf7c99b8330f4b013bf6b9d120bcc20bd1b8"
+      ],
+      "ground_truth": [
+        "a4a7f14b7c8d2f2403fee562bc5962e43e90626e14959ab20dd5ccde2fac0eee"
+      ],
+      "hit_at_5": true
+    },
+    {
+      "query_id": "gen-1825741bd48b-38",
+      "question": "What does the class `Queue` implement?",
+      "top_5_retrieved": [
+        "4b6e7aa0823c3a55910c4f3148b0cf7c99b8330f4b013bf6b9d120bcc20bd1b8",
+        "39da833d17415b89b7f1ee10363d92ee39509b6c10d4537cfd5f5ef756a37baa",
+        "0a7ecc1e69be87862ecfae80e61789e497cf11b280a45dee667b1baba72ab59b",
+        "ec83df54b15de4c902f1fe2254b22adf6892e35b7a1a8d5cabd40689a27d605e",
+        "6e1f4cceae859352394cc39b67427ea2bc2c75dd15737db958d52093efb72222"
+      ],
+      "ground_truth": [
+        "d97707c4de3757cfffd10bb36573512deb72e295223134d21f706553bcefd45f"
+      ],
+      "hit_at_5": false
+    },
+    {
+      "query_id": "gen-1825741bd48b-39",
+      "question": "Which module defines the class `Queue`?",
+      "top_5_retrieved": [
+        "02a5b5ef8ab89670d886440675fe8a3173d056bcee80f7cb995d364c61d85607",
+        "4b6e7aa0823c3a55910c4f3148b0cf7c99b8330f4b013bf6b9d120bcc20bd1b8",
+        "39da833d17415b89b7f1ee10363d92ee39509b6c10d4537cfd5f5ef756a37baa",
+        "a4a7f14b7c8d2f2403fee562bc5962e43e90626e14959ab20dd5ccde2fac0eee",
+        "0a7ecc1e69be87862ecfae80e61789e497cf11b280a45dee667b1baba72ab59b"
+      ],
+      "ground_truth": [
+        "d97707c4de3757cfffd10bb36573512deb72e295223134d21f706553bcefd45f"
+      ],
+      "hit_at_5": false
+    }
+  ]
+}

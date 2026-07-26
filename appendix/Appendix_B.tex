@@ -4,8 +4,26 @@
 \chapter{Data Model Definitions}
 \label{app:data-model}
 
+\section{Content Identity vs. Occurrence Identity}
+\label{app:data-model:identity}
+
+Invariant~\ref{inv:lineage-distinct} (Vol.~01, \S\ref{sec:architecture:lineage}) states that content identity does not imply derivation identity. This section makes that split concrete in the schema: a single \texttt{SemanticUnit} (identified by \texttt{content\_id} = SHA-256 of its canonical form) may be instantiated at many locations, and each location is a separate \texttt{UnitOccurrence}. Deduplication operates on \texttt{SemanticUnit}; provenance, citation, and lineage queries operate on \texttt{UnitOccurrence}. An earlier draft of this schema conflated the two by putting \texttt{file\_path} directly on \texttt{SemanticUnit}, which silently broke as soon as identical content appeared at two locations (the second occurrence had nowhere to record its own path without either overwriting the first or aliasing two distinct identifiers). The four schemas below replace that single object:
+
+\begin{itemize}
+  \item \textbf{Artifact} (identity: \texttt{artifact\_id}, \texttt{current\_path}, \texttt{repository\_id}) --- the stable identity of a source file, independent of its content at any given time.
+  \item \textbf{ArtifactVersion} --- one parse of one version of an Artifact; separates ``the file changed'' (\texttt{raw\_hash}) from ``we re-parsed it'' (\texttt{parser\_version}).
+  \item \textbf{SemanticUnit} --- the content-addressed blob, with no location.
+  \item \textbf{UnitOccurrence} --- where a SemanticUnit was observed: which ArtifactVersion, which span (typed by \texttt{span\_type}, since a byte offset, a line/column pair, and a PDF bounding box are not interchangeable), and its ordinal among sibling occurrences.
+\end{itemize}
+
 \section{SemanticUnit}
 \lstinputlisting[language=JSON]{schemas/SemanticUnit.json}
+
+\section{UnitOccurrence}
+\lstinputlisting[language=JSON]{schemas/UnitOccurrence.json}
+
+\section{ArtifactVersion}
+\lstinputlisting[language=JSON]{schemas/ArtifactVersion.json}
 
 \section{Chunk}
 \lstinputlisting[language=JSON]{schemas/Chunk.json}

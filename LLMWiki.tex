@@ -1,4 +1,10 @@
-﻿\documentclass[11pt,a4paper,twoside]{book}
+﻿\documentclass[11pt,a4paper,oneside]{book}
+% oneside: this document is read as a PDF, not printed/bound, so book class's
+% default twoside behavior of forcing every \chapter (via \include, used for
+% every volume/appendix) to start on a fresh recto page via \cleardoublepage
+% was inserting a blank page before most chapters. Margins are already
+% symmetric (inner=outer=25mm below) so nothing here depended on twoside's
+% margin-mirroring; only the forced blank pages go away.
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[english]{babel}
@@ -406,13 +412,13 @@
 \begin{center}
     {\fontsize{48}{58}\selectfont\bfseries\color{LLMWikiDarkBlue} LLMWiki}\\[1em]
     {\fontsize{20}{24}\selectfont\color{LLMWikiAccent} A Semantic Operating Layer for Local Knowledge}\\[2em]
-    {\fontsize{14}{17}\selectfont\color{LLMWikiMedium} Technical Specification and Architecture Reference}\\[3em]
-    {\large\color{LLMWikiMuted} Volume I -- XI: Complete Technical Documentation}\\[2em]
+    {\fontsize{14}{17}\selectfont\color{LLMWikiMedium} Architecture Proposal --- Internal Draft}\\[3em]
+    {\large\color{LLMWikiMuted} Part I -- IV, Chapters 1 -- 12}\\[2em]
     {\large Jeoung Mingyu}\\
     {\color{LLMWikiMuted} \texttt{jmkjmk1023@gmail.com}}\\
     {\color{LLMWikiMuted} \orcidlink{0000-0000-0000-0000}}\\[2em]
     {\color{LLMWikiMuted} \today}\\[1em]
-    {\small\color{LLMWikiMuted} Version 1.0.0 \quad | \quad \ccbyncsa}
+    {\small\color{LLMWikiMuted} Version 0.1.0-draft}
 \end{center}
 \vfill
 \begin{center}
@@ -421,6 +427,17 @@
         \small\color{LLMWikiDarkBlue}
         \textbf{Mission Statement:}\\
         \textit{LLMWiki is not a Retrieval-Augmented Generation framework. It is a semantic operating layer that continuously transforms heterogeneous digital artifacts into an evidence-aware knowledge space.}
+    \end{tcolorbox}
+\end{center}
+\vspace{1em}
+\begin{center}
+    \begin{tcolorbox}[colback=red!5,colframe=red!60!black,width=0.8\textwidth]
+        \centering
+        \small
+        \textbf{CONFIDENTIAL --- INTERNAL TECHNICAL DRAFT}\\
+        Copyright \textcopyright\ \the\year\ Jeoung Mingyu. All rights reserved.\\
+        Architecture Status: Proposed \quad Implementation Status: Partial \quad Evaluation Status: Planned\\
+        Patent Status: Unfiled / Confidential --- Not for public distribution.
     \end{tcolorbox}
 \end{center}
 
@@ -456,6 +473,7 @@
 \clearpage
 \listofalgorithms
 \clearpage
+\glsaddall
 \printnoidxglossaries
 \clearpage
 \printacronyms
@@ -472,6 +490,7 @@
 \include{docs/Volume_05_Agent_Runtime/Volume_05_Agent_Runtime}
 \include{docs/Volume_06_Evaluation/Volume_06_Evaluation}
 \include{docs/Volume_07_Deployment/Volume_07_Deployment}
+\include{docs/Volume_12_Mutation_Engine/Volume_12_Mutation_Engine}
 
 \part{Reference and Extension}\label{part:reference}
 

@@ -9,12 +9,12 @@ LLMWiki is not a Retrieval-Augmented Generation (RAG) framework. It is a \textbf
 \section{Design Philosophy}
 \label{sec:architecture:philosophy}
 
-\begin{designprinciple}[Graph as Source of Truth]
-The property knowledge graph is the canonical knowledge representation. Vector indices are derived projections optimized for similarity search---not the primary store.
+\begin{designprinciple}[Source Artifacts and Event Log are Authoritative]
+Two things in LLMWiki are authoritative, and nothing else is. The user's source artifacts (files, API responses, database rows) are the authoritative content. The append-only mutation/event log in \texttt{.llmwiki/wal/} is the authoritative history of every change derived from them. Everything else the system maintains---semantic units, the property knowledge graph, the vector index, the BM25 index---is a \emph{projection}: a materialized, rebuildable view computed by replaying the event log. A projection can be deleted and regenerated from the log without loss; the log itself cannot.
 \end{designprinciple}
 
-\begin{designprinciple}[Filesystem as Write-Ahead Log]
-The local filesystem (directory structure .llmwiki/) serves as the sole durability mechanism. No auxiliary transaction log service (Kafka, Redis Streams, etc.) is required.
+\begin{designprinciple}[Graph as Canonical Query-Time Representation]
+Among the projections, the property knowledge graph is the canonical representation for query-time reasoning: it is what the query planner and evidence gate query first, and vector/keyword indices exist to accelerate or widen that graph-centric retrieval. ``Canonical'' here is a statement about which projection query execution treats as primary, not a claim about durability---durability is the event log's job (previous principle), not the graph's.
 \end{designprinciple}
 
 \begin{designprinciple}[Evidence Gate as First-Class Module]
@@ -126,21 +126,20 @@ Composable query execution with planning and observability:
   \item API Gateway (Vol. 08): REST/gRPC/WebSocket contracts, authentication, rate limiting
 \end{itemize}
 
-\section{Filesystem as Write-Ahead Log}
+\section{Filesystem as Event Log, Projections as Derived State}
 \label{sec:architecture:filesystem-wal}
 
 \begin{designdecision}
 \label{dec:fs-as-wal}
-\textbf{Decision:} Use the local filesystem (directory structure .llmwiki/) as the write-ahead log instead of a dedicated WAL service (e.g., Kafka, Redis Streams, WAL-G).
+\textbf{Decision:} Use the local filesystem (directory structure .llmwiki/) to host an append-only event log as the sole durability mechanism, instead of a dedicated log service (e.g., Kafka, Redis Streams, WAL-G). The graph, vector, and keyword indices are projections computed from that log and carry no durability obligation of their own.
 \end{designdecision}
 
 \begin{designrationale}
 \begin{enumerate}
   \item Zero operational dependency: No separate service to deploy, monitor, or backup.
-  \item Deterministic replay: rsync or git of .llmwiki/ fully reproduces state.
+  \item Deterministic replay: replaying \texttt{wal/} from empty projections reproduces graph/index state exactly (Algorithm~\ref{alg:ingestion}, \S\ref{sec:architecture:crash-consistency}).
   \item Content-addressed deduplication: Units stored as units/<hash>.json are naturally deduplicated.
-  \item Atomicity via rename: Write to temp file, rename(2) for atomic commit - POSIX guarantee.
-  \item Backup equals copy: tar, rsync, borg, restic work natively.
+  \item Backup equals copy: tar, rsync, borg, restic work natively on the log; projections do not need to be backed up at all, only rebuilt.
 \end{enumerate}
 \end{designrationale}
 
@@ -149,6 +148,7 @@ Composable query execution with planning and observability:
   \item Concurrency: Single-writer per repository; multi-writer requires external locking (file lock or SQLite WAL mode).
   \item Scale: Directory entry count grows with unit count. Mitigation: sharded subdirectories (units/ab/cd/ef...).
   \item Durability: fsync on commit; configurable \texttt{sync\_on\_write} flag.
+  \item Replay cost: rebuilding graph/vector/keyword projections from a long log is $O(\text{log length})$, not $O(1)$; \S\ref{sec:architecture:crash-consistency} amortizes this with periodic checkpoints.
 \end{itemize}
 \end{designtradeoff}
 
@@ -157,26 +157,32 @@ Composable query execution with planning and observability:
 
 \begin{verbatim}
 .llmwiki/
-|-- units/                    # Content-addressed semantic units
+|-- wal/                      # AUTHORITATIVE: append-only event log (JSONL)
+|   |-- 2024-01-15-001.jsonl  # Each event carries a monotonic sequence number
+|   |-- ...
+|-- units/                    # PROJECTION: content-addressed semantic units
 |   |-- ab/cd/ef1234.json     # SHA-256 prefix sharding
 |   |-- ...
-|-- graph/                    # Knowledge graph persistence
+|-- graph/                    # PROJECTION: knowledge graph, rebuildable from wal/
 |   |-- nodes/                # Node partitions (by type)
 |   |-- edges/                # Edge partitions (by relation type)
 |   |-- indexes/              # Graph-local indexes (adjacency, labels)
-|-- index/                    # Semantic search indexes
+|   |-- _projection.meta      # last_applied_sequence, projection schema version
+|-- index/                    # PROJECTION: semantic search indexes, rebuildable from wal/
 |   |-- hnsw/                 # HNSW vector index (disk-backed)
 |   |-- bm25/                 # BM25 inverted index (tantivy)
 |   |-- adjacency/            # Graph adjacency for traversal
-|-- wal/                      # Write-ahead log (append-only JSONL)
-|   |-- 2024-01-15-001.jsonl  # Daily rotation
-|   |-- ...
+|   |-- _projection.meta      # last_applied_sequence, projection schema version
+|-- checkpoints/               # Periodic full-projection snapshots (bound replay cost)
+|   |-- 0000042000/            # Snapshot at wal sequence 42000
 |-- planner/                  # Query plan cache
 |   |-- plans/
 |-- evidence/                 # Evidence gate caches
 |   |-- cross-encoder/
 |-- config.toml               # Repository configuration
 \end{verbatim}
+
+Every entry under \texttt{graph/} and \texttt{index/} is disposable: deleting the directory and replaying \texttt{wal/} from the last \texttt{checkpoints/} snapshot regenerates it. Only \texttt{wal/} (and the original source artifacts, which live outside \texttt{.llmwiki/}) must never be treated as disposable.
 
 \section{Data Flow Architecture}
 \label{sec:architecture:dataflow}
@@ -231,21 +237,24 @@ Composable query execution with planning and observability:
 \label{sec:arch:ingestion-pipeline}
 
 \begin{algorithm}[H]
-\caption{Ingestion Pipeline}
+\caption{Ingestion Pipeline (event-sourced)}
 \label{alg:ingestion}
 \begin{algorithmic}[1]
 \Require Artifact A (file, API response, database row)
-\Ensure Persisted semantic units U, graph updates Delta G, index updates Delta I
+\Ensure Event $e$ durably committed at sequence $n$; projections eventually consistent with $n$
 \State U = Parse(A) \Comment{Language-aware parser}
 \State U = Chunk(U) \Comment{Hierarchical, overlap-controlled}
 \State Delta G = ExtractEntitiesRelations(U) \Comment{Local LLM or rule-based}
 \State Delta I = Embed(U) \Comment{Batch local inference}
-\State WriteWAL(Delta G, Delta I, U) \Comment{Atomic append to WAL}
-\State ApplyGraph(Delta G) \Comment{Incremental graph update}
-\State ApplyIndex(Delta I) \Comment{Incremental index update}
-\State \Return U, Delta G, Delta I
+\State $e$ = MakeEvent(U, Delta G, Delta I) \Comment{state = PREPARED}
+\State $n$ = AppendWAL($e$) \Comment{Atomic durable append; state $\to$ COMMITTED (\S\ref{sec:architecture:crash-consistency})}
+\State ApplyGraph($e$, $n$) \Comment{Idempotent; no-op if graph.last\_applied\_sequence $\geq n$}
+\State ApplyIndex($e$, $n$) \Comment{Idempotent; no-op if index.last\_applied\_sequence $\geq n$}
+\State \Return U, Delta G, Delta I \Comment{Event state $\to$ PROJECTED once both projections advance past $n$}
 \end{algorithmic}
 \end{algorithm}
+
+A query is answerable as soon as step 6 (COMMITTED) completes; it does not wait for step 9 (PROJECTED). Between those steps the event is durable but not yet reflected in graph/index reads, which is the ordinary read-after-write lag of an event-sourced system, not a correctness gap---\S\ref{sec:architecture:crash-consistency} makes precise what a reader is guaranteed to see at each stage.
 
 \subsection{Query Pipeline}
 \label{sec:arch:query-pipeline}
@@ -268,6 +277,44 @@ Composable query execution with planning and observability:
 \end{algorithmic}
 \end{algorithm}
 
+\section{Crash Consistency and Recovery}
+\label{sec:architecture:crash-consistency}
+
+Algorithm~\ref{alg:ingestion} has three commit points (AppendWAL, ApplyGraph, ApplyIndex) that are not a single atomic transaction. A process can be killed between any two of them. This section specifies what a killed process leaves behind and how a subsequent process recovers it, so that ``the WAL is authoritative'' (design principle, \S\ref{sec:architecture:philosophy}) is a checkable property rather than an aspiration.
+
+\subsection{Event Lifecycle}
+Every event $e$ carries a monotonically increasing sequence number $n$, assigned at append time, and passes through three states:
+\begin{itemize}
+  \item \textbf{PREPARED}: $e$ is constructed in memory; not yet durable. A crash here loses nothing observable---the event never existed from any reader's perspective.
+  \item \textbf{COMMITTED}: $e$ is durably appended to \texttt{wal/} under sequence $n$. From this point, $e$ is part of the authoritative history and \emph{must} eventually be reflected in every projection, even if the process that wrote it never runs again.
+  \item \textbf{PROJECTED}: every projection $p$ (graph, HNSW, BM25) satisfies $p.\text{last\_applied\_sequence} \geq n$.
+\end{itemize}
+A reader asking ``is my write visible'' is asking whether the relevant projections have reached PROJECTED for that event's sequence, not whether the event is COMMITTED---these are different questions, and the API layer (Vol.~08) reports both.
+
+\subsection{Idempotent, Resumable Projection}
+Each projection directory (\texttt{graph/}, \texttt{index/}) carries a \texttt{\_projection.meta} file recording its own \texttt{last\_applied\_sequence} and a schema/projection-logic version. ApplyGraph($e$, $n$) and ApplyIndex($e$, $n$) first check this marker: if $n \leq \text{last\_applied\_sequence}$, the call is a no-op. This makes re-application safe after a crash, a redeploy, or an operator manually re-running \texttt{ApplyIndex} on a range of sequences---the operation is idempotent by construction, not by convention.
+
+\subsection{Crash Recovery Scanner}
+On startup, LLMWiki runs a recovery scan before serving queries:
+\begin{enumerate}
+  \item Read \texttt{last\_applied\_sequence} from every projection's \texttt{\_projection.meta}.
+  \item Let $n_{\min}$ be the smallest such value across all projections (the least-caught-up projection).
+  \item Replay \texttt{wal/} events with sequence $> n_{\min}$ against every projection whose marker is behind. Because application is idempotent (\S above), projections that were already ahead of $n_{\min}$ simply no-op on events they've already applied.
+  \item If \texttt{wal/} has been compacted past $n_{\min}$ (a checkpoint boundary), recovery starts from the nearest \texttt{checkpoints/} snapshot at or before $n_{\min}$ instead---this is the case Invariant~\ref{inv:replay-degradation} (\S\ref{sec:architecture:lineage}) requires to be reported explicitly if the snapshot itself is missing or corrupt, rather than silently skipped.
+\end{enumerate}
+This scanner is what makes the directory-layout claim in \S\ref{sec:arch:fs-layout} (``every entry under \texttt{graph/} and \texttt{index/} is disposable'') literally true rather than aspirational: deleting a projection directory is equivalent to setting its \texttt{last\_applied\_sequence} to that of the nearest checkpoint, and the scanner rebuilds it on next startup.
+
+\subsection{Atomic Commit: POSIX and Windows}
+Step 6 of Algorithm~\ref{alg:ingestion} (AppendWAL) requires that a single event either becomes fully durable or leaves no trace---no torn writes. The mechanism differs by platform and neither reduces to a bare \texttt{rename(2)} call:
+\begin{itemize}
+  \item \textbf{POSIX (Linux, macOS):} write the event to a temp file in the same directory as the target WAL segment, \texttt{fsync} the temp file, \texttt{rename(2)} it into place (atomic within a filesystem, per POSIX), then \texttt{fsync} the containing directory so the rename itself is durable across a power loss---the directory fsync is the step most implementations omit and is required for the atomicity guarantee to survive a crash, not just a process kill.
+  \item \textbf{Windows (NTFS):} \texttt{MoveFileEx} with \texttt{MOVEFILE\_REPLACE\_EXISTING} provides the rename step, but NTFS does not guarantee the same crash-durability semantics as POSIX \texttt{rename} without an explicit flush; LLMWiki additionally calls \texttt{FlushFileBuffers} on the temp file before the move and, where available, opens the target directory handle to flush metadata after it. Folding's local-first deployment target includes Windows, so this path is exercised in CI, not treated as a POSIX-only afterthought.
+  \item In both cases, a segment is appended to, never modified in place; only the temp-file-then-move step is atomic, and it is used solely to publish a new immutable segment or checkpoint, never to edit an existing one.
+\end{itemize}
+
+\subsection{What Live-Copy Backups Do Not Give You}
+Copying \texttt{.llmwiki/} with \texttt{rsync} or \texttt{git} while the process is running (as \S\ref{sec:architecture:filesystem-wal}'s rationale claims for backups) is safe for \texttt{wal/} segments, because segments are immutable once published and the copy tool sees either the whole segment or none of it. It is \emph{not} safe as a substitute for a consistent snapshot of \texttt{graph/} or \texttt{index/}: RocksDB, HNSW, and Tantivy each maintain multi-file on-disk structures that are only mutually consistent at their own checkpoint boundaries, and a naive directory copy taken mid-write can capture a torn cross-file state that neither the old nor the new version can open. LLMWiki therefore exposes a \texttt{snapshot()} API that requests a consistent checkpoint from each store (RocksDB checkpoint API, HNSW/Tantivy segment-boundary flush) and only then is the result eligible for \texttt{checkpoints/}; ordinary backup tools should target \texttt{wal/} plus the most recent \texttt{checkpoints/} entry, not a live copy of \texttt{graph/} or \texttt{index/}.
+
 \section{Core Invariants}
 \label{sec:architecture:invariants}
 
@@ -283,7 +330,7 @@ Forall a in Answers: citations(a) subset of U and forall c in citations(a): veri
 
 \begin{invariant}[Incremental Consistency]
 \label{inv:incremental}
-After any ingestion I, the triple (G, I, U) satisfies: query(q, G, I, U) = replay(queries(q)).
+For every projection $p \in \{G, I, U\}$ (graph, index, units) and every sequence $n$, once $p.\text{last\_applied\_sequence} \geq n$, querying $p$ yields the same result as replaying \texttt{wal/} events $1..n$ into an empty projection (\S\ref{sec:architecture:crash-consistency}). This is a per-projection, per-sequence statement, not a claim that $G$, $I$, and $U$ are mutually synchronized at every instant---they advance independently and the recovery scanner is what reconciles them after a crash.
 \end{invariant}
 
 \begin{invariant}[Local-First Determinism]
@@ -321,25 +368,54 @@ This is the mechanism that makes the auditability claim survive contact with ope
 
 \begin{table}[htbp]
 \centering
-\caption{LLMWiki vs. Prior Art: Architectural Positioning}
+\caption{LLMWiki vs. Prior Art: Architectural Positioning, by Mechanism}
 \label{tab:arch:prior-art}
 \begin{adjustbox}{max width=\textwidth}
-\begin{tabular}{lcccc}
+\begin{tabular}{p{3.1cm}p{3.6cm}p{3.6cm}p{3.6cm}p{3.6cm}}
 \toprule
-\textbf{Property} & \textbf{RAG} & \textbf{GraphRAG} & \textbf{HippoRAG} & \textbf{LLMWiki} \\
+\textbf{Property} & \textbf{RAG (Lewis et al.)} & \textbf{GraphRAG} & \textbf{HippoRAG} & \textbf{LLMWiki} \\
 \midrule
-Graph as source of truth & No & Yes & Yes & Yes \\
-Vectors as projection & No & No & No & Yes \\
-Filesystem as WAL & No & No & No & Yes \\
-Evidence gate (first-class) & No & No & No & Yes \\
-Local-first (no API required) & No & No & No & Yes \\
-Deterministic replay & No & No & No & Yes \\
-Content-addressed units & No & No & No & Yes \\
-Query planner (DAG) & No & No & No & Yes \\
+Graph role &
+No graph; dense index over chunks &
+LLM-constructed graph is the retrieval structure (community summarization) &
+LLM-extracted graph, but retrieval seeds from vector search into Personalized PageRank &
+Property graph built by parsing (not LLM extraction where avoidable); query planner treats it as canonical, vectors/BM25 accelerate it (\S\ref{sec:architecture:philosophy}) \\
+Vector index role &
+Primary retrieval mechanism &
+Secondary; entity/community embeddings for graph construction &
+Seed step into PPR, not the terminal ranking &
+Projection: rebuildable from the event log, not authoritative (\S\ref{sec:architecture:filesystem-wal}) \\
+Durability / replay &
+Whatever the vector DB provides; not specified as a system property &
+Not specified as a system property &
+Not specified as a system property &
+Append-only event log is the sole durability layer; graph/index rebuild via replay (\S\ref{sec:architecture:crash-consistency}) \\
+Evidence verification before synthesis &
+Optional reranking, not gating; top-$k$ always returned &
+No mandatory verification stage &
+No mandatory verification stage &
+Mandatory multi-stage gate; can return zero candidates (\S\ref{sec:retrieval:not-rerank}, Vol.~04) \\
+Local / API-optional &
+Reference implementation uses external embedding + generation APIs; not architecturally excluded &
+Reference implementation uses an LLM for graph construction and summarization &
+Reference implementation uses an LLM for graph extraction &
+Critical path (parsing, chunking, embedding, indexing, verification) runs with zero external API calls by design (\S\ref{sec:architecture:philosophy}) \\
+Content identity &
+Not addressed by the base method &
+Not addressed by the base method &
+Not addressed by the base method &
+SHA-256 content addressing, with content identity kept separate from location identity (Appendix~B \S\ref{app:data-model:identity}) \\
+Query decomposition &
+Single retrieval pass &
+Single retrieval pass over the constructed graph &
+Single PPR pass &
+DAG-based planner decomposes into subqueries with per-subquery budgets (\S\ref{sec:arch:query}) \\
 \bottomrule
 \end{tabular}
 \end{adjustbox}
 \end{table}
+
+This is a statement about which mechanisms each system's published design uses, not a claim that the other systems are deficient on every row --- GraphRAG and HippoRAG are graph-centric by design and the comparison above is meant to locate LLMWiki's specific combination (event-sourced durability, mandatory multi-stage gating, and content/location identity separation) rather than to imply the others lack graphs or verification of any kind.
 
 \section{Patent-Relevant Novelty}
 \label{sec:architecture:patent}
@@ -361,8 +437,8 @@ Prior art distinctions:
 \begin{itemize}
   \item RAG (Lewis et al., 2020): Vector index is primary; no graph; no evidence gate; API-dependent.
   \item GraphRAG (Edge et al., 2024): Graph constructed via LLM; no content-addressed units; no filesystem WAL; no mandatory evidence gate.
-  \item HippoRAG (Zhang et al., 2024): Personalized PageRank over graph; no hybrid index; no deterministic replay.
-  \item LightRAG (Zeng et al., 2024): Dual-level retrieval; no evidence gate; no DAG planner.
+  \item HippoRAG (Guti{\'e}rrez et al., 2024): Personalized PageRank over graph; no hybrid index; no deterministic replay.
+  \item LightRAG (Guo et al., 2024): Dual-level retrieval; no evidence gate; no DAG planner.
   \item RAPTOR (Sarthi et al., 2024): Recursive summarization tree; no graph; no filesystem WAL.
 \end{itemize}
 \end{patentdiscussion}
@@ -522,8 +598,8 @@ Auth Provider & AuthProvider & Vol. 08 \\
 
 LLMWiki's architecture is defined by five differentiating choices:
 \begin{enumerate}
-  \item \textbf{Graph-first, vectors-second}: The property graph is the canonical knowledge representation; vectors are derived projections for similarity search.
-  \item \textbf{Filesystem as WAL}: Zero operational dependencies; deterministic replay via directory sync.
+  \item \textbf{Graph-first, vectors-second}: The property graph is the canonical query-time representation; vectors are derived projections for similarity search.
+  \item \textbf{Event log as durability layer}: Zero operational dependencies; graph/vector/keyword projections are rebuildable from the append-only log, which is the only thing that must never be lost.
   \item \textbf{Content-addressed units}: SHA-256 identities enable deduplication, caching, and verifiable lineage.
   \item \textbf{Evidence gate as mandatory stage}: No retrieval result reaches synthesis without cross-encoder verification.
   \item \textbf{DAG query planner}: Queries decompose into verifiable subqueries with cost-based optimization.

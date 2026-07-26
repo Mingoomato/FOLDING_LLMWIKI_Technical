@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.24.0 (MiKTeX 25.12) (format=lualatex 2026.7.26)  27 JUL 2026 06:04
+This is LuaHBTeX, Version 1.24.0 (MiKTeX 25.12) (format=lualatex 2026.7.26)  27 JUL 2026 08:28
  restricted system commands enabled.
  file:line:error style messages enabled.
 **LLMWiki.tex
@@ -2695,18 +2695,36 @@ LaTeX Font Info:    Trying to load font information for U+psy on input line 64.
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/psnfss/upsy.fd
 File: upsy.fd 2001/06/04 font definitions for U/psy.
 ))
-Package hyperref Info: Option `colorlinks' set `true' on input line 126.
-Package hyperref Info: Option `bookmarksopen' set `true' on input line 126.
+Package hyperref Info: Option `colorlinks' set `true' on input line 132.
+Package hyperref Info: Option `bookmarksopen' set `true' on input line 132.
 \c@definition=\count554
+
+
+Package fancyhdr Warning: \fancyhead's `E' option without twoside option is use
+less.
+(fancyhdr)                Please consider using the `twoside' option on input l
+ine 374.
+
+
+Package fancyhdr Warning: \fancyfoot's `E' option without twoside option is use
+less.
+(fancyhdr)                Please consider using the `twoside' option on input l
+ine 376.
+
+
+Package fancyhdr Warning: \fancyfoot's `E' option without twoside option is use
+less.
+(fancyhdr)                Please consider using the `twoside' option on input l
+ine 377.
+
 \glswrite=\write7
 \glo@main@file=\write8
 
 \openout8 = LLMWiki.glo
-Package glossaries Info: Writing glossary file LLMWiki.glo on input line 392.
+Package glossaries Info: Writing glossary file LLMWiki.glo on input line 398.
 \@indexfile=\write9
 
 \openout9 = LLMWiki.idx
-
 Writing index file LLMWiki.idx
 (./acronyms.tex) (./glossary.tex)
 Package csquotes Info: Checking for multilingual support...
@@ -2731,6 +2749,8 @@ ki/build/docs/Volume_06_Evaluation/Volume_06_Evaluation.aux)
 (C:/Users/jmkjm/Documents/2026년_정민규_활동자료/FOLDING_JIMIJIMI/LLMWi
 ki/build/docs/Volume_07_Deployment/Volume_07_Deployment.aux)
 (C:/Users/jmkjm/Documents/2026년_정민규_활동자료/FOLDING_JIMIJIMI/LLMWi
+ki/build/docs/Volume_12_Mutation_Engine/Volume_12_Mutation_Engine.aux)
+(C:/Users/jmkjm/Documents/2026년_정민규_활동자료/FOLDING_JIMIJIMI/LLMWi
 ki/build/docs/Volume_08_API_Reference/Volume_08_API_Reference.aux)
 (C:/Users/jmkjm/Documents/2026년_정민규_활동자료/FOLDING_JIMIJIMI/LLMWi
 ki/build/docs/Volume_09_Developer_Guide/Volume_09_Developer_Guide.aux)
@@ -2752,26 +2772,26 @@ ki/build/appendix/Appendix_E.aux)
 ki/build/appendix/Appendix_F.aux))
 \openout1 = LLMWiki.aux
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 398.
-LaTeX Font Info:    ... okay on input line 398.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 398.
-LaTeX Font Info:    ... okay on input line 398.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 398.
-LaTeX Font Info:    ... okay on input line 398.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 398.
-LaTeX Font Info:    ... okay on input line 398.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 398.
-LaTeX Font Info:    ... okay on input line 398.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 398.
-LaTeX Font Info:    ... okay on input line 398.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 398.
-LaTeX Font Info:    ... okay on input line 398.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 398.
-LaTeX Font Info:    ... okay on input line 398.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 398.
-LaTeX Font Info:    ... okay on input line 398.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 398.
-LaTeX Font Info:    ... okay on input line 398.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 404.
+LaTeX Font Info:    ... okay on input line 404.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 404.
+LaTeX Font Info:    ... okay on input line 404.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 404.
+LaTeX Font Info:    ... okay on input line 404.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 404.
+LaTeX Font Info:    ... okay on input line 404.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 404.
+LaTeX Font Info:    ... okay on input line 404.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 404.
+LaTeX Font Info:    ... okay on input line 404.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 404.
+LaTeX Font Info:    ... okay on input line 404.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 404.
+LaTeX Font Info:    ... okay on input line 404.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 404.
+LaTeX Font Info:    ... okay on input line 404.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 404.
+LaTeX Font Info:    ... okay on input line 404.
 
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/context/base/mkii/supp-pdf.mk
 ii
@@ -2806,7 +2826,7 @@ Package caption Info: rotating package is loaded.
 Package caption Info: supertabular package is loaded.
 Package caption Info: threeparttable package is loaded.
 Package caption Info: End \AtBeginDocument code.
-Package hyperref Info: Link coloring ON on input line 398.
+Package hyperref Info: Link coloring ON on input line 404.
 
 (C:/Users/jmkjm/Documents/2026년_정민규_활동자료/FOLDING_JIMIJIMI/LLMWi
 ki/build/LLMWiki.out)
@@ -2820,7 +2840,7 @@ ki/build/LLMWiki.out)
 Package pgfplots Warning: running in backwards compatibility mode (unsuitable t
 ick labels; missing features). Consider writing \pgfplotsset{compat=1.18} into 
 your preamble.
- on input line 398.
+ on input line 404.
 
 \c@lstlisting=\count561
 
@@ -2830,7 +2850,7 @@ File: translations-basic-dictionary-english.trsl (english translation file `tra
 nslations-basic-dictionary')
 )
 Package translations Info: loading dictionary `translations-basic-dictionary' f
-or `english'. on input line 398.
+or `english'. on input line 404.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: luatex
@@ -2840,7 +2860,7 @@ or `english'. on input line 398.
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * bindingoffset: 28.45274pt
-* modes: twoside 
+* modes: 
 * h-part:(L,W,R)=(71.13188pt, 426.79137pt, 71.13188pt)
 * v-part:(T,H,B)=(85.35826pt, 674.33032pt, 85.35826pt)
 * \paperwidth=597.50787pt
@@ -2854,7 +2874,7 @@ or `english'. on input line 398.
 * \headsep=19.8738pt
 * \topskip=11.0pt
 * \footskip=27.46295pt
-* \marginparwidth=106.0pt
+* \marginparwidth=53.0pt
 * \marginparsep=7.0pt
 * \columnsep=10.0pt
 * \skip\footins=10.0pt plus 4.0pt minus 2.0pt
@@ -2862,8 +2882,8 @@ or `english'. on input line 398.
 * \voffset=0.0pt
 * \mag=1000
 * \@twocolumnfalse
-* \@twosidetrue
-* \@mparswitchtrue
+* \@twosidefalse
+* \@mparswitchfalse
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
@@ -2907,19 +2927,19 @@ Package minitoc(hints) Warning: W0023
 (minitoc(hints))                of loading the ``hyperref'' package.
 
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
-(Font)                  OT1/cmr/m/n --> TU/lmr/m/n on input line 398.
+(Font)                  OT1/cmr/m/n --> TU/lmr/m/n on input line 404.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> TU/lmr/m/it on input line 398.
+(Font)                  OT1/cmr/m/it --> TU/lmr/m/it on input line 404.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> TU/lmr/bx/n on input line 398.
+(Font)                  OT1/cmr/bx/n --> TU/lmr/bx/n on input line 404.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> TU/lmss/m/n on input line 398.
+(Font)                  OT1/cmss/m/n --> TU/lmss/m/n on input line 404.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> TU/lmss/bx/n on input line 398.
+(Font)                  OT1/cmss/bx/n --> TU/lmss/bx/n on input line 404.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> TU/lmtt/m/n on input line 398.
+(Font)                  OT1/cmtt/m/n --> TU/lmtt/m/n on input line 404.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> TU/lmtt/bx/n on input line 398.
+(Font)                  OT1/cmtt/m/n --> TU/lmtt/bx/n on input line 404.
 
 Package fontspec Info: 
 (fontspec)             Font family 'latinmodern-math.otf(0)' created for font
@@ -2961,16 +2981,16 @@ ath.otf]:mode=base;script=math;language=dflt;mathfontdimen=xetex;+ssty=1;"
 e=dflt;mathfontdimen=xetex;"
 
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `normal' on input line 398.
+(Font)              `operators' in the math version `normal' on input line 404.
 
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  OT1/cmr/m/n --> TU/latinmodern-math.otf(1)/m/n on input
- line 398.
+ line 404.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `bold' on input line 398.
+(Font)              `operators' in the math version `bold' on input line 404.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
 (Font)                  OT1/cmr/bx/n --> TU/latinmodern-math.otf(1)/b/n on inpu
-t line 398.
+t line 404.
 
 Package fontspec Info: 
 (fontspec)             Font family 'latinmodern-math.otf(2)' created for font
@@ -2995,15 +3015,15 @@ flt;mathfontdimen=xetex;mathfontdimen=tex2;+ssty=1;"
 e=dflt;mathfontdimen=xetex;mathfontdimen=tex2;"
 
 LaTeX Font Info:    Encoding `OMS' has changed to `TU' for symbol font
-(Font)              `symbols' in the math version `normal' on input line 398.
+(Font)              `symbols' in the math version `normal' on input line 404.
 LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
 (Font)                  OMS/cmsy/m/n --> TU/latinmodern-math.otf(2)/m/n on inpu
-t line 398.
+t line 404.
 LaTeX Font Info:    Encoding `OMS' has changed to `TU' for symbol font
-(Font)              `symbols' in the math version `bold' on input line 398.
+(Font)              `symbols' in the math version `bold' on input line 404.
 LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
 (Font)                  OMS/cmsy/b/n --> TU/latinmodern-math.otf(2)/b/n on inpu
-t line 398.
+t line 404.
 
 Package fontspec Info: 
 (fontspec)             Font family 'latinmodern-math.otf(3)' created for font
@@ -3028,30 +3048,30 @@ flt;mathfontdimen=xetex;mathfontdimen=tex3;+ssty=1;"
 e=dflt;mathfontdimen=xetex;mathfontdimen=tex3;"
 
 LaTeX Font Info:    Encoding `OMX' has changed to `TU' for symbol font
-(Font)              `largesymbols' in the math version `normal' on input line 3
-98.
+(Font)              `largesymbols' in the math version `normal' on input line 4
+04.
 LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
 (Font)                  OMX/cmex/m/n --> TU/latinmodern-math.otf(3)/m/n on inpu
-t line 398.
+t line 404.
 LaTeX Font Info:    Encoding `OMX' has changed to `TU' for symbol font
-(Font)              `largesymbols' in the math version `bold' on input line 398
+(Font)              `largesymbols' in the math version `bold' on input line 404
 .
 LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
 (Font)                  OMX/cmex/m/n --> TU/latinmodern-math.otf(3)/b/n on inpu
-t line 398.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 398
+t line 404.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 404
 .
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 398
+LaTeX Font Info:    Trying to load font information for U+msb on input line 404
 .
 
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Trying to load font information for U+stmry on input line 3
-98.
+LaTeX Font Info:    Trying to load font information for U+stmry on input line 4
+04.
 
 (C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/tex/latex/stmaryrd/ustmry.fd)
 luaotfload | db : Reload initiated (formats: otf,ttf,ttc); reason: Font "stmary1
@@ -3063,7 +3083,7 @@ luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
 luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
 
 LaTeX Font Warning: Font shape `U/stmry/m/n' in size <5.475> not available
-(Font)              size <5> substituted on input line 398.
+(Font)              size <5> substituted on input line 404.
 
 luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
 luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
@@ -3097,8 +3117,6 @@ Package siunitx Warning: Detected the "physics" package:
 (siunitx)                
 (siunitx)                to your preamble.
 
-LaTeX Font Info:    Font shape `U/ccicons/m/n' will be
-(Font)              scaled to size 10.0pt on input line 415.
 [1
 
 
@@ -3112,13 +3130,7 @@ ki/build/LLMWiki.toc
 luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
 luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
 luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
-luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [3
+luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate. [3
 
 ]
 
@@ -3129,12 +3141,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [4]
-Underfull \vbox (badness 4713) has occurred while \output is active []
-
-
-Underfull \vbox (badness 4713) has occurred while \output is active []
-
-
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3151,12 +3157,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [6]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3165,17 +3165,10 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [7]
-Overfull \hbox (3.24095pt too wide) in paragraph at lines 266--266
+Overfull \hbox (3.24095pt too wide) in paragraph at lines 284--284
  [][] [][][]\TU/lmr/bx/n/10.95 Re-search Pa-per: LLMWiki - A Se-man-tic Op-er-at
 -ing Layer for Evidence- 
  []
-
-
-Underfull \vbox (badness 1377) has occurred while \output is active []
-
-
-Underfull \vbox (badness 1377) has occurred while \output is active []
-
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -3184,7 +3177,15 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[8])
+[8]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[9])
 \tf@toc=\write11
 
 \openout11 = LLMWiki.toc
@@ -3196,13 +3197,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[9]
+[10]
 (C:/Users/jmkjm/Documents/2026년_정민규_활동자료/FOLDING_JIMIJIMI/LLMWi
 ki/build/LLMWiki.lof)
 \tf@lof=\write12
 
 \openout12 = LLMWiki.lof
- [10
+ [11
 
 ]
 (C:/Users/jmkjm/Documents/2026년_정민규_활동자료/FOLDING_JIMIJIMI/LLMWi
@@ -3210,18 +3211,7 @@ ki/build/LLMWiki.lot)
 \tf@lot=\write13
 
 \openout13 = LLMWiki.lot
- [11
-
-]
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[12
-
+ [12
 
 ]
 (C:/Users/jmkjm/Documents/2026년_정민규_활동자료/FOLDING_JIMIJIMI/LLMWi
@@ -3229,10 +3219,13 @@ ki/build/LLMWiki.loa)
 \tf@loa=\write14
 
 \openout14 = LLMWiki.loa
- [13]
+ [13
+
+
+]
 
 Package glossaries Warning: \makenoidxglossaries is required to make \printnoid
-xglossary[type={main}] work on input line 459.
+xglossary[type={main}] work on input line 477.
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -3246,20 +3239,11 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 ] [15
 
 
-]
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[16
-
-
 ] [1
 
-] [2]
+
+
+]
 \openout2 = docs/Volume_01_Architecture/Volume_01_Architecture.aux
  (./docs/Volume_01_Architecture/Volume_01_Architecture.tex
 Chapter 1.
@@ -3269,7 +3253,7 @@ Overfull \hbox (7.93674pt too wide) in paragraph at lines 37--38
 cal re-sults (mod-ulo non-deterministic
  []
 
-[3
+[2
 
 
 ]
@@ -3280,10 +3264,23 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[4]
-Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 234.
+[3]
+Overfull \hbox (25.95282pt too wide) in paragraph at lines 151--152
+[]\TU/lmr/m/n/10.95 Re-play cost: re-build-ing graph/vec-tor/key-word pro-jec-ti
+ons from a long log is $\TU/latinmodern-math.otf(1)/m/n/10.95 𝑂([])$\TU/lmr/
+m/n/10.95 ,
+ []
 
+luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
+luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[4]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3292,11 +3289,8 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [5]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
+Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
+put line 240.
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -3306,6 +3300,18 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [6]
+Overfull \hbox (51.52612pt too wide) in paragraph at lines 290--291
+[]\TU/lmr/bx/n/10.95 PRO-JECTED\TU/lmr/m/n/10.95 : ev-ery pro-jec-tion $\TU/lat
+inmodern-math.otf(1)/m/n/10.95 𝑝$ \TU/lmr/m/n/10.95 (graph, HNSW, BM25) sat-i
+s-fies $\TU/latinmodern-math.otf(1)/m/n/10.95 𝑝.[] ≥
+ []
+
+
+Overfull \hbox (0.45671pt too wide) in paragraph at lines 292--293
+\TU/lmr/m/n/10.95 reached PRO-JECTED for that event’s se-quence, not whether 
+the event is COMMITTED---
+ []
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3314,6 +3320,10 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [7]
+Overfull \hbox (17.36119pt too wide) in paragraph at lines 311--312
+\TU/lmr/m/n/10.95 POSIX \TU/lmtt/m/n/10.95 rename \TU/lmr/m/n/10.95 with-out an ex-plicit flush; LLMWiki ad-di-tion-ally calls \TU/lmtt/m/n/10.95 FlushFileBuffers
+ []
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3322,8 +3332,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [8]
-luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
-luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3332,6 +3340,201 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [9]
+Underfull \hbox (badness 10000) in paragraph at lines 380--380
+[]|\TU/lmr/m/n/10.95 LLM-constructed
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 380--380
+\TU/lmr/m/n/10.95 struc-ture (com-mu-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 381--381
+[]|\TU/lmr/m/n/10.95 LLM-extracted
+ []
+
+
+Underfull \hbox (badness 1033) in paragraph at lines 381--381
+\TU/lmr/m/n/10.95 graph, but re-trieval
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 381--381
+\TU/lmr/m/n/10.95 seeds from vec-tor
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 382--383
+\TU/lmr/m/n/10.95 by pars-ing (not
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 382--383
+\TU/lmr/m/n/10.95 LLM ex-trac-tion
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 382--383
+\TU/lmr/m/n/10.95 where avoid-able);
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 384--384
+[]|\TU/lmr/m/n/10.95 Pri-mary re-trieval
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 385--385
+[]|\TU/lmr/m/n/10.95 Sec-ondary; en-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 385--385
+\TU/lmr/m/n/10.95 tity/com-mu-nity
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 385--385
+\TU/lmr/m/n/10.95 em-bed-dings for
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 386--386
+\TU/lmr/m/n/10.95 not the ter-mi-nal
+ []
+
+
+Underfull \hbox (badness 1014) in paragraph at lines 387--388
+[]|\TU/lmr/m/n/10.95 Pro-jec-tion: re-build-
+ []
+
+
+Underfull \hbox (badness 5022) in paragraph at lines 388--388
+[]|\TU/lmr/m/n/10.95 Dura-bil-ity / re-
+ []
+
+
+Underfull \hbox (badness 6300) in paragraph at lines 389--389
+[]|\TU/lmr/m/n/10.95 What-ever the vec-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 392--393
+[]|\TU/lmr/m/n/10.95 Append-only event
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 392--393
+\TU/lmr/m/n/10.95 log is the sole
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 392--393
+\TU/lmr/m/n/10.95 dura-bil-ity layer;
+ []
+
+
+Underfull \hbox (badness 4556) in paragraph at lines 392--393
+\TU/lmr/m/n/10.95 graph/in-dex re-build
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 394--394
+[]|\TU/lmr/m/n/10.95 Op-tional rerank-ing,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 394--394
+\TU/lmr/m/n/10.95 not gat-ing; top-$\TU/latinmodern-math.otf(1)/m/n/10.95 𝑘$
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 397--398
+[]|\TU/lmr/m/n/10.95 Manda-tory multi-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 398--398
+[]|\TU/lmr/m/n/10.95 Lo-cal / API-
+ []
+
+
+Underfull \hbox (badness 1173) in paragraph at lines 399--399
+\TU/lmr/m/n/10.95 ta-tion uses ex-ter-nal
+ []
+
+
+Underfull \hbox (badness 2529) in paragraph at lines 400--400
+\TU/lmr/m/n/10.95 for graph con-struc-
+ []
+
+
+Underfull \hbox (badness 1616) in paragraph at lines 402--403
+[]|\TU/lmr/m/n/10.95 Crit-i-cal path (pars-
+ []
+
+
+Underfull \hbox (badness 2837) in paragraph at lines 402--403
+\TU/lmr/m/n/10.95 ing, chunk-ing, em-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 402--403
+\TU/lmr/m/n/10.95 bed-ding, in-dex-ing,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 402--403
+\TU/lmr/m/n/10.95 ver-i-fi-ca-tion) runs
+ []
+
+
+Underfull \hbox (badness 7944) in paragraph at lines 402--403
+\TU/lmr/m/n/10.95 with zero ex-ter-nal
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 407--408
+[]|\TU/lmr/m/n/10.95 SHA-256 con-tent
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 407--408
+\TU/lmr/m/n/10.95 ad-dress-ing, with
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 407--408
+\TU/lmr/m/n/10.95 con-tent iden-tity
+ []
+
+
+Underfull \hbox (badness 4108) in paragraph at lines 407--408
+\TU/lmr/m/n/10.95 kept sep-a-rate from
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 407--408
+\TU/lmr/m/n/10.95 lo-ca-tion iden-tity
+ []
+
+
+Underfull \hbox (badness 7851) in paragraph at lines 412--413
+[]|\TU/lmr/m/n/10.95 DAG-based plan-ner
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 412--413
+\TU/lmr/m/n/10.95 de-com-poses into
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 412--413
+\TU/lmr/m/n/10.95 subquery bud-gets
+ []
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3347,7 +3550,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[11])
+[11]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3356,15 +3559,14 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [12]
-\openout2 = docs/Volume_02_Semantic_Parsing/Volume_02_Semantic_Parsing.aux
- (./docs/Volume_02_Semantic_Parsing/Volume_02_Semantic_Parsing.tex
-Chapter 2.
-[13
 
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-
-
-]
+[13])
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3373,17 +3575,19 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [14]
+\openout2 = docs/Volume_02_Semantic_Parsing/Volume_02_Semantic_Parsing.aux
+ (./docs/Volume_02_Semantic_Parsing/Volume_02_Semantic_Parsing.tex
+Chapter 2.
+[15
 
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[15]
-Overfull \hbox (5.62898pt too wide) in paragraph at lines 228--229
-[]\TU/lmr/bx/n/10.95 In-cre-men-tal re-parse\TU/lmr/m/n/10.95 : tree-sitter reus
-es syn-tax tree nodes
+
+
+]
+Overfull \hbox (60.55023pt too wide) in paragraph at lines 116--117
+\TU/lmr/m/n/10.95 for the first three, the HWPX schema for the fourth); this sec
+-tion states what \TU/lmtt/m/n/10.95 OoxmlParser\TU/lmr/m/n/10.95 /\TU/lmtt/m/n
+/10.95 HwpxParser
  []
 
 
@@ -3394,16 +3598,15 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [16]
-Overfull \hbox (1.49606pt too wide) in paragraph at lines 289--290
-[]\TU/lmr/m/n/10.95 Units pro-duced: \TU/lmtt/m/n/10.95 Document\TU/lmr/m/n/10.
-95 , \TU/lmtt/m/n/10.95 Section\TU/lmr/m/n/10.95 (level), \TU/lmtt/m/n/10.95 Par
-agraph\TU/lmr/m/n/10.95 , \TU/lmtt/m/n/10.95 CodeBlock\TU/lmr/m/n/10.95 (lang), \TU/lmtt/m/n/10.95 Table\TU/lmr/m/n/10.95 , \TU/lmtt/m/n/10.95 List\TU/lmr/m/n/10.95 ,
+Overfull \hbox (31.26778pt too wide) in paragraph at lines 122--123
+\TU/lmr/m/n/10.95 DOCX (para-graph/section-based) and parsed on the same prin-ci
+-ples above via \TU/lmtt/m/n/10.95 HwpxParser\TU/lmr/m/n/10.95 . 
  []
 
 
-Overfull \hbox (1.68529pt too wide) in paragraph at lines 307--309
-[]\TU/lmr/m/n/10.95 Parses Ope-nAPI 3.0/3.1 and Asyn-cAPI 2.x/3.x specs. Pro-duc
-es units for ev-ery reusable
+Overfull \hbox (77.40576pt too wide) detected at line 135
+[][][][]\TU/latinmodern-math.otf(1)/m/n/10.95 𝑢 = ([], [], [], [], []),  
+𝑜 = ([], [], [], [])
  []
 
 
@@ -3422,11 +3625,10 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [18]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
+Overfull \hbox (5.62898pt too wide) in paragraph at lines 252--253
+[]\TU/lmr/bx/n/10.95 In-cre-men-tal re-parse\TU/lmr/m/n/10.95 : tree-sitter reus
+es syn-tax tree nodes
+ []
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -3436,6 +3638,12 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [19]
+Overfull \hbox (1.49606pt too wide) in paragraph at lines 313--314
+[]\TU/lmr/m/n/10.95 Units pro-duced: \TU/lmtt/m/n/10.95 Document\TU/lmr/m/n/10.
+95 , \TU/lmtt/m/n/10.95 Section\TU/lmr/m/n/10.95 (level), \TU/lmtt/m/n/10.95 Par
+agraph\TU/lmr/m/n/10.95 , \TU/lmtt/m/n/10.95 CodeBlock\TU/lmr/m/n/10.95 (lang), \TU/lmtt/m/n/10.95 Table\TU/lmr/m/n/10.95 , \TU/lmtt/m/n/10.95 List\TU/lmr/m/n/10.95 ,
+ []
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3444,6 +3652,11 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [20]
+Overfull \hbox (1.68529pt too wide) in paragraph at lines 331--333
+[]\TU/lmr/m/n/10.95 Parses Ope-nAPI 3.0/3.1 and Asyn-cAPI 2.x/3.x specs. Pro-duc
+es units for ev-ery reusable
+ []
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3452,12 +3665,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [21]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3473,7 +3680,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[23])
+[23]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3482,10 +3689,34 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [24]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[25]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[26])
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[27]
 \openout2 = docs/Volume_03_Knowledge_Graph/Volume_03_Knowledge_Graph.aux
  (./docs/Volume_03_Knowledge_Graph/Volume_03_Knowledge_Graph.tex
 Chapter 3.
-[25
+[28
 
 
 
@@ -3498,7 +3729,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[26]
+[29]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3506,7 +3737,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[27]
+[30]
 Overfull \hbox (38.71535pt too wide) in paragraph at lines 166--167
 []\TU/lmr/bx/n/10.95 Pat-tern match-ing\TU/lmr/m/n/10.95 : Cypher-like declar-a-
 tive pat-terns (e.g., \TU/lmtt/m/n/10.95 (a:Function)-[:CALLS*1..3]-
@@ -3519,19 +3750,12 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[28]
+[31]
 Overfull \hbox (1.86714pt too wide) in paragraph at lines 231--232
 [] []\TU/lmr/bx/n/10.95 An-a-lyzer:[] \TU/lmr/m/n/10.95 Language-specific (e.g.,
  \TU/lmtt/m/n/10.95 code \TU/lmr/m/n/10.95 an-a-lyzer for source: split on punc-
 tu-a-tion, camel-
  []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -3540,7 +3764,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[29]
+[32]
 Overfull \hbox (5.28705pt too wide) in paragraph at lines 284--285
 [] []\TU/lmr/bx/n/10.95 Vec-tor (HNSW):[] \TU/lmr/m/n/10.95 In-cre-men-tal add/u
 p-date. HNSW sup-ports dy-namic in-ser-tion. Deletes
@@ -3553,48 +3777,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[30])
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[31]
-\openout2 = docs/Volume_04_Retrieval/Volume_04_Retrieval.aux
- (./docs/Volume_04_Retrieval/Volume_04_Retrieval.tex
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[32
-
-
-
-
-]
-Chapter 4.
-luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
-luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
-luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
-luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
-Overfull \hbox (10.48598pt too wide) in paragraph at lines 92--93
-[]\TU/lmr/m/n/10.95 Query text $\TU/latinmodern-math.otf(1)/m/n/10.95 𝑞$ \TU
-/lmr/m/n/10.95 is em-bed-ded us-ing the same model as in-ges-tion (con-fig: \TU
-/lmtt/m/n/10.95 [index.hnsw.dim]\TU/lmr/m/n/10.95 ).
- []
-
-[33]
-Overfull \hbox (32.57018pt too wide) in paragraph at lines 109--110
-[] []\TU/lmr/bx/n/10.95 Batch Pro-cess-ing.[] \TU/lmr/m/n/10.95 Can-di-dates are
- scored in batches (con-fig: \TU/lmtt/m/n/10.95 [evidence_gate.batch_size]\TU/l
-mr/m/n/10.95 ). 
- []
-
+[33])
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3603,14 +3786,25 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [34]
+\openout2 = docs/Volume_04_Retrieval/Volume_04_Retrieval.aux
+ (./docs/Volume_04_Retrieval/Volume_04_Retrieval.tex
+Chapter 4.
+[35
 
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[35]
+
+
+]
+luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
+luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
+luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
+luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
+Overfull \hbox (10.48598pt too wide) in paragraph at lines 101--102
+[]\TU/lmr/m/n/10.95 Query text $\TU/latinmodern-math.otf(1)/m/n/10.95 𝑞$ \TU
+/lmr/m/n/10.95 is em-bed-ded us-ing the same model as in-ges-tion (con-fig: \TU
+/lmtt/m/n/10.95 [index.hnsw.dim]\TU/lmr/m/n/10.95 ).
+ []
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3619,9 +3813,10 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [36]
-Overfull \hbox (24.87978pt too wide) in paragraph at lines 242--243
-[]\TU/lmr/m/n/10.95 Cal-i-bra-tion ar-ti-facts are stored in \TU/lmtt/m/n/10.95
- .llmwiki/evidence/cross-encoder/calibration.json
+Overfull \hbox (32.57018pt too wide) in paragraph at lines 118--119
+[] []\TU/lmr/bx/n/10.95 Batch Pro-cess-ing.[] \TU/lmr/m/n/10.95 Can-di-dates are
+ scored in batches (con-fig: \TU/lmtt/m/n/10.95 [evidence_gate.batch_size]\TU/l
+mr/m/n/10.95 ). 
  []
 
 
@@ -3648,6 +3843,17 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [39]
+Overfull \hbox (32.85484pt too wide) in paragraph at lines 230--231
+[]\TU/lmr/m/n/10.95 The map-ping pro-duced by this stage --- $[] \TU/latinmoder
+n-math.otf(1)/m/n/10.95 → {[]} →
+ []
+
+
+Overfull \hbox (24.87978pt too wide) in paragraph at lines 261--262
+[]\TU/lmr/m/n/10.95 Cal-i-bra-tion ar-ti-facts are stored in \TU/lmtt/m/n/10.95
+ .llmwiki/evidence/cross-encoder/calibration.json
+ []
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3671,7 +3877,12 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[42])
+[42]
+Overfull \hbox (9.43018pt too wide) in paragraph at lines 347--349
+[]\TU/lmr/bx/n/10.95 Def-i-ni-tion 4.10 \TU/lmr/m/n/10.95 (Ev-i-dence Clo-sure, Co-ho-mo-log-i-cal Form)\TU/lmr/bx/n/10.95 . []\TU/lmr/m/n/10.95 Let $\TU/latinmodern-math.otf(1)/m/n/10.95 
+𝑑 ∶ 𝐶[](𝐺[]; ℱ) → 𝐶[](𝐺[]; ℱ)$
+ []
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3680,8 +3891,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [43]
-\openout2 = docs/Volume_05_Agent_Runtime/Volume_05_Agent_Runtime.aux
- (./docs/Volume_05_Agent_Runtime/Volume_05_Agent_Runtime.tex
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3689,20 +3898,15 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[44
+[44]
 
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-
-
-]
-Chapter 5.
 [45]
-Underfull \vbox (badness 4036) has occurred while \output is active []
-
-
-Underfull \vbox (badness 4036) has occurred while \output is active []
-
-
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3718,7 +3922,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[47]
+[47])
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3727,14 +3931,15 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [48]
+\openout2 = docs/Volume_05_Agent_Runtime/Volume_05_Agent_Runtime.aux
+ (./docs/Volume_05_Agent_Runtime/Volume_05_Agent_Runtime.tex
+Chapter 5.
+[49
 
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[49]
+
+
+]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3750,7 +3955,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[51])
+[51]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3759,22 +3964,14 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [52]
-\openout2 = docs/Volume_06_Evaluation/Volume_06_Evaluation.aux
- (./docs/Volume_06_Evaluation/Volume_06_Evaluation.tex
-Chapter 6.
 
-Overfull \hbox (0.63515pt too wide) in paragraph at lines 13--14
-[]\TU/lmr/bx/n/10.95 De-sign Prin-ci-ple 6.1 \TU/lmr/m/n/10.95 (Mea-sure What Ma
-t-ters)\TU/lmr/bx/n/10.95 . []\TU/lmr/m/n/10.95 Stan-dard RAG met-rics (re-call@
-k, MRR)
- []
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[53
-
-
-
-
-]
+[53]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3790,7 +3987,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[55]
+[55])
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3798,31 +3995,38 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[56])
+[56]
+\openout2 = docs/Volume_06_Evaluation/Volume_06_Evaluation.aux
+ (./docs/Volume_06_Evaluation/Volume_06_Evaluation.tex
+Chapter 6.
 
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+Overfull \hbox (0.63515pt too wide) in paragraph at lines 17--18
+[]\TU/lmr/bx/n/10.95 De-sign Prin-ci-ple 6.1 \TU/lmr/m/n/10.95 (Mea-sure What Ma
+t-ters)\TU/lmr/bx/n/10.95 . []\TU/lmr/m/n/10.95 Stan-dard RAG met-rics (re-call@
+k, MRR)
+ []
 
-[57]
-\openout2 = docs/Volume_07_Deployment/Volume_07_Deployment.aux
- (./docs/Volume_07_Deployment/Volume_07_Deployment.tex
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[58
+[57
 
 
 
 
 ]
-Chapter 7.
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[58]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
 [59]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -3831,7 +4035,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[60]
+[60])
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3840,14 +4044,151 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [61]
+\openout2 = docs/Volume_07_Deployment/Volume_07_Deployment.aux
+ (./docs/Volume_07_Deployment/Volume_07_Deployment.tex
+Chapter 7.
 
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+Underfull \hbox (badness 7415) in paragraph at lines 21--22
+[]|\TU/lmr/bx/n/10.95 Ex-plic-itly Not Re-
+ []
 
-[62]
+
+Underfull \hbox (badness 2261) in paragraph at lines 23--23
+\TU/lmr/m/n/10.95 top app, CLI, air-
+ []
+
+
+Underfull \hbox (badness 7944) in paragraph at lines 23--23
+\TU/lmr/m/n/10.95 gapped sin-gle ma-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 23--23
+[]|\TU/lmr/m/n/10.95 Sin-gle bi-nary
+ []
+
+
+Overfull \hbox (26.71385pt too wide) in paragraph at lines 23--23
+\TU/lmr/m/n/10.95 (\TU/lmtt/m/n/10.95 llmwiki:cpu\TU/lmr/m/n/10.95 /\TU/lmtt/m/
+n/10.95 llmwiki:full\TU/lmr/m/n/10.95 )
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 23--23
+\TU/lmr/m/n/10.95 or em-bed-ded li-brary
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 23--24
+[]|\TU/lmr/m/n/10.95 Docker, Ku-ber-netes,
+ []
+
+
+Underfull \hbox (badness 6944) in paragraph at lines 23--24
+\TU/lmr/m/n/10.95 Helm, Vault, Con-sul,
+ []
+
+
+Underfull \hbox (badness 3088) in paragraph at lines 23--24
+\TU/lmr/m/n/10.95 Ceph/Longhorn, Re-dis,
+ []
+
+
+Underfull \hbox (badness 1661) in paragraph at lines 24--24
+[]|\TU/lmr/m/n/10.95 Small team, shared
+ []
+
+
+Underfull \hbox (badness 5203) in paragraph at lines 24--24
+\TU/lmr/m/n/10.95 server, single-writer
+ []
+
+
+Underfull \hbox (badness 5175) in paragraph at lines 24--24
+\TU/lmr/m/n/10.95 (Ta-ble [][]7.2[][]): API +
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 24--24
+\TU/lmr/m/n/10.95 work-ers, Docker con-
+ []
+
+
+Underfull \hbox (badness 1960) in paragraph at lines 24--24
+\TU/lmr/m/n/10.95 tainer, op-tional shared
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 24--25
+[]|\TU/lmr/m/n/10.95 Ku-ber-netes, Helm,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 24--25
+\TU/lmr/m/n/10.95 Vault, Con-sul, Ceph
+ []
+
+
+Underfull \hbox (badness 2351) in paragraph at lines 24--25
+\TU/lmr/m/n/10.95 --- a plain vol-ume or
+ []
+
+
+Underfull \hbox (badness 1371) in paragraph at lines 24--25
+\TU/lmr/m/n/10.95 NFS mount suf-fices at
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 25--25
+[]|\TU/lmr/bx/n/10.95 En-ter-prise
+ []
+
+
+Underfull \hbox (badness 1783) in paragraph at lines 25--25
+[]|\TU/lmr/m/n/10.95 HA pro-duc-tion ser-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 25--25
+\TU/lmr/m/n/10.95 vice, multi-writer,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 25--25
+\TU/lmr/m/n/10.95 com-pli-ance re-quire-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 25--25
+[]|\TU/lmr/m/n/10.95 Ev-ery-thing above,
+ []
+
+
+Underfull \hbox (badness 1383) in paragraph at lines 25--25
+\TU/lmr/m/n/10.95 plus Ku-ber-netes, Helm
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 25--25
+\TU/lmr/m/n/10.95 (§[][]7.4.1[][]), Vault/Con-sul
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 25--25
+\TU/lmr/m/n/10.95 Ceph/Longhorn-class
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 25--25
+\TU/lmr/m/n/10.95 RWX stor-age, load-
+ []
+
+[62
+
+
+
+
+]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3879,7 +4220,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[66])
+[66]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3895,25 +4236,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[68
-
-
-
-] [69] [70]
-\openout2 = docs/Volume_08_API_Reference/Volume_08_API_Reference.aux
- (./docs/Volume_08_API_Reference/Volume_08_API_Reference.tex
-Chapter 8.
-
-Overfull \hbox (2.75064pt too wide) in paragraph at lines 17--18
-[]\TU/lmr/bx/n/10.95 Ver-sion-ing\TU/lmr/m/n/10.95 : URL path \TU/lmtt/m/n/10.9
-5 /v1/\TU/lmr/m/n/10.95 , header \TU/lmtt/m/n/10.95 Accept: application/vnd.llmw
-iki.v1+json 
- []
-
-[71
-
-
-]
+[68]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3921,7 +4244,43 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[72]
+[69]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[70])
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[71]
+\openout2 = docs/Volume_12_Mutation_Engine/Volume_12_Mutation_Engine.aux
+ (./docs/Volume_12_Mutation_Engine/Volume_12_Mutation_Engine.tex
+Chapter 8.
+
+Overfull \hbox (48.59283pt too wide) in paragraph at lines 26--27
+\TU/lmr/m/n/10.95 specific patch --- a diff for plain text/code, an OOXML part-l
+evel edit for DOCX/PPTX/XLSX,
+ []
+
+[72
+
+
+
+
+]
+Overfull \hbox (29.00455pt too wide) in paragraph at lines 31--32
+\TU/lmr/m/n/10.95 large ar-ti-facts, a ref-er-ence to the last check-pointed con
+-tent) is re-tained so \TU/lmtt/m/n/10.95 RollbackManager
+ []
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3945,7 +4304,13 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[75]
+[75])
+Overfull \hbox (32.52817pt too wide) in paragraph at lines 127--493
+\TU/lmr/m/n/10.95 write sup-port for a for-mat is added when its \TU/lmtt/m/n/1
+0.95 DocumentWriter \TU/lmr/m/n/10.95 ex-ists and passes \TU/lmtt/m/n/10.95 Form
+atValidator\TU/lmr/m/n/10.95 ,
+ []
+
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3953,23 +4318,25 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[76]
+[76] [77
 
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[77]
 
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+]
+\openout2 = docs/Volume_08_API_Reference/Volume_08_API_Reference.aux
+ (./docs/Volume_08_API_Reference/Volume_08_API_Reference.tex
+Chapter 9.
 
-[78])
+Overfull \hbox (2.75064pt too wide) in paragraph at lines 17--18
+[]\TU/lmr/bx/n/10.95 Ver-sion-ing\TU/lmr/m/n/10.95 : URL path \TU/lmtt/m/n/10.9
+5 /v1/\TU/lmr/m/n/10.95 , header \TU/lmtt/m/n/10.95 Accept: application/vnd.llmw
+iki.v1+json 
+ []
+
+[78
+
+
+]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3978,8 +4345,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [79]
-\openout2 = docs/Volume_09_Developer_Guide/Volume_09_Developer_Guide.aux
- (./docs/Volume_09_Developer_Guide/Volume_09_Developer_Guide.tex
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -3987,13 +4352,14 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[80
+[80]
 
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-
-
-]
-Chapter 9.
 [81]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -4011,12 +4377,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [83]
-Underfull \vbox (badness 2735) has occurred while \output is active []
-
-
-Underfull \vbox (badness 2735) has occurred while \output is active []
-
-
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -4032,7 +4392,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[85]
+[85])
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -4041,20 +4401,15 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [86]
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[87]
-Underfull \vbox (badness 1122) has occurred while \output is active []
+\openout2 = docs/Volume_09_Developer_Guide/Volume_09_Developer_Guide.aux
+ (./docs/Volume_09_Developer_Guide/Volume_09_Developer_Guide.tex
+Chapter 10.
+[87
 
 
-Underfull \vbox (badness 1122) has occurred while \output is active []
 
 
+]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -4070,7 +4425,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[89])
+[89]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -4078,23 +4433,31 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[90] [91
+[90]
 
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
+[91]
 
-] [92]
-\openout2 = docs/Volume_10_Patent/Volume_10_Patent.aux
- (./docs/Volume_10_Patent/Volume_10_Patent.tex
-Chapter 10.
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-Overfull \hbox (0.14479pt too wide) in paragraph at lines 17--18
-[]\TU/lmr/m/n/10.95 Prior art in-cludes Retrieval-Augmented Gen-er-a-tion (RAG) sys-tems (Lewis et al., 2020),
- []
+[92]
 
-[93
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-
-]
+[93]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -4110,8 +4473,61 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[95]
-Overfull \hbox (10.81508pt too wide) in paragraph at lines 139--140
+[95])
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[96] [97
+
+
+
+]
+\openout2 = docs/Volume_10_Patent/Volume_10_Patent.aux
+ (./docs/Volume_10_Patent/Volume_10_Patent.tex
+Chapter 11.
+
+Overfull \hbox (0.14479pt too wide) in paragraph at lines 17--18
+[]\TU/lmr/m/n/10.95 Prior art in-cludes Retrieval-Augmented Gen-er-a-tion (RAG) sys-tems (Lewis et al., 2020),
+ []
+
+[98
+
+
+]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[99]
+Overfull \hbox (19.02919pt too wide) in paragraph at lines 68--69
+\TU/lmr/m/n/10.95 tory, threshold-gated cross-encoder stage ahead of gen-er-a-ti
+on is US20240070403A1 (``Grounded
+ []
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[100]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[101]
+Overfull \hbox (10.81508pt too wide) in paragraph at lines 147--148
 \TU/lmr/m/it/10.95 merges men-tions into canon-i-cal en-ti-ties us-ing a scor-in
 g func-tion $\TU/latinmodern-math.otf(1)/m/n/10.95 𝑆(𝑒[], 𝑒[]) = 𝛼 
 ⋅ [](𝑛[], 𝑛[]) +
@@ -4124,60 +4540,6 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[96]
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[97])
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[98]
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[99]
-\openout2 = docs/Volume_11_Research_Paper/Volume_11_Research_Paper.aux
- (./docs/Volume_11_Research_Paper/Volume_11_Research_Paper.tex
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[100
-
-
-
-
-]
-Chapter 11.
-
-Overfull \hbox (25.55202pt too wide) in paragraph at lines 4--4
-\TU/lmr/bx/n/24.88 man-tic Op-er-at-ing Layer for Evidence-
- []
-
-[101]
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 25.52023pt, for example:
-(fancyhdr)                \setlength{\headheight}{25.52023pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-13.52023pt}.
-
 [102]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -4187,52 +4549,86 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [103]
+Overfull \hbox (2.8051pt too wide) in paragraph at lines 232--233
+[]\TU/lmr/bx/n/10.95 Cas-caded, cost-ordered, irreversible-discard ver-i-fi-ca-t
+ion \TU/lmr/m/n/10.95 (Claim [][]11.6[][]): closely
+ []
 
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 25.52023pt, for example:
-(fancyhdr)                \setlength{\headheight}{25.52023pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-13.52023pt}.
 
-[104]
+Overfull \hbox (3.59096pt too wide) in paragraph at lines 233--234
+[]\TU/lmr/bx/n/10.95 Content-addressable iden-tity with lin-eage/oc-cur-rence tr
+ack-ing \TU/lmr/m/n/10.95 (Claims [][]11.1[][],
+ []
 
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[105]
+Overfull \hbox (3.43086pt too wide) in paragraph at lines 234--235
+\TU/lmr/bx/n/10.95 tion \TU/lmr/m/n/10.95 (Claims [][]11.1[][], [][]11.3[][]): 
+the clos-est ref-er-ence found is US20240070403A1 (``Grounded
+ []
 
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 25.52023pt, for example:
-(fancyhdr)                \setlength{\headheight}{25.52023pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-13.52023pt}.
 
-[106]
+Overfull \hbox (10.46623pt too wide) in paragraph at lines 234--235
+\TU/lmr/m/n/10.95 pas-sage dropout''), a re-trieve/re-rank/gen-er-ate di-a-logue
+ pipeline us-ing a cross-encoding
+ []
 
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[107]
-Overfull \hbox (19.13637pt too wide) in paragraph at lines 244--245
-[]\TU/lmr/m/n/10.95 En-tity res-o-lu-tion qual-ity de-pends on em-bed-ding qual-
-ity; poor em-bed-dings $\TU/latinmodern-math.otf(1)/m/n/10.95 →$ \TU/lmr/m/n/
-10.95 over/under-
+Overfull \hbox (15.20534pt too wide) in paragraph at lines 234--235
+\TU/lmr/m/n/10.95 sib-ling RAG-optimization fil-ings (e.g. patents on tun-ing cr
+oss-encoder/bi-encoder/LLM-
  []
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 25.52023pt, for example:
-(fancyhdr)                \setlength{\headheight}{25.52023pt}.
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
 (fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-13.52023pt}.
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[108])
+[104]
+Overfull \hbox (3.55449pt too wide) in paragraph at lines 237--238
+[]\TU/lmr/bx/n/10.95 Approval-gated doc-u-ment mu-ta-tion with au-to-matic knowl
+edge-graph rein-
+ []
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[105])
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[106]
+\openout2 = docs/Volume_11_Research_Paper/Volume_11_Research_Paper.aux
+ (./docs/Volume_11_Research_Paper/Volume_11_Research_Paper.tex
+Chapter 12.
+
+Overfull \hbox (25.55202pt too wide) in paragraph at lines 4--4
+\TU/lmr/bx/n/24.88 man-tic Op-er-at-ing Layer for Evidence-
+ []
+
+[107
+
+
+
+
+]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[108]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -4243,16 +4639,63 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 [109]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 25.52023pt, for example:
-(fancyhdr)                \setlength{\headheight}{25.52023pt}.
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
 (fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-13.52023pt}.
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[110
+[110]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[111]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[112]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[113]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[114]
+Overfull \hbox (19.13637pt too wide) in paragraph at lines 244--245
+[]\TU/lmr/m/n/10.95 En-tity res-o-lu-tion qual-ity de-pends on em-bed-ding qual-
+ity; poor em-bed-dings $\TU/latinmodern-math.otf(1)/m/n/10.95 →$ \TU/lmr/m/n/
+10.95 over/under-
+ []
+
+)
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[115] [116
 
 
 
-] [111] [112]
+]
 \openout2 = appendix/Appendix_A.aux
  (./appendix/Appendix_A.tex
 
@@ -4266,15 +4709,9 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[113
+[117
 
 ]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -4282,7 +4719,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[114]
+[118]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -4290,13 +4727,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[115]
-Underfull \vbox (badness 4819) has occurred while \output is active []
-
-
-Underfull \vbox (badness 4819) has occurred while \output is active []
-
-
+[119]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -4304,7 +4735,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[116]
+[120]
 Overfull \hbox (57.42717pt too wide) in paragraph at lines 279--281
 \TU/lmr/m/n/10.95 claim $\TU/latinmodern-math.otf(1)/m/n/10.95 𝑐$ \TU/lmr/m/
 n/10.95 in an-swer is en-tailed by cited ev-i-dence $\TU/latinmodern-math.otf(1
@@ -4319,7 +4750,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[117]
+[121]
 (C:/Users/jmkjm/Documents/2026년_정민규_활동자료/FOLDING_JIMIJIMI/LLMWi
 ki/build/LLMWiki.gls
 
@@ -4329,87 +4760,49 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[118]
-Underfull \hbox (badness 2326) in paragraph at lines 7--8
+[122]
+Underfull \hbox (badness 2326) in paragraph at lines 9--10
 []|\TU/lmr/m/n/10.95 The ex-e-cu-tion en-gine that tra-verses the
  []
 
 
-Underfull \hbox (badness 5802) in paragraph at lines 11--12
+Underfull \hbox (badness 5802) in paragraph at lines 15--16
 []|\TU/lmr/m/n/10.95 Ap-prox-i-mate Near-est Neigh-bor Neg-a-tive
  []
 
 
-Underfull \hbox (badness 1097) in paragraph at lines 45--46
+Underfull \hbox (badness 1097) in paragraph at lines 65--66
 \TU/lmr/m/n/10.95 an ob-ject is a cryp-to-graphic hash of its
  []
 
 
-Underfull \hbox (badness 1097) in paragraph at lines 237--238
+Underfull \hbox (badness 1097) in paragraph at lines 345--346
 []|\TU/lmr/m/n/10.95 A hy-brid search in-dex com-bin-ing HNSW
  []
 
 
-Underfull \hbox (badness 1152) in paragraph at lines 239--240
+Underfull \hbox (badness 1152) in paragraph at lines 348--349
 []|\TU/lmr/m/n/10.95 A content-addressed, typed, hi-er-ar-chi-cally
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 291--292
+Underfull \hbox (badness 10000) in paragraph at lines 424--425
 []|\TU/lmr/m/n/10.95 In LLMWiki, the filesys-tem di-rec-tory
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 291--292
+Underfull \hbox (badness 10000) in paragraph at lines 424--425
 \TU/lmtt/m/n/10.95 .llmwiki/wal/ \TU/lmr/m/n/10.95 con-tain-ing append-only
  []
 
 C:/Users/jmkjm/Documents/2026년_정민규_활동자료/FOLDING_JIMIJIMI/LLMWiki
-/build/LLMWiki.gls:300: Infinite glue shrinkage found in box being split
-[119
+/build/LLMWiki.gls:436: Infinite glue shrinkage found in box being split
+[123
 
 
 ]
 C:/Users/jmkjm/Documents/2026년_정민규_활동자료/FOLDING_JIMIJIMI/LLMWiki
-/build/LLMWiki.gls:300: Infinite glue shrinkage found in box being split
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[120]
-C:/Users/jmkjm/Documents/2026년_정민규_활동자료/FOLDING_JIMIJIMI/LLMWiki
-/build/LLMWiki.gls:300: Infinite glue shrinkage found in box being split
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[121]
-C:/Users/jmkjm/Documents/2026년_정민규_활동자료/FOLDING_JIMIJIMI/LLMWiki
-/build/LLMWiki.gls:300: Infinite glue shrinkage found in box being split
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[122]
-C:/Users/jmkjm/Documents/2026년_정민규_활동자료/FOLDING_JIMIJIMI/LLMWiki
-/build/LLMWiki.gls:300: Infinite glue shrinkage found in box being split
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[123]))
+/build/LLMWiki.gls:436: Infinite glue shrinkage found in box being split
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -4418,21 +4811,8 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [124]
-\openout2 = appendix/Appendix_B.aux
- (./appendix/Appendix_B.tex
-Appendix A.
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 8.
-(./schemas/SemanticUnit.json
-LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 13.
-) (./schemas/Chunk.json [125
-
-
-
-
-])
-(./schemas/Entity.json) (./schemas/Relation.json) (./schemas/QueryPlan.json
+C:/Users/jmkjm/Documents/2026년_정민규_활동자료/FOLDING_JIMIJIMI/LLMWiki
+/build/LLMWiki.gls:436: Infinite glue shrinkage found in box being split
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -4440,7 +4820,19 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[126]) (./schemas/ToolSchema.json
+[125]
+C:/Users/jmkjm/Documents/2026년_정민규_활동자료/FOLDING_JIMIJIMI/LLMWiki
+/build/LLMWiki.gls:436: Infinite glue shrinkage found in box being split
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[126]
+C:/Users/jmkjm/Documents/2026년_정민규_활동자료/FOLDING_JIMIJIMI/LLMWiki
+/build/LLMWiki.gls:436: Infinite glue shrinkage found in box being split
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -4457,10 +4849,57 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [128]
+\openout2 = appendix/Appendix_B.aux
+ (./appendix/Appendix_B.tex
+Appendix A.
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
+nput line 20.
+(./schemas/SemanticUnit.json [129
+
+
+
+
+]
+LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10> not available
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 13.
+) (./schemas/UnitOccurrence.json)
+(./schemas/ArtifactVersion.json
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[130]) (./schemas/Chunk.json) (./schemas/Entity.json
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[131]) (./schemas/Relation.json) (./schemas/QueryPlan.json
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[132]) (./schemas/ToolSchema.json))
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[133]
 \openout2 = appendix/Appendix_C.aux
  (./appendix/Appendix_C.tex
 Appendix B.
-(./config/full_config.toml [129
+(./config/full_config.toml [134
 
 
 
@@ -4473,22 +4912,16 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[130]
+[135]
 \openout2 = appendix/Appendix_D.aux
  (./appendix/Appendix_D.tex
 Appendix C.
-(./grammars/python.scm) (./grammars/javascript.scm) [131
+(./grammars/python.scm) (./grammars/javascript.scm) [136
 
 
 
 
 ] (./grammars/rust.scm) (./grammars/go.scm) (./grammars/sql.scm
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -4496,7 +4929,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[132]))
+[137]))
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -4504,7 +4937,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[133]
+[138]
 \openout2 = appendix/Appendix_E.aux
  (./appendix/Appendix_E.tex
 Underfull \hbox (badness 1968) in paragraph at lines 17--18
@@ -4554,47 +4987,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[134
-
-
-
-]
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[135]
-\openout2 = appendix/Appendix_F.aux
- (./appendix/Appendix_F.tex
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[136
-
-
-
-
-]
-Appendix D.
-[137])
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 13.59999pt, for example:
-(fancyhdr)                \setlength{\headheight}{13.59999pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
-
-[138]
-(C:/Users/jmkjm/Documents/2026년_정민규_활동자료/FOLDING_JIMIJIMI/LLMWi
-ki/build/LLMWiki.bbl [139
-
+[139
 
 
 
@@ -4607,6 +5000,15 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [140]
+\openout2 = appendix/Appendix_F.aux
+ (./appendix/Appendix_F.tex
+Appendix D.
+[141
+
+
+
+
+])
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -4614,7 +5016,14 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[141]
+[142]
+(C:/Users/jmkjm/Documents/2026년_정민규_활동자료/FOLDING_JIMIJIMI/LLMWi
+ki/build/LLMWiki.bbl [143
+
+
+
+
+]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -4622,7 +5031,23 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[142])
+[144]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[145]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[146])
 (C:/Users/jmkjm/Documents/2026년_정민규_활동자료/FOLDING_JIMIJIMI/LLMWi
 ki/build/LLMWiki.ind)
 
@@ -4657,7 +5082,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[143]
+[147]
 (C:/Users/jmkjm/Documents/2026년_정민규_활동자료/FOLDING_JIMIJIMI/LLMWi
 ki/build/LLMWiki.aux
 (C:/Users/jmkjm/Documents/2026년_정민규_활동자료/FOLDING_JIMIJIMI/LLMWi
@@ -4674,6 +5099,8 @@ ki/build/docs/Volume_05_Agent_Runtime/Volume_05_Agent_Runtime.aux)
 ki/build/docs/Volume_06_Evaluation/Volume_06_Evaluation.aux)
 (C:/Users/jmkjm/Documents/2026년_정민규_활동자료/FOLDING_JIMIJIMI/LLMWi
 ki/build/docs/Volume_07_Deployment/Volume_07_Deployment.aux)
+(C:/Users/jmkjm/Documents/2026년_정민규_활동자료/FOLDING_JIMIJIMI/LLMWi
+ki/build/docs/Volume_12_Mutation_Engine/Volume_12_Mutation_Engine.aux)
 (C:/Users/jmkjm/Documents/2026년_정민규_활동자료/FOLDING_JIMIJIMI/LLMWi
 ki/build/docs/Volume_08_API_Reference/Volume_08_API_Reference.aux)
 (C:/Users/jmkjm/Documents/2026년_정민규_활동자료/FOLDING_JIMIJIMI/LLMWi
@@ -4704,31 +5131,31 @@ LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 0.475pt have occurred.
 
 Package rerunfilecheck Info: File `LLMWiki.out' has not changed.
-(rerunfilecheck)             Checksum: BEC990CA50516F4142B193D2AC079A2A;45843.
+(rerunfilecheck)             Checksum: 3A365381655C8525E3C649F547A6F427;51460.
 )
 
 Here is how much of LuaTeX's memory you used:
- 112670 strings out of 476081
- 934315,4101490 words of node,token memory allocated
- 1575 words of node memory still in use:
-   13 hlist, 2 vlist, 4 rule, 2 glue, 4 kern, 1 glyph, 105 attribute, 161 glue_s
-pec, 57 attribute_list, 2 write, 27 pdf_action nodes
-   avail lists: 1:5,2:12351,3:1646,4:21902,5:17126,6:440,7:28237,8:66,9:43117,10
+ 112860 strings out of 476081
+ 934270,4101490 words of node,token memory allocated
+ 1563 words of node memory still in use:
+   13 hlist, 2 vlist, 4 rule, 2 glue, 4 kern, 1 glyph, 103 attribute, 161 glue_s
+pec, 56 attribute_list, 2 write, 26 pdf_action nodes
+   avail lists: 1:6,2:13136,3:1629,4:22356,5:17231,6:576,7:30755,8:72,9:43162,10
 :71,11:1877
- 131548 multiletter control sequences out of 65536+600000
- 163 fonts using 35656155 bytes
- 84i,21n,115p,2494b,2502s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 131630 multiletter control sequences out of 65536+600000
+ 162 fonts using 35612191 bytes
+ 84i,21n,115p,2494b,2498s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/users/jmkjm/appdata/local/programs/miktex/fonts/opentype/public/lm/lmmonolt1
 0-bold.otf><c:/users/jmkjm/appdata/local/programs/miktex/fonts/opentype/public/l
 m/lmroman6-regular.otf><c:/users/jmkjm/appdata/local/programs/miktex/fonts/opent
 ype/public/lm/lmmono10-italic.otf><c:/users/jmkjm/appdata/local/programs/miktex/
-fonts/opentype/public/lm/lmroman8-regular.otf><c:/users/jmkjm/appdata/local/prog
-rams/miktex/fonts/opentype/public/lm/lmroman8-italic.otf><c:/users/jmkjm/appdata
-/local/programs/miktex/fonts/opentype/public/lm/lmromancaps10-regular.otf><C:/Us
+fonts/opentype/public/lm/lmroman8-italic.otf><c:/users/jmkjm/appdata/local/progr
+ams/miktex/fonts/opentype/public/lm/lmromancaps10-regular.otf><c:/users/jmkjm/ap
+pdata/local/programs/miktex/fonts/opentype/public/lm/lmroman8-regular.otf><C:/Us
 ers/jmkjm/AppData/Local/Programs/MiKTeX/fonts/opentype/public/lm-math/latinmoder
-n-math.otf><C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/fonts/opentype/public/l
-m-math/latinmodern-math.otf><c:/users/jmkjm/appdata/local/programs/miktex/fonts/
-opentype/public/lm/lmroman9-regular.otf><C:/Users/jmkjm/AppData/Local/Programs/M
+n-math.otf><c:/users/jmkjm/appdata/local/programs/miktex/fonts/opentype/public/l
+m/lmroman9-regular.otf><C:/Users/jmkjm/AppData/Local/Programs/MiKTeX/fonts/opent
+ype/public/lm-math/latinmodern-math.otf><C:/Users/jmkjm/AppData/Local/Programs/M
 iKTeX/fonts/opentype/public/lm-math/latinmodern-math.otf><c:/users/jmkjm/appdata
 /local/programs/miktex/fonts/opentype/public/lm/lmroman10-italic.otf><c:/users/j
 mkjm/appdata/local/programs/miktex/fonts/opentype/public/lm/lmroman10-bold.otf><
@@ -4738,11 +5165,10 @@ lm/lmmono10-regular.otf><c:/users/jmkjm/appdata/local/programs/miktex/fonts/open
 type/public/lm/lmroman12-regular.otf><c:/users/jmkjm/appdata/local/programs/mikt
 ex/fonts/opentype/public/lm/lmroman17-regular.otf><c:/users/jmkjm/appdata/local/
 programs/miktex/fonts/opentype/public/lm/lmroman12-bold.otf><C:/Users/jmkjm/AppD
-ata/Local/Programs/MiKTeX/fonts/type1/public/ccicons/ccicons.pfb><C:/Users/jmkjm
-/AppData/Local/Programs/MiKTeX/fonts/type1/urw/zapfding/uzdr.pfb>
-Output written on LLMWiki.pdf (159 pages, 967417 bytes).
+ata/Local/Programs/MiKTeX/fonts/type1/urw/zapfding/uzdr.pfb>
+Output written on LLMWiki.pdf (162 pages, 1108190 bytes).
 
-PDF statistics: 3606 PDF objects out of 4296 (max. 8388607)
- 1226 named destinations out of 1440 (max. 1048576)
- 2320 words of extra memory for PDF output out of 10000 (max. 100000000)
+PDF statistics: 4047 PDF objects out of 4296 (max. 8388607)
+ 1301 named destinations out of 1440 (max. 1048576)
+ 2488 words of extra memory for PDF output out of 10000 (max. 100000000)
 

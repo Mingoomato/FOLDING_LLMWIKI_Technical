@@ -9,8 +9,8 @@ Each entry follows the format: Decision ID, Decision, Alternatives Considered, R
 
 | ID | Title | Status |
 |----|-------|--------|
-| DD-001 | Graph as Source of Truth (Vectors as Projections) | ✅ Accepted |
-| DD-002 | Filesystem as Write-Ahead Log | ✅ Accepted |
+| DD-001 | Graph as Canonical Query Representation (Vectors as Projections) | ✅ Accepted (revised 2026-07-27) |
+| DD-002 | Filesystem-Backed Event Log as Sole Durability Layer | ✅ Accepted (revised 2026-07-27) |
 | DD-003 | Mandatory Evidence Gate (Not Reranker) | ✅ Accepted |
 | DD-004 | Content-Addressed Units (SHA-256) | ✅ Accepted |
 | DD-005 | Local-First, LLM-Optional Critical Path | ✅ Accepted |
@@ -24,16 +24,19 @@ Each entry follows the format: Decision ID, Decision, Alternatives Considered, R
 | DD-013 | Single-Binary Deployment | ✅ Accepted |
 | DD-014 | Budget Enforcement at Executor | ✅ Accepted |
 | DD-015 | Regression Gates in CI | ✅ Accepted |
+| DD-021 | Rust Core with PyO3 Bindings (over Python/FastAPI Core) | ✅ Accepted |
+| DD-022 | Deployment Tier Separation: Local MVP / Team Server / Enterprise Cluster | ✅ Accepted |
 
 ---
 
-## DD-001: Graph as Source of Truth (Vectors as Projections)
+## DD-001: Graph as Canonical Query Representation (Vectors as Projections)
 
 **Date**: 2024-01-15
-**Status**: ✅ Accepted
+**Revised**: 2026-07-27 — see note below
+**Status**: ✅ Accepted (revised)
 
 ### Decision
-The property knowledge graph is the canonical knowledge representation. Vector indices are derived projections optimized for similarity search—not the primary store.
+The property knowledge graph is the canonical representation for query-time reasoning: the planner and evidence gate query it first, and vector/keyword indices exist to accelerate or widen that graph-centric retrieval. This is a statement about which representation query execution treats as primary, not a durability claim — durability is DD-002's job (the graph, like the vector and keyword indices, is a rebuildable projection of the event log, not itself a source of truth). The original 2024-01-15 wording of this decision ("canonical knowledge representation," full stop) was ambiguous between these two meanings and was read as a claim that the graph was also the durability layer, which directly conflicted with DD-002. This revision states the graph's role precisely; see Vol. 01 §architecture:philosophy for the full architectural argument.
 
 ### Alternatives Considered
 1. **Vector-first (e.g., FAISS/Milvus as primary)**: Simpler for semantic search, but loses structural relationships, multi-hop reasoning, and explainability.
@@ -54,13 +57,14 @@ The property knowledge graph is the canonical knowledge representation. Vector i
 
 ---
 
-## DD-002: Filesystem as Write-Ahead Log
+## DD-002: Filesystem-Backed Event Log as Sole Durability Layer
 
 **Date**: 2024-01-15
-**Status**: ✅ Accepted
+**Revised**: 2026-07-27 — see note below
+**Status**: ✅ Accepted (revised)
 
 ### Decision
-The local filesystem directory structure `.llmwiki/wal/` serves as the sole durability mechanism. No auxiliary transaction log service (Kafka, Redis Streams, etc.) is required.
+The append-only event log in `.llmwiki/wal/` is the sole durability mechanism and the system's one source of truth for history (alongside the user's original source artifacts, which are authoritative for content). Graph, vector, and keyword projections carry no durability obligation of their own: they are rebuildable from the log and a `_projection.meta` marker (`last_applied_sequence`) makes rebuilding idempotent and resumable after a crash. No auxiliary transaction log service (Kafka, Redis Streams, etc.) is required.
 
 ### Alternatives Considered
 1. **Kafka/Redis Streams**: Battle-tested, but adds operational complexity; overkill for single-node local-first.
@@ -70,13 +74,14 @@ The local filesystem directory structure `.llmwiki/wal/` serves as the sole dura
 ### Rationale
 - **Zero operational dependencies**: Works on any POSIX filesystem; no broker to run
 - **Content-addressed deduplication**: Identical units produce identical WAL entries
-- **`rsync`/`git` replay**: Backup = directory copy; replay = re-apply JSONL in order
-- **POSIX `rename()` atomicity**: Durable commits without fsync storms
+- **`rsync`/`git` replay of `wal/` segments**: safe because segments are immutable once published; replay = re-apply JSONL in order. This does **not** extend to live-copying `graph/`/`index/` — RocksDB/HNSW/Tantivy each need a consistent checkpoint, not a directory copy (Vol. 01 §architecture:crash-consistency).
+- **Atomic commit, not bare `rename()`**: temp file + fsync + rename/`MoveFileEx` + directory fsync, specified separately for POSIX and Windows (Vol. 01 §architecture:crash-consistency) — the original 2024-01-15 wording ("POSIX `rename()` atomicity") assumed a POSIX-only deployment target, which doesn't hold for this project's Windows-inclusive local-first target.
 - **Auditability**: Human-readable JSONL; `jq`/`grep` for debugging
 
 ### Consequences
 - Not horizontally scalable (single-writer assumed); clustering would need a log service
-- Large WAL files need rotation/compaction strategy
+- Large WAL files need rotation/compaction strategy, bounded by periodic checkpoints (`checkpoints/`)
+- Read-after-write on graph/index projections lags event commit by however long `ApplyGraph`/`ApplyIndex` take; this is ordinary event-sourcing lag, not a correctness gap, and is made explicit rather than hidden (Vol. 01 Algorithm ingestion)
 
 ---
 
@@ -417,6 +422,64 @@ CI pipeline fails if any primary metric (Evidence F1, Attribution, Hallucination
 - Benchmark suite must be fast (<10 min) and deterministic
 - Baseline stored in repo (or artifact); updated on intentional improvements
 - Flaky benchmarks block merges; invest in stability
+
+---
+
+## DD-021: Rust Core with PyO3 Bindings (over Python/FastAPI Core)
+
+**Date**: 2026-07-27
+**Status**: ✅ Accepted
+
+### Context
+LLMWiki is greenfield as of this decision — there is no existing FastAPI/Python/Next.js implementation being replaced. This is a forward stack choice, not a migration, and is recorded here specifically because Vol. 09's Developer Guide commits to a Rust workspace (`crates/`) with PyO3 Python bindings and a React/Vite web UI, and that commitment deserves a recorded rationale rather than standing as an unexplained default.
+
+### Alternatives Considered
+1. **Python core (FastAPI + Python parsers/ML) with optional Rust hot paths**: Faster initial velocity, largest available contributor pool for an ML-heavy project, but the filesystem-watcher/parsing/indexing hot path (Vol. 01 §architecture:filesystem-wal, Vol. 02 parsing) is exactly the workload (many small files, tight loops, crash-consistency-sensitive atomic writes) where Python's GIL and per-call overhead show up first; would likely need a Rust or C extension for that path eventually anyway.
+2. **Rust core, Python only for ML/eval (this decision)**: Core (WAL, graph, index, evidence gate, planner) in Rust for performance and memory safety on the crash-consistency-sensitive path (Vol. 01 §architecture:crash-consistency); PyO3 bindings expose the core to Python for evaluation scripting, notebook-driven experimentation, and any ML library that's Python-only. FFI boundary is narrow and one-directional: Python calls into Rust, not the reverse.
+3. **Full Rust including ML (candle, burn, or ONNX Runtime bindings only)**: Avoids the FFI boundary entirely, but cuts off the Python ML ecosystem (most embedding/reranking model tooling, evaluation frameworks, and the research code most contributors will already know) — assessed as too narrow for a project whose evidence-gate research (Vol. 04, Vol. 11) leans on that ecosystem.
+
+### Rationale
+- **FFI boundary is narrow and explicit**: PyO3 bindings expose a small, versioned Python API surface (`python/llmwiki/`) over the Rust core; the core's internal crate boundaries (Vol. 09 §dev:structure) are not exposed to Python, so the FFI surface can be kept stable even as internals change.
+- **Deployment impact**: the Rust core compiles to a single binary (Vol. 07 §deploy:modes, Embedded/Standalone/Air-gapped tiers) with no Python runtime required for those tiers; Python is only in the picture for `eval/` scripts and any deployment tier that explicitly opts into a Python-scriptable extension point (Vol. 09 §dev:env).
+- **Since this is greenfield, there is no migration cost to amortize** — the usual ADR risk for this kind of decision (rewriting a working system) does not apply here. The risk that does apply is developer availability: Rust + PyO3 is a narrower hiring/contributor pool than pure Python, which is the main argument for the alternative and the main thing that would justify revisiting this decision.
+
+### Consequences
+- Core development requires Rust proficiency; Python-only contributors are limited to `python/`, `eval/`, and web UI work unless they cross-train.
+- The FFI boundary (PyO3) is a real interface that must be versioned and tested like any other API, not treated as free.
+- If contributor availability turns out to bottleneck on Rust specifically, the fallback is not "rewrite in Python" but "widen the set of extension points implementable in Python without touching the Rust core" (Vol. 09's stated extension points — parsers, chunkers, embedders, tools, auth providers — are designed as trait boundaries for exactly this reason).
+
+---
+
+## DD-022: Deployment Tier Separation — Local MVP / Team Server / Enterprise Cluster
+
+**Date**: 2026-07-27
+**Status**: ✅ Accepted
+
+### Context
+Vol. 07's deployment chapter specifies Kubernetes, Helm charts, and (via Vol. 09/acronyms) Vault, Consul, and Ceph/Longhorn-class storage as available deployment components. Presented undifferentiated, this reads as if a v1 local-first product requires cluster-operations complexity to run at all, which contradicts DD-005 (Local-First, LLM-Optional) and the single-binary deployment goal (DD-013). This decision makes explicit which components belong to which deployment tier so "LLMWiki supports Kubernetes" and "LLMWiki requires Kubernetes" are not conflated.
+
+### Decision
+Three deployment tiers, cumulative in complexity, each independently sufficient for its use case:
+
+| Tier | Use case | Required components | Explicitly NOT required |
+|------|----------|---------------------|--------------------------|
+| **Local MVP** | Individual user, desktop app, CLI, air-gapped single machine | Single binary (Vol. 07 `llmwiki:cpu`/`llmwiki:full` image, or embedded library mode), local filesystem `.llmwiki/` | Docker, Kubernetes, Helm, Vault, Consul, Ceph/Longhorn, Redis, any network service |
+| **Team Server** | Small team, shared server, single-writer repository | Standalone Server mode (Vol. 07 Table deploy:modes): API + workers, Docker container, optional shared read-replica index | Kubernetes, Helm, Vault, Consul, Ceph (a plain volume or NFS mount suffices at this scale per Vol. 07 §deploy — RWX shared PVC is an Enterprise Cluster concern, not a Team Server one) |
+| **Enterprise Cluster** | High-availability production service, multi-writer, compliance requirements | Everything above, plus Kubernetes, Helm charts (Vol. 07 §deploy:helm), Vault/Consul for secrets and service discovery, Ceph/Longhorn-class RWX storage, load-balanced replicas | — (this is the tier the existing Vol. 07 content was written for) |
+
+### Alternatives Considered
+1. **Single undifferentiated deployment spec (status quo before this decision)**: Simplest to write, but conflates "supported at largest scale" with "required at every scale," which is the exact problem this decision fixes.
+2. **Separate documents per tier**: Cleaner separation, but fragments the single-source-of-truth deployment chapter and risks the tiers drifting out of sync; rejected in favor of one chapter with explicit tier labeling on each component.
+
+### Rationale
+- **Local-First is the default, not an afterthought (DD-005)**: a new user's first experience with LLMWiki must not require reading the Kubernetes section.
+- **Complexity should be opt-in and scale with actual need**: Team Server adds Docker; Enterprise Cluster adds cluster operations; neither is a prerequisite for the tier below it.
+- **Testability**: each tier can be validated independently (Local MVP in CI without a cluster; Enterprise Cluster against a real or simulated K8s environment) rather than requiring full cluster infrastructure to validate a single-binary code path.
+
+### Consequences
+- Vol. 07 needs each component (Dockerfile, Helm chart, Vault/Consul integration, RWX storage) explicitly labeled with its minimum tier, not presented as uniform v1 scope.
+- Documentation and onboarding must lead with Local MVP; Enterprise Cluster content moves later in the reading order.
+- Feature parity across tiers is not assumed — e.g., multi-writer concurrency (Vol. 01 §architecture:filesystem-wal design tradeoff) is an Enterprise Cluster concern; Local MVP and Team Server assume single-writer.
 
 ---
 

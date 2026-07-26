@@ -62,7 +62,10 @@ New parsers are added via the \texttt{Parser} trait (Vol.~01, \S\ref{iface:parse
     pdf : PdfParser\\
     openapi : SpecParser\\
     sql : SqlParser\\
-    yaml/json : StructuredParser};
+    yaml/json : StructuredParser\\
+    docx/pptx/xlsx : OoxmlParser\\
+    hwpx : HwpxParser\\
+    hwp : HwpParser (read-only)};
   \draw[flow, dashed] (route) -- (registry);
 \end{tikzpicture}
 \end{adjustbox}
@@ -100,26 +103,47 @@ markdown = { type = "markdown", extract_frontmatter = true }
 pdf = { type = "pdf", ocr = false }
 openapi = { type = "openapi", version = "3.1" }
 sql = { type = "sql", dialect = "postgres" }
+docx = { type = "ooxml", kind = "wordprocessing", track_changes = "as-metadata" }
+pptx = { type = "ooxml", kind = "presentation" }
+xlsx = { type = "ooxml", kind = "spreadsheet" }
+hwpx = { type = "hwpx" }
+hwp  = { type = "hwp", mode = "read-only" }  # see Sec. parsing:office-formats
 \end{verbatim}
+
+\subsection{Office and HWP Format Coverage}
+\label{sec:parsing:office-formats}
+
+DOCX, PPTX, XLSX, and HWPX are all XML-in-a-zip container formats (OOXML for the first three, the HWPX schema for the fourth); this section states what \texttt{OoxmlParser}/\texttt{HwpxParser} extract as \texttt{UnitOccurrence}s and how the corresponding \texttt{DocumentWriter} (Vol.~12 \S\ref{sec:mutation:interfaces}) writes back, since read and write coverage are tracked separately (Vol.~12 \S\ref{sec:mutation:formats} is authoritative on write support; this section is read-side).
+
+\begin{itemize}
+  \item \textbf{DOCX}: paragraphs and headings as \texttt{Section} units; tables as \texttt{Table} units with cell-level \texttt{UnitOccurrence}s; embedded comments and tracked-changes (\texttt{w:ins}/\texttt{w:del}) are extracted as metadata attached to the paragraph they annotate, not discarded --- an evidence-gate citation into a document under active review should be able to say whether the cited text is an accepted change, a pending insertion, or a pending deletion.
+  \item \textbf{PPTX}: each slide is a unit; text boxes, tables, and speaker notes within a slide are child units (span type \texttt{slide\_object\_id}, Appendix~B \texttt{UnitOccurrence}); embedded charts/images are recorded as opaque objects with position metadata (\S\ref{sec:mutation:formats}), not parsed for content.
+  \item \textbf{XLSX}: each sheet is a unit; cells and named ranges are child units (span type \texttt{sheet\_cell}); formulas are extracted as both their formula text and (when the workbook carries a cached value) their last-computed value, tagged separately so retrieval can distinguish ``the formula is'' from ``the value was.''
+  \item \textbf{HWPX}: the XML-based Hangul Word Processor format; structurally closer to DOCX (paragraph/section-based) and parsed on the same principles above via \texttt{HwpxParser}.
+  \item \textbf{HWP (binary)}: read-only in this revision. The legacy binary HWP format has no publicly specified write-back path that preserves round-trip fidelity comparable to OOXML/HWPX; \texttt{HwpParser} extracts \texttt{UnitOccurrence}s for retrieval, but Vol.~12's approval pipeline does not offer HWP as a mutation target until a \texttt{DocumentWriter} for it exists and passes \texttt{FormatValidator} (Vol.~12 \S\ref{sec:mutation:formats}). This is a stated gap, not a silent one: a mutation request against a \texttt{.hwp} file is rejected at \texttt{PatchPlanner} with an explicit ``format not writable'' error rather than silently falling back to a lossy conversion.
+\end{itemize}
 
 \section{Semantic Unit Model}
 \label{sec:parsing:semantic-unit}
 
-\begin{definition}[Semantic Unit]
+\begin{definition}[Semantic Unit and Its Occurrence]
 \label{def:semantic-unit}
-A \emph{semantic unit} $u$ is a tuple:
+A parser emits two related but distinct records per parsed fragment, not one (Appendix~B \S\ref{app:data-model:identity} gives the full schema; this is the parser-facing view of the same split):
 \begin{equation}
-u = (\text{id}, \text{type}, \text{content}, \text{span}, \text{metadata}, \text{children})
+u = (\text{id}, \text{type}, \text{content}, \text{metadata}, \text{children}), \qquad
+o = (\text{occurrence\_id}, \text{content\_id}, \text{span}, \text{artifact\_version\_id})
 \end{equation}
 where:
 \begin{itemize}
-  \item \texttt{id} = SHA-256(canonical(content, type, span))
+  \item \texttt{id} (= \texttt{content\_id}) = SHA-256(canonical(content, type)) --- \textbf{not} a function of \texttt{span}. Two occurrences of identical content at different spans (the same helper function copy-pasted into two files, a repeated boilerplate header) share this id; that sharing is what makes deduplication work, and it is destroyed if span is hashed into the id.
   \item \texttt{type} $\in$ \{\texttt{Function}, \texttt{Class}, \texttt{Section}, \texttt{Table}, \texttt{Operation}, \dots\}
   \item \texttt{content}: canonical text representation (whitespace-normalized)
-  \item \texttt{span}: \texttt{(start\_line, end\_line, start\_col, end\_col)} in source
   \item \texttt{metadata}: typed key-value annotations (see \S\ref{sec:parsing:metadata})
   \item \texttt{children}: ordered list of child unit IDs (hierarchy)
+  \item \texttt{occurrence\_id} = SHA-256(artifact\_version\_id, span) --- unique per location, even when \texttt{content\_id} repeats
+  \item \texttt{span}: \texttt{(start\_line, end\_line, start\_col, end\_col)} in source for text/code; other formats use other span types (Appendix~B \texttt{UnitOccurrence.span\_type})
 \end{itemize}
+A parser that only emits $u$ and discards $o$ (or that folds span into \texttt{id} as an earlier draft of this definition did) cannot answer ``where did this content come from'' once a second occurrence exists, which is exactly the failure mode Appendix~B \S\ref{app:data-model:identity} documents.
 \end{definition}
 
 \subsection{Unit Type Taxonomy}

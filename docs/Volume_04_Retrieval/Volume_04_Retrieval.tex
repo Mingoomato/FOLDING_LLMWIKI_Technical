@@ -10,12 +10,21 @@ This volume specifies the \emph{retrieval pipeline}---the hybrid search mechanis
 \label{sec:retrieval:evidence-gate}
 
 \begin{designprinciple}[Evidence Closure]
-No retrieval result reaches the synthesis stage without passing cross-encoder verification against a calibrated threshold. This enforces \emph{evidence closure}: every citation in an answer traces to a verified unit.
+No retrieval result reaches the synthesis stage without passing multi-stage verification against calibrated thresholds. This enforces \emph{evidence closure}: every citation in an answer traces to a verified unit.
 \end{designprinciple}
+
+A single cross-encoder score answers one question --- \emph{is this unit relevant to the query} --- and cannot by itself answer three others that ``evidence-aware'' implies: whether the unit's content is still true, whether a specific generated claim is actually entailed by the unit (as opposed to merely topically adjacent to it), and whether the answer as a whole is backed by evidence for every claim it makes, not just the claims someone happened to cite. Treating $\text{score}(q,u) \geq \tau$ as the definition of ``verified evidence'' conflates these. This volume therefore separates the gate into four distinct checks, only the first two of which run before synthesis (\S\ref{sec:retrieval:proofreading}); the other two run against the generated answer (\S\ref{sec:retrieval:synthesis}) and are what actually justify calling an answer evidence-closed:
+
+\begin{enumerate}
+  \item \textbf{Relevance Gate} (\S\ref{sec:retrieval:proofreading}, Stages 1--2): is the candidate unit relevant to the query at all. This is what a cross-encoder score measures.
+  \item \textbf{Structural / Source Validity Gate} (\S\ref{sec:retrieval:proofreading}, Stage 3, extended below): is the candidate reachable/consistent in the graph, and --- where the source tracks it --- not stale or access-restricted.
+  \item \textbf{Claim Support Gate} (\S\ref{sec:retrieval:proofreading}, Stage 4; \S\ref{sec:retrieval:synthesis}): does a specific claim, not just the unit as a whole, entail from the cited evidence, with an explicit contradiction check, not only an entailment one.
+  \item \textbf{Evidence Coverage Gate} (\S\ref{sec:retrieval:synthesis}): after synthesis, is every atomic claim in the answer --- not only the ones the model chose to cite --- mapped to supporting evidence.
+\end{enumerate}
 
 \begin{definition}[Evidence Gate]
 \label{def:evidence-gate}
-The Evidence Gate is a function $\mathcal{G}: \mathcal{Q} \times \mathcal{U}^* \times \Theta \to \mathcal{U}^*$ that takes a query $q$, a candidate set $\mathcal{R} \subseteq \mathcal{U}$, and a threshold $\tau \in \Theta$, and returns only those units $u \in \mathcal{R}$ where $\text{score}(q, u) \geq \tau$, where $\text{score}$ is computed by a cross-encoder.
+The (pre-synthesis) Evidence Gate is a function $\mathcal{G}: \mathcal{Q} \times \mathcal{U}^* \times \Theta \to \mathcal{U}^*$ that takes a query $q$, a candidate set $\mathcal{R} \subseteq \mathcal{U}$, and a threshold $\tau \in \Theta$, and returns only those units $u \in \mathcal{R}$ where $\text{score}(q, u) \geq \tau$, where $\text{score}$ is computed by a cross-encoder. This definition covers the Relevance Gate only (item 1 above); \S\ref{sec:retrieval:proofreading} extends it to a cascade covering items 1--3, and \S\ref{sec:retrieval:synthesis} adds the post-synthesis Claim Support and Evidence Coverage checks (items 3--4) that a single pre-synthesis threshold cannot provide.
 \end{definition}
 
 \section{Why Not Reranking?}
@@ -164,9 +173,11 @@ The conditional independence premise is the load-bearing assumption, and it is n
 \begin{enumerate}
   \item \textbf{Stage 1 --- Lexical admissibility} ($c_1$ negligible): BM25 span overlap between query terms and unit content. Rejects candidates retrieved purely by embedding drift.
   \item \textbf{Stage 2 --- Cross-encoder relevance} ($c_2$ moderate): Algorithm~\ref{alg:evidence-gate} as specified above.
-  \item \textbf{Stage 3 --- Structural admissibility} ($c_3$ low): the unit must be reachable in the knowledge graph from at least one other surviving unit within $k$ hops, or be the unique survivor. Rejects semantically plausible but contextually orphaned units.
-  \item \textbf{Stage 4 --- Entailment verification} ($c_4$ high): a natural language inference model must find the candidate answer span entailed, not merely topically related, by the unit.
+  \item \textbf{Stage 3 --- Structural and source-validity admissibility} ($c_3$ low): the unit must be reachable in the knowledge graph from at least one other surviving unit within $k$ hops, or be the unique survivor (rejects semantically plausible but contextually orphaned units), \emph{and}, where the source artifact carries the relevant metadata, must not be flagged stale (\texttt{ArtifactVersion.observed\_at} older than a configured freshness window) or access-restricted for the requesting principal. This stage does not adjudicate factual correctness of the unit's content --- only whether the unit's provenance metadata makes it eligible to be cited at all.
+  \item \textbf{Stage 4 --- Entailment verification} ($c_4$ high): a natural language inference model must find the candidate answer span entailed, not merely topically related, by the unit, and separately scores the contradiction class so an evidently contradicting unit is discarded rather than merely scored as not-entailing.
 \end{enumerate}
+
+Stages 1--4 are candidate-side: they decide which retrieved units are eligible to be shown to the synthesis model. None of them inspect what the model actually writes. \S\ref{sec:retrieval:synthesis} adds the two checks that do.
 
 \paragraph{Cost.} Naively a cascade is $n$ times more expensive. It is not, because survival is exponentially rare: with per-stage survival fraction $s_j$ the expected cost per initial candidate is
 \begin{equation}
@@ -179,7 +190,7 @@ so the expensive terminal stages are evaluated on a vanishing fraction of the ca
 In the thermodynamic setting, proofreading fidelity beyond the equilibrium bound is possible only if the cycle consumes free energy; a cascade run at equilibrium provides no discrimination gain. The computational analogue is exact: the discard steps are irreversible, and the cascade's advantage over a single threshold is paid for strictly in compute. This yields an accuracy-versus-compute frontier for evidence verification rather than an unbounded accuracy claim, and we regard the existence of that frontier as a design constraint rather than a limitation to be hidden.
 \end{observation}
 
-\subsection{Stage 4: Synthesis with Forced Citations}
+\subsection{Stage 5: Synthesis, Then Claim Support and Coverage Verification}
 \label{sec:retrieval:synthesis}
 
 The verified set $\mathcal{E}$ is packed into the LLM context with explicit citation markers:
@@ -208,12 +219,20 @@ IF EVIDENCE IS INSUFFICIENT, SAY: "Insufficient evidence to answer."
 CITE SOURCES AS [E1], [E2], ...
 \end{verbatim}
 
-This forces the LLM to ground every claim in the provided evidence.
+This prompt \emph{requests} that the LLM ground every claim in the provided evidence; it does not \emph{guarantee} it. A model can still cite a source next to a claim the source does not actually support, or state an uncited claim entirely from parametric knowledge. Treating the prompt instruction as sufficient for evidence closure is exactly the gap the Relevance Gate (candidate-side) leaves on the synthesis side, so it is closed by inspecting the output, not by trusting the instruction:
 
-\section{Threshold Calibration}
+\begin{enumerate}
+  \item \textbf{Claim decomposition.} The generated answer $a$ is segmented into atomic claims $\{c_1, \dots, c_m\}$ (one checkable factual statement each).
+  \item \textbf{Claim Support Gate.} For each claim $c_i$ and its cited evidence unit(s), the same NLI model used in Stage 4 scores $\text{entail}(c_i, u)$ and $\text{contradict}(c_i, u)$. A claim with no cited unit scoring above the entailment threshold, or with any cited unit scoring above the contradiction threshold, fails this gate.
+  \item \textbf{Evidence Coverage Gate.} Coverage is $|\{c_i : c_i \text{ passes Claim Support}\}| / m$. An answer below a configured coverage threshold is not returned as-is: failing claims are either re-synthesized against $\mathcal{E}$, dropped with an explicit ``unsupported'' marker, or the whole answer is downgraded to ``insufficient evidence,'' depending on deployment policy (\S\ref{sec:retrieval:evidence-config}).
+\end{enumerate}
+
+The mapping produced by this stage --- $\text{claim\_id} \to \{\text{supporting evidence occurrence\_ids}\} \to \text{entailment score} \to \text{contradiction score}$ --- is what \texttt{ApprovalStore}/citation UI surfaces to a human reviewer; it is a stronger and independently auditable claim than ``the prompt asked for citations.''
+
+\section{Threshold Calibration: Supervised Score Calibration}
 \label{sec:retrieval:calibration}
 
-The threshold $\tau$ must be calibrated to achieve desired precision/recall tradeoff. Uncalibrated cross-encoder scores are not probabilities.
+The threshold $\tau$ must be calibrated to achieve desired precision/recall tradeoff. Uncalibrated cross-encoder scores are not probabilities. Unlike \S\ref{sec:retrieval:far}'s Negative-Only FAR Estimation, every method below requires a labeled validation set with positive examples --- this is \emph{Supervised Score Calibration} in the terminology of \S\ref{sec:retrieval:far}, named separately because it answers a different question (what is the calibrated probability of relevance) and has a different cost (annotation) than the label-free procedure.
 
 \subsection{Calibration Methods}
 \label{sec:retrieval:cal-methods}
@@ -241,8 +260,10 @@ The threshold $\tau$ must be calibrated to achieve desired precision/recall trad
 
 Calibration artifacts are stored in \texttt{.llmwiki/evidence/cross-encoder/calibration.json} and loaded at startup.
 
-\subsection{Label-Free Calibration by Discordant Pairing}
+\subsection{Empirical Null Thresholding: Negative-Only FAR Estimation}
 \label{sec:retrieval:far}
+
+This section, \S\ref{sec:retrieval:cal-methods} (\emph{Supervised Score Calibration}: isotonic/Platt/temperature, requires labeled $\mathcal{D}_{val}$), and \S\ref{sec:retrieval:confidence} (\emph{Coverage Calibration}: conformal prediction) are three procedures that all produce a number that looks like a calibrated confidence, and are not interchangeable. This section's procedure --- discordant-pairing against an empirical null --- is named \emph{Negative-Only FAR Estimation} throughout to keep it distinct from the other two: it is built entirely from constructed negatives (Definition~\ref{def:discordant-pair}) and answers only ``how often would a score this high occur from unrelated evidence,'' never ``what fraction of admitted units are actually relevant'' (that is precision, which needs the positive-side distribution) or ``what fraction of true positives survive'' (that is recall/FDR, which needs labeled positives too). The paragraph below states this limitation explicitly rather than letting the similarity of the numbers invite the conflation.
 
 Algorithm~\ref{alg:calibration} requires $\mathcal{D}_{val}$ with human relevance judgements $y_i$. This is the binding practical constraint on every deployment: relevance labels are expensive, corpus-specific, and stale the moment the corpus changes. A threshold that cannot be recalibrated without re-annotation is a threshold that will silently drift.
 
@@ -293,10 +314,10 @@ No unit enters the synthesis context without an associated FAR computed against 
   \item \textbf{Null $\neq$ alternative.} FAR bounds the rate of \emph{spurious} admission. It says nothing about recall. FAR calibration therefore complements, and does not replace, the labelled conformal procedure of \S\ref{sec:retrieval:confidence}: the empirical null fixes the operating point without labels, and conformal prediction supplies coverage guarantees when labels are available.
 \end{itemize}
 
-\subsection{Confidence Intervals}
+\subsection{Confidence Intervals: Coverage Calibration}
 \label{sec:retrieval:confidence}
 
-Beyond point threshold, we provide confidence intervals per prediction:
+Beyond point threshold, we provide confidence intervals per prediction. This is \emph{Coverage Calibration} in the terminology of \S\ref{sec:retrieval:far}: like Supervised Score Calibration above, conformal prediction requires labeled examples, but it targets a distribution-free coverage guarantee on intervals rather than a single calibrated point score.
 \begin{itemize}
   \item \textbf{Conformal Prediction}: Split conformal for distribution-free coverage guarantees
   \item \textbf{MC Dropout}: Enable dropout at inference, multiple forward passes $\to$ uncertainty
@@ -305,8 +326,12 @@ Beyond point threshold, we provide confidence intervals per prediction:
 
 Default: Temperature scaling + conformal prediction with 95\% coverage.
 
-\section{Global Consistency of Evidence}
+\section{Global Consistency of Evidence (Experimental Research Hypothesis)}
 \label{sec:retrieval:sheaf}
+
+\begin{quote}
+\textit{Status: this section is a research hypothesis with a worked-out mathematical construction, not a shipped or empirically validated mechanism. It is written at specification-level precision so it is falsifiable (\S\ref{sec:retrieval:sheaf-gaps} states exactly what would falsify it and what remains unspecified), not because it has been implemented and measured. \S\ref{sec:retrieval:sheaf-gaps} and Vol.~11 \S\ref{sec:paper:results} track what validating it requires.}
+\end{quote}
 
 Everything specified so far verifies each unit \emph{independently} against the query. This leaves a hole that no amount of per-unit accuracy can close: two units may each be strongly relevant to $q$ and yet assert incompatible things about it. A gate built from pairwise scores admits both, the synthesis stage receives a contradictory evidence set, and the resulting answer is fluently grounded in mutually exclusive sources. Evidence closure as defined in \S\ref{sec:retrieval:evidence-gate} is a statement about provenance, not about coherence, and is therefore not yet closed.
 
@@ -314,20 +339,18 @@ The obstruction to assembling locally valid data into a globally valid whole is 
 
 \begin{definition}[Evidence Sheaf]
 \label{def:evidence-sheaf}
-Let $\mathcal{E}$ be the set of units surviving the proofreading cascade, and let $G_{\mathcal{E}}$ be the graph with vertices $\mathcal{E}$ and an edge $\{u,v\}$ whenever $u$ and $v$ share an entity or stand in a graph relation. The evidence sheaf $\mathcal{F}$ over $G_{\mathcal{E}}$ assigns
-\begin{itemize}
-  \item to each vertex $u$, the stalk $\mathcal{F}(u)$ of admissible truth assignments to the atomic claims extracted from $u$;
-  \item to each edge $\{u,v\}$, the stalk $\mathcal{F}(uv)$ of assignments to the claims shared between them;
-  \item restriction maps $\mathcal{F}_{u \trianglelefteq uv} : \mathcal{F}(u) \to \mathcal{F}(uv)$ induced by natural language inference between the claim sets.
-\end{itemize}
+Let $\mathcal{E}$ be the set of units surviving the proofreading cascade, and let $G_{\mathcal{E}}$ be the graph with vertices $\mathcal{E}$ and an edge $\{u,v\}$ whenever $u$ and $v$ share an entity or stand in a graph relation. Fix a coefficient field $k = \mathbb{R}$. For each vertex $u$, let $C_u$ be the finite set of atomic claims extracted from $u$ (\S\ref{sec:retrieval:synthesis}); the stalk is $\mathcal{F}(u) = k^{C_u}$, a vertex's truth-assignment \emph{simplex} embedded linearly (coordinate $c$ of a vector holds the model's confidence that claim $c$ holds, not a boolean). For each edge $\{u,v\}$, let $C_{uv} = C_u \cap_{\text{sem}} C_v$ be the claims shared between $u$ and $v$ under semantic matching (paraphrase/entity-overlap clustering, not string identity); the stalk is $\mathcal{F}(uv) = k^{C_{uv}}$. The restriction map $\mathcal{F}_{u \trianglelefteq uv} : \mathcal{F}(u) \to \mathcal{F}(uv)$ is the linear projection onto the shared coordinates, composed with the NLI model's entailment/contradiction/neutral distribution at those coordinates: entailment maps a claim's confidence forward unchanged, contradiction maps it to its negation ($x \mapsto 1-x$), and neutral maps it to $0$ (abstains the coordinate from the gluing constraint). This linearization is a modeling choice, not a derivation from the NLI model's output, and \S\ref{sec:retrieval:sheaf-gaps} states what it assumes away.
 \end{definition}
 
 \begin{definition}[Evidence Closure, Cohomological Form]
 \label{def:closure-cohomological}
-An evidence set $\mathcal{E}$ is \emph{closed} for query $q$ iff the evidence sheaf $\mathcal{F}$ admits a global section supporting the answer, i.e.\ $H^0(G_{\mathcal{E}}; \mathcal{F}) \neq \varnothing$ and the answer's claims lie in its image. The set is \emph{obstructed} iff $H^1(G_{\mathcal{E}}; \mathcal{F}) \neq 0$.
+Let $d: C^0(G_{\mathcal{E}}; \mathcal{F}) \to C^1(G_{\mathcal{E}}; \mathcal{F})$ be the sheaf coboundary map, $H^0 = \ker d$, $H^1 = \mathrm{coker}\, d$. These are \emph{not} equivalent statements and neither alone answers the question this gate needs answered:
+\begin{itemize}
+  \item $H^0 \neq \varnothing$ (equivalently, $\dim \ker d > 0$) says a globally consistent vertex-assignment \emph{exists somewhere} in the stalk space --- it does not say the assignment the units actually asserted is that one.
+  \item $H^1 \neq 0$ says $d$ is not surjective --- some hypothetical edge data is not induced by any global section --- which is a property of the sheaf's shape (its overlap graph and restriction maps), not of any particular observed assignment.
+\end{itemize}
+The question this gate actually needs is neither: given the \emph{specific} edge data $s \in C^1$ that the NLI restriction maps produced from the retrieved units, does $s$ arise from a global section? Equivalently, is $s \in \operatorname{im} d$, i.e.\ does its class $[s] \in H^1$ (via the quotient $C^1 \twoheadrightarrow \mathrm{coker}\,d$) vanish. An evidence set $\mathcal{E}$ is \emph{closed} for query $q$ iff $[s] = 0$ and the resulting global section's restriction to the answer's cited claims matches the answer; it is \emph{obstructed} iff $[s] \neq 0$, and the obstruction class's support (which coordinates of $s$ are responsible) is the conflict witness returned to the user. This is the $\delta(s) \neq 0$ test, not the unconditional claim ``$H^1(\mathcal{F}) \neq 0$''; Algorithm~\ref{alg:consistency-gate}'s \textsc{ComputeH0} step already computes this correctly (it tests the specific assignment, not sheaf-wide emptiness) and the definition above is stated to match the algorithm rather than the informal claim in earlier drafts of this volume.
 \end{definition}
-
-This supersedes the provenance-only definition. A nonzero $H^1$ certifies that no consistent reading of the retrieved evidence exists, regardless of how high the individual relevance scores are.
 
 \begin{algorithm}[H]
 \caption{Consistency Gate}
@@ -353,6 +376,20 @@ This supersedes the provenance-only definition. A nonzero $H^1$ certifies that n
 \paragraph{Why cohomology rather than pairwise conflict detection.} A pairwise contradiction check finds edges where two units disagree. It cannot detect \emph{cyclic} inconsistency, in which every pair is individually compatible but no assignment satisfies the cycle --- the situation where $u$ is compatible with $v$, $v$ with $w$, and $w$ with $u$, yet the three cannot hold simultaneously. This is precisely the regime $H^1$ was invented to measure, and it is the regime in which a system reporting high pairwise confidence is most confidently wrong. The cohomology computation additionally \emph{localises} the failure: the support of the obstruction class identifies which relations carry it, so the system can report a conflict witness rather than an unexplained refusal.
 
 \paragraph{Cost.} For the linear sheaves used here, $H^0$ and $H^1$ reduce to kernel and cokernel computations on the sheaf Laplacian, polynomial in $|\mathcal{E}|$. Since $|\mathcal{E}|$ after the cascade is small by construction (\S\ref{sec:retrieval:proofreading}), the consistency gate is not the bottleneck; the NLI evaluations that populate the restriction maps are, and they are bounded by the number of overlap edges.
+
+\subsection{What This Construction Does Not Yet Specify}
+\label{sec:retrieval:sheaf-gaps}
+
+Definitions~\ref{def:evidence-sheaf}--\ref{def:closure-cohomological} are precise enough to implement and to falsify, which is the point of stating them formally rather than only informally. Precision makes the remaining gaps visible instead of hiding them in prose:
+
+\begin{itemize}
+  \item \textbf{Linearization is a modeling choice, not a derivation.} Truth assignment to a claim is naturally a boolean or a bounded probability, not a vector space element; embedding it in $\mathbb{R}^{C_u}$ and mapping contradiction to $x \mapsto 1-x$ is one convenient encoding among several (a simplex/statistical-manifold embedding, or working with the sheaf of sets directly via lifting to a groupoid, are alternatives with different obstruction theories). Results obtained under this encoding may not transfer to another.
+  \item \textbf{Uncertainty is not propagated.} NLI models output calibrated-or-not probabilities, not certainties; the current construction takes a point estimate as the restriction map's output and does not carry the NLI model's own confidence into the obstruction computation, so a low-confidence contradiction and a high-confidence one contribute identically to $[s]$.
+  \item \textbf{Only linear (additive) inconsistency is representable.} Genuine logical relationships between claims --- entailment chains, exclusive-or structure, quantified statements --- are not in general expressible as a linear restriction map; the construction here can miss a nonlinear contradiction that a symbolic or constraint-based checker would catch, and can in principle also flag a linear ``obstruction'' that a full logical reading would resolve as non-contradictory.
+  \item \textbf{The overlap graph itself is a heuristic.} $G_{\mathcal{E}}$'s edges (shared entity or graph relation) determine which claims are even compared; two units that contradict each other without sharing an extracted entity produce no edge and are invisible to this gate regardless of the cohomology.
+\end{itemize}
+
+None of these gaps invalidate the construction; they are exactly what \S\ref{sec:retrieval:sheaf}'s status note asks a reader to weigh before treating cohomological closure as validated rather than specified, and what the metrics defined in Vol.~11 \S\ref{sec:paper:eval} (cyclic inconsistency detection, FAR validity) are designed to test empirically once \texttt{LLMWikiBench} exists.
 
 \section{Query Planner Integration}
 \label{sec:retrieval:planner-integration}
@@ -464,7 +501,7 @@ The final two columns are the ones without prior occupants. No deployed retrieva
 \end{patentclaim}
 
 \begin{patentclaim}
-\textbf{Claim 10:} The system of Claim 6 further comprising a consistency gate that constructs a cellular sheaf over the verified evidence set with restriction maps induced by inference between overlapping claims, and abstains from synthesis when the first cohomology of said sheaf is nonzero, emitting the support of the obstruction class as a conflict witness.
+\textbf{Claim 10:} The system of Claim 6 further comprising a consistency gate that constructs a cellular sheaf over the verified evidence set with restriction maps induced by inference between overlapping claims, computes the obstruction class of the specific edge data induced by said inference (as distinct from testing whether the sheaf's cohomology is nonzero independent of that data), and abstains from synthesis when said obstruction class is nonzero, emitting its support as a conflict witness. \emph{[Draft language pending patent counsel review --- see \S\ref{sec:patent:defense} discussion note; not yet filed.]}
 \end{patentclaim}
 
 \begin{patentdiscussion}

@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ArtifactVersion",
+  "description": "One parse of one version of a source file. Separates 'file changed' (raw_hash) from 're-parsed' (parser_version) -- see Sec. A.1.",
+  "type": "object",
+  "required": ["version_id", "artifact_id", "raw_hash", "observed_at", "parser_version"],
+  "properties": {
+    "version_id":    { "type": "string", "description": "Identifier for this (artifact, raw content, parser) triple" },
+    "artifact_id":   { "type": "string", "description": "Stable Artifact identity; survives renames" },
+    "raw_hash":      { "type": "string", "description": "SHA-256 of raw file bytes, pre-parse" },
+    "observed_at":   { "type": "string", "format": "date-time" },
+    "parser_version": { "type": "string", "description": "Version of the parser that produced this version's occurrences" }
+  }
+}

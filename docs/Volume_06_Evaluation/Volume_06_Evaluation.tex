@@ -6,6 +6,10 @@
 
 This volume defines the evaluation methodology for LLMWiki: benchmarks, metrics, experimental protocols, and the automated evaluation pipeline. Rigorous evaluation is not an afterthought; it is a first-class component that validates the architectural claims (evidence closure, deterministic replay, local-first quality).
 
+\begin{quote}
+\textit{Implementation status: a runnable harness scaffold exists at \texttt{eval/} in the project repository --- working implementations of every metric in \S\ref{sec:eval:metrics} (12 passing unit tests), a real parser producing content\_id/occurrence\_id-split records (Appendix~B \S\ref{app:data-model:identity}) from a small real corpus, a dependency-free BM25 retrieval baseline, and an end-to-end pipeline runner. It is explicitly a scaffold, not the benchmark: \texttt{eval/README.md} documents exactly which gaps (corpus scale, two-annotator gold sets, hybrid retrieval, attribution scoring against a real NLI model, the full configuration sweep) separate it from \texttt{LLMWikiBench} proper, consistent with the status note in Vol.~11 \S\ref{sec:paper:results}.}
+\end{quote}
+
 \section{Evaluation Philosophy}
 \label{sec:eval:philosophy}
 

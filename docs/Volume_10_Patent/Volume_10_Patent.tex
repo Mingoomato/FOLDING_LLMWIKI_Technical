@@ -14,7 +14,7 @@ The present invention relates to systems and methods for transforming heterogene
 \section{Background}
 \label{sec:patent:background}
 
-Prior art includes Retrieval-Augmented Generation (RAG) systems (Lewis et al., 2020), GraphRAG (Edge et al., 2024), HippoRAG (Zhang et al., 2024), LightRAG (Zeng et al., 2024), and RAPTOR (Sarthi et al., 2024). These systems share common limitations: (1) vector indices as primary knowledge representation, (2) optional or post-hoc evidence verification, (3) dependence on external LLM APIs for critical-path operations, (4) lack of deterministic replay, and (5) no content-addressed unit identity.
+Prior art includes Retrieval-Augmented Generation (RAG) systems (Lewis et al., 2020), GraphRAG (Edge et al., 2024), HippoRAG (Guti{\'e}rrez et al., 2024), LightRAG (Guo et al., 2024), and RAPTOR (Sarthi et al., 2024). These systems share common limitations: (1) vector indices as primary knowledge representation, (2) optional or post-hoc evidence verification, (3) dependence on external LLM APIs for critical-path operations, (4) lack of deterministic replay, and (5) no content-addressed unit identity.
 
 \section{Summary of the Invention}
 \label{sec:patent:summary}
@@ -50,6 +50,8 @@ A computer-implemented method for deterministic knowledge ingestion and replay, 
 \end{enumerate}
 \end{claim}
 
+\par\noindent\emph{Prior art note (informal, see \S\ref{sec:patent:prior-art-notes}):} the content-identity/occurrence-lineage separation recited in Claims~\ref{claim:system}--\ref{claim:replay} (a SHA-256 content address decoupled from the location(s) at which that content occurs) is not independently novel; content-addressable storage systems with derivation/lineage tracking are directly anticipated by prior art (e.g.\ US8,135,760~B1, ``Determining the lineage of a content unit on an object addressable storage system,'' and related CAS patents). The identity split should be argued as one element of the broader system combination, not as a standalone novel mechanism.
+
 \begin{claim}[Evidence Gate with Calibrated Threshold]
 \label{claim:evidence-gate}
 An evidence verification apparatus comprising:
@@ -62,6 +64,8 @@ An evidence verification apparatus comprising:
   \item wherein the gate may return an empty set, triggering an "insufficient evidence" response rather than hallucinated synthesis.
 \end{enumerate}
 \end{claim}
+
+\par\noindent\emph{Prior art note (informal, see \S\ref{sec:patent:prior-art-notes}):} the closest reference identified to date for a mandatory, threshold-gated cross-encoder stage ahead of generation is US20240070403A1 (``Grounded dialogue generation with cross-encoding re-ranker, grounding span prediction, and passage dropout''), which uses a cross-encoding re-ranker plus a grounding-span auxiliary task in a retrieve/re-rank/generate dialogue pipeline. It does not appear to gate to an empty set with an explicit ``insufficient evidence'' refusal (item 6 above); that refusal-over-hallucination behavior is the element most worth emphasizing when distinguishing this claim, but the comparison has not been confirmed against the reference's actual claim language and needs attorney review.
 
 \begin{claim}[Deployment Architecture]
 \label{claim:deployment}
@@ -98,6 +102,8 @@ An evidence verification apparatus comprising a cascade of $n \geq 2$ verificati
 \end{enumerate}
 \end{claim}
 
+\par\noindent\emph{Prior art note (informal, see \S\ref{sec:patent:prior-art-notes}):} the bare mechanism of a cascade of stages with increasing cost that irreversibly discards candidates is directly anticipated by the Viola--Jones cascade classifier (P.\ Viola and M.\ Jones, ``Rapid Object Detection using a Boosted Cascade of Simple Features,'' CVPR 2001; corresponding US patent filings on cascaded object detection). This claim should not rest on the cascade-with-irreversible-discard structure alone; it needs narrowing to the specific combination of RAG-evidence-verification channels recited in item 1 (lexical overlap, cross-encoder relevance, graph reachability, entailment) as applied to retrieval evidence candidates, which has no identified antecedent, rather than to cascading and early-discard as a general classification strategy.
+
 \begin{claim}[Topological Consistency Gate]
 \label{claim:consistency}
 A method for certifying mutual consistency of a verified evidence set prior to answer synthesis, comprising:
@@ -110,6 +116,8 @@ A method for certifying mutual consistency of a verified evidence set prior to a
 \end{enumerate}
 whereby cyclic inconsistencies undetectable by pairwise contradiction testing are detected and localised.
 \end{claim}
+
+\par\noindent\emph{Prior art note (informal, see \S\ref{sec:patent:prior-art-notes}):} of the independent claims, this is the one for which searches to date found no directly competing prior art (existing RAG hallucination-detection work uses graph-, embedding-, or attention-based consistency signals, not sheaf cohomology). It is also the riskiest to draft: as a claim centered on a mathematical construction (cohomology of a cellular sheaf), it is more exposed to an abstract-idea objection (Alice/Mayo) than the other independent claims, and this exposure has not yet been analyzed. Recommend leading patent-attorney review with this claim.
 
 \section{Dependent Claims}
 \label{sec:patent:dependent}
@@ -188,13 +196,14 @@ A computer-implemented evaluation method for a semantic operating layer, compris
 \toprule
 \textbf{Decision} & \textbf{Novelty Argument} & \textbf{Prior Art Gap} \\
 \midrule
-Filesystem as WAL & No RAG system uses directory sync for replay & All require Kafka/Redis/DB WAL \\
-Graph as source of truth & Vectors are projections, not primary & RAG: vectors primary; GraphRAG: LLM-built graph \\
-Mandatory evidence gate & Not a reranker; zero results allowed & All prior art returns top-K \\
-Content-addressed units & SHA-256 identity across all indices & No prior art uses content hashing \\
-Local-first, LLM-optional & Critical path has no API calls & All major frameworks require LLM API \\
+Filesystem-backed event log & No RAG system uses directory sync for replay & All require Kafka/Redis/DB WAL; general append-only-log durability is well established outside RAG (\S\ref{sec:patent:prior-art-notes}) \\
+Graph as canonical query representation & Vectors/keyword index are projections, not primary & RAG: vectors primary; GraphRAG: LLM-built graph, not rebuildable from a log \\
+Mandatory evidence gate & Not a reranker; zero results allowed & Closest identified reference (US20240070403A1) reranks and grounds but does not appear to gate to empty-set refusal; not fully confirmed \\
+Content identity / occurrence lineage split & SHA-256 content identity decoupled from location identity & Not independently novel: anticipated by CAS lineage-tracking prior art (e.g.\ US8,135,760~B1); supports Claim~\ref{claim:system} only as part of the full combination \\
+Local-first, LLM-optional & Critical path has no API calls & All major RAG frameworks require LLM API on critical path \\
 DAG planner with costs & Topological execution with parallelism & RAG: single retrieval; GraphRAG: fixed patterns \\
-Deterministic replay & Bitwise identical re-execution & No prior art guarantees replay \\
+Deterministic replay & Bitwise identical re-execution & No directly competing RAG system found; general event-sourcing replay is well established (not RAG-specific prior art found) \\
+Cohomological consistency gate & Detects cyclic inconsistency no pairwise checker can localise & No direct competing prior art found to date (\S\ref{sec:patent:prior-art-notes}); not checked against patent databases specifically; separately exposed to abstract-idea (Alice/Mayo) objection \\
 \bottomrule
 \end{tabular}
 \end{adjustbox}
@@ -212,6 +221,22 @@ Each claim is supported by the specification in Volumes 01-09:
   \item Claim 14: Vol. 06 (\S\ref{sec:eval:metrics}, \ref{sec:eval:pipeline}, \ref{sec:eval:statistical})
 \end{itemize}
 
+\section{Prior Art Research Notes (Informal)}
+\label{sec:patent:prior-art-notes}
+
+\begin{quote}
+\textbf{Status: informal research, not legal advice.} The notes in this section come from web and academic-literature search (Google Patents free-text search, arXiv, general web search), conducted as a sanity check before any filing decision, not a professional patentability or freedom-to-operate opinion. No paid patent-database search (e.g.\ full-text USPTO/EPO with a patent search firm) has been run. \textbf{Do not file, disclose publicly, or rely on the ``non-obvious'' language elsewhere in this volume without review by qualified patent counsel.} If public disclosure occurs before a filing decision is made, note that South Korea provides a 12-month grace period for inventor-originated public disclosure (this exception's exact procedural requirements have not been independently verified here and must be confirmed with counsel before relying on it).
+\end{quote}
+
+\begin{itemize}
+  \item \textbf{Cascaded, cost-ordered, irreversible-discard verification} (Claim~\ref{claim:proofreading}): closely anticipated as a general mechanism by the Viola--Jones cascade classifier (CVPR 2001) and its associated patent filings, which cascade increasingly expensive stages and irreversibly reject candidates. The RAG-specific channel combination (lexical, cross-encoder, graph-reachability, entailment) is the defensible remainder; the cascade-with-discard structure itself is not new.
+  \item \textbf{Content-addressable identity with lineage/occurrence tracking} (Claims~\ref{claim:system}, \ref{claim:replay}): anticipated by object-addressable/content-addressable storage patents tracking content-unit lineage and derivation, notably US8,135,760~B1 (``Determining the lineage of a content unit on an object addressable storage system''), and by adjacent CAS patents (e.g.\ US8,335,890~B1 ``Associating an identifier with a content unit''; US8,909,875~B1; US8,560,503~B1). Content hashing plus a separate location/lineage record is an established pattern (also visible in Git's own object model), not a novel mechanism in isolation.
+  \item \textbf{Mandatory, threshold-gated cross-encoder verification ahead of generation} (Claims~\ref{claim:system}, \ref{claim:evidence-gate}): the closest reference found is US20240070403A1 (``Grounded dialogue generation with cross-encoding re-ranker, grounding span prediction, and passage dropout''), a retrieve/re-rank/generate dialogue pipeline using a cross-encoding re-ranker and a grounding-span auxiliary task. Also adjacent: US20240070403A1's sibling RAG-optimization filings (e.g.\ patents on tuning cross-encoder/bi-encoder/LLM-ranker combinations in retriever pipelines) and multiple 2024--2026 RAG patent filings using cross-encoder reranking. None found so far recite gating to an explicit empty-set ``insufficient evidence'' refusal as opposed to always returning top-$K$ reranked results, but this distinction has not been checked against the actual claim language of those filings.
+  \item \textbf{Sheaf-cohomology-based evidence consistency checking} (Claim~\ref{claim:consistency}): no directly competing prior art identified in this round of searching. Existing RAG hallucination/inconsistency detection approaches found in literature search (evidence-graph consistency methods, semantic-entropy methods, attention/embedding-based contradiction detectors) use different mathematical machinery. This is the strongest remaining novelty candidate based on searches to date, but (a) no dedicated patent-database search has been run for it specifically, and (b) a claim built around a cohomological computation is more exposed to an abstract-idea (Alice/Mayo, 35 U.S.C. \S 101) rejection than the other independent claims, which this research did not evaluate.
+  \item \textbf{Label-free / empirical-null threshold calibration} (Claim~\ref{claim:far-calibration}): related academic technique (score-distributional threshold optimization without relevance judgments, cf.\ Arampatzis et al.) exists, and empirical null-hypothesis testing is well-established general statistics; no directly competing patent found for the specific corpus/temporal/graph-displacement construction used here to build the null. Likely a defensible narrow claim if limited to that specific construction rather than empirical-null calibration in general.
+  \item \textbf{Approval-gated document mutation with automatic knowledge-graph reindexing} (Volume 12, not yet claimed in this volume): adjacent prior art exists for document approval workflows generally (e.g.\ US20230316190 ``Document workflows in a document management system''; US10,630,858 ``Document approval management system''), a crowded space. No reference found combining an approval gate with atomic re-projection into a semantic knowledge graph specifically, but this was a narrower, lower-priority search and should be re-run before any claim is drafted for Volume 12's mechanism.
+\end{itemize}
+
 \section{Potential Design-Arounds and Defense}
 \label{sec:patent:defense}
 
@@ -225,7 +250,7 @@ Each claim is supported by the specification in Volumes 01-09:
   \item \textbf{Design-around}: Detect contradictions pairwise between retrieved passages. \textbf{Defense}: Claim~\ref{claim:consistency} is directed to cohomological detection, which is strictly stronger --- cyclic inconsistency admits no pairwise witness, so a pairwise checker does not read on the claim and does not achieve its effect.
 \end{itemize}
 
-\paragraph{On the ``combination of known elements'' objection.} The independent claims of \S\ref{sec:patent:independent} are vulnerable to the argument that hybrid retrieval, cross-encoders, and graph stores are individually well known. Claims~\ref{claim:far-calibration}--\ref{claim:consistency} are drafted to sit outside that objection: each recites a construction procedure with a stated technical effect rather than an arrangement of components. The displacement conditions of Claim~\ref{claim:far-calibration}, the channel-distinctness and irreversibility requirements of Claim~\ref{claim:proofreading}, and the sheaf construction of Claim~\ref{claim:consistency} are the non-obvious elements, and none has an antecedent in retrieval prior art.
+\paragraph{On the ``combination of known elements'' objection.} The independent claims of \S\ref{sec:patent:independent} are vulnerable to the argument that hybrid retrieval, cross-encoders, and graph stores are individually well known. Claims~\ref{claim:far-calibration}--\ref{claim:consistency} were drafted to sit outside that objection by reciting a construction procedure with a stated technical effect rather than an arrangement of components; that intent still stands, but the informal search in \S\ref{sec:patent:prior-art-notes} found that two of the claimed elements do have antecedents outside retrieval specifically: the cascade-with-irreversible-discard structure of Claim~\ref{claim:proofreading} (Viola--Jones) and the content-identity/lineage split underlying Claim~\ref{claim:system} (CAS lineage patents). The displacement conditions of Claim~\ref{claim:far-calibration} and, most notably, the sheaf construction of Claim~\ref{claim:consistency} remain without an identified antecedent as of this search round and are the strongest candidates for the non-obviousness argument; Claims~\ref{claim:proofreading} and~\ref{claim:system} should be narrowed to their RAG-specific elements (the channel combination; the combination with graph/index rebuild from the log) rather than argued on the cascade or content-addressing mechanisms alone. This assessment is informal and requires confirmation by patent counsel before it is relied on.
 
 %===============================================================================
 % End of Volume 10
