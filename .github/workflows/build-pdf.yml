@@ -22,7 +22,7 @@ jobs:
         compiler: lualatex
         args: -interaction=nonstopmode -halt-on-error -file-line-error -synctex=1 -output-directory=build
         working_directory: .
-        extra_packages: |
+        extra_system_packages: |
           latexmk
           fontawesome5
           academicons
@@ -89,10 +89,6 @@ jobs:
           pdfx
           upquote
 
-    - name: Build PDF with latexmk
-      run: |
-        latexmk -lualatex -interaction=nonstopmode -halt-on-error -file-line-error -synctex=1 -output-directory=build LLMWiki.tex
-        
     - name: Copy PDF to root
       run: |
         cp build/LLMWiki.pdf ./LLMWiki.pdf
