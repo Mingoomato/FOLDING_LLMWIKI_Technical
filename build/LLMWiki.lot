@@ -1,0 +1,58 @@
+\acswitchoff 
+\babel@toc {english}{}\relax 
+\addvspace {10\p@ }
+\contentsline {xchapter}{Architecture}{3}{chapter.1}%
+\contentsline {table}{\numberline {1.1}{\ignorespaces LLMWiki vs. Prior Art: Architectural Positioning}}{8}{table.caption.5}%
+\contentsline {table}{\numberline {1.2}{\ignorespaces LLMWiki Extension Points}}{11}{table.caption.6}%
+\contentsline {xpart}{Foundation and Architecture}{3}{part.1}%
+\addvspace {10\p@ }
+\contentsline {xchapter}{Semantic Parsing}{13}{chapter.2}%
+\contentsline {table}{\numberline {2.1}{\ignorespaces Core Semantic Unit Types by Parser Domain}}{15}{table.caption.8}%
+\contentsline {table}{\numberline {2.2}{\ignorespaces Tree-sitter Languages Supported (v0.1)}}{17}{table.caption.9}%
+\contentsline {table}{\numberline {2.3}{\ignorespaces Local Embedding Models (Recommended)}}{23}{table.caption.10}%
+\addvspace {10\p@ }
+\contentsline {xchapter}{Knowledge Graph \& Semantic Index}{25}{chapter.3}%
+\contentsline {table}{\numberline {3.1}{\ignorespaces Graph Store Backend Comparison}}{26}{table.caption.11}%
+\contentsline {table}{\numberline {3.2}{\ignorespaces Expected Performance (Single Node, SSD)}}{31}{table.caption.12}%
+\addvspace {10\p@ }
+\contentsline {xchapter}{Retrieval and Evidence Gate}{33}{chapter.4}%
+\contentsline {table}{\numberline {4.1}{\ignorespaces Reranker vs. Evidence Gate}}{33}{table.caption.13}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Evidence Gate Evaluation Metrics}}{41}{table.caption.15}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Retrieval + Verification in Prior Art}}{41}{table.caption.16}%
+\addvspace {10\p@ }
+\contentsline {xchapter}{Agent Runtime}{45}{chapter.5}%
+\contentsline {table}{\numberline {5.1}{\ignorespaces Built-in Tools}}{48}{table.caption.18}%
+\addvspace {10\p@ }
+\contentsline {xchapter}{Evaluation Framework}{53}{chapter.6}%
+\contentsline {table}{\numberline {6.1}{\ignorespaces LLMWiki Internal Benchmarks}}{53}{table.caption.19}%
+\addvspace {10\p@ }
+\contentsline {xchapter}{Deployment and Operations}{59}{chapter.7}%
+\contentsline {table}{\numberline {7.1}{\ignorespaces LLMWiki Deployment Modes}}{59}{table.caption.21}%
+\contentsline {table}{\numberline {7.2}{\ignorespaces Tuning Knobs by Workload}}{67}{table.caption.22}%
+\addvspace {10\p@ }
+\contentsline {xchapter}{API Reference}{71}{chapter.8}%
+\contentsline {table}{\numberline {8.1}{\ignorespaces Error Codes}}{78}{table.caption.23}%
+\contentsline {table}{\numberline {8.2}{\ignorespaces Official SDKs}}{78}{table.caption.24}%
+\contentsline {xpart}{Reference and Extension}{71}{part.2}%
+\addvspace {10\p@ }
+\contentsline {xchapter}{Developer Guide}{81}{chapter.9}%
+\addvspace {10\p@ }
+\contentsline {xchapter}{Patent Draft}{93}{chapter.10}%
+\contentsline {table}{\numberline {10.1}{\ignorespaces Design Decisions Supporting Novelty}}{98}{table.caption.25}%
+\contentsline {xpart}{Intellectual Property and Research}{93}{part.3}%
+\addvspace {10\p@ }
+\contentsline {xchapter}{Research Paper: LLMWiki - A Semantic Operating Layer for Evidence-Aware Knowledge Management}{101}{chapter.11}%
+\contentsline {table}{\numberline {11.1}{\ignorespaces Main Results on LLMWikiBench (mean $\pm $ 95\% CI, 1000 queries)}}{107}{table.caption.26}%
+\contentsline {table}{\numberline {11.2}{\ignorespaces Ablation: Component Contribution (Evidence F1@10)}}{107}{table.caption.27}%
+\contentsline {table}{\numberline {3}{\ignorespaces Notation Summary}}{113}{table.caption.29}%
+\contentsline {xpart}{Appendices}{113}{part.4}%
+\addvspace {10\p@ }
+\contentsline {xchapter}{Data Model Definitions}{125}{appendix.A}%
+\addvspace {10\p@ }
+\contentsline {xchapter}{Configuration Reference}{129}{appendix.B}%
+\addvspace {10\p@ }
+\contentsline {xchapter}{Parser Grammar Specifications}{131}{appendix.C}%
+\contentsline {table}{\numberline {C.1}{\ignorespaces Key Design Decisions}}{135}{table.caption.32}%
+\addvspace {10\p@ }
+\contentsline {xchapter}{Extended Related Work}{137}{appendix.D}%
+\contentsfinish 

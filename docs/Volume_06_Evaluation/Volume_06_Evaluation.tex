@@ -31,6 +31,7 @@ Evaluation datasets, prompts, and thresholds are version-controlled alongside co
 \centering
 \caption{LLMWiki Internal Benchmarks}
 \label{tab:eval:internal}
+\begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{llll}
 \toprule
 \textbf{Benchmark} & \textbf{Domain} & \textbf{Size} & \textbf{Focus} \\
@@ -43,6 +44,7 @@ Config-Files & YAML/JSON/TOML & 1000 configs & Config understanding, env vars \\
 Mixed-Corpus & All above & 1M units & Cross-domain retrieval \\
 \bottomrule
 \end{tabular}
+\end{adjustbox}
 \end{table}
 
 \paragraph{Construction Process:}
@@ -149,28 +151,33 @@ For each cited unit $u$, score = $\text{CrossEncoder}(q, u)$. Average over all c
 
 \begin{figure}[htbp]
 \centering
+\begin{adjustbox}{max width=\textwidth}
 \begin{tikzpicture}[
-  stage/.style={draw, rounded corners, fill=llmwikiblue!5, minimum width=2.5cm, minimum height=1.2cm, font=\small},
+  stage/.style={draw, rounded corners, fill=llmwikiblue!5, text width=2.6cm, minimum height=1.3cm, font=\small, align=center, inner sep=3pt},
   flow/.style={->, thick, >=stealth}
 ]
-  \node[stage] (dataset) at (0,0) {Dataset\\(Questions + GT)};
-  \node[stage] (ingest) at (4,0) {Ingest Corpus};
-  \node[stage] (retrieve) at (8,0) {Retrieve + Gate};
-  \node[stage] (answer) at (12,0) {Generate Answer};
-  \node[stage] (metrics) at (16,0) {Compute Metrics};
-  \node[stage] (report) at (20,0) {Report + Diff};
+  % Row 1
+  \node[stage] (dataset) {Dataset (Questions + GT)};
+  \node[stage, right=0.5cm of dataset] (ingest) {Ingest Corpus};
+  \node[stage, right=0.5cm of ingest] (retrieve) {Retrieve + Gate};
 
   \draw[flow] (dataset) -- (ingest);
   \draw[flow] (ingest) -- (retrieve);
-  \draw[flow] (retrieve) -- (answer);
+
+  % Row 2
+  \node[stage, below=1.4cm of dataset] (answer) {Generate Answer};
+  \node[stage, right=0.5cm of answer] (metrics) {Compute Metrics};
+  \node[stage, right=0.5cm of metrics] (report) {Report + Diff};
+
   \draw[flow] (answer) -- (metrics);
   \draw[flow] (metrics) -- (report);
+  \draw[flow] (retrieve.south) -- ++(0,-0.5) -| (answer.north);
 
-  \node[draw, dashed, rounded corners, below=0.5cm of retrieve] (config) {Config: k, $\tau$, weights, model};
-  \node[draw, dashed, rounded corners, below=0.5cm of answer] (llmcfg) {LLM Config};
-  \draw[flow, dashed] (config) -- (retrieve);
-  \draw[flow, dashed] (llmcfg) -- (answer);
+  % Config inputs
+  \node[stage, dashed, fill=gray!5, right=0.5cm of report] (config) {Config: $k$, $\tau$, weights, model};
+  \draw[flow, dashed] (config.north) |- (retrieve.east);
 \end{tikzpicture}
+\end{adjustbox}
 \caption{Automated evaluation pipeline.}
 \label{fig:eval:pipeline}
 \end{figure}
@@ -205,7 +212,7 @@ Each combination = one evaluation run. Results stored in \texttt{eval/results/} 
 \label{sec:eval:statistical}
 
 \begin{itemize}
-  \item \textbf{Bootstrap confidence intervals}: 1000 resamples, 95% CI for all metrics
+  \item \textbf{Bootstrap confidence intervals}: 1000 resamples, 95\% CI for all metrics
   \item \textbf{Paired significance}: Wilcoxon signed-rank test for pairwise model comparisons
   \item \textbf{Multiple comparison correction}: Benjamini-Hochberg FDR control
   \item \textbf{Effect sizes}: Cohen's $d$ reported alongside $p$-values

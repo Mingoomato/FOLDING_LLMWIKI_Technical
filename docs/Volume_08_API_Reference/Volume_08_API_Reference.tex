@@ -381,22 +381,24 @@ gRPC gateway (transcoding) exposes same REST endpoints automatically.
 \centering
 \caption{Error Codes}
 \label{tab:api:errors}
+\begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{ll}
 \toprule
 \textbf{Code} & \textbf{Meaning} \\
 \midrule
-INVALID_REQUEST & Request validation failed \\
-UNAUTHENTICATED & Missing/invalid auth \\
-FORBIDDEN & Insufficient permissions \\
-NOT_FOUND & Resource not found \\
-CONFLICT & Resource conflict (e.g., repo exists) \\
-EVIDENCE_INSUFFICIENT & Gate rejected all candidates \\
-BUDGET_EXCEEDED & Token/time/cost budget exceeded \\
-INTERNAL_ERROR & Unexpected server error \\
-SERVICE_UNAVAILABLE & Dependency down (embedder, LLM) \\
-RATE_LIMITED & Too many requests \\
+\texttt{INVALID\_REQUEST} & Request validation failed \\
+\texttt{UNAUTHENTICATED} & Missing/invalid auth \\
+\texttt{FORBIDDEN} & Insufficient permissions \\
+\texttt{NOT\_FOUND} & Resource not found \\
+\texttt{CONFLICT} & Resource conflict (e.g., repo exists) \\
+\texttt{EVIDENCE\_INSUFFICIENT} & Gate rejected all candidates \\
+\texttt{BUDGET\_EXCEEDED} & Token/time/cost budget exceeded \\
+\texttt{INTERNAL\_ERROR} & Unexpected server error \\
+\texttt{SERVICE\_UNAVAILABLE} & Dependency down (embedder, LLM) \\
+\texttt{RATE\_LIMITED} & Too many requests \\
 \bottomrule
 \end{tabular}
+\end{adjustbox}
 \end{table}
 
 \section{Rate Limiting}
@@ -421,6 +423,7 @@ Limits configurable per auth type (API key, user, IP, global).
 \centering
 \caption{Official SDKs}
 \label{tab:api:sdks}
+\begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{lll}
 \toprule
 \textbf{Language} & \textbf{Package} & \textbf{Status} \\
@@ -431,6 +434,7 @@ Rust & \texttt{cargo add llmwiki-client} & v0.1 (alpha) \\
 Go & \texttt{go get github.com/llmwiki/go-sdk} & Planned \\
 \bottomrule
 \end{tabular}
+\end{adjustbox}
 \end{table}
 
 \paragraph{Python SDK Example}

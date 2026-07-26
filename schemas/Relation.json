@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Relation",
+  "type": "object",
+  "required": ["source", "target", "type"],
+  "properties": {
+    "source":     { "type": "string", "description": "Source entity or unit id" },
+    "target":     { "type": "string", "description": "Target entity or unit id" },
+    "type":       { "type": "string", "enum": ["DEFINES", "REFERENCES", "CONTAINS", "NEXT_TO", "CALLS"] },
+    "weight":     { "type": "number", "minimum": 0, "maximum": 1 },
+    "provenance": { "type": "array", "items": { "type": "string" } }
+  }
+}

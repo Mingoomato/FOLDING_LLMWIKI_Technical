@@ -1,0 +1,82 @@
+This is BibTeX, Version 0.99e
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: LLMWiki.aux
+Reallocating 'name_of_file' (item size: 1) to 55 items.
+A level-1 auxiliary file: docs/Volume_01_Architecture/Volume_01_Architecture.aux
+Reallocating 'name_of_file' (item size: 1) to 63 items.
+A level-1 auxiliary file: docs/Volume_02_Semantic_Parsing/Volume_02_Semantic_Parsing.aux
+Reallocating 'name_of_file' (item size: 1) to 61 items.
+A level-1 auxiliary file: docs/Volume_03_Knowledge_Graph/Volume_03_Knowledge_Graph.aux
+Reallocating 'name_of_file' (item size: 1) to 49 items.
+A level-1 auxiliary file: docs/Volume_04_Retrieval/Volume_04_Retrieval.aux
+Reallocating 'name_of_file' (item size: 1) to 57 items.
+A level-1 auxiliary file: docs/Volume_05_Agent_Runtime/Volume_05_Agent_Runtime.aux
+Reallocating 'name_of_file' (item size: 1) to 51 items.
+A level-1 auxiliary file: docs/Volume_06_Evaluation/Volume_06_Evaluation.aux
+Reallocating 'name_of_file' (item size: 1) to 51 items.
+A level-1 auxiliary file: docs/Volume_07_Deployment/Volume_07_Deployment.aux
+Reallocating 'name_of_file' (item size: 1) to 57 items.
+A level-1 auxiliary file: docs/Volume_08_API_Reference/Volume_08_API_Reference.aux
+Reallocating 'name_of_file' (item size: 1) to 61 items.
+A level-1 auxiliary file: docs/Volume_09_Developer_Guide/Volume_09_Developer_Guide.aux
+Reallocating 'name_of_file' (item size: 1) to 43 items.
+A level-1 auxiliary file: docs/Volume_10_Patent/Volume_10_Patent.aux
+Reallocating 'name_of_file' (item size: 1) to 59 items.
+A level-1 auxiliary file: docs/Volume_11_Research_Paper/Volume_11_Research_Paper.aux
+Reallocating 'name_of_file' (item size: 1) to 24 items.
+A level-1 auxiliary file: appendix/Appendix_A.aux
+Reallocating 'name_of_file' (item size: 1) to 24 items.
+A level-1 auxiliary file: appendix/Appendix_B.aux
+Reallocating 'name_of_file' (item size: 1) to 24 items.
+A level-1 auxiliary file: appendix/Appendix_C.aux
+Reallocating 'name_of_file' (item size: 1) to 24 items.
+A level-1 auxiliary file: appendix/Appendix_D.aux
+Reallocating 'name_of_file' (item size: 1) to 24 items.
+A level-1 auxiliary file: appendix/Appendix_E.aux
+Reallocating 'name_of_file' (item size: 1) to 24 items.
+A level-1 auxiliary file: appendix/Appendix_F.aux
+Reallocating 'name_of_file' (item size: 1) to 9 items.
+The style file: plainnat.bst
+Reallocating 'name_of_file' (item size: 1) to 8 items.
+Database file #1: LLMWiki.bib
+You've used 70 entries,
+            2773 wiz_defined-function locations,
+            920 strings with 18534 characters,
+and the built_in function-call counts, 33646 in all, are:
+= -- 2768
+> -- 2587
+< -- 43
++ -- 883
+- -- 813
+* -- 2650
+:= -- 5375
+add.period$ -- 212
+call.type$ -- 70
+change.case$ -- 481
+chr.to.int$ -- 70
+cite$ -- 140
+duplicate$ -- 1404
+empty$ -- 2395
+format.name$ -- 893
+if$ -- 6905
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 54
+newline$ -- 360
+num.names$ -- 280
+pop$ -- 1043
+preamble$ -- 1
+purify$ -- 411
+quote$ -- 0
+skip$ -- 1228
+stack$ -- 0
+substring$ -- 546
+swap$ -- 149
+text.length$ -- 7
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 770
+warning$ -- 0
+while$ -- 241
+width$ -- 0
+write$ -- 865

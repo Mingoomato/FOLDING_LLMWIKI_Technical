@@ -1,0 +1,300 @@
+\glossarysection[\glossarytoctitle]{\glossarytitle}\glossarypreamble
+\begin{theglossary}\glossaryheader
+\glsgroupheading{A}\relax \glsresetentrylist %
+\glossentry{aes}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{agent-runtime}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{air-gapped}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{ance}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{api}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{ascii}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{ast}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{atlas}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{attribution}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{avx}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}\glsgroupskip
+\glsgroupheading{B}\relax \glsresetentrylist %
+\glossentry{bm25}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}\glsgroupskip
+\glsgroupheading{C}\relax \glsresetentrylist %
+\glossentry{ca}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{calibration}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{cd}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{ceph}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{ci}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{citation-quality}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{cli}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{consul}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{content-addressable}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{contriever}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{cpu}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{crl}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{cross-encoder}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{csr}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{css}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{cst}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}\glsgroupskip
+\glsgroupheading{D}\relax \glsresetentrylist %
+\glossentry{ddl}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{der}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{deterministic-replay}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{dag}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{dml}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{dns}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{dpr}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}\glsgroupskip
+\glsgroupheading{E}\relax \glsresetentrylist %
+\glossentry{ecc}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{ece}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{entity-resolution}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{evidence-closure}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{evidence-gate}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{budget}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}\glsgroupskip
+\glsgroupheading{F}\relax \glsresetentrylist %
+\glossentry{fdr}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{fid}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}\glsgroupskip
+\glsgroupheading{G}\relax \glsresetentrylist %
+\glossentry{gate-rejection-rate}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{gif}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{git}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{github}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{gitlab}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{gpu}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{graphrag}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{grpc}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{gui}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}\glsgroupskip
+\glsgroupheading{H}\relax \glsresetentrylist %
+\glossentry{hdd}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{hipporag}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{hnsw}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{hpa}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{hsm}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{html}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{http}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{https}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{hybrid-search}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}\glsgroupskip
+\glsgroupheading{I}\relax \glsresetentrylist %
+\glossentry{ide}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{incremental-parsing}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{ip}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{isotonic-regression}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}\glsgroupskip
+\glsgroupheading{J}\relax \glsresetentrylist %
+\glossentry{jpeg}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{js}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{json}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}\glsgroupskip
+\glsgroupheading{K}\relax \glsresetentrylist %
+\glossentry{kms}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{knowledge-graph}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}\glsgroupskip
+\glsgroupheading{L}\relax \glsresetentrylist %
+\glossentry{lightrag}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{llm}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{local-first}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{longhorn}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}\glsgroupskip
+\glsgroupheading{M}\relax \glsresetentrylist %
+\glossentry{md5}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{mTLs}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}\glsgroupskip
+\glsgroupheading{N}\relax \glsresetentrylist %
+\glossentry{neon}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{nfs}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{nli}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{nomad}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{npu}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{npv}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{nvme}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}\glsgroupskip
+\glsgroupheading{O}\relax \glsresetentrylist %
+\glossentry{ocsp}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{oidc}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{onnx}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{ort}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}\glsgroupskip
+\glsgroupheading{P}\relax \glsresetentrylist %
+\glossentry{packer}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{pdf}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{pem}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{pgo}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{pkcs}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{platt-scaling}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{png}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{ppv}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{pvc}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}\glsgroupskip
+\glsgroupheading{Q}\relax \glsresetentrylist %
+\glossentry{quantization}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{query-planner}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}\glsgroupskip
+\glsgroupheading{R}\relax \glsresetentrylist %
+\glossentry{rag}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{ram}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{raptor}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{rarr}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{reciprocal-rank-fusion}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{rrf}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{regex}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{rest}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{rsa}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}\glsgroupskip
+\glsgroupheading{S}\relax \glsresetentrylist %
+\glossentry{scm}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{semantic-index}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{semantic-unit}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{sha}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{sha256}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{simd}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{sql}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{ssd}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{sse}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{ssl}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{svg}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}\glsgroupskip
+\glsgroupheading{T}\relax \glsresetentrylist %
+\glossentry{tcp}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{temperature-scaling}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{terraform}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{tls}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{toml}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{topological-order}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{tree-sitter}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{ts}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{tui}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}\glsgroupskip
+\glsgroupheading{U}\relax \glsresetentrylist %
+\glossentry{udp}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{utf8}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}\glsgroupskip
+\glsgroupheading{V}\relax \glsresetentrylist %
+\glossentry{vagrant}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{vault}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{vscode}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}\glsgroupskip
+\glsgroupheading{W}\relax \glsresetentrylist %
+\glossentry{wasm}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{wal}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\glossentry{ws}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}\glsgroupskip
+\glsgroupheading{X}\relax \glsresetentrylist %
+\glossentry{xml}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}\glsgroupskip
+\glsgroupheading{Y}\relax \glsresetentrylist %
+\glossentry{yaml}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsnumberformat{118}}}%
+\end{theglossary}\glossarypostamble

@@ -44,61 +44,57 @@ The system decomposes into three layers with strictly unidirectional data flow: 
 
 \begin{figure}[htbp]
 \centering
+\begin{adjustbox}{max width=\textwidth}
 \begin{tikzpicture}[
-  layer/.style={draw, rounded corners, thick, minimum width=5cm, minimum height=4cm},
-  module/.style={draw, rounded corners, fill=white, minimum width=4.5cm, minimum height=0.9cm, font=\small},
+  module/.style={draw, rounded corners, fill=white, text width=3.2cm, minimum height=0.8cm, font=\small, align=center, inner sep=3pt},
+  layertitle/.style={font=\bfseries\small},
   arrow/.style={->, thick, >=stealth, shorten >=2pt, shorten <=2pt}
 ]
   % Layer 1: Ingestion
-  \node[layer, fill=green!10] (ingest) at (0,0) {
-    \node[anchor=north west, font=\bfseries] at (0.3,3.7) {Layer 1: Ingestion};
-    \node[module] (parse) at (2.5,2.8) {Semantic Parser (Vol. 02)};
-    \node[module] (chunk) at (2.5,1.6) {Chunker (Vol. 02)};
-    \node[module] (embed) at (2.5,0.4) {Embedder (Vol. 02)};
-  };
+  \node[layertitle] at (0,3.3) {Layer 1: Ingestion};
+  \node[module] (parse) at (0,2.5) {Semantic Parser (Vol. 02)};
+  \node[module] (chunk) at (0,1.5) {Chunker (Vol. 02)};
+  \node[module] (embed) at (0,0.5) {Embedder (Vol. 02)};
 
   % Layer 2: Core
-  \node[layer, fill=blue!10] (core) at (6,0) {
-    \node[anchor=north west, font=\bfseries] at (0.3,3.7) {Layer 2: Core};
-    \node[module] (graph) at (2.5,2.8) {Knowledge Graph (Vol. 03)};
-    \node[module] (index) at (2.5,1.6) {Semantic Index (Vol. 03)};
-    \node[module] (evidence) at (2.5,0.4) {Evidence Gate (Vol. 06)};
-  };
+  \node[layertitle] at (4.6,3.3) {Layer 2: Core};
+  \node[module] (graph) at (4.6,2.5) {Knowledge Graph (Vol. 03)};
+  \node[module] (index) at (4.6,1.5) {Semantic Index (Vol. 03)};
+  \node[module] (evidence) at (4.6,0.5) {Evidence Gate (Vol. 06)};
 
   % Layer 3: Query
-  \node[layer, fill=orange!10] (query) at (12,0) {
-    \node[anchor=north west, font=\bfseries] at (0.3,3.7) {Layer 3: Query};
-    \node[module] (planner) at (2.5,2.8) {Query Planner (Vol. 07)};
-    \node[module] (runtime) at (2.5,1.6) {Agent Runtime (Vol. 05)};
-    \node[module] (api) at (2.5,0.4) {API Gateway (Vol. 08)};
-  };
+  \node[layertitle] at (9.2,3.3) {Layer 3: Query};
+  \node[module] (planner) at (9.2,2.5) {Query Planner (Vol. 07)};
+  \node[module] (runtime) at (9.2,1.5) {Agent Runtime (Vol. 05)};
+  \node[module] (api) at (9.2,0.5) {API Gateway (Vol. 08)};
 
   % Filesystem / WAL
-  \node[draw, dashed, rounded corners, fill=gray!5, minimum height=3cm, minimum width=3cm] (fs) at (9,-3.5) {
-    \node[anchor=north west, font=\bfseries] at (0.3,2.7) {Filesystem (WAL)};
-    \node[anchor=west] at (0.3,1.5) {.llmwiki/};
-    \node[anchor=west] at (0.3,1.0) {  units/};
-    \node[anchor=west] at (0.3,0.5) {  graph/};
-    \node[anchor=west] at (0.3,0.0) {  index/};
-    \node[anchor=west] at (0.3,-0.5) {  wal/};
-  };
+  \node[draw, rounded corners, dashed, fill=gray!5, text width=10cm, align=center,
+        font=\small, inner sep=4pt] (fs) at (4.6,-1.4)
+    {Filesystem (WAL): \texttt{.llmwiki/} \{units, graph, index, wal\}};
+
+  % layer background rectangles
+  \begin{scope}[on background layer]
+    \node[draw, rounded corners, thick, fill=green!10, fit=(parse)(chunk)(embed), inner sep=7pt] {};
+    \node[draw, rounded corners, thick, fill=blue!10, fit=(graph)(index)(evidence), inner sep=7pt] {};
+    \node[draw, rounded corners, thick, fill=orange!10, fit=(planner)(runtime)(api), inner sep=7pt] {};
+  \end{scope}
 
   % Connections
-  \draw[arrow] (parse.east) -- ++(0.5,0) |- (graph.west);
-  \draw[arrow] (chunk.east) -- ++(0.5,0) |- (index.west);
-  \draw[arrow] (embed.east) -- ++(0.5,0) |- (index.west);
-  \draw[arrow] (graph.east) -- ++(0.5,0) |- (planner.west);
-  \draw[arrow] (index.east) -- ++(0.5,0) |- (planner.west);
-  \draw[arrow] (evidence.east) -- ++(0.5,0) |- (runtime.west);
-  \draw[arrow] (planner.east) -- ++(0.5,0) |- (runtime.west);
-  \draw[arrow] (runtime.east) -- ++(0.5,0) |- (api.west);
-  
+  \draw[arrow] (parse.east) -- (graph.west);
+  \draw[arrow] (chunk.east) -- (index.west);
+  \draw[arrow] (embed.east) -- (index.west);
+  \draw[arrow] (graph.east) -- (planner.west);
+  \draw[arrow] (index.east) -- (planner.west);
+  \draw[arrow] (evidence.east) -- (runtime.west);
+  \draw[arrow] (planner.east) -- (runtime.west);
+  \draw[arrow] (runtime.east) -- (api.west);
+
   % Filesystem connections
-  \draw[arrow] (parse.south) -- ++(0,-0.5) -| (fs.north);
-  \draw[arrow] (chunk.south) -- ++(0,-0.5) -| (fs.north);
-  \draw[arrow] (graph.south) -- ++(0,-0.5) -| (fs.north);
-  \draw[arrow] (index.south) -- ++(0,-0.5) -| (fs.north);
+  \draw[arrow] (parse.south) -- (fs.north);
+  \draw[arrow] (index.south) -- (fs.north);
 \end{tikzpicture}
+\end{adjustbox}
 \caption{Three-Layer Architecture of LLMWiki. Filesystem acts as write-ahead log (WAL) for all layers.}
 \label{fig:architecture:three-layer}
 \end{figure}
@@ -152,7 +148,7 @@ Composable query execution with planning and observability:
 \begin{itemize}
   \item Concurrency: Single-writer per repository; multi-writer requires external locking (file lock or SQLite WAL mode).
   \item Scale: Directory entry count grows with unit count. Mitigation: sharded subdirectories (units/ab/cd/ef...).
-  \item Durability: fsync on commit; configurable sync_on_write flag.
+  \item Durability: fsync on commit; configurable \texttt{sync\_on\_write} flag.
 \end{itemize}
 \end{designtradeoff}
 
@@ -187,41 +183,46 @@ Composable query execution with planning and observability:
 
 \begin{figure}[htbp]
 \centering
+\begin{adjustbox}{max width=\textwidth}
 \begin{tikzpicture}[
-  stage/.style={draw, rounded corners, fill=blue!5, minimum width=3cm, minimum height=1.5cm},
+  stage/.style={draw, rounded corners, fill=blue!5, text width=2.5cm, minimum height=1.2cm, align=center, font=\small, inner sep=3pt},
+  rowlabel/.style={font=\bfseries\small, anchor=west},
   flow/.style={->, thick, >=stealth}
 ]
-  % Ingestion stages
-  \node[stage] (artifact) at (0,0) {Artifact Input};
-  \node[stage] (parse) at (4,0) {Semantic Parse};
-  \node[stage] (chunk) at (8,0) {Structure-Aware Chunk};
-  \node[stage] (extract) at (12,0) {Entity/Relation Ext.};
-  \node[stage] (embed) at (16,0) {Embed + Index};
-  \node[stage] (persist) at (20,0) {Persist to FS + Graph};
+  % --- Ingestion pipeline: two rows of three ---
+  \node[stage] (artifact) {Artifact Input};
+  \node[stage, right=0.55cm of artifact] (parse) {Semantic Parse};
+  \node[stage, right=0.55cm of parse] (chunk) {Structure-Aware Chunk};
+
+  \node[stage, below=0.9cm of artifact] (extract) {Entity / Relation Extraction};
+  \node[stage, right=0.55cm of extract] (embed) {Embed + Index};
+  \node[stage, right=0.55cm of embed] (persist) {Persist to FS + Graph};
 
   \draw[flow] (artifact) -- (parse);
   \draw[flow] (parse) -- (chunk);
-  \draw[flow] (chunk) -- (extract);
+  \draw[flow] (chunk.south) -- ++(0,-0.35) -| (extract.north);
   \draw[flow] (extract) -- (embed);
   \draw[flow] (embed) -- (persist);
 
-  % Branching from persist
-  \node[stage] (query) at (10,-3) {Query Input};
-  \node[stage] (plan) at (14,-3) {Query Planner};
-  \node[stage] (retrieve) at (18,-3) {Hybrid Retrieve};
-  \node[stage] (evidence) at (22,-3) {Evidence Gate};
-  \node[stage] (synthesize) at (26,-3) {Synthesize + Cite};
-  \node[stage] (answer) at (30,-3) {Answer};
+  % --- Query pipeline: two rows of three ---
+  \node[stage, below=1.5cm of extract] (query) {Query Input};
+  \node[stage, right=0.55cm of query] (plan) {Query Planner};
+  \node[stage, right=0.55cm of plan] (retrieve) {Hybrid Retrieve};
+
+  \node[stage, below=0.9cm of query] (evidence) {Evidence Gate};
+  \node[stage, right=0.55cm of evidence] (synthesize) {Synthesize + Cite};
+  \node[stage, right=0.55cm of synthesize] (answer) {Answer};
 
   \draw[flow] (query) -- (plan);
   \draw[flow] (plan) -- (retrieve);
-  \draw[flow] (retrieve) -- (evidence);
+  \draw[flow] (retrieve.south) -- ++(0,-0.35) -| (evidence.north);
   \draw[flow] (evidence) -- (synthesize);
   \draw[flow] (synthesize) -- (answer);
 
-  % Connections from persist to query path
-  \draw[flow, dashed] (persist) -- ++(0,-1.5) -| (retrieve);
+  % Persisted state feeds retrieval
+  \draw[flow, dashed] (persist.east) -- ++(0.35,0) |- (retrieve.east);
 \end{tikzpicture}
+\end{adjustbox}
 \caption{End-to-end data flow: ingestion pipeline (top) and query pipeline (bottom).}
 \label{fig:architecture:dataflow}
 \end{figure}
@@ -255,11 +256,11 @@ Composable query execution with planning and observability:
 \begin{algorithmic}[1]
 \Require Query q, context budget B, evidence threshold tau
 \Ensure Answer a with citations C
-\State P = Plan(q) \Comment{Planner outputs DAG of subqueries}
-\State R = empty set
-\ForEach{subquery s in P}
-  \State R_s = HybridRetrieve(s) \Comment{Vector + BM25 + Graph}
-  \State R = R union R_s
+\State $P$ = Plan($q$) \Comment{Planner outputs DAG of subqueries}
+\State $R = \emptyset$
+\ForAll{subquery $s$ in $P$}
+  \State $R_s$ = HybridRetrieve($s$) \Comment{Vector + BM25 + Graph}
+  \State $R = R \cup R_s$
 \EndFor
 \State E = EvidenceGate(R, tau) \Comment{Cross-encoder verify}
 \State a = Synthesize(E, B) \Comment{LLM with citations forced}
@@ -290,6 +291,31 @@ After any ingestion I, the triple (G, I, U) satisfies: query(q, G, I, U) = repla
 Given identical .llmwiki/ directory and identical query q, two executions produce bitwise-identical results (modulo non-deterministic LLM sampling, which is confined to planning/synthesis).
 \end{invariant}
 
+\section{The Filesystem as Lineage Recorder}
+\label{sec:architecture:lineage}
+
+Invariants~\ref{inv:incremental} and \ref{inv:local-determinism} assert that history can be replayed. They do not say how history is \emph{reconstructed} when the record is incomplete, and every long-lived deployment produces an incomplete record: WAL segments are compacted, old snapshots are pruned, repositories are cloned from a mid-life state. A replay guarantee that holds only over an unbroken log is a guarantee that expires.
+
+Developmental biology has spent a decade on exactly this reconstruction problem. CRISPR lineage recorders accumulate irreversible edits at engineered target sites across cell divisions, so that the division history of an organism can be inferred from the barcodes of its terminal cells alone --- the intermediate states are gone, and the tree is recovered from the endpoint. Recent surveys note that recorders which log a \emph{deterministic temporal ordering} of mutations enable precise reconstruction of deep lineages \citep{lineagetracing2026}, which is precisely the argument for an append-only WAL. More usefully, the field has formalised inference under a degraded record: Bayesian phylodynamic frameworks reconstruct lineage trees with calibrated uncertainty from barcode data with dependent target sites and missing observations \citep{phylodynamic2025}.
+
+Two failure modes from that literature transfer to LLMWiki without modification.
+
+\paragraph{Homoplasy.} An identical edit arising independently in two lineages falsely implies shared ancestry. Content addressability (Invariant~\ref{inv:content-address}) makes this endemic rather than occasional: two units produced by unrelated derivation paths that happen to canonicalise identically receive the same identifier \emph{by design}. This is the deduplication property, and it is desirable for storage and indexing. It is also destructive of provenance, because it collapses distinct derivations into one node. Identity and ancestry are different relations and must not share a key.
+
+\begin{invariant}[Lineage Distinctness]
+\label{inv:lineage-distinct}
+Content identity does not imply derivation identity. For a unit $u$, $\text{id}(u)$ addresses content; the derivation of $u$ is recorded separately as the set of WAL edges producing it. Provenance is therefore a directed acyclic graph over content identifiers, never a tree, and a query for the origin of $u$ returns a set of derivations rather than a unique parent.
+\end{invariant}
+
+\paragraph{Dropout.} A target site that fails to be read yields a missing character, not a wrong one, and treating the two alike corrupts the tree. The analogue is a compacted WAL segment: the derivation edge is unobserved, not absent. Recording compaction boundaries explicitly lets reconstruction distinguish \emph{no derivation occurred} from \emph{the derivation is unobservable}, which is the difference between a false claim and an honest one.
+
+\begin{invariant}[Replay Degradation is Explicit]
+\label{inv:replay-degradation}
+Where the WAL has been compacted, replay returns a result annotated with the reconstruction's uncertainty rather than an unqualified answer. A deployment that cannot verify a replay reports that it cannot, and never silently substitutes a plausible history.
+\end{invariant}
+
+This is the mechanism that makes the auditability claim survive contact with operations. A system that guarantees reproducibility only while nothing has been pruned has guaranteed reproducibility only in the laboratory; the useful statement is that reproducibility degrades in a declared, measurable way.
+
 \section{Comparison with Prior Art}
 \label{sec:architecture:prior-art}
 
@@ -297,6 +323,7 @@ Given identical .llmwiki/ directory and identical query q, two executions produc
 \centering
 \caption{LLMWiki vs. Prior Art: Architectural Positioning}
 \label{tab:arch:prior-art}
+\begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{lcccc}
 \toprule
 \textbf{Property} & \textbf{RAG} & \textbf{GraphRAG} & \textbf{HippoRAG} & \textbf{LLMWiki} \\
@@ -311,6 +338,7 @@ Content-addressed units & No & No & No & Yes \\
 Query planner (DAG) & No & No & No & Yes \\
 \bottomrule
 \end{tabular}
+\end{adjustbox}
 \end{table}
 
 \section{Patent-Relevant Novelty}
@@ -470,6 +498,7 @@ rate_limit = 100
 \centering
 \caption{LLMWiki Extension Points}
 \label{tab:arch:extensions}
+\begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{lll}
 \toprule
 \textbf{Extension Point} & \textbf{Interface} & \textbf{Volume} \\
@@ -485,6 +514,7 @@ Agent Tool & Tool & Vol. 05 \\
 Auth Provider & AuthProvider & Vol. 08 \\
 \bottomrule
 \end{tabular}
+\end{adjustbox}
 \end{table}
 
 \section{Summary}

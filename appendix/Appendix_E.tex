@@ -9,6 +9,7 @@
 \centering
 \caption{Key Design Decisions}
 \label{tab:decisions}
+\begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{llp{6cm}}
 \toprule
 \textbf{ID} & \textbf{Decision} & \textbf{Rationale} \\
@@ -27,9 +28,10 @@ DD-011 & Cross-encoder with isotonic calibration & Accurate relevance; calibrate
 DD-012 & SSE streaming protocol & Fine-grained events (plan, step, evidence, token); real-time UI; bidirectional via WS. \\
 DD-013 & Single-binary deployment & Air-gapped viable; no container runtime needed; simple upgrades; reproducible. \\
 DD-014 & Budget enforcement at executor & Hard limits on tokens/time/cost/calls; graceful degradation; prevents runaway costs. \\
-DD-015 & Regression gates in CI & 2% threshold on Evidence F1, Attribution, Hallucination; blocks merges on quality drop. \\
+DD-015 & Regression gates in CI & 2\% threshold on Evidence F1, Attribution, Hallucination; blocks merges on quality drop. \\
 \bottomrule
 \end{tabular}
+\end{adjustbox}
 \end{table}
 
 %===============================================================================

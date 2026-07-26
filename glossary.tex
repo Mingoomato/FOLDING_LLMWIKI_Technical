@@ -70,16 +70,6 @@
   description={In LLMWiki, the filesystem directory \texttt{.llmwiki/wal/} containing append-only JSONL records of every ingestion diff. Serves as the sole durability mechanism; no separate Kafka, Redis, or database log required.}
 }
 
-\newglossaryentry{hnsw}{
-  name={HNSW},
-  description={Hierarchical Navigable Small World, an approximate nearest neighbor graph algorithm for vector similarity search. Used as the vector index backend in LLMWiki.}
-}
-
-\newglossaryentry{bm25}{
-  name={BM25},
-  description={Best Matching 25, a probabilistic term-weighting ranking function for keyword search. Used as the lexical index backend in LLMWiki (via Tantivy).}
-}
-
 \newglossaryentry{cross-encoder}{
   name={Cross-Encoder},
   description={A transformer architecture that jointly encodes a (query, document) pair to predict relevance. Used in the Evidence Gate for verification; more accurate than bi-encoder dot product but slower.}
@@ -115,11 +105,6 @@
   description={Hard limits on cumulative tokens, wall-clock time, tool invocations, and monetary cost enforced by the agent runtime. Overflow behavior: truncate, partial, or error.}
 }
 
-\newglossaryentry{sse}{
-  name={Server-Sent Events (SSE)},
-  description={A unidirectional HTTP-based streaming protocol. LLMWiki uses SSE to emit fine-grained events (plan\_start, step\_start, evidence\_found, token, step\_complete, plan\_complete, budget\_warning).}
-}
-
 \newglossaryentry{air-gapped}{
   name={Air-Gapped},
   description={A deployment mode with no network connectivity to external systems. LLMWiki supports this via a single binary with embedded models and grammars, requiring zero external API calls.}
@@ -130,24 +115,9 @@
   description={A parsing system for programming languages that produces concrete syntax trees, supports incremental re-parsing, and provides a query language (SCM) for extracting semantic units.}
 }
 
-\newglossaryentry{scm}{
-  name={SCM (S-expression Query Patterns)},
-  description={Tree-sitter'\''s pattern language for matching syntax tree nodes. Used to define semantic unit extraction rules per language.}
-}
-
-\newglossaryentry{onnx}{
-  name={ONNX},
-  description={Open Neural Network Exchange, an open format for representing machine learning models. LLMWiki embedders and cross-encoders run via ONNX Runtime for hardware-agnostic inference.}
-}
-
 \newglossaryentry{quantization}{
   name={Quantization},
   description={Reducing model weight precision (e.g., FP32 $\to$ INT8, INT4) to decrease memory footprint and increase inference speed with minimal accuracy loss.}
-}
-
-\newglossaryentry{rrf}{
-  name={RRF},
-  description={See \gls{reciprocal-rank-fusion}.}
 }
 
 \newglossaryentry{reciprocal-rank-fusion}{
@@ -185,7 +155,3 @@
   description={Fraction of retrieval candidates rejected by the Evidence Gate. High rejection with maintained recall indicates effective noise filtering.}
 }
 
-\newglossaryentry{sha256}{
-  name={SHA-256},
-  description={Secure Hash Algorithm 256-bit, a cryptographic hash function. Used in LLMWiki for content-addressed unit identifiers.}
-}

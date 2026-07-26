@@ -1,0 +1,49 @@
+# LLMWiki full configuration reference
+# All values shown are defaults unless noted.
+
+[server]
+host = "127.0.0.1"
+port = 8080
+workers = 4
+
+[storage]
+root = ".llmwiki"
+sync_on_write = true
+shard_depth = 2                 # units/ab/cd/ef...
+
+[parsing]
+default_strategy = "hierarchical"   # hierarchical | sliding | semantic
+window_size = 512
+overlap = 50
+
+[embedding]
+model = "bge-small-en-v1.5"
+runtime = "onnx"
+dimension = 384
+batch_size = 32
+
+[index]
+hnsw_m = 16
+hnsw_ef_construction = 200
+hnsw_ef_search = 64
+rebuild_threshold = 100000
+
+[retrieval]
+top_k = 20
+weights = { vector = 1.0, keyword = 0.7, graph = 0.5 }
+rrf_k = 60
+
+[evidence_gate]
+model = "bge-reranker-base"
+threshold = 0.35                # calibrated per-corpus
+calibration = "isotonic"        # isotonic | platt | temperature
+
+[agent]
+max_tokens = 8000
+max_ms = 30000
+max_cost = 0.50
+max_tool_calls = 16
+
+[llm]
+provider = "local"              # local | none
+model = "qwen2.5-3b-instruct"

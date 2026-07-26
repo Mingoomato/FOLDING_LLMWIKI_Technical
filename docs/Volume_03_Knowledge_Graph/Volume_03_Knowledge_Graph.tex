@@ -57,6 +57,7 @@ The \texttt{GraphStore} trait (Vol.~01, \S\ref{iface:graphstore}) admits multipl
 \centering
 \caption{Graph Store Backend Comparison}
 \label{tab:kg:backends}
+\begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{lcccc}
 \toprule
 \textbf{Backend} & \textbf{Embedded} & \textbf{Scale} & \textbf{Transactions} & \textbf{License} \\
@@ -68,6 +69,7 @@ Neo4j Embedded & No & 100B edges & Yes & GPL/Commercial \\
 Kuzu & Yes & 10B edges & Yes & MIT \\
 \bottomrule
 \end{tabular}
+\end{adjustbox}
 \end{table}
 
 \textbf{Default:} RocksDB-based custom store (\texttt{llmwiki-graph}). Nodes and edges stored as separate column families with prefix encoding for efficient prefix scans (by type, by partition).
@@ -148,7 +150,7 @@ On ingestion diff $(added, modified, removed)$ units (Vol.~02, Alg.~\ref{alg:inc
   \EndFor
   \State \textsc{UpsertAdjacency}(u) \Comment{Contains, Next\_To}
 \EndFor
-\State \textsc{CommitTransactionCommit()
+\State \textsc{CommitTransaction}()
 \State \Return $G$
 \end{algorithmic}
 \end{algorithm}
@@ -306,6 +308,7 @@ This implements the ``graph traversal'' retrieval path complementary to vector/k
 \centering
 \caption{Expected Performance (Single Node, SSD)}
 \label{tab:kg:perf}
+\begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{lcc}
 \toprule
 \textbf{Operation} & \textbf{Latency (p99)} & \textbf{Throughput} \\
@@ -319,6 +322,7 @@ BM25 search (k=10) & < 3 ms & 3k queries/s \\
 Hybrid search (k=20) & < 15 ms & 1k queries/s \\
 \bottomrule
 \end{tabular}
+\end{adjustbox}
 \end{table}
 
 \section{Patent-Relevant Novelty}

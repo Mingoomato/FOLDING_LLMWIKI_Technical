@@ -13,6 +13,7 @@ This volume covers deploying LLMWiki in production: containerization, local-firs
 \centering
 \caption{LLMWiki Deployment Modes}
 \label{tab:deploy:modes}
+\begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{lcccc}
 \toprule
 \textbf{Mode} & \textbf{Use Case} & \textbf{Components} & \textbf{Scale} & \textbf{Deps} \\
@@ -24,6 +25,7 @@ Air-gapped & Secure environments & Full offline bundle & 10K QPS & None \\
 Edge / Mobile & On-device & WASM / mobile lib & 1 QPS & None \\
 \bottomrule
 \end{tabular}
+\end{adjustbox}
 \end{table}
 
 \section{Container Images}
@@ -446,6 +448,7 @@ llmwiki graph migrate --repo .llmwiki --to-version 2 --dry-run
 \centering
 \caption{Tuning Knobs by Workload}
 \label{tab:deploy:tuning}
+\begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{lll}
 \toprule
 \textbf{Workload} & \textbf{Parameter} & \textbf{Recommendation} \\
@@ -461,6 +464,7 @@ Memory constrained & \texttt{index.hnsw.m} & 8-12 \\
 GPU & \texttt{embedder.device} & "cuda" \\
 \bottomrule
 \end{tabular}
+\end{adjustbox}
 \end{table}
 
 \section{Patent-Relevant Novelty}

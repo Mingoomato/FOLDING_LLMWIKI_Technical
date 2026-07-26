@@ -34,6 +34,7 @@ New parsers are added via the \texttt{Parser} trait (Vol.~01, \S\ref{iface:parse
 
 \begin{figure}[htbp]
 \centering
+\begin{adjustbox}{max width=\textwidth}
 \begin{tikzpicture}[
   parser/.style={draw, rounded corners, fill=llmwikiblue!10, minimum width=3cm, minimum height=1.2cm},
   artifact/.style={draw, rounded corners, fill=llmwikigreen!10, minimum width=3cm, minimum height=1.2cm},
@@ -54,17 +55,17 @@ New parsers are added via the \texttt{Parser} trait (Vol.~01, \S\ref{iface:parse
   \draw[flow] (parse) -- (meta);
   
   % Parser registry
-  \node[draw, dashed, rounded corners, minimum height=2.5cm] (registry) at (10,-1.5) {
-    \node[anchor=north west, font=\bfseries] at (0.3,2.2) {Parser Registry};
-    \node[anchor=west] at (0.3,1.6) {python : TreeSitterParser};
-    \node[anchor=west] at (0.3,1.1) {markdown : MarkdownParser};
-    \node[anchor=west] at (0.3,0.6) {pdf : PdfParser};
-    \node[anchor=west] at (0.3,0.1) {openapi : SpecParser};
-    \node[anchor=west] at (0.3,-0.4) {sql : SqlParser};
-    \node[anchor=west] at (0.3,-0.9) {yaml/json : StructuredParser};
-  };
+  \node[draw, dashed, rounded corners, align=left, font=\small] (registry) at (10,-1.5) {%
+    \textbf{Parser Registry}\\
+    python : TreeSitterParser\\
+    markdown : MarkdownParser\\
+    pdf : PdfParser\\
+    openapi : SpecParser\\
+    sql : SqlParser\\
+    yaml/json : StructuredParser};
   \draw[flow, dashed] (route) -- (registry);
 \end{tikzpicture}
+\end{adjustbox}
 \caption{Parser pipeline: detection, routing, parsing, and unit emission.}
 \label{fig:parsing:pipeline}
 \end{figure}
@@ -128,6 +129,7 @@ where:
 \centering
 \caption{Core Semantic Unit Types by Parser Domain}
 \label{tab:parsing:unit-types}
+\begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{lll}
 \toprule
 \textbf{Domain} & \textbf{Unit Types} & \textbf{Key Metadata} \\
@@ -143,6 +145,7 @@ Dockerfile & Instruction, Stage, Arg, Env, Label & instruction, value, stage \\
 Protobuf & Message, Enum, Service, Field, RPC & field\_number, type, label \\
 \bottomrule
 \end{tabular}
+\end{adjustbox}
 \end{table}
 
 \subsection{Metadata Schema}
@@ -252,6 +255,7 @@ The query captures are mapped to \texttt{SemanticUnit} fields. A \texttt{QueryMa
 \centering
 \caption{Tree-sitter Languages Supported (v0.1)}
 \label{tab:parsing:ts-languages}
+\begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{lll}
 \toprule
 \textbf{Language} & \textbf{Grammar Version} & \textbf{Unit Types} \\
@@ -267,6 +271,7 @@ C\# & 0.20.0 & Class, Method, Property, Interface, Attribute, Using \\
 SQL & 0.20.0 & (see \S\ref{sec:parsing:sql-parser}) \\
 \bottomrule
 \end{tabular}
+\end{adjustbox}
 \end{table}
 
 \subsection{Markdown Parser}
@@ -378,7 +383,9 @@ Default strategy for code and structured documents:
   \State $current \gets current \parallel c.content$
   \State $current\_tokens \gets current\_tokens + child\_tokens$
 \EndFor
-\If{$current \neq \varnothing$} $\mathcal{C} \gets \mathcal{C} \cup \{current\}$
+\If{$current \neq \varnothing$}
+  \State $\mathcal{C} \gets \mathcal{C} \cup \{current\}$
+\EndIf
 \State \Return $\mathcal{C}$
 \end{algorithmic}
 \end{algorithm}
@@ -428,6 +435,29 @@ Uses embedding similarity to find natural boundaries:
 \State \Return $\mathcal{C}$
 \end{algorithmic}
 \end{algorithm}
+
+\subsection{Scale-Free Chunking by Graph Renormalization}
+\label{sec:parsing:renormalization}
+
+The three strategies above share a defect that no amount of tuning removes: each commits to a scale. \texttt{window\_size = 512} is a claim that the natural unit of meaning in the corpus is 512 tokens wide, and that claim is false for every corpus --- a call site, a function, a module, and a subsystem are all legitimate retrieval targets at different query granularities. Fixing the scale at ingestion time forces the retrieval stage to reconstruct the levels that chunking destroyed.
+
+Coarse-graining across scales without committing to one is the subject of the renormalization group. The construction repeatedly integrates out short-range degrees of freedom, generating a flow through a family of effective descriptions in which structures that survive many steps are the physically meaningful ones. Recent work carries this to graphs directly: \citet{spectralcoarse2025} define a renormalization procedure over the coarse-grained Laplacian that produces reduced representations across scales while preserving both dynamics and large-scale topology, and note explicitly that this differs from clustering methods such as Louvain --- renormalization captures characteristic structure \emph{across} scales rather than partitioning at one.
+
+Since LLMWiki already maintains a knowledge graph over units (Vol.~03), the machinery applies without a new data structure.
+
+\begin{definition}[Renormalization Chunk Ladder]
+\label{def:chunk-ladder}
+Let $G_0$ be the unit graph with edges weighted by containment, adjacency, and reference. A chunk ladder is the sequence $G_0 \to G_1 \to \dots \to G_L$ where each $G_{\ell+1}$ is obtained by spectral coarse-graining of $G_{\ell}$, and the chunk set at level $\ell$ is the set of vertices of $G_{\ell}$, each carrying the concatenated content of the units it subsumes.
+\end{definition}
+
+\begin{observation}[Persistence Selects Boundaries]
+\label{obs:persistence}
+A chunk boundary that survives many renormalization steps separates parts of the corpus that remain weakly coupled under coarse-graining; a boundary that dissolves after one step was an artifact of local token statistics. Boundary quality is therefore measurable as persistence across the ladder, replacing the unfalsifiable question ``is 512 the right window?'' with the answerable one ``at which level does this boundary disappear?''
+\end{observation}
+
+Retrieval indexes every level of the ladder, and the query planner selects the level rather than the ingestion configuration doing so: a query naming a specific symbol resolves against $G_0$, while a query about a subsystem's responsibilities resolves against a coarse level whose vertices correspond to that subsystem. The cost is index size, which grows as $\sum_{\ell} |V(G_\ell)|$ --- bounded by a small multiple of $|V(G_0)|$ because coarse-graining contracts the vertex set geometrically.
+
+\paragraph{Status.} This is the least mature of the mechanisms specified in this document. Spectral coarse-graining of the unit graph is well-defined and implementable, but the claim that renormalization-persistent boundaries yield better retrieval than tuned fixed-width chunking is an empirical one that the evaluation framework of Vol.~06 must settle before it is relied upon. It is specified here because the ladder subsumes the existing strategies as special cases --- $L=0$ recovers hierarchical chunking exactly --- and can therefore be adopted without discarding the current pipeline.
 
 \section{Entity and Relation Extraction}
 \label{sec:parsing:entity-extraction}
@@ -538,6 +568,7 @@ The \texttt{Embedder} trait (Vol.~01, \S\ref{iface:embedder}) abstracts local em
 \centering
 \caption{Local Embedding Models (Recommended)}
 \label{tab:parsing:embed-models}
+\begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{llcccc}
 \toprule
 \textbf{Model} & \textbf{Dim} & \textbf{Max Tok} & \textbf{Speed (CPU)} & \textbf{MTEB} & \textbf{License} \\
@@ -549,6 +580,7 @@ BGE-Small-En-v1.5 & 384 & 512 & $\sim$1200 tok/s & 58.2 & MIT \\
 Multilingual-E5-Large & 1024 & 512 & $\sim$350 tok/s & 63.1 & MIT \\
 \bottomrule
 \end{tabular}
+\end{adjustbox}
 \end{table}
 
 \subsection{Batch Inference}

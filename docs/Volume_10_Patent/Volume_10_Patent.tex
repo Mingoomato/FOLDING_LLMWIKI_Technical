@@ -75,6 +75,42 @@ A deployment method for a semantic operating layer, comprising:
 \end{enumerate}
 \end{claim}
 
+\begin{claim}[Label-Free Significance Calibration]
+\label{claim:far-calibration}
+A method for establishing a verification threshold in an evidence-gated retrieval system without relevance annotations, comprising:
+\begin{enumerate}
+  \item constructing a plurality of query--unit pairs for which genuine relevance is excluded by construction, said exclusion effected by at least one of: drawing the unit from a corpus declared disjoint in domain from that of the query; drawing the unit from a write-ahead-log snapshot predating creation of every entity referenced by the query; or drawing the unit from a graph component containing no entity mentioned in the query;
+  \item evaluating the verification scorer over said pairs to accumulate an empirical null distribution of the scoring statistic;
+  \item selecting as threshold the least score whose exceedance probability under said distribution, multiplied by the mean candidate count per query, attains a target false alarm rate; and
+  \item emitting, with each admitted unit, said false alarm rate as the unit's significance, in place of a raw scorer output;
+\end{enumerate}
+wherein recalibration is triggered by advancement of the write-ahead log and requires no human annotation.
+\end{claim}
+
+\begin{claim}[Cascaded Proofreading Verification]
+\label{claim:proofreading}
+An evidence verification apparatus comprising a cascade of $n \geq 2$ verification stages, wherein:
+\begin{enumerate}
+  \item each stage evaluates a candidate against an evidence channel distinct from those of the other stages, said channels comprising at least lexical overlap, learned cross-encoder relevance, knowledge-graph reachability among co-surviving candidates, and inferential entailment;
+  \item each stage irreversibly discards candidates scoring below a stage-specific threshold, discarded candidates being unrecoverable by subsequent stages;
+  \item the stages are ordered by non-decreasing unit evaluation cost; and
+  \item the false-acceptance rate of the cascade is the product of the per-stage false-acceptance rates, while the expected evaluation cost per candidate is the survival-weighted sum of per-stage costs.
+\end{enumerate}
+\end{claim}
+
+\begin{claim}[Topological Consistency Gate]
+\label{claim:consistency}
+A method for certifying mutual consistency of a verified evidence set prior to answer synthesis, comprising:
+\begin{enumerate}
+  \item constructing a graph whose vertices are the verified units and whose edges join units sharing an entity or standing in a knowledge-graph relation;
+  \item assigning to each vertex a stalk of admissible truth assignments over atomic claims extracted from the corresponding unit, to each edge a stalk over the claims shared across that edge, and to each incidence a restriction map induced by inferential entailment between said claim sets, thereby forming a cellular sheaf;
+  \item computing the zeroth and first cohomology of said sheaf;
+  \item admitting the evidence set for synthesis when a global section supporting the answer exists; and
+  \item when the first cohomology is nonzero, withholding synthesis and emitting the support of the obstruction class as a machine-readable conflict witness identifying the relations carrying the inconsistency;
+\end{enumerate}
+whereby cyclic inconsistencies undetectable by pairwise contradiction testing are detected and localised.
+\end{claim}
+
 \section{Dependent Claims}
 \label{sec:patent:dependent}
 
@@ -147,6 +183,7 @@ A computer-implemented evaluation method for a semantic operating layer, compris
 \centering
 \caption{Design Decisions Supporting Novelty}
 \label{tab:patent:decisions}
+\begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{lll}
 \toprule
 \textbf{Decision} & \textbf{Novelty Argument} & \textbf{Prior Art Gap} \\
@@ -160,6 +197,7 @@ DAG planner with costs & Topological execution with parallelism & RAG: single re
 Deterministic replay & Bitwise identical re-execution & No prior art guarantees replay \\
 \bottomrule
 \end{tabular}
+\end{adjustbox}
 \end{table}
 
 \section{Specification Support}
@@ -167,10 +205,10 @@ Deterministic replay & Bitwise identical re-execution & No prior art guarantees 
 
 Each claim is supported by the specification in Volumes 01-09:
 \begin{itemize}
-  \item Claims 1-5: Vol. 01 (\S\ref{sec:architecture:three-layer}, \ref{sec:architecture:filesystem-wal}, \ref{sec:architecture:invariants}), Vol. 02 (\S\ref{sec:parsing:incremental}), Vol. 03 (\S\ref{sec:kg:entity-resolution}, \ref{sec:kg:index}), Vol. 04 (\S\ref{sec:retrieval:evidence-gate}), Vol. 07 (\S\ref{sec:planner:dag})
+  \item Claims 1-5: Vol. 01 (\S\ref{sec:architecture:three-layer}, \ref{sec:architecture:filesystem-wal}, \ref{sec:architecture:invariants}), Vol. 02 (\S\ref{sec:parsing:incremental}), Vol. 03 (\S\ref{sec:kg:entity-resolution}, \ref{sec:kg:index}), Vol. 04 (\S\ref{sec:retrieval:evidence-gate}), Vol. 07 (\S\ref{sec:runtime:plan-structure})
   \item Claims 6-8: Vol. 02 (\S\ref{sec:parsing:parser-trait}, \ref{sec:parsing:tree-sitter}, \ref{sec:parsing:chunking}), Vol. 02 (\S\ref{sec:parsing:embedding})
   \item Claims 9-10: Vol. 03 (\S\ref{sec:kg:entity-resolution}, \ref{sec:kg:adjacency-index}, \ref{sec:kg:hybrid-search})
-  \item Claims 11-13: Vol. 07 (\S\ref{sec:planner:dag}, \ref{sec:runtime:budget}, \ref{sec:runtime:streaming})
+  \item Claims 11-13: Vol. 07 (\S\ref{sec:runtime:plan-structure}, \ref{sec:runtime:budget}, \ref{sec:runtime:streaming})
   \item Claim 14: Vol. 06 (\S\ref{sec:eval:metrics}, \ref{sec:eval:pipeline}, \ref{sec:eval:statistical})
 \end{itemize}
 
@@ -182,7 +220,12 @@ Each claim is supported by the specification in Volumes 01-09:
   \item \textbf{Design-around}: Use database WAL instead of filesystem. \textbf{Defense}: Claim 1 requires filesystem-backed WAL with directory-sync replay.
   \item \textbf{Design-around}: Skip graph, use only hybrid vector/keyword. \textbf{Defense}: Claim 1 requires graph as canonical knowledge representation with adjacency index.
   \item \textbf{Design-around}: Cloud-only deployment. \textbf{Defense}: Claim 4 requires single-binary air-gapped operation.
+  \item \textbf{Design-around}: Calibrate the threshold on a labelled relevance set, avoiding the null construction. \textbf{Defense}: Claim~\ref{claim:far-calibration} is directed to the label-free case specifically; a competitor taking this route incurs the annotation cost the claim exists to eliminate, and cannot recalibrate automatically on log advancement.
+  \item \textbf{Design-around}: Use multiple rerankers in sequence without irreversible discard, retaining all candidates and combining scores. \textbf{Defense}: Claim~\ref{claim:proofreading} recites irreversible discard, channel distinctness, and cost ordering jointly; a score-combining ensemble obtains neither the multiplicative error suppression nor the survival-weighted cost bound, and is a different mechanism rather than a variant.
+  \item \textbf{Design-around}: Detect contradictions pairwise between retrieved passages. \textbf{Defense}: Claim~\ref{claim:consistency} is directed to cohomological detection, which is strictly stronger --- cyclic inconsistency admits no pairwise witness, so a pairwise checker does not read on the claim and does not achieve its effect.
 \end{itemize}
+
+\paragraph{On the ``combination of known elements'' objection.} The independent claims of \S\ref{sec:patent:independent} are vulnerable to the argument that hybrid retrieval, cross-encoders, and graph stores are individually well known. Claims~\ref{claim:far-calibration}--\ref{claim:consistency} are drafted to sit outside that objection: each recites a construction procedure with a stated technical effect rather than an arrangement of components. The displacement conditions of Claim~\ref{claim:far-calibration}, the channel-distinctness and irreversibility requirements of Claim~\ref{claim:proofreading}, and the sheaf construction of Claim~\ref{claim:consistency} are the non-obvious elements, and none has an antecedent in retrieval prior art.
 
 %===============================================================================
 % End of Volume 10

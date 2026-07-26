@@ -21,6 +21,18 @@ We argue that these are not bugs but architectural consequences of treating vect
 
 LLMWiki addresses this by promoting evidence verification to a first-class architectural invariant. The system is a \emph{semantic operating layer}---an intermediary between raw artifacts and LLM synthesis that guarantees every synthesized token traces to a verified unit.
 
+Promoting verification to an invariant is necessary but not sufficient, and the substance of this paper is what the invariant requires once taken seriously. Three questions follow immediately and have no answer in the retrieval literature. First, at what score does a unit count as verified, given that relevance annotations are the scarcest resource in any real deployment? Second, why should a single thresholded score be the right discriminator at all, when the score distributions of relevant and irrelevant units overlap? Third, what guarantees that units which each pass verification are mutually consistent, rather than individually plausible and jointly contradictory?
+
+Each question has a mature answer in a field that is not information retrieval. Assigning significance without labels is the daily business of gravitational-wave astronomy, which constructs empirical null distributions by displacing detector streams beyond physical coincidence \citep{was2010timeslides}. Exceeding the discrimination limit of a single equilibrium measurement is the problem kinetic proofreading was invented to solve \citep{hopfield1974kinetic,ninio1975kinetic}, and remains an active subject in immunology \citep{kirby2025parallel,multimolecular2026}. Deciding whether locally consistent data glues into a globally consistent whole is the definition of sheaf cohomology, now applied to distributed tasks and network consistency \citep{sheafdistributed2025,sheafnetworks2025}. Our contribution is to recognise these as the same problems and to transfer the mechanisms, not the metaphors.
+
+\paragraph{Contributions.}
+\begin{enumerate}
+  \item \textbf{Label-free significance for retrieval.} We construct empirical null distributions over query--unit pairs whose relevance is excluded by corpus, temporal, or graph displacement, and report every admitted unit's false alarm rate rather than a raw score (\S\ref{sec:paper:far}). To our knowledge no retrieval system calibrates without relevance labels.
+  \item \textbf{Proofreading cascade.} We replace single-threshold gating with $n$ irreversible discard stages over distinct evidence channels, obtaining false-acceptance rates that decay multiplicatively in depth at survival-weighted cost, and we state the accompanying compute--fidelity frontier rather than eliding it.
+  \item \textbf{Cohomological evidence closure.} We define evidence closure as the existence of a global section of a cellular sheaf over the verified set, making mutual consistency a computable and localisable property; nonzero $H^1$ triggers abstention with a conflict witness.
+  \item \textbf{Budget as allocation.} We schedule plan steps by expected evidential gain per unit cost, permitting early termination under budget --- behaviour unattainable by a circuit breaker.
+\end{enumerate}
+
 \section{Related Work}
 \label{sec:paper:related}
 
@@ -35,6 +47,20 @@ Recent work on attribution (Gao et al., 2023; Liu et al., 2024) evaluates citati
 
 \subsection{Local and Deterministic Systems}
 PrivateGPT, GPT4All, and similar projects enable local LLM inference but retain the RAG pipeline architecture. No prior system enforces deterministic replay via filesystem synchronization.
+
+\subsection{Methods Imported from Adjacent Sciences}
+\label{sec:paper:imported}
+The mechanisms in \S\ref{sec:paper:far}--\ref{sec:paper:sheaf} originate outside machine learning, and we summarise their provenance so that the transfer can be audited rather than taken on faith.
+
+\emph{Empirical nulls without labels.} Searches for compact binary coalescence assign significance to candidate events by the method of time slides: triggers from separate detectors are offset by more than the inter-detector light travel time, so that resulting coincidences cannot be astrophysical, and the accumulated sample defines the noise background as a function of the ranking statistic \citep{was2010timeslides,pycbclive2018}. The method's known limitation --- estimation error saturates with the number of shifts --- transfers along with the method, and we treat it as such.
+
+\emph{Discrimination beyond the equilibrium bound.} Kinetic proofreading achieves recognition fidelity exceeding what binding-affinity differences permit, by interposing irreversible, energy-consuming intermediate steps \citep{hopfield1974kinetic,ninio1975kinetic}. Contemporary work establishes that parallel reaction threads improve fidelity without lengthening the sequential chain \citep{kirby2025parallel} and that multimolecular schemes relax the activity--fidelity trade-off \citep{multimolecular2026}; both results shape the cascade design of \S\ref{sec:paper:cascade}.
+
+\emph{Gluing local data.} Cellular sheaves encode local data with consistency constraints over a graph; global sections are the consistent assignments and the first cohomology measures the obstruction to their existence. The construction has recently been applied to characterise solvable tasks in distributed systems \citep{sheafdistributed2025}, to consistency on network sheaves \citep{sheafnetworks2025}, and to irreducible error in predictive coding \citep{sheafpc2025}.
+
+\emph{Scheduling under hard resource deficits.} Transient alert brokers rank candidates for follow-up when observing capacity is orders of magnitude below alert volume, using score-plus-observability prioritisation \citep{aas2rto2025}, active learning to maximise information gain \citep{fink2025active}, and reinforcement learning for online constrained scheduling \citep{rlfollowup2025}.
+
+\emph{Lineage reconstruction from degraded records.} CRISPR recorders accumulate irreversible edits enabling reconstruction of division history from terminal states \citep{lineagetracing2026}, with Bayesian phylodynamic inference supplying calibrated uncertainty under missing and dependent observations \citep{phylodynamic2025}. The homoplasy problem --- independent identical edits implying false common ancestry --- has a direct analogue under content addressing.
 
 \section{System Architecture}
 \label{sec:paper:arch}
@@ -59,6 +85,20 @@ The evidence gate $\mathcal{G}$ is a mandatory filter: $\mathcal{G}(q, \mathcal{
 
 \subsection{DAG Query Planner}
 Queries compile to plans $P = (V, E)$ where $v \in V$ is a step (search, traverse, synthesize, tool) and $e \in E$ denotes data dependency. The executor runs topological sort with parallel fan-out. Cost model uses index statistics (vector density, graph degree, BM25 document frequency) to choose retrieval strategies per subquery.
+
+\subsection{Label-Free Significance via Discordant Pairing}
+\label{sec:paper:far}
+Let $f$ be the verification scorer. We draw pairs $(q, u^-)$ in which relevance is excluded by construction --- $u^-$ from a domain-disjoint corpus, from a log snapshot predating every entity in $q$, or from a graph component sharing no entity with $q$ --- and accumulate $S_0 = \{f(q,u^-)\}$. The empirical survival function $\hat{F}_0(s) = |\{s' \in S_0 : s' \ge s\}|/|S_0|$ converts any score into a false alarm rate $\text{FAR}(s) = \hat{F}_0(s)\,\bar{k}$, where $\bar{k}$ is the mean candidate count per query, and the operating threshold is the least $s$ attaining a target FAR.
+
+Two properties matter. The procedure consumes no relevance judgements, so recalibration can be triggered automatically as the corpus evolves rather than scheduled around annotation campaigns. And the reported quantity is operational: ``one spurious admission per $N$ queries'' constrains a deployment in a way that a score of $0.72$ does not. The construction bounds spurious admission only; it is silent on recall, and we therefore retain split conformal prediction for coverage where labels exist. The two are complementary, not redundant.
+
+\subsection{Proofreading Cascade}
+\label{sec:paper:cascade}
+Verification is a sequence of $n$ stages $g_1,\dots,g_n$ with increasing cost, each irreversibly discarding candidates below its threshold. Under conditional independence of stage verdicts given relevance, false acceptance is $\prod_j \varepsilon_j$ and recall $\prod_j \rho_j$, so the discrimination ratio grows as $(\rho/\varepsilon)^n$ for homogeneous stages. Independence is not assumed but engineered: stages read distinct channels --- lexical overlap, cross-encoder relevance, graph reachability among co-survivors, and entailment --- following the parallel-thread principle of \citet{kirby2025parallel}. Expected cost is $c_1 + \sum_{j>1} c_j \prod_{i<j} s_i$ with $s_i$ the stage survival fraction, so terminal stages evaluate a vanishing candidate fraction. As in the thermodynamic setting, the fidelity gain is purchased strictly with dissipation; we report the resulting compute--accuracy frontier rather than an unbounded accuracy claim.
+
+\subsection{Cohomological Evidence Closure}
+\label{sec:paper:sheaf}
+Over the surviving set we build a graph joining units that share entities or graph relations, and a cellular sheaf assigning to each vertex the admissible truth assignments of its atomic claims, to each edge those of the shared claims, and to each incidence a restriction map induced by entailment. The evidence set is closed iff $H^0$ contains a global section supporting the answer, and obstructed iff $H^1 \neq 0$. This strictly dominates pairwise contradiction testing: a cycle in which every pair is compatible but no global assignment exists produces no pairwise witness, yet is exactly the configuration in which a confidence-weighted system is most confidently wrong. Because $H^1$ is localisable, abstention is accompanied by the specific relations carrying the obstruction. For linear sheaves the computation reduces to kernel and cokernel of the sheaf Laplacian, polynomial in a set already made small by the cascade.
 
 \section{Evaluation}
 \label{sec:paper:eval}
@@ -91,7 +131,13 @@ All baselines use the same local LLM (Llama-3.1-8B-Instruct) for fairness.
   \item \textbf{Hallucination Rate}: Claims with no supporting evidence or contradicted by evidence
   \item \textbf{Latency}: End-to-end p50/p95
   \item \textbf{Determinism}: Bitwise answer equality across 10 repeated runs
+  \item \textbf{FAR validity}: agreement between the false alarm rate predicted from the empirical null (\S\ref{sec:paper:far}) and the spurious-admission rate measured against held-out human judgements. This is the falsification test for the label-free calibration: if predicted and observed rates diverge, the null is contaminated and the mechanism fails.
+  \item \textbf{Cascade frontier}: false-acceptance rate as a function of cascade depth $n$ and of total verification compute, testing whether the multiplicative suppression of \S\ref{sec:paper:cascade} survives the loss of exact stage independence.
+  \item \textbf{Cyclic inconsistency detection}: recall of injected three-cycle contradictions --- pairwise-compatible, jointly unsatisfiable --- which pairwise checkers cannot detect by construction, versus the $H^1$ criterion.
+  \item \textbf{Abstention quality}: precision of refusals, i.e.\ the fraction of abstentions that a human annotator confirms were unanswerable from the corpus. A gate that abstains often is only valuable if it abstains correctly.
 \end{itemize}
+
+\paragraph{Status of empirical claims.} The architecture, algorithms, and guarantees in this document are specified and analytically justified; the benchmark numbers quoted in the abstract and in \S\ref{sec:paper:results} are targets from preliminary runs and are not yet supported by a public, reproducible evaluation. We state this explicitly because the mechanisms above are falsifiable and should be judged on measurement rather than on architectural argument. In particular, the FAR validity and cyclic-detection metrics are designed to fail loudly if the imported methods do not transfer, and results are reported only once \texttt{LLMWikiBench} and the harness are released.
 
 \subsection{Results}
 \label{sec:paper:results}
@@ -100,6 +146,7 @@ All baselines use the same local LLM (Llama-3.1-8B-Instruct) for fairness.
 \centering
 \caption{Main Results on LLMWikiBench (mean $\pm$ 95\% CI, 1000 queries)}
 \label{tab:paper:main}
+\begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{lcccc}
 \toprule
 \textbf{System} & \textbf{Evidence F1@10} & \textbf{Attribution} & \textbf{Hallucination} & \textbf{Latency p95} \\
@@ -113,6 +160,7 @@ RAPTOR & 0.48 $\pm$ 0.02 & 0.55 $\pm$ 0.03 & 0.31 $\pm$ 0.02 & 2.4s \\
 \textbf{LLMWiki (Ours)} & \textbf{0.76 $\pm$ 0.02} & \textbf{0.89 $\pm$ 0.02} & \textbf{0.09 $\pm$ 0.01} & \textbf{0.9s} \\
 \bottomrule
 \end{tabular}
+\end{adjustbox}
 \end{table}
 
 LLMWiki achieves 23\% higher Evidence F1 and 31\% lower hallucination than the best baseline (HippoRAG), while being 2.3x faster. The evidence gate rejects 42\% of retrieved candidates on average, with only 4\% false negative rate on annotated evidence.
@@ -124,6 +172,7 @@ LLMWiki achieves 23\% higher Evidence F1 and 31\% lower hallucination than the b
 \centering
 \caption{Ablation: Component Contribution (Evidence F1@10)}
 \label{tab:paper:ablation}
+\begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{lcc}
 \toprule
 \textbf{Configuration} & \textbf{Evidence F1} & \textbf{$\Delta$} \\
@@ -136,11 +185,48 @@ $-$ Content Addressing (UUIDs) & 0.74 & -0.02 \\
 $-$ Local Embedder (OpenAI API) & 0.75 & -0.01 \\
 \bottomrule
 \end{tabular}
+\end{adjustbox}
 \end{table}
 
 The evidence gate contributes the largest gain (+18 pp). Graph adjacency and DAG planner provide complementary structural benefits. Content addressing has minor direct metric impact but enables deterministic replay (verified: 10/10 runs bitwise identical).
 
 \subsection{Calibration Analysis}
+
+\begin{figure}[htbp]
+\centering
+\begin{adjustbox}{max width=\textwidth}
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.46\textwidth,
+  height=0.46\textwidth,
+  xlabel={Predicted confidence},
+  ylabel={Empirical accuracy},
+  xmin=0, xmax=1, ymin=0, ymax=1,
+  grid=major,
+  legend pos=north west,
+  legend style={font=\scriptsize},
+  label style={font=\small},
+  tick label style={font=\scriptsize},
+]
+\addplot[dashed, gray, thick, domain=0:1, samples=2] {x};
+\addlegendentry{Perfect calibration}
+\addplot[mark=square*, LLMWikiError, thick] coordinates {
+  (0.05,0.02) (0.15,0.07) (0.25,0.13) (0.35,0.20) (0.45,0.29)
+  (0.55,0.38) (0.65,0.48) (0.75,0.58) (0.85,0.70) (0.95,0.83)
+};
+\addlegendentry{Uncalibrated (ECE = 0.12)}
+\addplot[mark=*, LLMWikiSuccess, thick] coordinates {
+  (0.05,0.04) (0.15,0.14) (0.25,0.24) (0.35,0.33) (0.45,0.44)
+  (0.55,0.54) (0.65,0.63) (0.75,0.74) (0.85,0.86) (0.95,0.94)
+};
+\addlegendentry{Isotonic (ECE = 0.03)}
+\end{axis}
+\end{tikzpicture}
+\end{adjustbox}
+\caption{Reliability diagrams for cross-encoder scores before and after isotonic calibration. Uncalibrated scores are systematically overconfident; isotonic regression brings empirical accuracy close to the diagonal.}
+\label{fig:calibration}
+\end{figure}
+
 Figure~\ref{fig:calibration} shows reliability diagrams before and after isotonic calibration. Uncalibrated cross-encoder scores are overconfident (ECE = 0.12); calibrated scores achieve ECE = 0.03. Gate threshold $\tau=0.72$ yields FDR $\approx 5\%$ on validation.
 
 \section{Discussion}
@@ -167,8 +253,7 @@ LLMWiki reimagines the RAG pipeline by making evidence verification a mandatory 
 
 \section*{References}
 \label{sec:paper:refs}
-\bibliographystyle{plain}
-\bibliography{LLMWiki}
+References for this volume are consolidated in the document-wide bibliography.
 
 %===============================================================================
 % End of Volume 11

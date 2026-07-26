@@ -9,6 +9,7 @@
 \centering
 \caption{Notation Summary}
 \label{tab:notation}
+\begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{cl}
 \toprule
 \textbf{Symbol} & \textbf{Meaning} \\
@@ -44,6 +45,7 @@ $\text{Fuzzy}(s_1, s_2)$ & Fuzzy string similarity (Levenshtein ratio) \\
 $\text{NLI}(p, h)$ & Natural Language Inference: $\{\text{Entailment, Neutral, Contradiction}\}$ \\
 \bottomrule
 \end{tabular}
+\end{adjustbox}
 \end{table}
 
 %===============================================================================
@@ -245,7 +247,7 @@ Each benchmark dataset in LLMWikiBench follows this construction protocol:
 
 \begin{enumerate}
   \item \textbf{Corpus Selection}: Curated real-world repositories (GitHub, documentation sites, API registries) with permissive licenses.
-  \item \question{Question Generation}:
+  \item \textbf{Question Generation}:
     \begin{itemize}
       \item Template-based: Parameterized templates for common patterns (e.g., "How does X call Y?")
       \item LLM-assisted: Local LLM generates diverse question variations

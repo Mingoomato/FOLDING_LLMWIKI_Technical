@@ -227,7 +227,7 @@ Implement \texttt{GraphStore} trait (Vol.~01, \S\ref{iface:graphstore}). Key met
   \item \texttt{upsert\_nodes}: Batch insert/update nodes
   \item \texttt{upsert\_edges}: Batch insert/update edges
   \item \texttt{traverse}: Pattern-based traversal
-  \item \texttt{neighborhoods}: $-hop neighborhoods
+  \item \texttt{neighborhoods}: $k$-hop neighborhoods
 \end{itemize}
 
 See \texttt{crates/llmwiki-graph/src/store/rocksdb.rs} for reference implementation.

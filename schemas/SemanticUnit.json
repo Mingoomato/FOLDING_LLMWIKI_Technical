@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SemanticUnit",
+  "type": "object",
+  "required": ["id", "type", "content", "file_path"],
+  "properties": {
+    "id":        { "type": "string", "description": "SHA-256 of the canonical form" },
+    "type":      { "type": "string", "enum": ["function", "class", "section", "paragraph", "endpoint", "schema", "config"] },
+    "content":   { "type": "string" },
+    "file_path": { "type": "string" },
+    "span":      { "type": "array", "items": { "type": "integer" }, "minItems": 2, "maxItems": 2 },
+    "language":  { "type": "string" },
+    "metadata":  { "type": "object", "additionalProperties": true }
+  }
+}

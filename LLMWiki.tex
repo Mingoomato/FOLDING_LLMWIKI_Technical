@@ -4,6 +4,7 @@
 \usepackage[english]{babel}
 \usepackage{amsmath,amssymb,amsthm,mathtools}
 \usepackage{graphicx}
+\usepackage[export]{adjustbox}
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{array}
@@ -16,6 +17,7 @@
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
 \usepackage{tikz}
+\usetikzlibrary{fit,backgrounds,positioning,arrows.meta,calc,shapes.geometric}
 \usepackage{tikz-qtree}
 \usepackage{forest}
 \usepackage{pgfplots}
@@ -71,6 +73,9 @@
 \usepackage{academicons}
 \usepackage{fontspec}
 \usepackage{unicode-math}
+\usepackage{pifont}
+\newcommand{\cmark}{\textcolor{LLMWikiSuccess}{\ding{51}}}
+\newcommand{\xmark}{\textcolor{LLMWikiError}{\ding{55}}}
 
 \geometry{
     paper=a4paper,
@@ -93,6 +98,11 @@
 \definecolor{LLMWikiError}{HTML}{EF4444}
 \definecolor{LLMWikiSuccess}{HTML}{10B981}
 \definecolor{LLMWikiMuted}{HTML}{64748B}
+
+% Lowercase color aliases used inside some TikZ figures
+\colorlet{llmwikiblue}{LLMWikiBlue}
+\colorlet{llmwikigreen}{LLMWikiSuccess}
+\colorlet{llmwikiorange}{LLMWikiWarn}
 
 \hypersetup{
     colorlinks=true,
@@ -139,6 +149,26 @@
 \lstdefinelanguage{GraphQL}{
     keywords={query,mutation,subscription,type,input,enum,interface,union,fragment,on,extend,scalar,directive,schema},
     sensitive=true,
+    morecomment=[l]{\#},
+    morestring=[b]",
+}
+
+\lstdefinelanguage{JSON}{
+    keywords={true,false,null},
+    sensitive=false,
+    morestring=[b]",
+    morestring=[b]',
+}
+
+\lstdefinelanguage{SCM}{
+    morecomment=[l]{;},
+    morestring=[b]",
+    alsoletter={-},
+}
+
+\lstdefinelanguage{TOML}{
+    keywords={true,false},
+    sensitive=false,
     morecomment=[l]{\#},
     morestring=[b]",
 }
@@ -214,6 +244,25 @@
 \newtheorem{observation}[definition]{Observation}
 \newtheorem{insight}[definition]{Architectural Insight}
 
+% algpseudocode alias: \ForEach behaves like \ForAll (paired with \EndFor)
+\algnewcommand\ForEach[1]{\ForAll{#1}}
+
+% abstract environment (book class has none)
+\newenvironment{abstract}%
+  {\begin{quotation}\small\noindent\textbf{Abstract.\ }}%
+  {\end{quotation}\normalsize}
+
+% --- Custom design/patent/interface callout environments (share definition counter) ---
+\theoremstyle{definition}
+\newtheorem{designprinciple}[definition]{Design Principle}
+\newtheorem{designrationale}[definition]{Design Rationale}
+\newtheorem{designdecision}[definition]{Design Decision}
+\newtheorem{designtradeoff}[definition]{Design Trade-off}
+\newtheorem{invariant}[definition]{Invariant}
+\newtheorem{interface}[definition]{Interface}
+\newtheorem{patentclaim}[definition]{Patent Claim}
+\newtheorem{patentdiscussion}[definition]{Patent Discussion}
+
 \DeclareMathOperator{\argmax}{arg\,max}
 \DeclareMathOperator{\argmin}{arg\,min}
 \DeclareMathOperator{\softmax}{softmax}
@@ -285,9 +334,8 @@
 \newcommand{\module}[1]{\textsf{#1}\xspace}
 \newcommand{\function}[1]{\texttt{#1()}\xspace}
 \newcommand{\class}[1]{\texttt{#1}\xspace}
-\newcommand{\interface}[1]{\texttt{#1}\xspace}
 \newcommand{\config}[1]{\texttt{#1}\xspace}
-\\newcommand{\\codepath}[1]{\texttt{#1}\xspace}
+\newcommand{\codepath}[1]{\texttt{#1}\xspace}
 \newcommand{\api}[1]{\texttt{#1}\xspace}
 
 \titleformat{\chapter}[display]
@@ -295,7 +343,6 @@
 {\flushright{\fontsize{60}{70}\selectfont\color{LLMWikiLightBlue}\thechapter}}
 {20pt}
 {\Huge\color{LLMWikiDarkBlue}\titlerule[2pt]\vspace{10pt}}
-[\vspace{10pt}\titlerule[1pt]\vspace{5pt}\color{LLMWikiAccent}{\hrule height 1pt}]
 
 \titleformat{\section}
 {\normalfont\Large\bfseries\color{LLMWikiDarkBlue}}
@@ -339,7 +386,6 @@
 \cftsetindents{subsection}{4em}{3.5em}
 
 \makeglossaries
-\makenoidxglossaries
 \makeindex
 
 \input{acronyms}

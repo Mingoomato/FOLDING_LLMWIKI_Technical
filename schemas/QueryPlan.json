@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "QueryPlan",
+  "type": "object",
+  "required": ["query", "steps"],
+  "properties": {
+    "query": { "type": "string" },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "op"],
+        "properties": {
+          "id":        { "type": "string" },
+          "op":        { "type": "string", "enum": ["retrieve", "expand", "gate", "synthesize"] },
+          "depends_on": { "type": "array", "items": { "type": "string" } },
+          "params":    { "type": "object", "additionalProperties": true }
+        }
+      }
+    },
+    "budget": {
+      "type": "object",
+      "properties": {
+        "max_tokens": { "type": "integer" },
+        "max_ms":     { "type": "integer" },
+        "max_cost":   { "type": "number" }
+      }
+    }
+  }
+}

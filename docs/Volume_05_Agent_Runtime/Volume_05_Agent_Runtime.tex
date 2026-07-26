@@ -34,6 +34,7 @@ Every decision (plan step, tool choice, retrieval result, synthesis token) is lo
 
 \begin{figure}[htbp]
 \centering
+\begin{adjustbox}{max width=\textwidth}
 \begin{tikzpicture}[
   mod/.style={draw, rounded corners, fill=llmwikiorange!10, minimum width=3cm, minimum height=1.2cm, font=\small},
   flow/.style={->, thick, >=stealth}
@@ -54,6 +55,7 @@ Every decision (plan step, tool choice, retrieval result, synthesis token) is lo
   \draw[flow] (llm) -- (stream);
   \draw[flow] (toolreg) -- (stream);
 \end{tikzpicture}
+\end{adjustbox}
 \caption{Agent Runtime components.}
 \label{fig:runtime:arch}
 \end{figure}
@@ -166,6 +168,7 @@ trait Tool {
 \centering
 \caption{Built-in Tools}
 \label{tab:runtime:builtin-tools}
+\begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{lll}
 \toprule
 \textbf{Tool} & \textbf{Input} & \textbf{Output} \\
@@ -180,6 +183,7 @@ trait Tool {
 \texttt{verify\_evidence} & \texttt{VerifyInput}\{query, units[]\} & \texttt{VerifiedUnits}\{verified[]\} \\
 \bottomrule
 \end{tabular}
+\end{adjustbox}
 \end{table}
 
 \subsection{Custom Tools}
@@ -236,7 +240,9 @@ struct ExecutionState {
 
 \paragraph{Scratchpad:} Structured key-value store accessible to LLM via tool calls. Used for intermediate reasoning, variable passing between steps, and user-facing ``thoughts''.
 
-\paragraph{Budget Tracker:} Hard limits with configurable actions on exceed:
+\paragraph{Budget Tracker:}
+\label{sec:runtime:budget}
+Hard limits with configurable actions on exceed:
 \begin{verbatim}
 budget:
   max_tokens: 100000
@@ -245,6 +251,56 @@ budget:
   max_cost_usd: 0.50
   on_exceed: "truncate"  # "error" | "truncate" | "partial"
 \end{verbatim}
+
+\section{Budget as Allocation, Not Truncation}
+\label{sec:runtime:allocation}
+
+The budget tracker of \S\ref{sec:runtime:budget} is a circuit breaker: it observes consumption and terminates when a limit is crossed. It never influences \emph{which} work is done, only when work stops. Under a binding budget this is close to the worst available policy, because the steps that happen to be scheduled early consume the budget regardless of their value, and the terminating action --- truncate, partial, error --- degrades an answer that a different ordering might have completed.
+
+Time-domain astronomy operates permanently in this regime and does not treat it as an error condition. The Vera C.\ Rubin Observatory's survey will produce on the order of $10^4$ transient alerts per night against spectroscopic follow-up capacity of order $10^1$; the deficit is four orders of magnitude and is structural, not a provisioning failure. The response is a broker layer that ranks candidates in real time under hard resource constraints. \citet{aas2rto2025} score candidates and fold in observability to produce a continually updated priority list; the Fink broker applies real-time active learning to select the follow-up that most improves classification rather than the one with the highest current score \citep{fink2025active}; and \citet{rlfollowup2025} formulate follow-up scheduling as an online resource-constrained problem solved by reinforcement learning.
+
+The third of these is the important one. Ranking by score selects what the system already believes; ranking by expected information gain selects what would change its belief.
+
+\begin{designprinciple}[Budget Allocation over Budget Enforcement]
+The execution budget is an allocation problem solved continuously during execution, not a limit checked after the fact. Steps compete for budget on expected evidential gain per unit cost, and the enforcement action is the degenerate case reached when no step clears the bar.
+\end{designprinciple}
+
+\begin{definition}[Evidential Value Density]
+\label{def:value-density}
+For a candidate step $s$ with estimated cost $c(s)$ in budget units, let $\Delta H(s)$ be the expected reduction in uncertainty over the answer induced by executing $s$. The value density is $\nu(s) = \Delta H(s) / c(s)$.
+\end{definition}
+
+Uncertainty here is not a free parameter: the evidence gate already produces a calibrated quantity. Using the false alarm rates of \S\ref{sec:retrieval:far}, the current evidence set induces a distribution over admissible answers, and $\Delta H(s)$ is estimated as the expected decrease in its entropy --- the step most worth taking is the one whose result is least predictable from what is already verified.
+
+\begin{algorithm}[H]
+\caption{Budget-Aware Step Scheduling}
+\label{alg:budget-scheduling}
+\begin{algorithmic}[1]
+\Require Plan DAG $P$, budget $B$, state $S$
+\Ensure Answer or partial result with accounting
+\State $F \gets \textsc{ReadyFrontier}(P, S)$ \Comment{Steps with satisfied dependencies}
+\While{$F \neq \varnothing$ and $B$ not exhausted}
+  \ForAll{$s \in F$}
+    \State $\hat{c}(s) \gets \textsc{EstimateCost}(s)$ \Comment{From historical step statistics}
+    \State $\widehat{\Delta H}(s) \gets \textsc{EstimateGain}(s, S)$ \Comment{Entropy of answer distribution}
+  \EndFor
+  \State $s^* \gets \arg\max_{s \in F} \widehat{\Delta H}(s) / \hat{c}(s)$
+  \If{$\widehat{\Delta H}(s^*) < \delta_{\min}$}
+    \State \textbf{break} \Comment{No step justifies its cost; stop early and under budget}
+  \EndIf
+  \State $S \gets \textsc{Execute}(s^*, S)$; $B \gets B - \textsc{ActualCost}(s^*)$
+  \State $F \gets \textsc{ReadyFrontier}(P, S)$ \Comment{Re-plan: results may prune or add steps}
+\EndWhile
+\State \Return \textsc{Synthesize}($S$), \textsc{BudgetReport}($B$)
+\end{algorithmic}
+\end{algorithm}
+
+Two consequences distinguish this from enforcement. First, the loop can terminate \emph{under} budget when no remaining step earns its cost, which a circuit breaker never does --- it spends everything it is given. Second, when the budget does bind, what survives is the highest-value-density prefix rather than an arbitrary prefix, so the partial result is the best obtainable at that price rather than whatever happened to run first.
+
+\begin{observation}[Estimator Quality Bounds the Gain]
+\label{obs:estimator-quality}
+Algorithm~\ref{alg:budget-scheduling} is only as good as $\widehat{\Delta H}$ and $\hat{c}$. Cost estimation is tractable, since step costs are empirically regular and improve with logged history. Gain estimation is genuinely hard and a poor estimator degrades the schedule toward arbitrary ordering --- which is to say, toward the behaviour of the circuit breaker it replaces. The failure mode is therefore bounded below by the previous design, which is why the allocation policy can be deployed incrementally.
+\end{observation}
 
 \section{Streaming Protocol}
 \label{sec:runtime:streaming}

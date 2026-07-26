@@ -27,6 +27,7 @@ The Evidence Gate is \textbf{not} a reranker. Key distinctions:
 \centering
 \caption{Reranker vs. Evidence Gate}
 \label{tab:retrieval:reranker-vs-gate}
+\begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{lcc}
 \toprule
 \textbf{Property} & \textbf{Reranker} & \textbf{Evidence Gate} \\
@@ -39,6 +40,7 @@ Citation policy & Top-$k$ cited & Only verified cited \\
 Calibration & Rarely calibrated & Mandatory calibration \\
 \bottomrule
 \end{tabular}
+\end{adjustbox}
 \end{table}
 
 This distinction is fundamental: a reranker always returns $k$ results; the Evidence Gate may return $0$ (triggering ``insufficient evidence'' response), which is the correct behavior when no unit actually supports the query.
@@ -48,35 +50,38 @@ This distinction is fundamental: a reranker always returns $k$ results; the Evid
 
 \begin{figure}[htbp]
 \centering
+\begin{adjustbox}{max width=\textwidth}
 \begin{tikzpicture}[
-  stage/.style={draw, rounded corners, fill=llmwikiblue!5, minimum width=2.5cm, minimum height=1.2cm, font=\small},
+  stage/.style={draw, rounded corners, fill=llmwikiblue!5, text width=2.6cm, minimum height=1.3cm, font=\small, align=center, inner sep=3pt},
   flow/.style={->, thick, >=stealth}
 ]
-  \node[stage] (query) at (0,0) {Query $q$};
-  \node[stage] (embed) at (4,0) {Embed Query};
-  \node[stage] (hybrid) at (8,0) {Hybrid Search\\(Vec + BM25 + Graph)};
-  \node[stage] (candidates) at (12,0) {Candidates $\mathcal{R}$};
-  \node[stage] (gate) at (16,0) {Evidence Gate\\(Cross-Encoder)};
-  \node[stage] (verified) at (20,0) {Verified $\mathcal{E}$};
-  \node[stage] (synth) at (24,0) {Synthesize + Cite};
+  % Row 1
+  \node[stage] (query) {Query $q$};
+  \node[stage, right=0.5cm of query] (embed) {Embed Query};
+  \node[stage, right=0.5cm of embed] (hybrid) {Hybrid Search (Vec + BM25 + Graph)};
+  \node[stage, right=0.5cm of hybrid] (candidates) {Candidates $\mathcal{R}$};
 
   \draw[flow] (query) -- (embed);
   \draw[flow] (embed) -- (hybrid);
   \draw[flow] (hybrid) -- (candidates);
-  \draw[flow] (candidates) -- (gate);
+
+  % Row 2
+  \node[stage, below=1.1cm of query] (gate) {Evidence Gate (Cross-Encoder)};
+  \node[stage, right=0.5cm of gate] (verified) {Verified $\mathcal{E}$};
+  \node[stage, right=0.5cm of verified] (synth) {Synthesize + Cite};
+
   \draw[flow] (gate) -- (verified);
   \draw[flow] (verified) -- (synth);
 
+  % Wrap from end of row 1 to start of row 2
+  \draw[flow] (candidates.south) -- ++(0,-0.45) -| (gate.north);
+
   % Calibration feedback
-  \node[draw, dashed, rounded corners, fill=gray!5, minimum width=3cm, minimum height=1.5cm] (cal) at (16,-3) {
-    \node[anchor=north west, font=\bfseries] at (0.3,1.2) {Calibration};
-    \node[anchor=west] at (0.3,0.5) {Isotonic / Platt};
-    \node[anchor=west] at (0.3,0.0) {Temperature scaling};
-    \node[anchor=west] at (0.3,-0.5) {Validation set};
-  };
-  \draw[flow, dashed] (gate) -- (cal);
-  \draw[flow, dashed] (cal) -- (gate);
+  \node[stage, dashed, fill=gray!5, below=0.9cm of verified] (cal) {Calibration: isotonic / Platt / temperature, FAR null};
+  \draw[flow, dashed] (gate.south) |- (cal.west);
+  \draw[flow, dashed] (cal.east) -| (synth.south);
 \end{tikzpicture}
+\end{adjustbox}
 \caption{Retrieval + Evidence Gate pipeline.}
 \label{fig:retrieval:pipeline}
 \end{figure}
@@ -125,6 +130,54 @@ Units with $\text{score} < \tau$ are discarded. $\tau$ is calibrated per model/d
 \State \Return \textsc{SortByScoreDesc}($\mathcal{E}$)
 \end{algorithmic}
 \end{algorithm}
+
+\subsection{Multi-Stage Proofreading Cascade}
+\label{sec:retrieval:proofreading}
+
+Algorithm~\ref{alg:evidence-gate} performs \emph{single-step} discrimination: one score, one threshold. Its achievable error rate is bounded by the separation of the score distributions of relevant and irrelevant units under a single measurement. This is the direct analogue of equilibrium binding discrimination in molecular recognition, where selectivity cannot exceed the ratio of dissociation constants.
+
+Biological systems face an identical constraint and defeat it. A T cell must discriminate agonist from self peptide despite very small differences in receptor binding affinity, yet achieves error rates far below the equilibrium bound. The mechanism, due to \citet{hopfield1974kinetic} and \citet{ninio1975kinetic}, is \emph{kinetic proofreading}: the recognition event is decomposed into $n$ sequential intermediate states, each of which may irreversibly discard the candidate, and each of which is driven out of equilibrium by energy dissipation. Recent work has refined this picture, showing that parallel reaction threads on a single receptor improve discrimination fidelity without lengthening the sequential chain \citep{kirby2025parallel}, and that multimolecular schemes can escape the classical activity--fidelity trade-off \citep{multimolecular2026}.
+
+We adopt this architecture directly.
+
+\begin{designprinciple}[Proofreading over Thresholding]
+Evidence verification is a cascade of $n$ irreversible discard stages of increasing cost and decreasing throughput, not a single thresholded score. Fidelity is purchased with computation, and the exchange rate is quantifiable.
+\end{designprinciple}
+
+\begin{definition}[Proofreading Cascade]
+\label{def:proofreading-cascade}
+A proofreading cascade of depth $n$ is a sequence of verifiers $g_1, \dots, g_n$ with thresholds $\tau_1, \dots, \tau_n$ and unit costs $c_1 \leq \dots \leq c_n$. A candidate $u$ survives stage $j$ iff $g_j(q,u) \geq \tau_j$, and is discarded irreversibly otherwise. The gate output is the set of candidates surviving all $n$ stages.
+\end{definition}
+
+\begin{theorem}[Multiplicative Error Suppression]
+\label{thm:error-suppression}
+Let $\varepsilon_j$ denote the false-acceptance probability of stage $j$ on an irrelevant unit, and $\rho_j$ its true-acceptance probability on a relevant unit. If the stage verdicts are conditionally independent given relevance, the cascade attains
+\begin{equation}
+\varepsilon_{\text{casc}} = \prod_{j=1}^{n} \varepsilon_j, \qquad
+\rho_{\text{casc}} = \prod_{j=1}^{n} \rho_j .
+\end{equation}
+For homogeneous stages ($\varepsilon_j = \varepsilon$, $\rho_j = \rho$) the false-acceptance rate decays as $\varepsilon^n$ while recall decays only as $\rho^n$; since $\rho \gg \varepsilon$ by construction, the discrimination ratio $\rho_{\text{casc}}/\varepsilon_{\text{casc}} = (\rho/\varepsilon)^n$ grows exponentially in depth.
+\end{theorem}
+
+The conditional independence premise is the load-bearing assumption, and it is not free: stacking $n$ copies of the same cross-encoder yields perfectly correlated verdicts and no gain whatsoever. Independence is engineered by making the stages read \emph{different evidence channels}, which is the retrieval analogue of the parallel reaction threads of \citet{kirby2025parallel}:
+
+\begin{enumerate}
+  \item \textbf{Stage 1 --- Lexical admissibility} ($c_1$ negligible): BM25 span overlap between query terms and unit content. Rejects candidates retrieved purely by embedding drift.
+  \item \textbf{Stage 2 --- Cross-encoder relevance} ($c_2$ moderate): Algorithm~\ref{alg:evidence-gate} as specified above.
+  \item \textbf{Stage 3 --- Structural admissibility} ($c_3$ low): the unit must be reachable in the knowledge graph from at least one other surviving unit within $k$ hops, or be the unique survivor. Rejects semantically plausible but contextually orphaned units.
+  \item \textbf{Stage 4 --- Entailment verification} ($c_4$ high): a natural language inference model must find the candidate answer span entailed, not merely topically related, by the unit.
+\end{enumerate}
+
+\paragraph{Cost.} Naively a cascade is $n$ times more expensive. It is not, because survival is exponentially rare: with per-stage survival fraction $s_j$ the expected cost per initial candidate is
+\begin{equation}
+C = c_1 + \sum_{j=2}^{n} c_j \prod_{i<j} s_i ,
+\end{equation}
+so the expensive terminal stages are evaluated on a vanishing fraction of the candidate set. Ordering stages by increasing $c_j / (1 - s_j)$ minimises $C$ --- cheap, highly selective filters first.
+
+\begin{observation}[Fidelity Requires Dissipation]
+\label{obs:dissipation}
+In the thermodynamic setting, proofreading fidelity beyond the equilibrium bound is possible only if the cycle consumes free energy; a cascade run at equilibrium provides no discrimination gain. The computational analogue is exact: the discard steps are irreversible, and the cascade's advantage over a single threshold is paid for strictly in compute. This yields an accuracy-versus-compute frontier for evidence verification rather than an unbounded accuracy claim, and we regard the existence of that frontier as a design constraint rather than a limitation to be hidden.
+\end{observation}
 
 \subsection{Stage 4: Synthesis with Forced Citations}
 \label{sec:retrieval:synthesis}
@@ -188,6 +241,58 @@ The threshold $\tau$ must be calibrated to achieve desired precision/recall trad
 
 Calibration artifacts are stored in \texttt{.llmwiki/evidence/cross-encoder/calibration.json} and loaded at startup.
 
+\subsection{Label-Free Calibration by Discordant Pairing}
+\label{sec:retrieval:far}
+
+Algorithm~\ref{alg:calibration} requires $\mathcal{D}_{val}$ with human relevance judgements $y_i$. This is the binding practical constraint on every deployment: relevance labels are expensive, corpus-specific, and stale the moment the corpus changes. A threshold that cannot be recalibrated without re-annotation is a threshold that will silently drift.
+
+Gravitational-wave astronomy confronts a structurally identical problem --- assigning significance to candidate events when no labelled catalogue of true detections exists --- and solves it without labels. The technique is \emph{time slides} \citep{was2010timeslides,pycbclive2018}: triggers from one detector are shifted in time by more than the inter-detector light travel time, so that any coincidence formed from the shifted streams \emph{cannot} correspond to a real astrophysical signal. Repeating the shift many times yields a large empirical sample of pure-noise coincidences, from which the false alarm rate (FAR) is read off as a function of the ranking statistic. Detection thresholds are then quoted in operational units --- LIGO's public alert threshold corresponds to approximately one false alarm per two months.
+
+We construct the same empirical null for evidence scoring.
+
+\begin{definition}[Discordant Pair]
+\label{def:discordant-pair}
+A discordant pair $(q, u^-)$ is a query paired with a unit drawn such that genuine relevance is excluded by construction, not by judgement. Admissible constructions are:
+\begin{enumerate}
+  \item \textbf{Corpus displacement}: $u^-$ is drawn from a repository disjoint in domain from the one $q$ was issued against.
+  \item \textbf{Temporal displacement}: $u^-$ is drawn from a WAL snapshot predating the creation of every entity referenced by $q$, so no unit in that snapshot can describe them.
+  \item \textbf{Graph displacement}: $u^-$ is drawn from a connected component of the knowledge graph containing no entity mentioned in $q$.
+\end{enumerate}
+\end{definition}
+
+\begin{algorithm}[H]
+\caption{False Alarm Rate Estimation without Relevance Labels}
+\label{alg:far}
+\begin{algorithmic}[1]
+\Require Query sample $Q$, corpora $\{\mathcal{U}_1,\dots,\mathcal{U}_m\}$, scorer $f$, displacement count $N$
+\Ensure Empirical null $\hat{F}_0$, threshold $\tau^*$ for target $\text{FAR}^*$
+\State $S_0 \gets \varnothing$
+\For{$i = 1$ to $N$}
+  \ForAll{$q \in Q$}
+    \State $u^- \gets \textsc{DrawDiscordant}(q, \{\mathcal{U}_j\})$ \Comment{Def.~\ref{def:discordant-pair}}
+    \State $S_0 \gets S_0 \cup \{f(q, u^-)\}$
+  \EndFor
+\EndFor
+\State $\hat{F}_0(s) \gets |\{s' \in S_0 : s' \geq s\}| \, / \, |S_0|$ \Comment{Empirical survival function}
+\State $\tau^* \gets \min \{ s : \hat{F}_0(s) \cdot \bar{k} \leq \text{FAR}^* \}$ \Comment{$\bar{k}$ = mean candidates per query}
+\State \Return $\hat{F}_0, \tau^*$
+\end{algorithmic}
+\end{algorithm}
+
+\paragraph{Reporting.} Every admitted unit carries not a raw score but a false alarm rate: \emph{``evidence of this strength arises from an unrelated corpus once per $1/(\hat{F}_0(s)\bar{k})$ queries.''} This is an operationally meaningful quantity that a threshold of $0.72$ is not.
+
+\begin{invariant}[Operational Significance]
+\label{inv:far}
+No unit enters the synthesis context without an associated FAR computed against the current empirical null. Recalibration is triggered whenever the WAL advances past a configured number of commits, and requires no human annotation.
+\end{invariant}
+
+\paragraph{Limitations, stated plainly.} Two are inherited directly from the source domain and one is specific to ours.
+\begin{itemize}
+  \item \textbf{Null contamination.} Time slides work because the light travel time bound is a physical guarantee. Our displacements are weaker guarantees: a unit from a ``disjoint'' repository may still be generically relevant (a logging idiom, a licence header). Contaminated discordant pairs inflate the null's upper tail and make the gate conservative. Domain disjointness must be asserted from repository metadata, never assumed.
+  \item \textbf{Estimator saturation.} The gravitational-wave literature reports that FAR estimation error saturates with the number of time shifts \citep{was2010timeslides}; beyond a point, additional displacements re-use the same triggers and add no independent information. The same ceiling applies to $N$ in Algorithm~\ref{alg:far}, and we therefore treat $N$ as tuned to the saturation point rather than maximised.
+  \item \textbf{Null $\neq$ alternative.} FAR bounds the rate of \emph{spurious} admission. It says nothing about recall. FAR calibration therefore complements, and does not replace, the labelled conformal procedure of \S\ref{sec:retrieval:confidence}: the empirical null fixes the operating point without labels, and conformal prediction supplies coverage guarantees when labels are available.
+\end{itemize}
+
 \subsection{Confidence Intervals}
 \label{sec:retrieval:confidence}
 
@@ -198,7 +303,56 @@ Beyond point threshold, we provide confidence intervals per prediction:
   \item \textbf{Ensemble}: Multiple cross-encoders $\to$ variance as uncertainty
 \end{itemize}
 
-Default: Temperature scaling + conformal prediction with 95% coverage.
+Default: Temperature scaling + conformal prediction with 95\% coverage.
+
+\section{Global Consistency of Evidence}
+\label{sec:retrieval:sheaf}
+
+Everything specified so far verifies each unit \emph{independently} against the query. This leaves a hole that no amount of per-unit accuracy can close: two units may each be strongly relevant to $q$ and yet assert incompatible things about it. A gate built from pairwise scores admits both, the synthesis stage receives a contradictory evidence set, and the resulting answer is fluently grounded in mutually exclusive sources. Evidence closure as defined in \S\ref{sec:retrieval:evidence-gate} is a statement about provenance, not about coherence, and is therefore not yet closed.
+
+The obstruction to assembling locally valid data into a globally valid whole is the subject of sheaf theory, where it is not a metaphor but the definition. A sheaf assigns data to open sets and specifies restriction maps between them; the global sections $H^0$ are exactly the consistent global assignments, and the first cohomology $H^1$ measures the obstruction to gluing local data that is pairwise compatible into a global section. Cellular sheaves make this computable over graphs, and recent work has applied the construction to distributed computation --- where terminating solutions to a task are precisely the global sections of a task sheaf \citep{sheafdistributed2025} --- to consistency constraints on networks \citep{sheafnetworks2025}, and to characterising irreducible error patterns in predictive coding networks \citep{sheafpc2025}.
+
+\begin{definition}[Evidence Sheaf]
+\label{def:evidence-sheaf}
+Let $\mathcal{E}$ be the set of units surviving the proofreading cascade, and let $G_{\mathcal{E}}$ be the graph with vertices $\mathcal{E}$ and an edge $\{u,v\}$ whenever $u$ and $v$ share an entity or stand in a graph relation. The evidence sheaf $\mathcal{F}$ over $G_{\mathcal{E}}$ assigns
+\begin{itemize}
+  \item to each vertex $u$, the stalk $\mathcal{F}(u)$ of admissible truth assignments to the atomic claims extracted from $u$;
+  \item to each edge $\{u,v\}$, the stalk $\mathcal{F}(uv)$ of assignments to the claims shared between them;
+  \item restriction maps $\mathcal{F}_{u \trianglelefteq uv} : \mathcal{F}(u) \to \mathcal{F}(uv)$ induced by natural language inference between the claim sets.
+\end{itemize}
+\end{definition}
+
+\begin{definition}[Evidence Closure, Cohomological Form]
+\label{def:closure-cohomological}
+An evidence set $\mathcal{E}$ is \emph{closed} for query $q$ iff the evidence sheaf $\mathcal{F}$ admits a global section supporting the answer, i.e.\ $H^0(G_{\mathcal{E}}; \mathcal{F}) \neq \varnothing$ and the answer's claims lie in its image. The set is \emph{obstructed} iff $H^1(G_{\mathcal{E}}; \mathcal{F}) \neq 0$.
+\end{definition}
+
+This supersedes the provenance-only definition. A nonzero $H^1$ certifies that no consistent reading of the retrieved evidence exists, regardless of how high the individual relevance scores are.
+
+\begin{algorithm}[H]
+\caption{Consistency Gate}
+\label{alg:consistency-gate}
+\begin{algorithmic}[1]
+\Require Verified units $\mathcal{E}$, query $q$
+\Ensure Coherent subset $\mathcal{E}^*$ or abstention with conflict witness
+\State $G_{\mathcal{E}} \gets \textsc{BuildOverlapGraph}(\mathcal{E})$
+\State $\mathcal{F} \gets \textsc{BuildEvidenceSheaf}(G_{\mathcal{E}})$ \Comment{Def.~\ref{def:evidence-sheaf}}
+\State $Z \gets \textsc{ComputeH0}(G_{\mathcal{E}}, \mathcal{F})$ \Comment{Consistent global assignments}
+\If{$Z \neq \varnothing$}
+  \State \Return $\mathcal{E}$ \Comment{Closed; proceed to synthesis}
+\EndIf
+\State $B \gets \textsc{ComputeH1Support}(G_{\mathcal{E}}, \mathcal{F})$ \Comment{Edges carrying the obstruction}
+\State $\mathcal{E}^* \gets \textsc{MaxConsistentSubset}(\mathcal{E}, B)$
+\If{$\textsc{Supports}(\mathcal{E}^*, q)$}
+  \State \Return $\mathcal{E}^*$ with conflict report $B$
+\EndIf
+\State \Return \textsc{Abstain}(``contradictory evidence'', witness $B$)
+\end{algorithmic}
+\end{algorithm}
+
+\paragraph{Why cohomology rather than pairwise conflict detection.} A pairwise contradiction check finds edges where two units disagree. It cannot detect \emph{cyclic} inconsistency, in which every pair is individually compatible but no assignment satisfies the cycle --- the situation where $u$ is compatible with $v$, $v$ with $w$, and $w$ with $u$, yet the three cannot hold simultaneously. This is precisely the regime $H^1$ was invented to measure, and it is the regime in which a system reporting high pairwise confidence is most confidently wrong. The cohomology computation additionally \emph{localises} the failure: the support of the obstruction class identifies which relations carry it, so the system can report a conflict witness rather than an unexplained refusal.
+
+\paragraph{Cost.} For the linear sheaves used here, $H^0$ and $H^1$ reduce to kernel and cokernel computations on the sheaf Laplacian, polynomial in $|\mathcal{E}|$. Since $|\mathcal{E}|$ after the cascade is small by construction (\S\ref{sec:retrieval:proofreading}), the consistency gate is not the bottleneck; the NLI evaluations that populate the restriction maps are, and they are bounded by the number of overlap edges.
 
 \section{Query Planner Integration}
 \label{sec:retrieval:planner-integration}
@@ -246,6 +400,7 @@ The Evidence Gate is evaluated on:
 \centering
 \caption{Evidence Gate Evaluation Metrics}
 \label{tab:retrieval:metrics}
+\begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{lll}
 \toprule
 \textbf{Metric} & \textbf{Definition} & \textbf{Target} \\
@@ -259,6 +414,7 @@ Conformal Coverage & Empirical coverage of prediction sets & $\approx 0.95$ \\
 Empty Rate & $\frac{|\{q: \mathcal{E}(q) = \varnothing\}|}{|Q|}$ & $< 0.10$ \\
 \bottomrule
 \end{tabular}
+\end{adjustbox}
 \end{table}
 
 \section{Comparison with Prior Art}
@@ -268,20 +424,25 @@ Empty Rate & $\frac{|\{q: \mathcal{E}(q) = \varnothing\}|}{|Q|}$ & $< 0.10$ \\
 \centering
 \caption{Retrieval + Verification in Prior Art}
 \label{tab:retrieval:prior-art}
-\begin{tabular}{lcccc}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lccccc}
 \toprule
-\textbf{System} & \textbf{Hybrid Search} & \textbf{Cross-Encoder} & \textbf{Mandatory Gate} & \textbf{Calibration} \\
+\textbf{System} & \textbf{Hybrid} & \textbf{Cross-Enc.} & \textbf{Mandatory} & \textbf{Label-Free} & \textbf{Global} \\
+ & \textbf{Search} & & \textbf{Gate} & \textbf{FAR} & \textbf{Consistency} \\
 \midrule
-Standard RAG & \xmark (vec only) & \xmark & \xmark & \xmark \\
-RAG with Reranker & \cmark (vec) & \cmark & \xmark & \xmark \\
-GraphRAG & \cmark (vec+graph) & \xmark & \xmark & \xmark \\
-HippoRAG & \cmark (graph PPR) & \xmark & \xmark & \xmark \\
-LightRAG & \cmark (dual-level) & \xmark & \xmark & \xmark \\
-REALM/RA-CM3 & \xmark & \xmark & \xmark & \xmark \\
-LLMWiki & \cmark (3-signal) & \cmark & \cmark & \cmark \\
+Standard RAG & \xmark (vec only) & \xmark & \xmark & \xmark & \xmark \\
+RAG with Reranker & \cmark (vec) & \cmark & \xmark & \xmark & \xmark \\
+GraphRAG & \cmark (vec+graph) & \xmark & \xmark & \xmark & \xmark \\
+HippoRAG & \cmark (graph PPR) & \xmark & \xmark & \xmark & \xmark \\
+LightRAG & \cmark (dual-level) & \xmark & \xmark & \xmark & \xmark \\
+REALM/RA-CM3 & \xmark & \xmark & \xmark & \xmark & \xmark \\
+LLMWiki & \cmark (3-signal) & \cmark (cascade) & \cmark & \cmark & \cmark ($H^1$) \\
 \bottomrule
 \end{tabular}
+\end{adjustbox}
 \end{table}
+
+The final two columns are the ones without prior occupants. No deployed retrieval system reports significance against an empirical null constructed without relevance labels, and none certifies that its returned evidence set is mutually consistent rather than merely individually relevant.
 
 \section{Patent-Relevant Novelty}
 \label{sec:retrieval:patent}
@@ -294,22 +455,37 @@ LLMWiki & \cmark (3-signal) & \cmark & \cmark & \cmark \\
 \textbf{Claim 7:} The system of Claim 6 wherein the evidence gate operates as a filter (not a reranker), such that zero candidates may be returned when no evidence meets the threshold, triggering an explicit ``insufficient evidence'' response rather than hallucinated synthesis.
 \end{patentclaim}
 
+\begin{patentclaim}
+\textbf{Claim 8:} The system of Claim 6 wherein the evidence gate comprises a cascade of $n \geq 2$ verification stages reading mutually distinct evidence channels, each stage irreversibly discarding candidates below a stage-specific threshold, ordered by increasing unit cost, such that the false-acceptance rate decays multiplicatively in the number of stages while the expected cost per candidate remains bounded by the survival-weighted sum of stage costs.
+\end{patentclaim}
+
+\begin{patentclaim}
+\textbf{Claim 9:} The system of Claim 6 wherein the threshold is derived without relevance annotations by (a) constructing query--unit pairs for which relevance is excluded by corpus, temporal, or graph displacement, (b) accumulating scorer outputs over said pairs into an empirical null distribution, and (c) selecting the threshold attaining a target false alarm rate under said distribution, the false alarm rate being reported with each admitted unit.
+\end{patentclaim}
+
+\begin{patentclaim}
+\textbf{Claim 10:} The system of Claim 6 further comprising a consistency gate that constructs a cellular sheaf over the verified evidence set with restriction maps induced by inference between overlapping claims, and abstains from synthesis when the first cohomology of said sheaf is nonzero, emitting the support of the obstruction class as a conflict witness.
+\end{patentclaim}
+
 \begin{patentdiscussion}
 Prior art (rerankers, RAG, GraphRAG) never enforces evidence closure: they always return top-$k$ for synthesis. The mandatory gate with calibrated threshold is a structural invariant, not a heuristic.
+
+Claims 8--10 narrow the invention away from the ``combination of known components'' objection that a bare hybrid-search-plus-reranker claim invites. Claim 8 recites a specific cascade discipline --- irreversible discard, channel-distinct stages, cost ordering --- with a stated quantitative consequence, rather than generic multi-stage filtering. Claim 9 recites a construction procedure for the null distribution, which is the non-obvious element: the displacement conditions are what make the estimate valid, and no retrieval prior art constructs relevance nulls at all. Claim 10 recites a topological consistency criterion that is not reducible to pairwise contradiction checking, since cyclic inconsistency is invisible to any pairwise test.
 \end{patentdiscussion}
 
 \section{Summary}
 \label{sec:retrieval:summary}
 
-The retrieval pipeline transforms a query into a verified evidence set:
+The retrieval pipeline transforms a query into a verified, mutually consistent evidence set:
 \begin{enumerate}
   \item \textbf{Hybrid Search}: Vector (HNSW) + Keyword (BM25) + Graph (PPR/adjacency)
-  \item \textbf{Evidence Gate}: Cross-encoder verification with calibrated threshold
-  \item \textbf{Calibration}: Isotonic/Platt/Temperature + Conformal prediction
+  \item \textbf{Proofreading Cascade}: $n$-stage irreversible verification over distinct evidence channels; error suppression multiplicative in depth
+  \item \textbf{Calibration}: label-free FAR from an empirical null (\S\ref{sec:retrieval:far}), complemented by conformal coverage when labels exist
+  \item \textbf{Consistency Gate}: sheaf cohomology over the surviving set; $H^1 \neq 0 \Rightarrow$ abstain with conflict witness
   \item \textbf{Forced Citations}: Synthesis only from verified units
-  \item \textbf{Evidence Closure}: Every citation traces to verified unit; empty $\mathcal{E} \to$ controlled ``no answer''
+  \item \textbf{Evidence Closure}: cohomological form (Def.~\ref{def:closure-cohomological}); every citation traces to a verified unit admitting a consistent global reading
 \end{enumerate}
-This pipeline is the enforcement mechanism for LLMWiki's core invariant: \emph{answers are evidence-bounded}.
+This pipeline is the enforcement mechanism for LLMWiki's core invariant: \emph{answers are evidence-bounded}. The strengthening over the volume's opening statement is deliberate --- evidence closure begins as a provenance property and ends as a verifiable topological one.
 
 %===============================================================================
 % End of Volume 04
