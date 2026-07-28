@@ -1,4 +1,4 @@
-\begin{thebibliography}{79}
+\begin{thebibliography}{85}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -53,6 +53,20 @@ Gordon~V Cormack, Charles L~A Clarke, and Stefan Buettcher.
 \newblock Reciprocal rank fusion outperforms condorcet and individual rank
   learning methods.
 \newblock In \emph{Proceedings of SIGIR}, pages 758--759, 2009.
+
+\bibitem[{Discord}(2026{\natexlab{a}})]{discord2026gateway}
+{Discord}.
+\newblock Discord developer documentation: Gateway and gateway events,
+  2026{\natexlab{a}}.
+\newblock \url{https://docs.discord.com/developers/events/gateway}. Accessed
+  2026-07-29.
+
+\bibitem[{Discord}(2026{\natexlab{b}})]{discord2026messages}
+{Discord}.
+\newblock Discord developer documentation: Message resource,
+  2026{\natexlab{b}}.
+\newblock \url{https://docs.discord.com/developers/resources/message}. Accessed
+  2026-07-29.
 
 \bibitem[Dubey et~al.(2024)Dubey, Jauhri, Pandey, Kadian, Al-Dahle, Letman,
   Mathur, Schelten, Yang, and Fan]{touvron2024llama3}
@@ -355,10 +369,23 @@ Zach Nussbaum, John~X. Morris, Brandon Duderstadt, and Andriy Mulyar.
 \newblock Onnx runtime: Cross-platform accelerated machine learning.
 \newblock \url{https://onnxruntime.ai/}, 2024.
 
+\bibitem[{OpenAI}(2026)]{openai2026modelguidance}
+{OpenAI}.
+\newblock Openai api model guidance, 2026.
+\newblock \url{https://developers.openai.com/api/docs/guides/latest-model}.
+  Accessed 2026-07-29.
+
 \bibitem[{OpenSearch}(2024)]{opensearch2024}
 {OpenSearch}.
 \newblock Opensearch: Open-source search and analytics suite.
 \newblock \url{https://opensearch.org/}, 2024.
+
+\bibitem[Packer et~al.(2023)Packer, Wooders, Lin, Fang, Patil, Stoica, and
+  Gonzalez]{packer2023memgpt}
+Charles Packer, Sarah Wooders, Kevin Lin, Vivian Fang, Shishir~G. Patil, Ion
+  Stoica, and Joseph~E. Gonzalez.
+\newblock {MemGPT}: Towards {LLM}s as operating systems.
+\newblock \emph{arXiv preprint arXiv:2310.08560}, 2023.
 
 \bibitem[Peng et~al.(2024)Peng, Zhu, Liu, Bo, Shi, Hong, Zhang, and
   Tang]{peng2024graphrag}
@@ -456,6 +483,14 @@ Liang Wang, Nan Yang, Xiaolong Huang, Binxing Jiao, Linjun Yang, Daxin Jiang,
 \newblock Text embeddings by weakly-supervised contrastive pre-training.
 \newblock \emph{arXiv preprint arXiv:2212.03533}, 2024.
 
+\bibitem[Wang et~al.(2023)Wang, Ding, Cao, Tian, Wang, Tao, and
+  Guo]{wang2023recursive}
+Qingyue Wang, Liang Ding, Yanan Cao, Zhiliang Tian, Shi Wang, Dacheng Tao, and
+  Li~Guo.
+\newblock Recursively summarizing enables long-term dialogue memory in large
+  language models.
+\newblock \emph{arXiv preprint arXiv:2308.15022}, 2023.
+
 \bibitem[Was et~al.(2010)Was, Bizouard, Brisson, Cavalier, Davier, Hello,
   Leroy, Robinet, and Vavoulidis]{was2010timeslides}
 Michal Was, Marie-Anne Bizouard, Violette Brisson, Fabien Cavalier, Michel
@@ -503,6 +538,12 @@ Shunyu Yao, Dian Yu, Jeffrey Zhao, Izhak Shafran, Thomas~L Griffiths, Yuan Cao,
 \newblock Tree of thoughts: Deliberate problem solving with large language
   models.
 \newblock \emph{Advances in Neural Information Processing Systems}, 36, 2023.
+
+\bibitem[Yin et~al.(2024)Yin, Chen, and Chen]{yin2024twostage}
+Yuan-Jhe Yin, Bo-Yu Chen, and Berlin Chen.
+\newblock A novel {LLM}-based two-stage summarization approach for long
+  dialogues.
+\newblock \emph{arXiv preprint arXiv:2410.06520}, 2024.
 
 \bibitem[Zhang et~al.(2025)Zhang, Yu, Sun, Wei, Ju, and Tang]{rlfollowup2025}
 Yajie Zhang, Ce~Yu, Chao Sun, Jizeng Wei, Junhan Ju, and Shanjiang Tang.

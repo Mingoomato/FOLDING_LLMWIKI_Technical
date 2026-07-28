@@ -298,6 +298,42 @@ Response:
 }
 \end{verbatim}
 
+\subsection{Discord Source Operations}
+\label{sec:api:discord}
+
+The reference Discord adapter exposes these application operations. They are
+local service methods and Discord slash commands in the current Python
+reference; a future core integration may publish equivalent REST routes.
+
+\begin{verbatim}
+POST /sources/discord/{guild_id}/backfill
+POST /sources/discord/project
+POST /sources/discord/summary
+GET  /sources/discord/context?q=conversion+worker&limit=8
+GET  /sources/discord/export
+\end{verbatim}
+
+Search results carry resolvable source handles:
+
+\begin{verbatim}
+{
+  "citation": "discord:123456789:987654321",
+  "author": "Mingoomato",
+  "timestamp": "2026-07-29T01:25:00+09:00",
+  "content": "Separate the conversion worker..."
+}
+\end{verbatim}
+
+The Discord surface maps to
+\texttt{/context}, \texttt{/summary}, \texttt{/decisions},
+\texttt{/tasks}, and \texttt{/export-md}. The bot truncates inline responses to
+Discord's message boundary and sends complete Markdown as a file. A summary
+failure does not advance the source checkpoint. The source requires an explicit
+channel allowlist, and reference commands are restricted to server
+administrators because a result may combine material from several allowed
+channels. This restriction remains until requester-specific cross-channel
+access-control filtering is implemented.
+
 \subsection{Administration}
 \label{sec:api:admin}
 

@@ -14,6 +14,8 @@ LLMWiki is not a Retrieval-Augmented Generation framework. It is a **semantic op
 - [Architecture Overview](ARCHITECTURE.md) — Three-layer decomposition, data flow, module contracts
 - [Evidence Wire Contract](WIRE_CONTRACT.md) — WC/1 token-lean, lossless evidence transport
 - [Evidence Packing Research](WIRE_CONTRACT_ADVANCED.md) — Budgeted selection, limits, acceptance experiment
+- [Discord-Native LLMWiki](DISCORD_LLMWIKI.md) — Event journal, Gateway/REST sync, Markdown projection, commands
+- [Discord Integration Quickstart](integrations/discord_llmwiki/README.md) — Runnable reference implementation
 - [Roadmap](ROADMAP.md) — Milestones, timeline, resource estimates
 - [Design Decisions](DESIGN_DECISIONS.md) — 15 recorded decisions with rationale
 - [Technical Specification](docs/) — 12 Volumes + Appendices (LaTeX source)
@@ -44,6 +46,7 @@ LLMWiki is not a Retrieval-Augmented Generation framework. It is a **semantic op
 8. **Deterministic Replay** — Same input → same output; crash recovery via a sequence-numbered, idempotent projection scanner
 9. **Mutation Requires Approval** — No write to a source artifact bypasses the approval pipeline (Volume 12) and produces a rollback record
 10. **Evidence Text Survives Context Shaping** — Budget selection and WC/1 may remove envelope overhead, never rewrite cited evidence
+11. **Conversation Sources are Replayable** — Discord edits/deletes append events; Markdown, search, and summaries remain rebuildable projections
 
 ## Documentation
 

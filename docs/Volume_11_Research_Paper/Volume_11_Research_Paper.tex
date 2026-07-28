@@ -66,6 +66,16 @@ packing helps only under specific retrieval, budget, evidence-structure, and
 reader-capacity conditions. LLMWiki therefore treats weighted concept coverage
 as a proxy and requires end-to-end quality-at-budget measurement.
 
+\subsection{Long-Dialogue and External Memory}
+Recursive dialogue summaries update a compact memory from the previous memory
+and the next conversation segment \citep{wang2023recursive}; MemGPT separates
+limited model context from persistent external memory
+\citep{packer2023memgpt}; hierarchical long-dialogue summarisation similarly
+segments before abstraction \citep{yin2024twostage}. The Discord adapter adopts
+this hierarchy but adds an append-only event source, edit/delete replay,
+source-stable message citations, and a rule that summaries remain disposable
+projections rather than memory authority.
+
 \subsection{Local and Deterministic Systems}
 PrivateGPT, GPT4All, and similar projects enable local LLM inference but retain the RAG pipeline architecture. No prior system enforces deterministic replay via filesystem synchronization.
 
@@ -286,6 +296,7 @@ By eliminating external API dependencies in the critical path, LLMWiki enables: 
   \item DAG planner requires query decomposition capability; simple queries benefit less.
   \item Evaluation benchmarks are code/document-heavy; less tested on pure natural language corpora.
   \item WC/1 comprehension parity with JSON and the answer-quality effect of concept-coverage packing are unmeasured. Both remain feature-gated until the four-cell quality-at-budget experiment is complete.
+  \item The Discord reference verifies replay, pagination, projection, summary checkpoints, and provider request construction offline. A live guild, privileged-intent approval, private archived-thread coverage, Discord rate-limit behavior at scale, and live OpenAI answer quality remain deployment evaluations.
 \end{itemize}
 
 \section{Conclusion}

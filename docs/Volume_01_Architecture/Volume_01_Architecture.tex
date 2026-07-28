@@ -284,6 +284,38 @@ A query is answerable as soon as step 6 (COMMITTED) completes; it does not wait 
 \end{algorithmic}
 \end{algorithm}
 
+\section{External Conversation Sources}
+\label{sec:architecture:conversation-sources}
+
+An external conversation system is ingested as an event source, not copied into
+an LLM prompt. For Discord, historical messages arrive through paginated REST
+reads and live changes through Gateway dispatches
+\citep{discord2026messages,discord2026gateway}. Both paths normalize to the same
+append-only contract:
+\[
+\text{Discord event}
+\rightarrow
+\text{durable journal}
+\rightarrow
+\{\text{message state},\text{Markdown},\text{index},\text{memory}\}.
+\]
+Message updates and deletions are new events. The current channel view is a
+projection obtained by replay, and every model-visible message carries the
+stable citation \texttt{discord:<channel\_id>:<message\_id>}.
+
+\begin{designprinciple}[Conversation Memory is a Projection]
+An LLM-generated summary may accelerate reading but is never authoritative.
+Raw events remain sufficient to rebuild current messages, reply relationships,
+attachment metadata, channel/thread Markdown, and the model-summary input.
+\end{designprinciple}
+
+The reference implementation under
+\texttt{integrations/discord\_llmwiki/} uses an idempotent SQLite journal,
+atomic Markdown publication, REST backfill, an optional Gateway adapter, and a
+provider-neutral summary boundary. It is executable and tested, but it is not
+yet connected to the production Rust graph/index runtime specified in this
+volume.
+
 \section{Evidence Context Boundary}
 \label{sec:architecture:evidence-context}
 

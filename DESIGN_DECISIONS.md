@@ -536,6 +536,60 @@ Insert one deterministic boundary between evidence verification and synthesis:
 
 ---
 
+## DD-024: Discord as a Replayable Knowledge Source
+
+**Date**: 2026-07-29
+**Status**: ✅ Accepted
+
+### Context
+Pasting a Discord history into a ChatGPT or other LLM session duplicates the
+entire conversation, loses edit/delete semantics, breaks stable citations, and
+forces each model call to pay again for old messages. Discord must instead enter
+LLMWiki through the same event-log and rebuildable-projection discipline as
+files.
+
+### Decision
+Implement a Discord-specific source adapter with these boundaries:
+
+1. Historical REST pages and live Gateway dispatches normalize to one versioned
+   event contract.
+2. SQLite is the append-only durable source. Message edits and deletes append
+   events rather than mutating prior rows.
+3. Channel/thread Markdown, JSONL, search results, and summaries are rebuildable
+   projections with stable `discord:<channel_id>:<message_id>` citations.
+4. Summary refresh sends only prior project memory and events after the last
+   successful summary checkpoint. Discord content is untrusted prompt data.
+5. The model provider is optional. The reference OpenAI adapter uses the
+   Responses API, while a local provider may implement the same interface.
+6. ChatGPT product state is not embedded or scraped. A Discord bot invokes an
+   authenticated API provider and keeps all authoritative state local.
+
+### Alternatives Considered
+1. **Paste full Discord exports into each model conversation**: rejected for
+   token cost, context degradation, missing incremental semantics, and weak
+   auditability.
+2. **Write model summaries directly as the source of truth**: rejected because
+   summarization is lossy and cannot reconstruct edits, deleted messages, reply
+   edges, or attachments.
+3. **Store only final current messages**: rejected because deterministic replay
+   and audit require the edit/delete history.
+4. **Require OpenAI or a local LLM for ingestion**: rejected because collection,
+   projection, citation, and search must remain available without a model.
+
+### Consequences
+- Discord bot permissions and `MESSAGE_CONTENT` intent become explicit
+  deployment prerequisites.
+- Raw retention after a Discord deletion requires a disclosed organizational
+  policy; active projections remove deleted content, but the audit journal is
+  append-only by default.
+- Private archived threads remain bounded by Discord membership and permission
+  semantics; the importer does not bypass them.
+- Live Discord and live OpenAI calls require integration tests outside offline
+  CI. Core replay, pagination, summary checkpoints, and request construction are
+  covered by deterministic tests.
+
+---
+
 ## Future Decisions (Planned)
 
 | ID | Title | Target |

@@ -184,6 +184,38 @@ the trace as the exact model-handle to source-span resolution used for the
 answer. This gives citation replay a stable, auditable boundary without sending
 UUIDs to the model.
 
+\section{Hierarchical Conversation Memory}
+\label{sec:runtime:conversation-memory}
+
+Long-lived Discord channels are not reconstructed by resending their full
+history. The runtime maintains a slow, durable event tier and a small,
+model-visible memory tier, following recursive summarisation and external-memory
+designs \citep{wang2023recursive,packer2023memgpt,yin2024twostage}:
+\[
+M_{n+1}
+=
+\operatorname{Summarize}
+\left(
+M_n,\,
+E_{(s_n,s_{n+1}]},\,
+\operatorname{Retrieve}(q)
+\right).
+\]
+$M_n$ is the prior project or channel memory, $s_n$ is the last successfully
+committed summary checkpoint, and $E_{(s_n,s_{n+1}]}$ is only the newly observed
+event interval. The checkpoint advances after the summary files are durably
+written. A provider failure therefore retries the same interval rather than
+silently dropping discussion.
+
+Discord message bodies and attachment text are untrusted prompt data. They may
+be summarized as evidence but cannot redefine the system policy, invoke tools,
+or authorize mutations. Summaries preserve
+\texttt{discord:<channel>:<message>} citations and are written as separate
+projections for decisions, tasks, unresolved questions, and recent activity.
+The provider interface permits either a local model or the OpenAI Responses API;
+the authoritative journal, lexical search, and Markdown export remain available
+without either provider.
+
 \section{Tool System}
 \label{sec:runtime:tools}
 

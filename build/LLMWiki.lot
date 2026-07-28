@@ -2,60 +2,60 @@
 \babel@toc {english}{}\relax 
 \addvspace {10\p@ }
 \contentsline {xchapter}{Architecture}{2}{chapter.1}%
-\contentsline {table}{\numberline {1.1}{\ignorespaces LLMWiki vs. Prior Art: Architectural Positioning, by Mechanism}}{11}{table.caption.5}%
+\contentsline {table}{\numberline {1.1}{\ignorespaces LLMWiki vs. Prior Art: Architectural Positioning, by Mechanism}}{12}{table.caption.5}%
 \contentsline {table}{\numberline {1.2}{\ignorespaces LLMWiki Extension Points}}{15}{table.caption.6}%
 \contentsline {xpart}{Foundation and Architecture}{2}{part.1}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Semantic Parsing}{16}{chapter.2}%
-\contentsline {table}{\numberline {2.1}{\ignorespaces Core Semantic Unit Types by Parser Domain}}{19}{table.caption.8}%
-\contentsline {table}{\numberline {2.2}{\ignorespaces Tree-sitter Languages Supported (v0.1)}}{21}{table.caption.9}%
-\contentsline {table}{\numberline {2.3}{\ignorespaces Local Embedding Models (Recommended)}}{27}{table.caption.10}%
+\contentsline {xchapter}{Semantic Parsing}{17}{chapter.2}%
+\contentsline {table}{\numberline {2.1}{\ignorespaces Core Semantic Unit Types by Parser Domain}}{20}{table.caption.8}%
+\contentsline {table}{\numberline {2.2}{\ignorespaces Tree-sitter Languages Supported (v0.1)}}{22}{table.caption.9}%
+\contentsline {table}{\numberline {2.3}{\ignorespaces Local Embedding Models (Recommended)}}{28}{table.caption.10}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Knowledge Graph \& Semantic Index}{29}{chapter.3}%
-\contentsline {table}{\numberline {3.1}{\ignorespaces Graph Store Backend Comparison}}{30}{table.caption.11}%
-\contentsline {table}{\numberline {3.2}{\ignorespaces Expected Performance (Single Node, SSD)}}{35}{table.caption.12}%
+\contentsline {xchapter}{Knowledge Graph \& Semantic Index}{30}{chapter.3}%
+\contentsline {table}{\numberline {3.1}{\ignorespaces Graph Store Backend Comparison}}{31}{table.caption.11}%
+\contentsline {table}{\numberline {3.2}{\ignorespaces Expected Performance (Single Node, SSD)}}{36}{table.caption.12}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Retrieval and Evidence Gate}{36}{chapter.4}%
-\contentsline {table}{\numberline {4.1}{\ignorespaces Reranker vs. Evidence Gate}}{37}{table.caption.13}%
-\contentsline {table}{\numberline {4.2}{\ignorespaces Evidence Gate Evaluation Metrics}}{48}{table.caption.15}%
-\contentsline {table}{\numberline {4.3}{\ignorespaces Retrieval + Verification in Prior Art}}{48}{table.caption.16}%
+\contentsline {xchapter}{Retrieval and Evidence Gate}{37}{chapter.4}%
+\contentsline {table}{\numberline {4.1}{\ignorespaces Reranker vs. Evidence Gate}}{38}{table.caption.13}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Evidence Gate Evaluation Metrics}}{49}{table.caption.15}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Retrieval + Verification in Prior Art}}{49}{table.caption.16}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Agent Runtime}{50}{chapter.5}%
-\contentsline {table}{\numberline {5.1}{\ignorespaces Built-in Tools}}{54}{table.caption.18}%
+\contentsline {xchapter}{Agent Runtime}{51}{chapter.5}%
+\contentsline {table}{\numberline {5.1}{\ignorespaces Built-in Tools}}{55}{table.caption.18}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Evaluation Framework}{58}{chapter.6}%
-\contentsline {table}{\numberline {6.1}{\ignorespaces LLMWiki Internal Benchmarks}}{59}{table.caption.19}%
+\contentsline {xchapter}{Evaluation Framework}{60}{chapter.6}%
+\contentsline {table}{\numberline {6.1}{\ignorespaces LLMWiki Internal Benchmarks}}{61}{table.caption.19}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Deployment and Operations}{65}{chapter.7}%
-\contentsline {table}{\numberline {7.1}{\ignorespaces Deployment Tiers: Cumulative Complexity, Independent Sufficiency}}{65}{table.caption.21}%
-\contentsline {table}{\numberline {7.2}{\ignorespaces LLMWiki Deployment Modes}}{66}{table.caption.22}%
-\contentsline {table}{\numberline {7.3}{\ignorespaces Tuning Knobs by Workload}}{74}{table.caption.23}%
+\contentsline {xchapter}{Deployment and Operations}{67}{chapter.7}%
+\contentsline {table}{\numberline {7.1}{\ignorespaces Deployment Tiers: Cumulative Complexity, Independent Sufficiency}}{67}{table.caption.21}%
+\contentsline {table}{\numberline {7.2}{\ignorespaces LLMWiki Deployment Modes}}{68}{table.caption.22}%
+\contentsline {table}{\numberline {7.3}{\ignorespaces Tuning Knobs by Workload}}{76}{table.caption.23}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Mutation and Approval Engine}{75}{chapter.8}%
+\contentsline {xchapter}{Mutation and Approval Engine}{78}{chapter.8}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{API Reference}{81}{chapter.9}%
-\contentsline {table}{\numberline {9.1}{\ignorespaces Error Codes}}{88}{table.caption.24}%
-\contentsline {table}{\numberline {9.2}{\ignorespaces Official SDKs}}{88}{table.caption.25}%
-\contentsline {xpart}{Reference and Extension}{81}{part.2}%
+\contentsline {xchapter}{API Reference}{84}{chapter.9}%
+\contentsline {table}{\numberline {9.1}{\ignorespaces Error Codes}}{91}{table.caption.24}%
+\contentsline {table}{\numberline {9.2}{\ignorespaces Official SDKs}}{92}{table.caption.25}%
+\contentsline {xpart}{Reference and Extension}{84}{part.2}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Developer Guide}{90}{chapter.10}%
+\contentsline {xchapter}{Developer Guide}{94}{chapter.10}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Patent Draft}{101}{chapter.11}%
-\contentsline {table}{\numberline {11.1}{\ignorespaces Design Decisions Supporting Novelty}}{106}{table.caption.26}%
-\contentsline {xpart}{Intellectual Property and Research}{101}{part.3}%
+\contentsline {xchapter}{Patent Draft}{105}{chapter.11}%
+\contentsline {table}{\numberline {11.1}{\ignorespaces Design Decisions Supporting Novelty}}{110}{table.caption.26}%
+\contentsline {xpart}{Intellectual Property and Research}{105}{part.3}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Research Paper: LLMWiki - A Semantic Operating Layer for Evidence-Aware Knowledge Management}{110}{chapter.12}%
-\contentsline {table}{\numberline {12.1}{\ignorespaces Performance Targets on LLMWikiBench --- design goals from preliminary internal runs, NOT a published or reproducible evaluation. LLMWikiBench and the evaluation harness have not been released; no confidence intervals are reported because no statistically controlled evaluation has been run.}}{117}{table.caption.27}%
-\contentsline {table}{\numberline {12.2}{\ignorespaces Projected Component Contribution (Evidence F1@10) --- design estimates from preliminary internal runs, not a controlled ablation study}}{118}{table.caption.28}%
-\contentsline {table}{\numberline {3}{\ignorespaces Notation Summary}}{121}{table.caption.30}%
-\contentsline {xpart}{Appendices}{121}{part.4}%
+\contentsline {xchapter}{Research Paper: LLMWiki - A Semantic Operating Layer for Evidence-Aware Knowledge Management}{114}{chapter.12}%
+\contentsline {table}{\numberline {12.1}{\ignorespaces Performance Targets on LLMWikiBench --- design goals from preliminary internal runs, NOT a published or reproducible evaluation. LLMWikiBench and the evaluation harness have not been released; no confidence intervals are reported because no statistically controlled evaluation has been run.}}{121}{table.caption.27}%
+\contentsline {table}{\numberline {12.2}{\ignorespaces Projected Component Contribution (Evidence F1@10) --- design estimates from preliminary internal runs, not a controlled ablation study}}{122}{table.caption.28}%
+\contentsline {table}{\numberline {3}{\ignorespaces Notation Summary}}{126}{table.caption.30}%
+\contentsline {xpart}{Appendices}{126}{part.4}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Data Model Definitions}{133}{appendix.A}%
+\contentsline {xchapter}{Data Model Definitions}{138}{appendix.A}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Configuration Reference}{139}{appendix.B}%
+\contentsline {xchapter}{Configuration Reference}{144}{appendix.B}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Parser Grammar Specifications}{141}{appendix.C}%
-\contentsline {table}{\numberline {C.1}{\ignorespaces Key Design Decisions}}{145}{table.caption.33}%
+\contentsline {xchapter}{Parser Grammar Specifications}{146}{appendix.C}%
+\contentsline {table}{\numberline {C.1}{\ignorespaces Key Design Decisions}}{150}{table.caption.33}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Extended Related Work}{146}{appendix.D}%
+\contentsline {xchapter}{Extended Related Work}{151}{appendix.D}%
 \contentsfinish 

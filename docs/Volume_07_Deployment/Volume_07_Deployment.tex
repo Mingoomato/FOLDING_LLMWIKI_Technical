@@ -453,6 +453,53 @@ llmwiki graph migrate --repo .llmwiki --to-version 2
 llmwiki graph migrate --repo .llmwiki --to-version 2 --dry-run
 \end{verbatim}
 
+\section{Discord Team-Memory Adapter}
+\label{sec:deploy:discord}
+
+The Discord integration is a companion process rather than a modification of
+the core event log. Its local state is rooted at
+\texttt{.llmwiki-discord/discord-events.sqlite3}; channel/thread Markdown,
+JSONL, search output, and summaries are rebuildable projections.
+
+\begin{verbatim}
+python -m pip install \
+  -r integrations/discord_llmwiki/requirements.txt
+
+$env:DISCORD_BOT_TOKEN = "..."
+$env:DISCORD_CHANNEL_ALLOWLIST = "123456789,987654321"
+$env:OPENAI_API_KEY = "..."        # optional; summaries only
+$env:OPENAI_MODEL = "gpt-5.6-luna"
+
+python -m integrations.discord_llmwiki \
+  --data-root .llmwiki-discord backfill --guild-id <guild>
+python -m integrations.discord_llmwiki \
+  --data-root .llmwiki-discord run-bot
+\end{verbatim}
+
+The bot requires \texttt{VIEW\_CHANNEL} and
+\texttt{READ\_MESSAGE\_HISTORY} on each allowed channel. Access to ordinary
+message content and attachment/embed fields requires Discord's privileged
+\texttt{MESSAGE\_CONTENT} intent \citep{discord2026messages,discord2026gateway}.
+Collection is allowlist-based; direct messages and sensitive channels are not
+enabled implicitly. The allowlist is mandatory; \texttt{*} is the explicit
+all-channels opt-in. Reference commands are administrator-only until
+requester-specific cross-channel access-control filtering is available.
+
+The OpenAI adapter is optional. It calls the Responses API with
+\texttt{store=false}, low reasoning effort, and a configurable model; the
+reference default is the high-volume \texttt{gpt-5.6-luna} tier described by
+current model guidance \citep{openai2026modelguidance}. This is an API
+integration, not an embedding or scraping of a user's ChatGPT product session.
+Secrets are injected through the process environment and never written to the
+event journal.
+
+\paragraph{Retention.}
+A Discord delete event removes content from active Markdown and search
+projections but leaves an append-only tombstone and, by default, the earlier raw
+event. Deployments must disclose and configure this retention behavior to match
+organizational and legal policy; an audit-log invariant does not override a
+valid erasure requirement.
+
 \section{Security Hardening}
 \label{sec:deploy:security}
 
@@ -508,6 +555,7 @@ LLMWiki deployment prioritizes:
   \item \textbf{Operational simplicity}: Single binary, filesystem state, no external deps
   \item \textbf{Local-first}: Works fully offline, air-gapped
   \item \textbf{Production readiness}: K8s native, observability, HA, security
+  \item \textbf{Conversation sources}: Replayable Discord ingestion with least-privilege permissions and optional model summaries
   \item \textbf{Recoverability}: WAL replay, snapshot restore, verified backups
   \item \textbf{Upgradability}: Blue-green, rolling, migration tooling
 \end{enumerate}

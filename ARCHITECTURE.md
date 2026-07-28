@@ -15,6 +15,7 @@ falsifiable.
 | Time-scoped evidence gate | Runnable reference | `temporal_gate.py`, 19 tests |
 | Budgeted evidence selection | Experimental reference | `evidence_packer.py`, 25 tests; not enabled in `run_eval.py` pending model A/B |
 | WC/1 evidence transport | Runnable reference | `wire_contract.py`, 30 tests; production runtime integration pending |
+| Discord-native knowledge source | Runnable reference | `integrations/discord_llmwiki/`, 19 tests; live guild and live OpenAI calls not exercised in CI |
 | Full graph/index/runtime stack | Specification | Volumes 01-12; production Rust binary not present in this repository |
 
 The source graph contains two code communities: the evaluation scripts and the
@@ -130,6 +131,14 @@ The required acceptance experiment is a four-cell comparison:
 - **Output**: Diff (added/modified/removed unit IDs) → WAL append
 - **Guarantee**: Idempotent re-ingestion = no-op (content-addressed)
 
+### Discord Source Adapter
+- **Input**: REST history pages and Gateway message/thread dispatches
+- **Durable truth**: Append-only SQLite event journal; edits and deletes are new events
+- **Projection**: Channel/thread Markdown, JSONL audit copy, and stable `discord:<channel>:<message>` citations
+- **Summary**: Prior memory + events after the successful summary checkpoint; provider is replaceable
+- **Guarantee**: Duplicate delivery is a no-op; Markdown and current message state are replayable
+- **Security**: Channel allowlist, least-privilege Discord permissions, untrusted-content prompt boundary, environment-only secrets
+
 ### Semantic Parser
 - **Input**: Language + source bytes
 - **Output**: Tree of SemanticUnit (typed, hierarchical, content-addressed)
@@ -227,6 +236,12 @@ Each line: `{"op": "add|mod|del", "unit_id": "...", "file": "...", "timestamp": 
 - PVC for `.llmwiki/`
 - Optional: sidecar for model updates
 
+### Discord Team Memory
+- Python sidecar or companion process under `integrations/discord_llmwiki/`
+- Local `.llmwiki-discord/discord-events.sqlite3` remains authoritative
+- Discord Gateway is optional; REST backfill and deterministic projection run independently
+- OpenAI Responses API is optional and used only for derived summaries; local search and exports remain available offline
+
 ### Distributed (Future)
 - CRDT-based WAL merge
 - Shared-nothing graph shards
@@ -254,6 +269,7 @@ Each line: `{"op": "add|mod|del", "unit_id": "...", "file": "...", "timestamp": 
 | CI Regression | Eval (Vol 6) | DD-015 |
 | Evidence Context Transport | Evidence Context Pipeline | DD-023 |
 | Budgeted Evidence Selection | Evidence Context Pipeline | DD-023 |
+| Discord as Replayable Knowledge Source | Ingestion / Deployment | DD-024 |
 
 ---
 *For detailed specifications, see `docs/Volume_01_Architecture/` through `docs/Volume_12_Mutation_Engine/`.*

@@ -134,139 +134,139 @@
 \glossaryentry{Attribution Score?\glossentry{attribution}|setentrycounter[]{page}"\glsnumberformat}{xiv}
 \glossaryentry{Citation Quality?\glossentry{citation-quality}|setentrycounter[]{page}"\glsnumberformat}{xiv}
 \glossaryentry{Gate Rejection Rate?\glossentry{gate-rejection-rate}|setentrycounter[]{page}"\glsnumberformat}{xiv}
-\glossaryentry{RAG?\glossentry{rag}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{LLM?\glossentry{llm}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{HNSW?\glossentry{hnsw}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{BM25?\glossentry{bm25}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{DPR?\glossentry{dpr}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{ANCE?\glossentry{ance}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Contriever?\glossentry{contriever}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{FiD?\glossentry{fid}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{ATLAS?\glossentry{atlas}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{GraphRAG?\glossentry{graphrag}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{HippoRAG?\glossentry{hipporag}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{LightRAG?\glossentry{lightrag}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{RAPTOR?\glossentry{raptor}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{RARR?\glossentry{rarr}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{NLI?\glossentry{nli}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{ECE?\glossentry{ece}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{FDR?\glossentry{fdr}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{PPV?\glossentry{ppv}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{NPV?\glossentry{npv}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{API?\glossentry{api}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{gRPC?\glossentry{grpc}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{REST?\glossentry{rest}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{WS?\glossentry{ws}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{SSE?\glossentry{sse}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{OIDC?\glossentry{oidc}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{mTLS?\glossentry{mTLs}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{PVC?\glossentry{pvc}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{HPA?\glossentry{hpa}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{CI?\glossentry{ci}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{CD?\glossentry{cd}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{ONNX?\glossentry{onnx}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{ORT?\glossentry{ort}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{TS?\glossentry{ts}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{JS?\glossentry{js}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{WASM?\glossentry{wasm}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{PGO?\glossentry{pgo}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{SIMD?\glossentry{simd}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{AVX?\glossentry{avx}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{NEON?\glossentry{neon}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{GPU?\glossentry{gpu}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{CPU?\glossentry{cpu}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{NPU?\glossentry{npu}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{RAM?\glossentry{ram}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{SSD?\glossentry{ssd}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{HDD?\glossentry{hdd}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{NVMe?\glossentry{nvme}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{NFS?\glossentry{nfs}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Ceph?\glossentry{ceph}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Longhorn?\glossentry{longhorn}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{TCP?\glossentry{tcp}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{UDP?\glossentry{udp}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{HTTP?\glossentry{http}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{HTTPS?\glossentry{https}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{TLS?\glossentry{tls}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{SSL?\glossentry{ssl}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{DNS?\glossentry{dns}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{IP?\glossentry{ip}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{JSON?\glossentry{json}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{YAML?\glossentry{yaml}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{TOML?\glossentry{toml}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{XML?\glossentry{xml}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{HTML?\glossentry{html}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{CSS?\glossentry{css}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{SQL?\glossentry{sql}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{DDL?\glossentry{ddl}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{DML?\glossentry{dml}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{CLI?\glossentry{cli}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{GUI?\glossentry{gui}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{TUI?\glossentry{tui}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{IDE?\glossentry{ide}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{VS Code?\glossentry{vscode}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Git?\glossentry{git}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{GitHub?\glossentry{github}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{GitLab?\glossentry{gitlab}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{PDF?\glossentry{pdf}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{PNG?\glossentry{png}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{SVG?\glossentry{svg}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{JPEG?\glossentry{jpeg}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{GIF?\glossentry{gif}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{UTF-8?\glossentry{utf8}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{ASCII?\glossentry{ascii}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{RegEx?\glossentry{regex}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{AST?\glossentry{ast}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{CST?\glossentry{cst}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{SCM?\glossentry{scm}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{SHA?\glossentry{sha}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{SHA-256?\glossentry{sha256}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{MD5?\glossentry{md5}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{AES?\glossentry{aes}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{RSA?\glossentry{rsa}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{ECC?\glossentry{ecc}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{PKCS?\glossentry{pkcs}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{PEM?\glossentry{pem}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{DER?\glossentry{der}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{CA?\glossentry{ca}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{CSR?\glossentry{csr}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{CRL?\glossentry{crl}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{OCSP?\glossentry{ocsp}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{HSM?\glossentry{hsm}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{KMS?\glossentry{kms}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Vault?\glossentry{vault}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Consul?\glossentry{consul}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Nomad?\glossentry{nomad}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Terraform?\glossentry{terraform}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Packer?\glossentry{packer}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Vagrant?\glossentry{vagrant}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Semantic Unit?\glossentry{semantic-unit}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Knowledge Graph?\glossentry{knowledge-graph}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Semantic Index?\glossentry{semantic-index}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Evidence Gate?\glossentry{evidence-gate}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Evidence Closure?\glossentry{evidence-closure}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Content Addressable?\glossentry{content-addressable}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Incremental Parsing?\glossentry{incremental-parsing}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Entity Resolution?\glossentry{entity-resolution}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Query Planner?\glossentry{query-planner}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Agent Runtime?\glossentry{agent-runtime}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Local-First?\glossentry{local-first}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Deterministic Replay?\glossentry{deterministic-replay}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Write-Ahead Log (WAL)?\glossentry{wal}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Cross-Encoder?\glossentry{cross-encoder}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Calibration?\glossentry{calibration}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Hybrid Search?\glossentry{hybrid-search}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Reciprocal Rank Fusion (RRF)?\glossentry{rrf}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Directed Acyclic Graph (DAG)?\glossentry{dag}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Topological Order?\glossentry{topological-order}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Execution Budget?\glossentry{budget}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Air-Gapped?\glossentry{air-gapped}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Tree-sitter?\glossentry{tree-sitter}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Quantization?\glossentry{quantization}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Reciprocal Rank Fusion?\glossentry{reciprocal-rank-fusion}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Isotonic Regression?\glossentry{isotonic-regression}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Temperature Scaling?\glossentry{temperature-scaling}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Platt Scaling?\glossentry{platt-scaling}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Attribution Score?\glossentry{attribution}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Citation Quality?\glossentry{citation-quality}|setentrycounter[]{page}"\glsnumberformat}{126}
-\glossaryentry{Gate Rejection Rate?\glossentry{gate-rejection-rate}|setentrycounter[]{page}"\glsnumberformat}{126}
+\glossaryentry{RAG?\glossentry{rag}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{LLM?\glossentry{llm}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{HNSW?\glossentry{hnsw}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{BM25?\glossentry{bm25}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{DPR?\glossentry{dpr}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{ANCE?\glossentry{ance}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Contriever?\glossentry{contriever}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{FiD?\glossentry{fid}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{ATLAS?\glossentry{atlas}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{GraphRAG?\glossentry{graphrag}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{HippoRAG?\glossentry{hipporag}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{LightRAG?\glossentry{lightrag}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{RAPTOR?\glossentry{raptor}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{RARR?\glossentry{rarr}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{NLI?\glossentry{nli}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{ECE?\glossentry{ece}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{FDR?\glossentry{fdr}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{PPV?\glossentry{ppv}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{NPV?\glossentry{npv}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{API?\glossentry{api}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{gRPC?\glossentry{grpc}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{REST?\glossentry{rest}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{WS?\glossentry{ws}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{SSE?\glossentry{sse}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{OIDC?\glossentry{oidc}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{mTLS?\glossentry{mTLs}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{PVC?\glossentry{pvc}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{HPA?\glossentry{hpa}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{CI?\glossentry{ci}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{CD?\glossentry{cd}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{ONNX?\glossentry{onnx}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{ORT?\glossentry{ort}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{TS?\glossentry{ts}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{JS?\glossentry{js}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{WASM?\glossentry{wasm}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{PGO?\glossentry{pgo}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{SIMD?\glossentry{simd}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{AVX?\glossentry{avx}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{NEON?\glossentry{neon}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{GPU?\glossentry{gpu}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{CPU?\glossentry{cpu}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{NPU?\glossentry{npu}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{RAM?\glossentry{ram}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{SSD?\glossentry{ssd}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{HDD?\glossentry{hdd}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{NVMe?\glossentry{nvme}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{NFS?\glossentry{nfs}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Ceph?\glossentry{ceph}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Longhorn?\glossentry{longhorn}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{TCP?\glossentry{tcp}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{UDP?\glossentry{udp}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{HTTP?\glossentry{http}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{HTTPS?\glossentry{https}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{TLS?\glossentry{tls}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{SSL?\glossentry{ssl}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{DNS?\glossentry{dns}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{IP?\glossentry{ip}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{JSON?\glossentry{json}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{YAML?\glossentry{yaml}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{TOML?\glossentry{toml}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{XML?\glossentry{xml}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{HTML?\glossentry{html}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{CSS?\glossentry{css}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{SQL?\glossentry{sql}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{DDL?\glossentry{ddl}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{DML?\glossentry{dml}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{CLI?\glossentry{cli}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{GUI?\glossentry{gui}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{TUI?\glossentry{tui}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{IDE?\glossentry{ide}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{VS Code?\glossentry{vscode}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Git?\glossentry{git}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{GitHub?\glossentry{github}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{GitLab?\glossentry{gitlab}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{PDF?\glossentry{pdf}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{PNG?\glossentry{png}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{SVG?\glossentry{svg}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{JPEG?\glossentry{jpeg}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{GIF?\glossentry{gif}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{UTF-8?\glossentry{utf8}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{ASCII?\glossentry{ascii}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{RegEx?\glossentry{regex}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{AST?\glossentry{ast}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{CST?\glossentry{cst}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{SCM?\glossentry{scm}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{SHA?\glossentry{sha}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{SHA-256?\glossentry{sha256}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{MD5?\glossentry{md5}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{AES?\glossentry{aes}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{RSA?\glossentry{rsa}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{ECC?\glossentry{ecc}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{PKCS?\glossentry{pkcs}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{PEM?\glossentry{pem}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{DER?\glossentry{der}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{CA?\glossentry{ca}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{CSR?\glossentry{csr}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{CRL?\glossentry{crl}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{OCSP?\glossentry{ocsp}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{HSM?\glossentry{hsm}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{KMS?\glossentry{kms}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Vault?\glossentry{vault}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Consul?\glossentry{consul}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Nomad?\glossentry{nomad}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Terraform?\glossentry{terraform}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Packer?\glossentry{packer}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Vagrant?\glossentry{vagrant}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Semantic Unit?\glossentry{semantic-unit}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Knowledge Graph?\glossentry{knowledge-graph}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Semantic Index?\glossentry{semantic-index}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Evidence Gate?\glossentry{evidence-gate}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Evidence Closure?\glossentry{evidence-closure}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Content Addressable?\glossentry{content-addressable}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Incremental Parsing?\glossentry{incremental-parsing}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Entity Resolution?\glossentry{entity-resolution}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Query Planner?\glossentry{query-planner}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Agent Runtime?\glossentry{agent-runtime}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Local-First?\glossentry{local-first}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Deterministic Replay?\glossentry{deterministic-replay}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Write-Ahead Log (WAL)?\glossentry{wal}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Cross-Encoder?\glossentry{cross-encoder}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Calibration?\glossentry{calibration}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Hybrid Search?\glossentry{hybrid-search}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Reciprocal Rank Fusion (RRF)?\glossentry{rrf}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Directed Acyclic Graph (DAG)?\glossentry{dag}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Topological Order?\glossentry{topological-order}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Execution Budget?\glossentry{budget}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Air-Gapped?\glossentry{air-gapped}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Tree-sitter?\glossentry{tree-sitter}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Quantization?\glossentry{quantization}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Reciprocal Rank Fusion?\glossentry{reciprocal-rank-fusion}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Isotonic Regression?\glossentry{isotonic-regression}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Temperature Scaling?\glossentry{temperature-scaling}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Platt Scaling?\glossentry{platt-scaling}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Attribution Score?\glossentry{attribution}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Citation Quality?\glossentry{citation-quality}|setentrycounter[]{page}"\glsnumberformat}{131}
+\glossaryentry{Gate Rejection Rate?\glossentry{gate-rejection-rate}|setentrycounter[]{page}"\glsnumberformat}{131}

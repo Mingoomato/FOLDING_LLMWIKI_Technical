@@ -42,45 +42,45 @@ The style file: plainnat.bst
 Reallocating 'name_of_file' (item size: 1) to 8 items.
 Database file #1: LLMWiki.bib
 Warning--empty year in google_kythe
-You've used 79 entries,
+You've used 85 entries,
             2773 wiz_defined-function locations,
-            969 strings with 21343 characters,
-and the built_in function-call counts, 40482 in all, are:
-= -- 3327
-> -- 3246
-< -- 43
-+ -- 1101
-- -- 1020
-* -- 3308
-:= -- 6430
-add.period$ -- 242
-call.type$ -- 79
-change.case$ -- 576
-chr.to.int$ -- 77
-cite$ -- 159
-duplicate$ -- 1626
-empty$ -- 2777
-format.name$ -- 1114
-if$ -- 8311
-int.to.chr$ -- 3
+            992 strings with 22414 characters,
+and the built_in function-call counts, 43001 in all, are:
+= -- 3528
+> -- 3438
+< -- 46
++ -- 1168
+- -- 1080
+* -- 3501
+:= -- 6835
+add.period$ -- 260
+call.type$ -- 85
+change.case$ -- 614
+chr.to.int$ -- 82
+cite$ -- 171
+duplicate$ -- 1731
+empty$ -- 2966
+format.name$ -- 1180
+if$ -- 8824
+int.to.chr$ -- 4
 int.to.str$ -- 1
-missing$ -- 61
-newline$ -- 408
-num.names$ -- 316
-pop$ -- 1240
+missing$ -- 64
+newline$ -- 438
+num.names$ -- 340
+pop$ -- 1331
 preamble$ -- 1
-purify$ -- 497
+purify$ -- 529
 quote$ -- 0
-skip$ -- 1450
+skip$ -- 1539
 stack$ -- 0
-substring$ -- 727
-swap$ -- 198
+substring$ -- 739
+swap$ -- 206
 text.length$ -- 10
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 869
+type$ -- 935
 warning$ -- 1
-while$ -- 280
+while$ -- 298
 width$ -- 0
-write$ -- 984
+write$ -- 1056
 (There was 1 warning)
