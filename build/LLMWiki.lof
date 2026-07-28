@@ -6,41 +6,41 @@
 \contentsline {figure}{\numberline {1.2}{\ignorespaces End-to-end data flow: ingestion pipeline (top) and query pipeline (bottom).}}{5}{figure.caption.4}%
 \contentsline {xpart}{Foundation and Architecture}{2}{part.1}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Semantic Parsing}{15}{chapter.2}%
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Parser pipeline: detection, routing, parsing, and unit emission.}}{16}{figure.caption.7}%
+\contentsline {xchapter}{Semantic Parsing}{16}{chapter.2}%
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Parser pipeline: detection, routing, parsing, and unit emission.}}{17}{figure.caption.7}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Knowledge Graph \& Semantic Index}{28}{chapter.3}%
+\contentsline {xchapter}{Knowledge Graph \& Semantic Index}{29}{chapter.3}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Retrieval and Evidence Gate}{35}{chapter.4}%
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Retrieval + Evidence Gate pipeline.}}{36}{figure.caption.14}%
+\contentsline {xchapter}{Retrieval and Evidence Gate}{36}{chapter.4}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Retrieval + Evidence Gate pipeline.}}{37}{figure.caption.14}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Agent Runtime}{49}{chapter.5}%
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Agent Runtime components.}}{49}{figure.caption.17}%
+\contentsline {xchapter}{Agent Runtime}{50}{chapter.5}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Agent Runtime components.}}{50}{figure.caption.17}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Evaluation Framework}{57}{chapter.6}%
-\contentsline {figure}{\numberline {6.1}{\ignorespaces Automated evaluation pipeline.}}{59}{figure.caption.20}%
+\contentsline {xchapter}{Evaluation Framework}{58}{chapter.6}%
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Automated evaluation pipeline.}}{62}{figure.caption.20}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Deployment and Operations}{62}{chapter.7}%
+\contentsline {xchapter}{Deployment and Operations}{65}{chapter.7}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Mutation and Approval Engine}{72}{chapter.8}%
+\contentsline {xchapter}{Mutation and Approval Engine}{75}{chapter.8}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{API Reference}{78}{chapter.9}%
-\contentsline {xpart}{Reference and Extension}{78}{part.2}%
+\contentsline {xchapter}{API Reference}{81}{chapter.9}%
+\contentsline {xpart}{Reference and Extension}{81}{part.2}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Developer Guide}{87}{chapter.10}%
+\contentsline {xchapter}{Developer Guide}{90}{chapter.10}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Patent Draft}{98}{chapter.11}%
-\contentsline {xpart}{Intellectual Property and Research}{98}{part.3}%
+\contentsline {xchapter}{Patent Draft}{101}{chapter.11}%
+\contentsline {xpart}{Intellectual Property and Research}{101}{part.3}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Research Paper: LLMWiki - A Semantic Operating Layer for Evidence-Aware Knowledge Management}{107}{chapter.12}%
-\contentsline {figure}{\numberline {12.1}{\ignorespaces Schematic illustration (not measured data) of the intended effect of isotonic calibration on cross-encoder reliability. Curves are hypothetical examples of the qualitative shape expected, not observed calibration error.}}{114}{figure.caption.29}%
-\contentsline {xpart}{Appendices}{117}{part.4}%
+\contentsline {xchapter}{Research Paper: LLMWiki - A Semantic Operating Layer for Evidence-Aware Knowledge Management}{110}{chapter.12}%
+\contentsline {figure}{\numberline {12.1}{\ignorespaces Schematic illustration (not measured data) of the intended effect of isotonic calibration on cross-encoder reliability. Curves are hypothetical examples of the qualitative shape expected, not observed calibration error.}}{118}{figure.caption.29}%
+\contentsline {xpart}{Appendices}{121}{part.4}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Data Model Definitions}{129}{appendix.A}%
+\contentsline {xchapter}{Data Model Definitions}{133}{appendix.A}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Configuration Reference}{134}{appendix.B}%
+\contentsline {xchapter}{Configuration Reference}{139}{appendix.B}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Parser Grammar Specifications}{136}{appendix.C}%
+\contentsline {xchapter}{Parser Grammar Specifications}{141}{appendix.C}%
 \addvspace {10\p@ }
-\contentsline {xchapter}{Extended Related Work}{141}{appendix.D}%
+\contentsline {xchapter}{Extended Related Work}{146}{appendix.D}%
 \contentsfinish 

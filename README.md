@@ -12,9 +12,11 @@ LLMWiki is not a Retrieval-Augmented Generation framework. It is a **semantic op
 - [Project Vision](PROJECT_VISION.md) — Mission, goals, non-goals, success metrics
 - [System Philosophy](SYSTEM_PHILOSOPHY.md) — 8 foundational architectural principles
 - [Architecture Overview](ARCHITECTURE.md) — Three-layer decomposition, data flow, module contracts
+- [Evidence Wire Contract](WIRE_CONTRACT.md) — WC/1 token-lean, lossless evidence transport
+- [Evidence Packing Research](WIRE_CONTRACT_ADVANCED.md) — Budgeted selection, limits, acceptance experiment
 - [Roadmap](ROADMAP.md) — Milestones, timeline, resource estimates
 - [Design Decisions](DESIGN_DECISIONS.md) — 15 recorded decisions with rationale
-- [Technical Specification](docs/) — 11 Volumes + Appendices (LaTeX source)
+- [Technical Specification](docs/) — 12 Volumes + Appendices (LaTeX source)
 - [Contributing](CONTRIBUTING.md) — Development setup, standards, workflow
 - [Changelog](CHANGELOG.md) — Release history
 
@@ -41,6 +43,7 @@ LLMWiki is not a Retrieval-Augmented Generation framework. It is a **semantic op
 7. **Incremental Consistency** — Per-projection, per-sequence: once a projection's last_applied_sequence reaches n, it matches log replay 1..n
 8. **Deterministic Replay** — Same input → same output; crash recovery via a sequence-numbered, idempotent projection scanner
 9. **Mutation Requires Approval** — No write to a source artifact bypasses the approval pipeline (Volume 12) and produces a rollback record
+10. **Evidence Text Survives Context Shaping** — Budget selection and WC/1 may remove envelope overhead, never rewrite cited evidence
 
 ## Documentation
 
@@ -51,9 +54,9 @@ The complete technical specification is organized as 12 volumes:
 | 01 | Architecture | Three-layer design, invariants, module contracts, crash consistency |
 | 02 | Semantic Parsing | Tree-sitter, SCM, chunking, embedding, extraction |
 | 03 | Knowledge Graph | Property graph, RocksDB, entity resolution, hybrid index |
-| 04 | Retrieval | Hybrid search, four-stage Evidence Gate, synthesis with citations |
-| 05 | Agent Runtime | DAG planner, executor, SSE streaming, budget enforcement |
-| 06 | Evaluation | Benchmarks, metrics (Evidence F1, Attribution), CI gates |
+| 04 | Retrieval | Hybrid search, Evidence Gate, budgeted context selection, WC/1 transport, verified synthesis |
+| 05 | Agent Runtime | DAG planner, executor, deterministic context assembly, SSE streaming, budget allocation |
+| 06 | Evaluation | Evidence quality, context efficiency, quality-at-budget A/B, CI gates |
 | 07 | Deployment | Local, container, K8s, air-gapped, monitoring |
 | 08 | API Reference | REST/gRPC/WS, auth, rate limits, SDKs |
 | 09 | Developer Guide | Extension points (parsers, chunkers, embedders, tools, auth) |

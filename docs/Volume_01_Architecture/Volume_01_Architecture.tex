@@ -60,7 +60,7 @@ The system decomposes into three layers with strictly unidirectional data flow: 
   \node[layertitle] at (4.6,3.3) {Layer 2: Core};
   \node[module] (graph) at (4.6,2.5) {Knowledge Graph (Vol. 03)};
   \node[module] (index) at (4.6,1.5) {Semantic Index (Vol. 03)};
-  \node[module] (evidence) at (4.6,0.5) {Evidence Gate (Vol. 06)};
+  \node[module] (evidence) at (4.6,0.5) {Evidence Gate (Vol. 04)};
 
   % Layer 3: Query
   \node[layertitle] at (9.2,3.3) {Layer 3: Query};
@@ -272,10 +272,74 @@ A query is answerable as soon as step 6 (COMMITTED) completes; it does not wait 
   \State $R = R \cup R_s$
 \EndFor
 \State E = EvidenceGate(R, tau) \Comment{Cross-encoder verify}
-\State a = Synthesize(E, B) \Comment{LLM with citations forced}
-\State \Return a, C(E) \Comment{Answer + evidence citations}
+\If{$E = \emptyset$}
+  \State \Return Refuse(``insufficient evidence'')
+\EndIf
+\State $E_B$ = SelectContext(E, B) \Comment{Top-$k$ default; budgeted coverage experimental}
+\State $(W, M)$ = SerializeWCOne($q$, $E_B$) \Comment{Verbatim evidence + host-side id map}
+\State $a$ = Synthesize($W$) \Comment{LLM cites small integer handles}
+\State $C$ = ResolveCitations($a$, $M$) \Comment{Handle $\to$ occurrence and source span}
+\State $a'$ = VerifyClaims($a$, $C$) \Comment{Claim support + evidence coverage}
+\State \Return $a'$, $C$
 \end{algorithmic}
 \end{algorithm}
+
+\section{Evidence Context Boundary}
+\label{sec:architecture:evidence-context}
+
+The evidence gate decides \emph{which units are admissible}; it does not decide
+how the surviving set consumes the reader's finite context. LLMWiki therefore
+places a narrow evidence-context boundary between verification and synthesis:
+\begin{equation}
+\mathcal{R}
+\xrightarrow{\text{time scope}}
+\mathcal{R}_t
+\xrightarrow{\mathcal{G}_\tau}
+\mathcal{E}
+\xrightarrow{\text{select under } B}
+\mathcal{E}_B
+\xrightarrow{\text{WC/1}}
+(W,M).
+\end{equation}
+$W$ is the model-visible prompt payload and $M$ is a host-only map from small
+integer handles to \texttt{(content\_id, occurrence\_id, document, span)}.
+The order is invariant: selection never precedes verification and cannot turn
+an empty gate result into an answer.
+
+\begin{designprinciple}[Compress the Envelope, Preserve the Evidence]
+Only repeated metadata and machine identifiers are removed from the model-visible
+envelope. Evidence text is transmitted verbatim. A transport optimisation may
+reduce token cost but may not weaken human auditability, citation resolution,
+or deterministic replay.
+\end{designprinciple}
+
+\paragraph{WC/1 transport.}
+The line-oriented \texttt{WC/1} contract groups blocks by source document,
+replaces UUIDs with response-local integer handles, and line-count-prefixes each
+block so arbitrary Markdown and source code remain unambiguous. The fixed
+contract instruction is query-independent and eligible for prompt-prefix
+caching. The reference implementation measures total-prompt reductions of
+30.3\% (English) and 32.8\% (Korean) against the equivalent JSON fallback on
+cold prompts, including the fixed prefix; cached-prefix measurements are
+31.7\% and 36.6\%. These are tokenizer measurements, not answer-quality results.
+
+\paragraph{Budgeted selection.}
+When verified evidence exceeds $B$, the production-safe baseline remains
+score-ordered top-$k$. A deterministic reference packer instead maximises
+weighted concept coverage per token with a singleton guard, following budgeted
+submodular selection \citep{lin2010budgeted,peng2025adagres,bala2026survives}.
+Its exploratory fixture improves the proxy objective under tight budgets, but
+coverage is not answer quality; it cannot replace top-$k$ until the
+\texttt{(JSON, WC/1)} $\times$ \texttt{(top-k, packed)} model A/B in
+Vol.~06 succeeds.
+
+\paragraph{Integration status.}
+\texttt{eval/scripts/wire\_contract.py} and
+\texttt{eval/scripts/evidence\_packer.py} are executable reference components
+with deterministic tests. They are not yet called by the BM25-only
+\texttt{run\_eval.py} scaffold or by a production runtime. Unknown contract
+versions and failed capability negotiation fall back to JSON at the host
+boundary rather than guessing.
 
 \section{Crash Consistency and Recovery}
 \label{sec:architecture:crash-consistency}
@@ -440,7 +504,12 @@ Prior art distinctions:
   \item HippoRAG (Guti{\'e}rrez et al., 2024): Personalized PageRank over graph; no hybrid index; no deterministic replay.
   \item LightRAG (Guo et al., 2024): Dual-level retrieval; no evidence gate; no DAG planner.
   \item RAPTOR (Sarthi et al., 2024): Recursive summarization tree; no graph; no filesystem WAL.
+  \item Zep/Graphiti (Rasmussen et al., 2025) \cite{rasmussen2025zep}: the closest prior art for temporal validity. Every edge carries a bitemporal interval (\texttt{valid\_at}/\texttt{invalid\_at}) and superseded facts are invalidated rather than deleted, so LLMWiki must \emph{not} claim validity intervals or as-of querying as novel. Distinctions: entity extraction is LLM-based, so graph construction is not reproducible from identical input; there is no mandatory evidence gate and no refusal outcome; and ingestion cost scales with LLM tokens per episode rather than CPU.
+  \item Glean (Meta, 2024) \cite{meta2024glean}: revision-scoped incremental code indexing at monorepo scale (indexes the diff between a base and current revision in $O(\text{changes})$), parser-driven and therefore deterministic. This anticipates version-anchored code graphs; LLMWiki must not claim that either. Distinction: Glean is a code-intelligence index with no retrieval-refusal semantics --- there is no notion of declining to answer for want of evidence.
+  \item Kythe (Google) \cite{google_kythe}: per-compilation-unit node/edge streams keyed by VName; same distinction as Glean.
 \end{itemize}
+
+\par\noindent\emph{Note on what remains after the above:} validity intervals (Zep) and version-anchored deterministic code graphs (Glean, Kythe) are each established prior art, so neither is claimed here as novel in isolation. The element without an identified antecedent is the \emph{conjunction}: an evidence gate whose refusal decision is itself scoped to a validity bound, so that ``not answerable from the corpus as of $t$'' is a reproducible first-class outcome carrying the time bound that produced it. Glean and Kythe have no refusal semantics; Zep has no gate; the GraphRAG family has no temporal axis. That conjunction is exercised by executable tests in \texttt{eval/scripts/test\_temporal\_gate.py} rather than asserted here.
 \end{patentdiscussion}
 
 \section{Module Interface Contracts}
@@ -584,7 +653,8 @@ Custom Chunker & Chunker & Vol. 02 \\
 Custom Embedder & Embedder & Vol. 02 \\
 Graph Store Backend & GraphStore & Vol. 03 \\
 Index Backend & SemanticIndex & Vol. 03 \\
-Evidence Verifier & EvidenceGate & Vol. 06 \\
+Evidence Verifier & EvidenceGate & Vol. 04 \\
+Context Selection Policy & EvidenceContextBuilder & Vol. 04/05 \\
 Query Planner Strategy & QueryPlanner & Vol. 07 \\
 Agent Tool & Tool & Vol. 05 \\
 Auth Provider & AuthProvider & Vol. 08 \\
@@ -596,13 +666,14 @@ Auth Provider & AuthProvider & Vol. 08 \\
 \section{Summary}
 \label{sec:architecture:summary}
 
-LLMWiki's architecture is defined by five differentiating choices:
+LLMWiki's architecture is defined by six differentiating choices:
 \begin{enumerate}
   \item \textbf{Graph-first, vectors-second}: The property graph is the canonical query-time representation; vectors are derived projections for similarity search.
   \item \textbf{Event log as durability layer}: Zero operational dependencies; graph/vector/keyword projections are rebuildable from the append-only log, which is the only thing that must never be lost.
   \item \textbf{Content-addressed units}: SHA-256 identities enable deduplication, caching, and verifiable lineage.
   \item \textbf{Evidence gate as mandatory stage}: No retrieval result reaches synthesis without cross-encoder verification.
   \item \textbf{DAG query planner}: Queries decompose into verifiable subqueries with cost-based optimization.
+  \item \textbf{Evidence-preserving context boundary}: Verified evidence is selected under budget, transported without rewriting, and resolved back to exact source occurrences.
 \end{enumerate}
 These choices are not incremental improvements over RAG - they represent a different architectural category: a semantic operating layer.
 

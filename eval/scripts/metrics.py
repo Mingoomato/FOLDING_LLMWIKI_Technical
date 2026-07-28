@@ -1,9 +1,10 @@
 """LLMWikiBench metric implementations.
 
-Implements the metric definitions from Vol. 06 (Evaluation Framework)
-verbatim: EvRecall@k, EvPrecision@k, Evidence F1@k, Gate Rejection Rate,
-Attribution Score. Each function's docstring cites the LaTeX \\label it
-implements so the two stay checkable against each other.
+Implements the metric definitions from Vol. 06 (Evaluation Framework):
+evidence retrieval and attribution metrics plus the context-efficiency axis
+used to evaluate WC/1 and budgeted evidence packing. Each function's docstring
+cites the LaTeX label it implements so the two stay checkable against each
+other.
 
 This module has no external dependencies and no network calls, per the
 Local-First Evaluation design principle (Vol. 06 sec:eval:philosophy).
@@ -23,6 +24,18 @@ class QueryResult:
     gate_verified: tuple[str, ...]              # E(q): candidates surviving the evidence gate, ranked
     answer_claims: tuple[str, ...] = field(default_factory=tuple)   # atomic claims extracted from the answer
     claim_citations: dict[str, tuple[str, ...]] = field(default_factory=dict)  # claim -> cited unit ids
+
+
+@dataclass(frozen=True)
+class ContextEfficiencyRecord:
+    """One query's measured context cost and quality at a budget setting."""
+    query_id: str
+    prompt_tokens: int
+    context_budget: int
+    answered: bool
+    weighted_coverage: float = 0.0
+    evidence_f1: float = 0.0
+    budget_fraction: float = 1.0
 
 
 def evidence_recall_at_k(results: Sequence[QueryResult], k: int) -> float:
@@ -127,6 +140,54 @@ def attribution_score(
         if any(nli_judge(unit_text.get(u, ""), claim) for u in cited_units):
             supported += 1
     return supported / len(result.answer_claims)
+
+
+def tokens_per_answered_query(records: Sequence[ContextEfficiencyRecord]) -> float:
+    """Median prompt tokens for answered queries -- Vol. 06
+    def:tokens-per-answered-query.
+    """
+    values = sorted(r.prompt_tokens for r in records if r.answered)
+    if not values:
+        return 0.0
+    middle = len(values) // 2
+    if len(values) % 2:
+        return float(values[middle])
+    return (values[middle - 1] + values[middle]) / 2
+
+
+def coverage_per_token(record: ContextEfficiencyRecord) -> float:
+    """Weighted concept coverage per prompt token -- Vol. 06
+    def:coverage-per-token.
+    """
+    return record.weighted_coverage / record.prompt_tokens if record.prompt_tokens > 0 else 0.0
+
+
+def budget_utilisation(record: ContextEfficiencyRecord) -> float:
+    """Used prompt tokens divided by the configured budget -- Vol. 06
+    def:budget-utilisation.
+    """
+    return record.prompt_tokens / record.context_budget if record.context_budget > 0 else 0.0
+
+
+def quality_at_budget(records: Sequence[ContextEfficiencyRecord]) -> dict[float, float]:
+    """Mean Evidence F1 at each budget fraction -- Vol. 06
+    def:quality-at-budget.
+    """
+    grouped: dict[float, list[float]] = {}
+    for record in records:
+        grouped.setdefault(record.budget_fraction, []).append(record.evidence_f1)
+    return {
+        fraction: sum(values) / len(values)
+        for fraction, values in sorted(grouped.items())
+    }
+
+
+def refusal_token_cost(records: Sequence[ContextEfficiencyRecord]) -> float:
+    """Mean prompt-token cost of refused queries -- Vol. 06
+    def:refusal-token-cost.
+    """
+    values = [r.prompt_tokens for r in records if not r.answered]
+    return sum(values) / len(values) if values else 0.0
 
 
 def cohens_kappa(rater_a: Sequence[str], rater_b: Sequence[str]) -> float:

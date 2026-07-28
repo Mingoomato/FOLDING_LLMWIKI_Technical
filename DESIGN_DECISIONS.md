@@ -483,6 +483,59 @@ Three deployment tiers, cumulative in complexity, each independently sufficient 
 
 ---
 
+## DD-023: Evidence-Preserving Context Boundary
+
+**Date**: 2026-07-29
+**Status**: ✅ Accepted
+
+### Context
+The evidence gate can return more verified text than an LLM reader budget can
+hold. Sending the set as repeated JSON also spends tokens on UUIDs, field names,
+and duplicated source metadata. A naive response is to teach models an opaque
+abbreviation dialect or summarize the evidence, but the former is often not
+token-cheaper and the latter destroys byte-level citation auditability.
+
+### Decision
+Insert one deterministic boundary between evidence verification and synthesis:
+
+1. Refuse if the verified set is empty.
+2. Select verified blocks under the remaining token budget. Keep score-ordered
+   top-k as the production default; keep concept-coverage packing feature-gated
+   until the end-to-end model A/B succeeds.
+3. Serialize through the versioned WC/1 line-oriented envelope. Preserve
+   evidence text verbatim, expose response-local integer citation handles, and
+   retain exact content/occurrence/document/span resolution host-side.
+4. Fall back to JSON for unknown versions, validation failure, or unsupported
+   capability negotiation.
+5. Evaluate token cost and answer quality together across
+   `(JSON, WC/1) × (top-k, packed)` and 25/50/75/100% budgets.
+
+### Alternatives Considered
+1. **One-character keys or rare Unicode symbols**: rejected because one token is
+   already the lower bound for common labels and rare symbols often tokenize to
+   two or three tokens.
+2. **Learned prompt compression**: rejected from the critical path because it
+   rewrites evidence, adds a model dependency, and weakens deterministic replay.
+3. **Raw JSON only**: retained as the compatibility fallback but rejected as the
+   primary transport because the reference fixtures show a 30.3% English and
+   32.8% Korean cold-prompt reduction from WC/1.
+4. **Packed selection as immediate default**: rejected until Evidence F1 and
+   attribution improve at equal budget; weighted concept coverage is only a
+   proxy.
+
+### Consequences
+- Evidence text is an immutable transport payload; only the envelope and subset
+  may change.
+- The runtime must retain a model-handle-to-source-span map through citation
+  verification.
+- Contract versions require parser validation and JSON fallback.
+- Prefix stability becomes a performance property and contract evolution should
+  preserve the longest common prefix where possible.
+- Volumes 01, 04, 05, 06, and 11 carry the architecture, transport, runtime,
+  evaluation, and research-paper views of the same boundary.
+
+---
+
 ## Future Decisions (Planned)
 
 | ID | Title | Target |

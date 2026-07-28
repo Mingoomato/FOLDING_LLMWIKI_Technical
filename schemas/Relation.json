@@ -8,6 +8,8 @@
     "target":     { "type": "string", "description": "Target entity or unit id" },
     "type":       { "type": "string", "enum": ["DEFINES", "REFERENCES", "CONTAINS", "NEXT_TO", "CALLS"] },
     "weight":     { "type": "number", "minimum": 0, "maximum": 1 },
-    "provenance": { "type": "array", "items": { "type": "string" } }
+    "provenance": { "type": "array", "items": { "type": "string" } },
+    "valid_from": { "type": "string", "format": "date-time", "description": "Valid time: when this relation began to hold in the world. Distinct from ArtifactVersion.observed_at, which is transaction time (when we parsed it)." },
+    "valid_to":   { "type": ["string", "null"], "format": "date-time", "description": "Valid time end, exclusive. null means not yet superseded. A superseded relation is closed, never deleted -- see eval/scripts/temporal_gate.py for the executable semantics." }
   }
 }

@@ -136,11 +136,53 @@ struct PlanStep {
 
 \begin{itemize}
   \item \texttt{Search}: Invoke hybrid search + evidence gate (Vol.~04)
-  \item \texttt{Synthesize}: Call LLM with evidence context, stream tokens
+  \item \texttt{Synthesize}: Select verified evidence under budget, render WC/1, call LLM, resolve citations, stream tokens
   \item \texttt{ToolCall}: Invoke registered tool (see \S\ref{sec:runtime:tools})
   \item \texttt{Aggregate}: Merge results from parallel branches
   \item \texttt{Branch}: Conditional execution based on prior result
 \end{itemize}
+
+\section{Evidence Context Assembly}
+\label{sec:runtime:context-assembly}
+
+\texttt{Synthesize} does not accept an arbitrary string assembled by the
+planner. It accepts verified evidence records and delegates prompt construction
+to a deterministic context builder:
+\begin{enumerate}
+  \item return \texttt{REFUSE} immediately when the evidence gate is empty;
+  \item select a subset under the remaining token budget (score-ordered top-$k$
+        by default; experimental concept-coverage packing only when enabled);
+  \item serialize the subset through \texttt{WC/1}, preserving evidence text
+        verbatim and retaining the integer-ID resolution map in host state;
+  \item invoke the provider-specific LLM client with the cacheable contract
+        prefix separated from the query-specific suffix;
+  \item resolve cited IDs to source occurrences and run post-generation claim
+        support and evidence-coverage checks (Vol.~04
+        \S\ref{sec:retrieval:synthesis}).
+\end{enumerate}
+
+The context builder is provider-agnostic. Providers that expose explicit prompt
+cache controls may pin the fixed \texttt{WC/1} prefix; providers that cache
+implicitly still benefit from byte stability. Contract evolution is append-only
+within a version so the longest common prefix remains stable. An unknown
+version or failed capability negotiation takes the JSON fallback path.
+
+\begin{verbatim}
+struct EvidenceContext {
+  wire_version: "WC/1",
+  cache_prefix: String,
+  query_suffix: String,
+  id_map: HashMap<u32, EvidenceOccurrence>,
+  prompt_tokens: usize,
+  context_budget: usize,
+}
+\end{verbatim}
+
+The \texttt{id\_map} never crosses the model boundary. It is retained in
+\texttt{ExecutionState} until citation verification completes, then emitted in
+the trace as the exact model-handle to source-span resolution used for the
+answer. This gives citation replay a stable, auditable boundary without sending
+UUIDs to the model.
 
 \section{Tool System}
 \label{sec:runtime:tools}
@@ -354,8 +396,9 @@ The Agent Runtime executes query plans as deterministic, budgeted, observable to
   \item \textbf{Tool system}: Schema-contracted, streamable, extensible
   \item \textbf{LLM abstraction}: Multi-provider, local-first, token-aware
   \item \textbf{State}: Scratchpad, evidence accumulator, budget tracker
+  \item \textbf{Context assembly}: Verified-evidence selection, WC/1 rendering, host-side citation map
   \item \textbf{Streaming}: SSE/WebSocket with fine-grained event types
-  \item \textbf{Budgets}: Hard limits with graceful degradation
+  \item \textbf{Budgets}: Value-density allocation plus hard limits with graceful degradation
 \end{enumerate}
 The runtime is the ``CPU'' of LLMWiki; the Query Planner (Vol.~07) is the compiler that generates its instruction sequences.
 

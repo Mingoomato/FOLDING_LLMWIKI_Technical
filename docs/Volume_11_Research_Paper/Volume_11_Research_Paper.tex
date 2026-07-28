@@ -9,7 +9,7 @@
 %\date{\\today}
 
 \begin{abstract}
-We present LLMWiki, a semantic operating layer that transforms heterogeneous digital artifacts into an evidence-aware knowledge space. Unlike Retrieval-Augmented Generation (RAG) systems that treat vector search as primary and evidence as optional, LLMWiki enforces \emph{evidence closure}: every answer must trace to cross-encoder-verified units. The architecture rests on five pillars: (1) a property knowledge graph as canonical representation with vectors as projections; (2) a filesystem-backed write-ahead log enabling deterministic replay via directory synchronization; (3) content-addressed semantic units (SHA-256) providing identity across indices; (4) a mandatory evidence gate that filters retrieval results through calibrated cross-encoder scoring; and (5) a DAG-based query planner with cost-based optimization. We specify an evaluation protocol across six benchmarks spanning code, APIs, schemas, documents, and configurations, and report preliminary internal targets suggesting higher Evidence F1 and lower hallucination rate versus strong baselines (GraphRAG, HippoRAG, LightRAG) while operating fully locally with zero external API dependencies. These targets are not yet supported by a public, reproducible evaluation (\S\ref{sec:paper:results}) and should be treated as design goals, not verified results.
+We present LLMWiki, a semantic operating layer that transforms heterogeneous digital artifacts into an evidence-aware knowledge space. Unlike Retrieval-Augmented Generation (RAG) systems that treat vector search as primary and evidence as optional, LLMWiki enforces \emph{evidence closure}: every answer must trace to cross-encoder-verified units. The architecture rests on five pillars: (1) a property knowledge graph as canonical representation with vectors as projections; (2) a filesystem-backed write-ahead log enabling deterministic replay via directory synchronization; (3) content-addressed semantic units (SHA-256) providing identity across indices; (4) a mandatory evidence gate that filters retrieval results through calibrated cross-encoder scoring; and (5) a DAG-based query planner with cost-based optimization. A deterministic evidence-context boundary then selects verified units under a token budget and transmits them through a lossless, token-lean WC/1 envelope whose citations resolve to exact source occurrences. We specify an evaluation protocol across six benchmarks spanning code, APIs, schemas, documents, and configurations, and report preliminary internal targets suggesting higher Evidence F1 and lower hallucination rate versus strong baselines (GraphRAG, HippoRAG, LightRAG) while operating fully locally with zero external API dependencies. The transport reduction is tokenizer-measured, but model understanding and end-to-end quality remain unverified; the broader performance targets are not yet supported by a public, reproducible evaluation (\S\ref{sec:paper:results}) and should be treated as design goals, not verified results.
 \end{abstract}
 
 \section{Introduction}
@@ -31,6 +31,7 @@ Each question has a mature answer in a field that is not information retrieval. 
   \item \textbf{Proofreading cascade.} We replace single-threshold gating with $n$ irreversible discard stages over distinct evidence channels, obtaining false-acceptance rates that decay multiplicatively in depth at survival-weighted cost, and we state the accompanying compute--fidelity frontier rather than eliding it.
   \item \textbf{Cohomological evidence closure.} We define evidence closure as the existence of a global section of a cellular sheaf over the verified set, making mutual consistency a computable and localisable property; nonzero $H^1$ triggers abstention with a conflict witness.
   \item \textbf{Budget as allocation.} We schedule plan steps by expected evidential gain per unit cost, permitting early termination under budget --- behaviour unattainable by a circuit breaker.
+  \item \textbf{Evidence-preserving context transport.} We separate admissibility, budgeted selection, and serialization: verified evidence remains verbatim, machine identifiers stay host-side, and every model-visible citation handle resolves to an exact source occurrence. We report token savings separately from the still-open model-quality A/B.
 \end{enumerate}
 
 \section{Related Work}
@@ -44,6 +45,26 @@ GraphRAG (Edge et al., 2024) constructs a knowledge graph via LLM-based entity e
 
 \subsection{Evidence and Attribution}
 Recent work on attribution (Gao et al., 2023; Liu et al., 2024) evaluates citation quality but treats it as a metric, not a constraint. RARR (Gao et al., 2023) post-edits citations; our gate \emph{prevents} unverified units from reaching the generator.
+
+\subsection{Prompt Compression and Context Selection}
+LLMLingua and LongLLMLingua remove or reorder prompt content with learned
+models, reporting large compression and latency gains
+\citep{jiang2023llmlingua,jiang2024longllmlingua}. They change evidence text
+and add a model to the critical path, which conflicts with byte-level citation
+auditability and deterministic local replay. TOON instead targets structured
+serialization overhead and shows that syntax savings must amortise a fixed
+instruction ``prompt tax'' \citep{matveev2026toon}. WC/1 addresses the same
+serialization class but only for read-only evidence envelopes and does not
+claim format novelty.
+
+Under a fixed reader budget, top-$k$ becomes a subset-selection policy rather
+than merely a retriever setting. Budgeted submodular selection is established
+in summarization \citep{lin2010budgeted}; recent RAG work confirms both the
+value and the limited scope of redundancy-aware or submodular packing
+\citep{peng2025adagres,bala2026survives}. The latter finding is load-bearing:
+packing helps only under specific retrieval, budget, evidence-structure, and
+reader-capacity conditions. LLMWiki therefore treats weighted concept coverage
+as a proxy and requires end-to-end quality-at-budget measurement.
 
 \subsection{Local and Deterministic Systems}
 PrivateGPT, GPT4All, and similar projects enable local LLM inference but retain the RAG pipeline architecture. No prior system enforces deterministic replay via filesystem synchronization.
@@ -85,6 +106,23 @@ The evidence gate $\mathcal{G}$ is a mandatory filter: $\mathcal{G}(q, \mathcal{
 
 \subsection{DAG Query Planner}
 Queries compile to plans $P = (V, E)$ where $v \in V$ is a step (search, traverse, synthesize, tool) and $e \in E$ denotes data dependency. The executor runs topological sort with parallel fan-out. Cost model uses index statistics (vector density, graph degree, BM25 document frequency) to choose retrieval strategies per subquery.
+
+\subsection{Evidence Context Boundary}
+After gating, the verified set is selected under the remaining reader budget,
+then serialized. The production baseline takes a deterministic score-ordered
+prefix. An experimental cost-scaled greedy policy maximises weighted concept
+coverage with a best-singleton guard and \texttt{content\_id} tie-breaking; it
+cannot replace the baseline before the model A/B in Vol.~06.
+
+The \texttt{WC/1} envelope sends response-local integer handles, source paths
+once per group, block kind, line count, and verbatim evidence text. A host-only
+map resolves each handle to
+\texttt{(content\_id, occurrence\_id, document, span)}. Line-count framing
+makes arbitrary evidence unambiguous without escaping or rewriting it. On the
+reference fixtures, the complete cold prompt is 30.3\% smaller than JSON for
+English and 32.8\% for Korean; after the fixed 52-token contract prefix is
+cached, the reductions are 31.7\% and 36.6\%. These measurements use
+\texttt{tiktoken o200k\_base} and establish transport cost only.
 
 \subsection{Label-Free Significance via Discordant Pairing}
 \label{sec:paper:far}
@@ -135,9 +173,12 @@ All baselines use the same local LLM (Llama-3.1-8B-Instruct) for fairness.
   \item \textbf{Cascade frontier}: false-acceptance rate as a function of cascade depth $n$ and of total verification compute, testing whether the multiplicative suppression of \S\ref{sec:paper:cascade} survives the loss of exact stage independence.
   \item \textbf{Cyclic inconsistency detection}: recall of injected three-cycle contradictions --- pairwise-compatible, jointly unsatisfiable --- which pairwise checkers cannot detect by construction, versus the $H^1$ criterion.
   \item \textbf{Abstention quality}: precision of refusals, i.e.\ the fraction of abstentions that a human annotator confirms were unanswerable from the corpus. A gate that abstains often is only valuable if it abstains correctly.
+  \item \textbf{Tokens per answered query / refusal token cost}: median complete-prompt tokens for answers and mean complete-prompt tokens for refusals.
+  \item \textbf{Coverage per token / budget utilisation}: the selector's weighted concept-coverage proxy divided by tokens, and consumed tokens divided by the configured budget.
+  \item \textbf{Quality at budget}: Evidence F1 and Attribution at 25/50/75/100\% budget for the full \texttt{(JSON, WC/1)} $\times$ \texttt{(top-k, packed)} matrix.
 \end{itemize}
 
-\paragraph{Status of empirical claims.} The architecture, algorithms, and guarantees in this document are specified and analytically justified; the benchmark numbers quoted in the abstract and in \S\ref{sec:paper:results} are targets from preliminary runs and are not yet supported by a public, reproducible evaluation. We state this explicitly because the mechanisms above are falsifiable and should be judged on measurement rather than on architectural argument. In particular, the FAR validity and cyclic-detection metrics are designed to fail loudly if the imported methods do not transfer, and results are reported only once \texttt{LLMWikiBench} and the harness are released.
+\paragraph{Status of empirical claims.} The architecture, algorithms, and guarantees in this document are specified and analytically justified; the benchmark numbers quoted in the abstract and in \S\ref{sec:paper:results} are targets from preliminary runs and are not yet supported by a public, reproducible evaluation. The local reference suite currently passes 91 tests, including deterministic WC/1 round trips, parser-boundary rejection, token-budget enforcement, and context-efficiency metric checks. Those tests establish implementation invariants, not answer quality. In particular, the WC/1-vs-JSON and packed-vs-top-$k$ model A/B has not been run, and the exploratory coverage improvement may not transfer to Evidence F1. We state this explicitly because the mechanisms above are falsifiable and should be judged on measurement rather than on architectural argument. The FAR validity and cyclic-detection metrics are likewise designed to fail loudly if the imported methods do not transfer, and results are reported only once \texttt{LLMWikiBench} and the harness are released.
 
 \subsection{Performance Targets (Preliminary, Unverified)}
 \label{sec:paper:results}
@@ -244,6 +285,7 @@ By eliminating external API dependencies in the critical path, LLMWiki enables: 
   \item Entity resolution quality depends on embedding quality; poor embeddings $\to$ over/under-merging.
   \item DAG planner requires query decomposition capability; simple queries benefit less.
   \item Evaluation benchmarks are code/document-heavy; less tested on pure natural language corpora.
+  \item WC/1 comprehension parity with JSON and the answer-quality effect of concept-coverage packing are unmeasured. Both remain feature-gated until the four-cell quality-at-budget experiment is complete.
 \end{itemize}
 
 \section{Conclusion}

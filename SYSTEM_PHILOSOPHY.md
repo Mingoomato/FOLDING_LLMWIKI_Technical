@@ -118,6 +118,25 @@ This document captures the foundational philosophical commitments that distingui
 
 ---
 
+## 9. Preserve Evidence, Compress the Envelope
+
+**Principle**: Context shaping may select fewer verified units and remove
+repeated metadata, but it never summarizes, abbreviates, normalizes, or rewrites
+the evidence text that a citation claims to support.
+
+**Why**:
+- Human reviewers must compare cited text directly with the source artifact
+- Model-visible integer handles keep UUID cost off the wire while the host
+  retains exact `content_id`/occurrence/span resolution
+- Deterministic selection and serialization preserve replay
+- Token savings are evaluated jointly with answer quality, never alone
+
+**Contrast**: Learned prompt compressors can reduce more tokens but modify the
+evidence and add a model to the critical path. LLMWiki compresses the transport
+envelope and treats evidence selection as an explicitly measured budget policy.
+
+---
+
 ## Summary: The LLMWiki Difference
 
 LLMWiki is not "RAG with a graph." It is a **semantic operating layer** with these invariants:
@@ -130,6 +149,7 @@ LLMWiki is not "RAG with a graph." It is a **semantic operating layer** with the
 6. **DAG planner** → parallel, explainable, budgeted
 7. **Incremental consistency** → no stale reads
 8. **Deterministic replay** → debug, test, audit, science
+9. **Evidence-preserving context** → compact transport without unauditable citations
 
 ---
 *These principles are non-negotiable. Proposals violating them require explicit architecture review.*

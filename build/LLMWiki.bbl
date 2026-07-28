@@ -1,4 +1,4 @@
-\begin{thebibliography}{69}
+\begin{thebibliography}{79}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -17,6 +17,12 @@ Marah Abdin, Sam~Ade Jacobs, Ammar~Ahmad Awan, Jyoti Aneja, Ahmed Awadallah,
 {Apache Software Foundation}.
 \newblock Apache solr: Open-source enterprise search platform.
 \newblock \url{https://solr.apache.org/}, 2024.
+
+\bibitem[Bala(2026)]{bala2026survives}
+Ananto~Nayan Bala.
+\newblock What survives into context: A diagnostic for budget-constrained
+  multi-hop {RAG} and when submodular evidence packing improves it.
+\newblock \emph{arXiv preprint arXiv:2607.00725}, 2026.
 
 \bibitem[Besta et~al.(2023)Besta, Blach, Kubicek, Gerstenberger, Podstawski,
   Gianinazzi, Gajda, Lehmann, Niewiadomski, Nyczyk, and Hoefler]{besta2023got}
@@ -108,6 +114,12 @@ Robert Ghrist and Cassie Ding.
   sheaves.
 \newblock \emph{arXiv preprint arXiv:2511.00677}, 2025.
 
+\bibitem[{Google}()]{google_kythe}
+{Google}.
+\newblock Kythe: A pluggable, (mostly) language-agnostic ecosystem for building
+  tools that work with code.
+\newblock \url{https://kythe.io/}. Accessed 2026-07-27; no dated publication.
+
 \bibitem[Guo et~al.(2024{\natexlab{a}})Guo, Zhu, Yang, Xie, Dong, Zhang, Chen,
   Bi, Wu, and Li]{guo2024deepseek}
 Daya Guo, Qihao Zhu, Dejian Yang, Zhenda Xie, Kai Dong, Wentao Zhang, Guanting
@@ -151,13 +163,33 @@ Gautier Izacard, Mathilde Caron, Lucas Hosseini, Sebastian Riedel, Piotr
 \newblock Unsupervised dense information retrieval with contrastive learning.
 \newblock \emph{Transactions on Machine Learning Research}, 2022.
 
-\bibitem[Jiang et~al.(2023)Jiang, Sablayrolles, Mensch, Bamford, Chaplot,
-  de~las Casas, Bressand, Lengyel, Lample, and Saulnier]{jiang2023mistral}
+\bibitem[Jiang et~al.(2023{\natexlab{a}})Jiang, Sablayrolles, Mensch, Bamford,
+  Chaplot, de~las Casas, Bressand, Lengyel, Lample, and
+  Saulnier]{jiang2023mistral}
 Albert~Q Jiang, Alexandre Sablayrolles, Arthur Mensch, Chris Bamford,
   Devendra~Singh Chaplot, Diego de~las Casas, Florian Bressand, Gianna Lengyel,
   Guillaume Lample, and Lucile Saulnier.
 \newblock Mistral 7b.
-\newblock \emph{arXiv preprint arXiv:2310.06825}, 2023.
+\newblock \emph{arXiv preprint arXiv:2310.06825}, 2023{\natexlab{a}}.
+
+\bibitem[Jiang et~al.(2023{\natexlab{b}})Jiang, Wu, Lin, Yang, and
+  Qiu]{jiang2023llmlingua}
+Huiqiang Jiang, Qianhui Wu, Chin-Yew Lin, Yuqing Yang, and Lili Qiu.
+\newblock {LLMLingua}: Compressing prompts for accelerated inference of large
+  language models.
+\newblock In \emph{Proceedings of the 2023 Conference on Empirical Methods in
+  Natural Language Processing}, pages 13358--13376, 2023{\natexlab{b}}.
+\newblock \doi{10.18653/v1/2023.emnlp-main.825}.
+
+\bibitem[Jiang et~al.(2024)Jiang, Wu, Luo, Li, Lin, Yang, and
+  Qiu]{jiang2024longllmlingua}
+Huiqiang Jiang, Qianhui Wu, Xufang Luo, Dongsheng Li, Chin-Yew Lin, Yuqing
+  Yang, and Lili Qiu.
+\newblock {LongLLMLingua}: Accelerating and enhancing {LLM}s in long context
+  scenarios via prompt compression.
+\newblock In \emph{Proceedings of the 62nd Annual Meeting of the Association
+  for Computational Linguistics}, pages 1658--1677, 2024.
+\newblock \doi{10.18653/v1/2024.acl-long.91}.
 
 \bibitem[{Jina AI}(2024)]{jina2024jina}
 {Jina AI}.
@@ -208,6 +240,14 @@ Raymond Li, Loubna~Ben Allal, Yangtian Zi, Niklas Muennighoff, Denis Kocetkov,
 \newblock Starcoder: May the source be with you!
 \newblock \emph{arXiv preprint arXiv:2305.06161}, 2023.
 
+\bibitem[Lin and Bilmes(2010)]{lin2010budgeted}
+Hui Lin and Jeff Bilmes.
+\newblock Multi-document summarization via budgeted maximization of submodular
+  functions.
+\newblock In \emph{Human Language Technologies: The 2010 Annual Conference of
+  the North American Chapter of the Association for Computational Linguistics},
+  pages 912--920, 2010.
+
 \bibitem[Lin and Ma(2021)]{lin2021unicoil}
 Jimmy Lin and Xueguang Ma.
 \newblock A few brief notes on deepimpact, coil, and a conceptual framework for
@@ -230,6 +270,15 @@ Nelson~F. Liu, Tianyi Zhang, and Percy Liang.
 \newblock Evaluating verifiability in generative search engines.
 \newblock \emph{arXiv preprint arXiv:2304.09848}, 2023.
 
+\bibitem[Liu et~al.(2024)Liu, Lin, Hewitt, Paranjape, Bevilacqua, Petroni, and
+  Liang]{liu2024lostmiddle}
+Nelson~F. Liu, Kevin Lin, John Hewitt, Ashwin Paranjape, Michele Bevilacqua,
+  Fabio Petroni, and Percy Liang.
+\newblock Lost in the middle: How language models use long contexts.
+\newblock \emph{Transactions of the Association for Computational Linguistics},
+  12:\penalty0 157--173, 2024.
+\newblock \doi{10.1162/tacl_a_00638}.
+
 \bibitem[Mallia et~al.(2021)Mallia, Khattab, Suel, and
   Tonellotto]{ma2021deepimpact}
 Antonio Mallia, Omar Khattab, Torsten Suel, and Nicola Tonellotto.
@@ -244,6 +293,12 @@ Mao et~al.
 \newblock
   \url{https://www.cell.com/cell-systems/abstract/S2405-4712(26)00140-7}.
 
+\bibitem[Matveev(2026)]{matveev2026toon}
+Ivan Matveev.
+\newblock Token-oriented object notation vs json: A benchmark of plain and
+  constrained decoding generation.
+\newblock \emph{arXiv preprint arXiv:2603.03306}, 2026.
+
 \bibitem[Menick et~al.(2023)Menick, Trebacz, Mikulik, Aslanides, Song,
   Chadwick, Glaese, Young, Campbell-Gillingham, Irving, and
   McAleese]{menick2023citation}
@@ -252,6 +307,13 @@ Jacob Menick, Maja Trebacz, Vladimir Mikulik, John Aslanides, Francis Song,
   Geoffrey Irving, and Nat McAleese.
 \newblock Teaching language models to support answers with verified quotes.
 \newblock \emph{arXiv preprint arXiv:2203.11147}, 2023.
+
+\bibitem[{Meta Open Source}(2024)]{meta2024glean}
+{Meta Open Source}.
+\newblock Indexing code at scale with glean, 2024.
+\newblock Engineering at Meta;
+  \url{https://engineering.fb.com/2024/12/19/developer-tools/glean-open-source-code-indexing/}.
+  Accessed 2026-07-27.
 
 \bibitem[{Meta Platforms}(2019)]{sigel2019rocksdb}
 {Meta Platforms}.
@@ -305,6 +367,12 @@ Boci Peng, Yun Zhu, Yongchao Liu, Xiaohe Bo, Haizhou Shi, Chuntao Hong, Yan
 \newblock Graph retrieval-augmented generation: A survey.
 \newblock \emph{arXiv preprint arXiv:2408.08921}, 2024.
 
+\bibitem[Peng et~al.(2025)Peng, Wang, Long, and Sheng]{peng2025adagres}
+Chao Peng, Bin Wang, Zhilei Long, and Jinfang Sheng.
+\newblock {AdaGReS}: Adaptive greedy context selection via redundancy-aware
+  scoring for token-budgeted {RAG}.
+\newblock \emph{arXiv preprint arXiv:2512.25052}, 2025.
+
 \bibitem[{pgvector}(2024)]{pgvector2024}
 {pgvector}.
 \newblock pgvector: Open-source vector similarity search for postgres.
@@ -314,6 +382,13 @@ Boci Peng, Yun Zhu, Yongchao Liu, Xiaohe Bo, Haizhou Shi, Chuntao Hong, Yan
 {Qdrant}.
 \newblock Qdrant: Vector database for the next generation of ai applications.
 \newblock \url{https://qdrant.tech/}, 2024.
+
+\bibitem[Rasmussen et~al.(2025)Rasmussen, Paliychuk, Beauvais, Ryan, and
+  Chalef]{rasmussen2025zep}
+Preston Rasmussen, Pavlo Paliychuk, Travis Beauvais, Jack Ryan, and Daniel
+  Chalef.
+\newblock Zep: A temporal knowledge graph architecture for agent memory.
+\newblock \emph{arXiv preprint arXiv:2501.13956}, 2025.
 
 \bibitem[Robertson and Zaragoza(2009)]{robertson2009bm25}
 Stephen Robertson and Hugo Zaragoza.

@@ -7,7 +7,7 @@
 This volume defines the evaluation methodology for LLMWiki: benchmarks, metrics, experimental protocols, and the automated evaluation pipeline. Rigorous evaluation is not an afterthought; it is a first-class component that validates the architectural claims (evidence closure, deterministic replay, local-first quality).
 
 \begin{quote}
-\textit{Implementation status: a runnable harness scaffold exists at \texttt{eval/} in the project repository --- working implementations of every metric in \S\ref{sec:eval:metrics} (12 passing unit tests), a real parser producing content\_id/occurrence\_id-split records (Appendix~B \S\ref{app:data-model:identity}) from a small real corpus, a dependency-free BM25 retrieval baseline, and an end-to-end pipeline runner. It is explicitly a scaffold, not the benchmark: \texttt{eval/README.md} documents exactly which gaps (corpus scale, two-annotator gold sets, hybrid retrieval, attribution scoring against a real NLI model, the full configuration sweep) separate it from \texttt{LLMWikiBench} proper, consistent with the status note in Vol.~11 \S\ref{sec:paper:results}.}
+\textit{Implementation status: a runnable harness scaffold exists at \texttt{eval/} in the project repository --- working implementations of the evidence and context-efficiency metrics in \S\ref{sec:eval:metrics} (17 metric tests), a real parser producing content\_id/occurrence\_id-split records (Appendix~B \S\ref{app:data-model:identity}) from a small real corpus, a dependency-free BM25 retrieval baseline, an end-to-end pipeline runner, and separate executable references for temporal gating, evidence packing, and WC/1 transport. The complete reference suite passes 91 tests. It is explicitly a scaffold, not the benchmark: \texttt{eval/README.md} documents exactly which gaps (corpus scale, two-annotator gold sets, hybrid retrieval, attribution scoring against a real NLI model, the full configuration sweep, and model A/B for context shaping) separate it from \texttt{LLMWikiBench} proper, consistent with the status note in Vol.~11 \S\ref{sec:paper:results}.}
 \end{quote}
 
 \section{Evaluation Philosophy}
@@ -150,8 +150,84 @@ For each cited unit $u$, score = $\text{CrossEncoder}(q, u)$. Average over all c
   \item \textbf{Uptime / Crash Recovery}: Time to replay WAL and serve queries
 \end{itemize}
 
+\subsection{Context Efficiency Metrics}
+\label{sec:eval:context-metrics}
+
+Token cost is a first-class outcome rather than an incidental runtime counter.
+Quality and cost are reported together because a smaller prompt that lowers
+answer quality is not an improvement.
+
+\begin{definition}[Tokens per Answered Query]
+\label{def:tokens-per-answered-query}
+\[
+\operatorname{TPAQ} =
+\operatorname{median}\{\,T_q \mid q\text{ returns ANSWER}\,\},
+\]
+where $T_q$ is the complete prompt token count, including instructions and
+evidence framing.
+\end{definition}
+
+\begin{definition}[Coverage per Token]
+\label{def:coverage-per-token}
+\[
+\operatorname{CovTok}(q)=
+\frac{\sum_{c\in C(\mathcal{E}_{B,q})}w(c)}{T_q},
+\]
+where $C(\mathcal{E}_{B,q})$ is the union of weighted concepts in the packed
+evidence. This is the packer's proxy objective and must not be reported as
+answer quality.
+\end{definition}
+
+\begin{definition}[Budget Utilisation]
+\label{def:budget-utilisation}
+\[
+\operatorname{Util}(q)=T_q/B_q.
+\]
+Values above one are hard failures; persistently low values indicate either
+successful early stopping or an estimator that is leaving useful evidence out.
+\end{definition}
+
+\begin{definition}[Quality at Budget]
+\label{def:quality-at-budget}
+\[
+Q(\beta)=\operatorname{EvF1}
+\quad\text{for}\quad
+\beta\in\{0.25,0.50,0.75,1.00\}.
+\]
+The result is a curve, not a single operating point. Every context policy is
+compared at equal $\beta$.
+\end{definition}
+
+\begin{definition}[Refusal Token Cost]
+\label{def:refusal-token-cost}
+\[
+\operatorname{RTC} =
+\operatorname{mean}\{\,T_q \mid q\text{ returns REFUSE}\,\}.
+\]
+This exposes systems that eventually refuse correctly but spend a full answer
+budget discovering that they have no admissible evidence.
+\end{definition}
+
 \section{Evaluation Pipeline}
 \label{sec:eval:pipeline}
+
+\subsection{Context-Shaping Acceptance Experiment}
+\label{sec:eval:context-ab}
+
+WC/1 transport and budgeted packing remain behind feature flags until a fixed
+query set is evaluated in the full $2\times2$ matrix:
+\[
+\{\text{JSON},\text{WC/1}\}
+\times
+\{\text{top-k},\text{packed}\}.
+\]
+Each cell uses the same retrieved and gate-verified candidates, reader model,
+decoding parameters, and budget fractions. Report
+\texttt{EvF1}, Attribution, TPAQ, RTC, and the complete $Q(\beta)$ curve with
+bootstrap confidence intervals. WC/1 is accepted only if it meets the token
+reduction criterion without a statistically meaningful quality regression.
+Packed selection replaces top-$k$ only if it improves end-to-end quality at
+equal budget; improved concept coverage alone is insufficient.
 
 \begin{figure}[htbp]
 \centering
@@ -276,6 +352,7 @@ LLMWiki's evaluation framework goes beyond standard RAG benchmarks by:
   \item \textbf{Evidence-first metrics}: Quality of verified evidence, not just raw retrieval
   \item \textbf{Attribution verification}: Claim-level NLI checking against citations
   \item \textbf{Configuration sweeps}: Understanding tradeoffs, not single-point numbers
+  \item \textbf{Context efficiency}: Token cost, coverage per token, utilisation, refusals, and quality-at-budget curves
   \item \textbf{Regression gates}: CI-enforced quality floors
   \item \textbf{System properties}: Determinism, latency, replay---all measured
 \end{enumerate}

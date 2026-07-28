@@ -58,86 +58,96 @@
 \@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Query Execution Pipeline}}{6}{algorithm.2}\protected@file@percent }
 \newlabel{alg:query}{{2}{6}{Query Execution Pipeline}{algorithm.2}{}}
 \newlabel{alg:query@cref}{{[algorithm][2][]2}{[1][6][]6}{}{}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {1.5}Crash Consistency and Recovery}{6}{section.1.5}\protected@file@percent }
-\newlabel{sec:architecture:crash-consistency}{{1.5}{6}{Crash Consistency and Recovery}{section.1.5}{}}
-\newlabel{sec:architecture:crash-consistency@cref}{{[section][5][1]1.5}{[1][6][]6}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.5}Evidence Context Boundary}{6}{section.1.5}\protected@file@percent }
+\newlabel{sec:architecture:evidence-context}{{1.5}{6}{Evidence Context Boundary}{section.1.5}{}}
+\newlabel{sec:architecture:evidence-context@cref}{{[section][5][1]1.5}{[1][6][]6}{}{}{}}
+\citation{lin2010budgeted,peng2025adagres,bala2026survives}
 \def\@LN@column{1}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.1}Event Lifecycle}{7}{subsection.1.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.2}Idempotent, Resumable Projection}{7}{subsection.1.5.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.3}Crash Recovery Scanner}{7}{subsection.1.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{WC/1 transport.}{7}{definition.1.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Budgeted selection.}{7}{definition.1.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Integration status.}{7}{definition.1.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.6}Crash Consistency and Recovery}{7}{section.1.6}\protected@file@percent }
+\newlabel{sec:architecture:crash-consistency}{{1.6}{7}{Crash Consistency and Recovery}{section.1.6}{}}
+\newlabel{sec:architecture:crash-consistency@cref}{{[section][6][1]1.6}{[1][7][]7}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.6.1}Event Lifecycle}{7}{subsection.1.6.1}\protected@file@percent }
 \def\@LN@column{1}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.4}Atomic Commit: POSIX and Windows}{8}{subsection.1.5.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.5}What Live-Copy Backups Do Not Give You}{8}{subsection.1.5.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.6}Core Invariants}{8}{section.1.6}\protected@file@percent }
-\newlabel{sec:architecture:invariants}{{1.6}{8}{Core Invariants}{section.1.6}{}}
-\newlabel{sec:architecture:invariants@cref}{{[section][6][1]1.6}{[1][8][]8}{}{}{}}
-\newlabel{inv:content-address}{{1.11}{8}{Content Addressability}{definition.1.11}{}}
-\newlabel{inv:content-address@cref}{{[definition][11][1]1.11}{[1][8][]8}{}{}{}}
-\newlabel{inv:evidence-closure}{{1.12}{8}{Evidence Closure}{definition.1.12}{}}
-\newlabel{inv:evidence-closure@cref}{{[definition][12][1]1.12}{[1][8][]8}{}{}{}}
-\newlabel{inv:incremental}{{1.13}{8}{Incremental Consistency}{definition.1.13}{}}
-\newlabel{inv:incremental@cref}{{[definition][13][1]1.13}{[1][8][]8}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.6.2}Idempotent, Resumable Projection}{8}{subsection.1.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.6.3}Crash Recovery Scanner}{8}{subsection.1.6.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.6.4}Atomic Commit: POSIX and Windows}{8}{subsection.1.6.4}\protected@file@percent }
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.6.5}What Live-Copy Backups Do Not Give You}{9}{subsection.1.6.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.7}Core Invariants}{9}{section.1.7}\protected@file@percent }
+\newlabel{sec:architecture:invariants}{{1.7}{9}{Core Invariants}{section.1.7}{}}
+\newlabel{sec:architecture:invariants@cref}{{[section][7][1]1.7}{[1][9][]9}{}{}{}}
+\newlabel{inv:content-address}{{1.12}{9}{Content Addressability}{definition.1.12}{}}
+\newlabel{inv:content-address@cref}{{[definition][12][1]1.12}{[1][9][]9}{}{}{}}
+\newlabel{inv:evidence-closure}{{1.13}{9}{Evidence Closure}{definition.1.13}{}}
+\newlabel{inv:evidence-closure@cref}{{[definition][13][1]1.13}{[1][9][]9}{}{}{}}
+\newlabel{inv:incremental}{{1.14}{9}{Incremental Consistency}{definition.1.14}{}}
+\newlabel{inv:incremental@cref}{{[definition][14][1]1.14}{[1][9][]9}{}{}{}}
+\newlabel{inv:local-determinism}{{1.15}{9}{Local-First Determinism}{definition.1.15}{}}
+\newlabel{inv:local-determinism@cref}{{[definition][15][1]1.15}{[1][9][]9}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.8}The Filesystem as Lineage Recorder}{9}{section.1.8}\protected@file@percent }
+\newlabel{sec:architecture:lineage}{{1.8}{9}{The Filesystem as Lineage Recorder}{section.1.8}{}}
+\newlabel{sec:architecture:lineage@cref}{{[section][8][1]1.8}{[1][9][]9}{}{}{}}
 \citation{lineagetracing2026}
 \citation{phylodynamic2025}
 \def\@LN@column{1}
-\newlabel{inv:local-determinism}{{1.14}{9}{Local-First Determinism}{definition.1.14}{}}
-\newlabel{inv:local-determinism@cref}{{[definition][14][1]1.14}{[1][8][]9}{}{}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {1.7}The Filesystem as Lineage Recorder}{9}{section.1.7}\protected@file@percent }
-\newlabel{sec:architecture:lineage}{{1.7}{9}{The Filesystem as Lineage Recorder}{section.1.7}{}}
-\newlabel{sec:architecture:lineage@cref}{{[section][7][1]1.7}{[1][9][]9}{}{}{}}
-\@writefile{toc}{\contentsline {paragraph}{Homoplasy.}{9}{section.1.7}\protected@file@percent }
-\newlabel{inv:lineage-distinct}{{1.15}{9}{Lineage Distinctness}{definition.1.15}{}}
-\newlabel{inv:lineage-distinct@cref}{{[definition][15][1]1.15}{[1][9][]9}{}{}{}}
-\@writefile{toc}{\contentsline {paragraph}{Dropout.}{9}{definition.1.15}\protected@file@percent }
-\newlabel{inv:replay-degradation}{{1.16}{9}{Replay Degradation is Explicit}{definition.1.16}{}}
-\newlabel{inv:replay-degradation@cref}{{[definition][16][1]1.16}{[1][9][]9}{}{}{}}
+\@writefile{toc}{\contentsline {paragraph}{Homoplasy.}{10}{section.1.8}\protected@file@percent }
+\newlabel{inv:lineage-distinct}{{1.16}{10}{Lineage Distinctness}{definition.1.16}{}}
+\newlabel{inv:lineage-distinct@cref}{{[definition][16][1]1.16}{[1][10][]10}{}{}{}}
+\@writefile{toc}{\contentsline {paragraph}{Dropout.}{10}{definition.1.16}\protected@file@percent }
+\newlabel{inv:replay-degradation}{{1.17}{10}{Replay Degradation is Explicit}{definition.1.17}{}}
+\newlabel{inv:replay-degradation@cref}{{[definition][17][1]1.17}{[1][10][]10}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.9}Comparison with Prior Art}{10}{section.1.9}\protected@file@percent }
+\newlabel{sec:architecture:prior-art}{{1.9}{10}{Comparison with Prior Art}{section.1.9}{}}
+\newlabel{sec:architecture:prior-art@cref}{{[section][9][1]1.9}{[1][10][]10}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1.1}{\ignorespaces LLMWiki vs. Prior Art: Architectural Positioning, by Mechanism}}{11}{table.caption.5}\protected@file@percent }
+\newlabel{tab:arch:prior-art}{{1.1}{11}{LLMWiki vs. Prior Art: Architectural Positioning, by Mechanism}{table.caption.5}{}}
+\newlabel{tab:arch:prior-art@cref}{{[table][1][1]1.1}{[1][10][]11}{}{}{}}
+\citation{rasmussen2025zep}
+\citation{meta2024glean}
+\citation{google_kythe}
 \def\@LN@column{1}
-\@writefile{toc}{\contentsline {section}{\numberline {1.8}Comparison with Prior Art}{10}{section.1.8}\protected@file@percent }
-\newlabel{sec:architecture:prior-art}{{1.8}{10}{Comparison with Prior Art}{section.1.8}{}}
-\newlabel{sec:architecture:prior-art@cref}{{[section][8][1]1.8}{[1][10][]10}{}{}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {1.1}{\ignorespaces LLMWiki vs. Prior Art: Architectural Positioning, by Mechanism}}{10}{table.caption.5}\protected@file@percent }
-\newlabel{tab:arch:prior-art}{{1.1}{10}{LLMWiki vs. Prior Art: Architectural Positioning, by Mechanism}{table.caption.5}{}}
-\newlabel{tab:arch:prior-art@cref}{{[table][1][1]1.1}{[1][10][]10}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.10}Patent-Relevant Novelty}{12}{section.1.10}\protected@file@percent }
+\newlabel{sec:architecture:patent}{{1.10}{12}{Patent-Relevant Novelty}{section.1.10}{}}
+\newlabel{sec:architecture:patent@cref}{{[section][10][1]1.10}{[1][12][]12}{}{}{}}
 \def\@LN@column{1}
-\@writefile{toc}{\contentsline {section}{\numberline {1.9}Patent-Relevant Novelty}{11}{section.1.9}\protected@file@percent }
-\newlabel{sec:architecture:patent}{{1.9}{11}{Patent-Relevant Novelty}{section.1.9}{}}
-\newlabel{sec:architecture:patent@cref}{{[section][9][1]1.9}{[1][10][]11}{}{}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {1.10}Module Interface Contracts}{11}{section.1.10}\protected@file@percent }
-\newlabel{sec:architecture:contracts}{{1.10}{11}{Module Interface Contracts}{section.1.10}{}}
-\newlabel{sec:architecture:contracts@cref}{{[section][10][1]1.10}{[1][11][]11}{}{}{}}
-\newlabel{iface:parser}{{1.21}{11}{Parser}{definition.1.21}{}}
-\newlabel{iface:parser@cref}{{[definition][21][1]1.21}{[1][11][]11}{}{}{}}
-\newlabel{iface:chunker}{{1.22}{11}{Chunker}{definition.1.22}{}}
-\newlabel{iface:chunker@cref}{{[definition][22][1]1.22}{[1][11][]11}{}{}{}}
-\newlabel{iface:embedder}{{1.23}{11}{Embedder}{definition.1.23}{}}
-\newlabel{iface:embedder@cref}{{[definition][23][1]1.23}{[1][11][]11}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.11}Module Interface Contracts}{13}{section.1.11}\protected@file@percent }
+\newlabel{sec:architecture:contracts}{{1.11}{13}{Module Interface Contracts}{section.1.11}{}}
+\newlabel{sec:architecture:contracts@cref}{{[section][11][1]1.11}{[1][13][]13}{}{}{}}
+\newlabel{iface:parser}{{1.22}{13}{Parser}{definition.1.22}{}}
+\newlabel{iface:parser@cref}{{[definition][22][1]1.22}{[1][13][]13}{}{}{}}
+\newlabel{iface:chunker}{{1.23}{13}{Chunker}{definition.1.23}{}}
+\newlabel{iface:chunker@cref}{{[definition][23][1]1.23}{[1][13][]13}{}{}{}}
+\newlabel{iface:embedder}{{1.24}{13}{Embedder}{definition.1.24}{}}
+\newlabel{iface:embedder@cref}{{[definition][24][1]1.24}{[1][13][]13}{}{}{}}
+\newlabel{iface:graphstore}{{1.25}{13}{GraphStore}{definition.1.25}{}}
+\newlabel{iface:graphstore@cref}{{[definition][25][1]1.25}{[1][13][]13}{}{}{}}
+\newlabel{iface:semantic-index}{{1.26}{13}{SemanticIndex}{definition.1.26}{}}
+\newlabel{iface:semantic-index@cref}{{[definition][26][1]1.26}{[1][13][]13}{}{}{}}
 \def\@LN@column{1}
-\newlabel{iface:graphstore}{{1.24}{12}{GraphStore}{definition.1.24}{}}
-\newlabel{iface:graphstore@cref}{{[definition][24][1]1.24}{[1][11][]12}{}{}{}}
-\newlabel{iface:semantic-index}{{1.25}{12}{SemanticIndex}{definition.1.25}{}}
-\newlabel{iface:semantic-index@cref}{{[definition][25][1]1.25}{[1][12][]12}{}{}{}}
-\newlabel{iface:evidence-gate}{{1.26}{12}{EvidenceGate}{definition.1.26}{}}
-\newlabel{iface:evidence-gate@cref}{{[definition][26][1]1.26}{[1][12][]12}{}{}{}}
-\newlabel{iface:query-planner}{{1.27}{12}{QueryPlanner}{definition.1.27}{}}
-\newlabel{iface:query-planner@cref}{{[definition][27][1]1.27}{[1][12][]12}{}{}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {1.11}Runtime Configuration}{12}{section.1.11}\protected@file@percent }
-\newlabel{sec:architecture:config}{{1.11}{12}{Runtime Configuration}{section.1.11}{}}
-\newlabel{sec:architecture:config@cref}{{[section][11][1]1.11}{[1][12][]12}{}{}{}}
+\newlabel{iface:evidence-gate}{{1.27}{14}{EvidenceGate}{definition.1.27}{}}
+\newlabel{iface:evidence-gate@cref}{{[definition][27][1]1.27}{[1][13][]14}{}{}{}}
+\newlabel{iface:query-planner}{{1.28}{14}{QueryPlanner}{definition.1.28}{}}
+\newlabel{iface:query-planner@cref}{{[definition][28][1]1.28}{[1][14][]14}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.12}Runtime Configuration}{14}{section.1.12}\protected@file@percent }
+\newlabel{sec:architecture:config}{{1.12}{14}{Runtime Configuration}{section.1.12}{}}
+\newlabel{sec:architecture:config@cref}{{[section][12][1]1.12}{[1][14][]14}{}{}{}}
 \def\@LN@column{1}
-\@writefile{toc}{\contentsline {section}{\numberline {1.12}Extension Points}{13}{section.1.12}\protected@file@percent }
-\newlabel{sec:architecture:extensions}{{1.12}{13}{Extension Points}{section.1.12}{}}
-\newlabel{sec:architecture:extensions@cref}{{[section][12][1]1.12}{[1][13][]13}{}{}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {1.2}{\ignorespaces LLMWiki Extension Points}}{13}{table.caption.6}\protected@file@percent }
-\newlabel{tab:arch:extensions}{{1.2}{13}{LLMWiki Extension Points}{table.caption.6}{}}
-\newlabel{tab:arch:extensions@cref}{{[table][2][1]1.2}{[1][13][]13}{}{}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {1.13}Summary}{13}{section.1.13}\protected@file@percent }
-\newlabel{sec:architecture:summary}{{1.13}{13}{Summary}{section.1.13}{}}
-\newlabel{sec:architecture:summary@cref}{{[section][13][1]1.13}{[1][13][]13}{}{}{}}
-\def\@LN@column{1}
+\@writefile{toc}{\contentsline {section}{\numberline {1.13}Extension Points}{15}{section.1.13}\protected@file@percent }
+\newlabel{sec:architecture:extensions}{{1.13}{15}{Extension Points}{section.1.13}{}}
+\newlabel{sec:architecture:extensions@cref}{{[section][13][1]1.13}{[1][15][]15}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1.2}{\ignorespaces LLMWiki Extension Points}}{15}{table.caption.6}\protected@file@percent }
+\newlabel{tab:arch:extensions}{{1.2}{15}{LLMWiki Extension Points}{table.caption.6}{}}
+\newlabel{tab:arch:extensions@cref}{{[table][2][1]1.2}{[1][15][]15}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.14}Summary}{15}{section.1.14}\protected@file@percent }
+\newlabel{sec:architecture:summary}{{1.14}{15}{Summary}{section.1.14}{}}
+\newlabel{sec:architecture:summary@cref}{{[section][14][1]1.14}{[1][15][]15}{}{}{}}
 \@setckpt{docs/Volume_01_Architecture/Volume_01_Architecture}{
-\setcounter{page}{15}
-\setcounter{equation}{0}
-\setcounter{enumi}{5}
+\setcounter{page}{16}
+\setcounter{equation}{1}
+\setcounter{enumi}{6}
 \setcounter{enumii}{0}
 \setcounter{enumiii}{0}
 \setcounter{enumiv}{0}
@@ -145,7 +155,7 @@
 \setcounter{mpfootnote}{0}
 \setcounter{part}{1}
 \setcounter{chapter}{1}
-\setcounter{section}{13}
+\setcounter{section}{14}
 \setcounter{subsection}{0}
 \setcounter{subsubsection}{0}
 \setcounter{paragraph}{0}
@@ -161,11 +171,11 @@
 \setcounter{subtable}{0}
 \setcounter{float@type}{32}
 \setcounter{section@level}{0}
-\setcounter{Item}{13}
+\setcounter{Item}{14}
 \setcounter{Hfootnote}{0}
-\setcounter{bookmark@seq@number}{26}
+\setcounter{bookmark@seq@number}{27}
 \setcounter{algorithm}{2}
-\setcounter{ALG@line}{8}
+\setcounter{ALG@line}{14}
 \setcounter{ALG@rem}{0}
 \setcounter{ALG@nested}{0}
 \setcounter{ALG@Lnr}{2}
@@ -175,7 +185,7 @@
 \setcounter{lstnumber}{1}
 \setcounter{FancyVerbLine}{37}
 \setcounter{linenumber}{1}
-\setcounter{LN@truepage}{29}
+\setcounter{LN@truepage}{30}
 \setcounter{FancyVerbWriteLine}{0}
 \setcounter{FancyVerbBufferLine}{0}
 \setcounter{FV@TrueTabGroupLevel}{0}
@@ -212,7 +222,7 @@
 \setcounter{parttocdepth}{2}
 \setcounter{lofdepth}{1}
 \setcounter{lotdepth}{1}
-\setcounter{definition}{27}
+\setcounter{definition}{28}
 \setcounter{lstlisting}{0}
 \setcounter{minilofdepth}{2}
 \setcounter{minilotdepth}{2}

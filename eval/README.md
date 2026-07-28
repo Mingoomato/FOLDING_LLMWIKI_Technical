@@ -22,17 +22,24 @@ distinction gets lost.
   `PriorityQueue` subclasses) and gives them one `content_id` each with
   distinct `occurrence_id`s, which is the property the schema exists to
   provide.
-- `scripts/metrics.py` -- implements every metric formula from Vol. 06
-  §6.3 (EvRecall@k, EvPrecision@k, Evidence F1@k, Gate Rejection Rate,
-  Attribution Score, Cohen's kappa, bootstrap CI) exactly as defined, with
-  12 passing unit tests (`scripts/test_metrics.py`) checking each against
-  hand-computed expected values.
+- `scripts/metrics.py` -- implements the Vol. 06 evidence-quality metrics and
+  the context-efficiency axis (tokens per answered query, coverage per token,
+  budget utilisation, quality-at-budget, refusal token cost), with 17 passing
+  unit tests (`scripts/test_metrics.py`).
 - `scripts/retrieval_baseline.py` -- a real BM25 implementation (no
   third-party deps) used as the harness's local-only retrieval backend.
 - `scripts/run_eval.py` -- runs the full pipeline (parse -> index -> query
   -> gate -> metrics -> report) end-to-end against the toy corpus and
   writes a timestamped report to `results/`. This actually executes; it is
   not a mock.
+- `scripts/temporal_gate.py` -- executable as-of filtering, three-way
+  Answer/Refuse/Review decisions, and temporal-leakage accounting (19 tests).
+- `scripts/evidence_packer.py` -- deterministic budgeted concept-coverage
+  selection (25 tests). It is an experimental reference component and does not
+  replace top-k in `run_eval.py` until the documented model A/B succeeds.
+- `scripts/wire_contract.py` -- the WC/1 evidence envelope, deterministic
+  ordering, host-side citation resolution, parser validation, and JSON fallback
+  payload generation (30 tests). It is not yet wired into a production runtime.
 - `annotation/PROTOCOL.md` -- the annotation protocol Vol. 06's
   Construction Process steps 3-5 reference, specified in enough detail to
   actually run (acceptance criteria, evidence-span annotation rules,
@@ -81,7 +88,10 @@ prove the harness computes what it claims to compute.
 cd eval/scripts
 python parse_units.py          # regenerate units.jsonl from raw/
 python generate_questions.py   # regenerate questions_generated.jsonl (candidates, not gold)
-python test_metrics.py         # verify metrics implementations (12 tests)
+python test_metrics.py         # verify metrics implementations (17 tests)
+python test_temporal_gate.py   # verify as-of gate semantics (19 tests)
+python test_evidence_packer.py # verify budgeted selection (25 tests)
+python test_wire_contract.py   # verify WC/1 transport contract (30 tests)
 python run_eval.py             # full pipeline, writes results/<timestamp>/
 ```
 

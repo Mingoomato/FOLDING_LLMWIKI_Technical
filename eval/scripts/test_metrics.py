@@ -2,7 +2,10 @@
 or, with no pytest available: python eval/scripts/test_metrics.py
 """
 from metrics import (
+    ContextEfficiencyRecord,
     QueryResult,
+    budget_utilisation,
+    coverage_per_token,
     evidence_recall_at_k,
     evidence_precision_at_k,
     evidence_f1_at_k,
@@ -11,6 +14,9 @@ from metrics import (
     lexical_overlap_nli_stub,
     cohens_kappa,
     bootstrap_ci,
+    quality_at_budget,
+    refusal_token_cost,
+    tokens_per_answered_query,
 )
 
 
@@ -92,6 +98,43 @@ def test_cohens_kappa_chance_agreement_near_zero():
 def test_bootstrap_ci_shape():
     point, lo, hi = bootstrap_ci([0.7, 0.8, 0.75, 0.72, 0.79], resamples=200, seed=1)
     assert lo <= point <= hi
+
+
+def test_tokens_per_answered_query_is_median():
+    records = [
+        ContextEfficiencyRecord("q1", 100, 200, True),
+        ContextEfficiencyRecord("q2", 300, 400, True),
+        ContextEfficiencyRecord("q3", 999, 1000, False),
+    ]
+    assert tokens_per_answered_query(records) == 200.0
+
+
+def test_coverage_per_token():
+    record = ContextEfficiencyRecord("q", 20, 100, True, weighted_coverage=50.0)
+    assert coverage_per_token(record) == 2.5
+
+
+def test_budget_utilisation():
+    record = ContextEfficiencyRecord("q", 75, 100, True)
+    assert budget_utilisation(record) == 0.75
+
+
+def test_quality_at_budget_returns_curve():
+    records = [
+        ContextEfficiencyRecord("q1", 25, 100, True, evidence_f1=0.4, budget_fraction=0.25),
+        ContextEfficiencyRecord("q2", 25, 100, True, evidence_f1=0.6, budget_fraction=0.25),
+        ContextEfficiencyRecord("q3", 50, 100, True, evidence_f1=0.8, budget_fraction=0.5),
+    ]
+    assert quality_at_budget(records) == {0.25: 0.5, 0.5: 0.8}
+
+
+def test_refusal_token_cost():
+    records = [
+        ContextEfficiencyRecord("q1", 40, 100, False),
+        ContextEfficiencyRecord("q2", 60, 100, False),
+        ContextEfficiencyRecord("q3", 80, 100, True),
+    ]
+    assert refusal_token_cost(records) == 50.0
 
 
 def _run_all():

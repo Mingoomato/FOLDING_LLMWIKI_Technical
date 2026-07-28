@@ -190,34 +190,76 @@ so the expensive terminal stages are evaluated on a vanishing fraction of the ca
 In the thermodynamic setting, proofreading fidelity beyond the equilibrium bound is possible only if the cycle consumes free energy; a cascade run at equilibrium provides no discrimination gain. The computational analogue is exact: the discard steps are irreversible, and the cascade's advantage over a single threshold is paid for strictly in compute. This yields an accuracy-versus-compute frontier for evidence verification rather than an unbounded accuracy claim, and we regard the existence of that frontier as a design constraint rather than a limitation to be hidden.
 \end{observation}
 
-\subsection{Stage 5: Synthesis, Then Claim Support and Coverage Verification}
-\label{sec:retrieval:synthesis}
+\subsection{Stage 5: Evidence Context Selection and WC/1 Transport}
+\label{sec:retrieval:context-shaping}
 
-The verified set $\mathcal{E}$ is packed into the LLM context with explicit citation markers:
+The gate output $\mathcal{E}$ is admissible but may exceed the reader budget
+$B$. Context construction is therefore a constrained selection problem, not a
+license to summarize or rewrite evidence. The safe baseline sorts by gate score
+and takes the largest prefix that fits. The experimental reference policy
+maximises weighted concept coverage per token with deterministic
+\texttt{content\_id} tie-breaking and a best-singleton guard. This follows the
+budgeted submodular selection family \citep{lin2010budgeted,peng2025adagres};
+recent multi-hop RAG evidence shows that packing gains are conditional on
+retrieval recall, complementary evidence structure, budget tightness, and
+reader capacity \citep{bala2026survives}. LLMWiki therefore retains top-$k$ as
+the production default until the A/B protocol in Vol.~06 shows an end-to-end
+quality gain.
+
+The selected set $\mathcal{E}_B$ crosses the model boundary through the
+line-oriented \texttt{WC/1} evidence envelope. This removes repeated structural
+keys and instruction ``prompt tax'' without compressing the evidence itself
+\citep{matveev2026toon}:
 
 \begin{verbatim}
-[EVIDENCE]
-Source: units/ab/cdef1234.json (Function: process_payment)
-Content: def process_payment(amount: Decimal, currency: str) -> bool:
-    \"\"\"Process a payment transaction...\"\"\"
+WC/1 evidence envelope. A line '@<path>' names a source file...
+
+Q How is currency validated?
+@src/payment.py
+0 code 3
+def process_payment(amount, currency):
     validate_currency(currency)
+    return gateway.charge(amount)
+@src/validator.py
+1 code 2
+def validate_currency(currency):
     ...
-Relevance: 0.94
-[/EVIDENCE]
-
-[EVIDENCE]
-Source: units/ef/5678abcd.json (Class: PaymentProcessor)
-Content: class PaymentProcessor:
-    def __init__(self, gateway: PaymentGateway):
-        self.gateway = gateway
-    ...
-Relevance: 0.87
-[/EVIDENCE]
-
-ANSWER THE QUERY USING ONLY THE EVIDENCE ABOVE.
-IF EVIDENCE IS INSUFFICIENT, SAY: "Insufficient evidence to answer."
-CITE SOURCES AS [E1], [E2], ...
 \end{verbatim}
+
+The prefix is query-independent and may be prompt-cacheable. Each block header
+is \texttt{<id> <kind> <line-count>}; the parser then reads exactly that many
+lines, so evidence containing \texttt{@decorator}, a header-shaped line, or
+arbitrary Markdown remains unambiguous. The model sees only response-local
+integer IDs. The host retains
+\[
+M:\texttt{id}\mapsto
+(\texttt{content\_id},\texttt{occurrence\_id},\texttt{document},\texttt{span})
+\]
+and resolves model citations through $M$ after generation. Evidence text is
+verbatim; normalization, summarization, and abbreviation are forbidden.
+Score ordering remains deterministic, but the evaluation protocol must rotate
+or otherwise control evidence position because long-context readers can
+underuse evidence placed in the middle \citep{liu2024lostmiddle}.
+
+\paragraph{Measured transport cost.}
+Using \texttt{tiktoken o200k\_base}, the executable reference implementation
+reduces the complete cold prompt by 30.3\% on the 20-block English fixture and
+32.8\% on the 8-block Korean fixture against its JSON fallback. With the fixed
+52-token prefix cached, the reductions are 31.7\% and 36.6\%. Earlier
+35.8\%/41.8\% figures excluded the contract prefix and used a more verbose JSON
+baseline; they are retained only in the design record, not as official results.
+The transport result establishes token reduction only. Whether the model
+understands \texttt{WC/1} as reliably as JSON is an open A/B question.
+
+\paragraph{Boundary validation and fallback.}
+Queries, source paths, and kind labels occupy single-line grammar positions and
+are validated before serialization; block IDs and line counts must be
+non-negative and IDs unique. Unknown contract versions, unsupported
+capabilities, or validation failure select the JSON path. The contract is an
+optimization, never a correctness requirement.
+
+\subsection{Stage 6: Synthesis, Then Claim Support and Coverage Verification}
+\label{sec:retrieval:synthesis}
 
 This prompt \emph{requests} that the LLM ground every claim in the provided evidence; it does not \emph{guarantee} it. A model can still cite a source next to a claim the source does not actually support, or state an uncited claim entirely from parametric knowledge. Treating the prompt instruction as sufficient for evidence closure is exactly the gap the Relevance Gate (candidate-side) leaves on the synthesis side, so it is closed by inspecting the output, not by trusting the instruction:
 
@@ -519,7 +561,9 @@ The retrieval pipeline transforms a query into a verified, mutually consistent e
   \item \textbf{Proofreading Cascade}: $n$-stage irreversible verification over distinct evidence channels; error suppression multiplicative in depth
   \item \textbf{Calibration}: label-free FAR from an empirical null (\S\ref{sec:retrieval:far}), complemented by conformal coverage when labels exist
   \item \textbf{Consistency Gate}: sheaf cohomology over the surviving set; $H^1 \neq 0 \Rightarrow$ abstain with conflict witness
-  \item \textbf{Forced Citations}: Synthesis only from verified units
+  \item \textbf{Context Selection}: deterministic top-$k$ baseline; budgeted concept coverage remains feature-gated pending answer-quality A/B
+  \item \textbf{WC/1 Transport}: lossless evidence text, compact integer handles, host-side occurrence/span resolution
+  \item \textbf{Forced Citations}: Synthesis only from verified units, followed by claim support and coverage checks
   \item \textbf{Evidence Closure}: cohomological form (Def.~\ref{def:closure-cohomological}); every citation traces to a verified unit admitting a consistent global reading
 \end{enumerate}
 This pipeline is the enforcement mechanism for LLMWiki's core invariant: \emph{answers are evidence-bounded}. The strengthening over the volume's opening statement is deliberate --- evidence closure begins as a provenance property and ends as a verifiable topological one.
