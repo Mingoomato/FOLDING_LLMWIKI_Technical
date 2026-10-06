@@ -71,7 +71,11 @@
 
 ---
 
-## Success Metrics
+## Success Metrics (targets; not measured results)
+
+The values below are design targets for a future reproducible evaluation. They
+are not claims about the current repository unless a linked executable
+benchmark reports them.
 
 ### Technical
 - Evidence F1 ≥ 0.85 on LLMWikiBench

@@ -6,6 +6,11 @@
 
 LLMWiki is not a Retrieval-Augmented Generation framework. It is a **semantic operating layer** that continuously transforms heterogeneous digital artifacts into an evidence-aware knowledge space.
 
+> **Repository scope:** this repository is the architecture/specification, evaluation
+> protocol, LaTeX source, and small reference integrations. It is not the complete
+> integrated desktop application. The runnable integrated implementation is maintained
+> separately in [Folding-JimiJimi](https://github.com/Mingoomato/Folding-JimiJimi).
+
 ## Quick Links
 
 - [Developer Handoff Note](HANDOFF_NOTE.md) — What changed in the latest build, verified build state, rebuild instructions
@@ -72,13 +77,19 @@ Appendices: Mathematical Notation, Data Models (content identity vs. occurrence 
 ## Building the PDF
 
 ```bash
-cd LLMWiki
 make pdf
 ```
 
 Requires: TeX Live / MacTeX with `latexmk`, `lualatex` (via `fontspec`), `bibtex`
 
 > **Windows/MiKTeX note**: if `bibtex` reports "I couldn't open database file" despite `bibliography/LLMWiki.bib` existing, set `BIBINPUTS` to a Windows-style path before building: `export BIBINPUTS="<repo-root-absolute-path>;"`. This is a `kpsewhich` path-resolution quirk, not a missing file.
+
+## Development transparency
+
+This repository was iteratively developed with AI assistance. Treat the LaTeX
+specification and benchmark tables as design material unless they point to a
+present, reproducible script and test result; the executable eval harness under
+`eval/scripts/` is the authority for the currently implemented reference behavior.
 
 ## License
 

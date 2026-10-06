@@ -25,7 +25,7 @@ Each milestone has clear exit criteria and deliverables.
 - [x] Design decision log (DESIGN_DECISIONS.md)
 - [x] PROJECT_VISION.md, SYSTEM_PHILOSOPHY.md, ARCHITECTURE.md
 
-### Exit Criteria
+### Exit Criteria (planned targets; not measured results)
 - All 11 volumes + appendices compile to PDF (latexmk clean)
 - Design decisions traceable to requirements
 - Patent claims distinguishable from prior art
@@ -55,7 +55,7 @@ Each milestone has clear exit criteria and deliverables.
 | Agent Runtime (SSE streaming) | axum, tokio | 5 days |
 | CLI + REST API | clap, axum | 3 days |
 
-### Exit Criteria
+### Exit Criteria (planned targets; not measured results)
 - `llmwiki init` → `.llmwiki/` created
 - `llmwiki ingest ./my-project` → parses, chunks, embeds, graphs, indexes
 - `llmwiki query "How does X call Y?"` → returns answer with citations
